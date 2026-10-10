@@ -54,34 +54,35 @@
   <div class="meta">Auto-refreshes every 60s · <a href="/api/stats">raw JSON</a> · <a href="/api/openapi.json">API spec</a></div>
 
 <script>
-const GH = 'https://raw.githubusercontent.com/atmpushout-jpg/Flow/main/stats/';
 async function load() {
   try {
+    const r = await fetch('/api/dashboard');
+    const d = await r.json();
+    const q = d.quote || {};
+    const e = d.explanation || {};
+    const ind = e.indicators || q;
+    const t = d.total || {};
+
     // AI explanation
-    const er = await fetch(GH + 'explanation.json?t=' + Date.now());
-    const e = await er.json();
-    const ind = e.indicators || {};
-    document.getElementById('ai-text').textContent = e.explanation || 'No data yet.';
+    document.getElementById('ai-text').textContent = e.explanation || 'Analysis pending — check back soon.';
     document.getElementById('ai-bottom').textContent = e.bottomLine || '';
 
-    // Engine indicators
-    document.getElementById('venue').textContent = (ind.venue || '–').toUpperCase();
+    // Engine indicators (prefer live quote, fall back to explanation snapshot)
+    const venue = (q.venue || ind.venue || '–').toUpperCase();
+    document.getElementById('venue').textContent = venue;
     document.getElementById('venue-d').textContent = 'Winning DEX';
-    document.getElementById('edge').textContent = (ind.edgeBps ?? '–') + ' bps';
+    const edge = q.edgeBps ?? ind.edgeBps ?? '–';
+    document.getElementById('edge').textContent = edge + ' bps';
     document.getElementById('edge-d').textContent = 'Over Uniswap baseline';
-    const lat = ind.latencyMs ?? 0;
+    const lat = q.latencyMs ?? ind.latencyMs ?? 0;
     document.getElementById('latency').textContent = lat + 'ms';
     document.getElementById('latency').className = 'value ' + (lat < 200 ? 'green' : lat < 1000 ? 'yellow' : 'red');
     document.getElementById('latency-d').textContent = lat < 200 ? 'Blazing fast' : lat < 1000 ? 'Acceptable' : 'Too slow!';
-    const liq = (ind.liquidity || '–').toUpperCase();
+    const liq = ((q.liquidity || ind.liquidity) || '–').toUpperCase();
     document.getElementById('liq').textContent = liq;
     document.getElementById('liq').className = 'value ' + (liq === 'DEEP' ? 'green' : liq === 'WATCH' ? 'yellow' : 'red');
-    document.getElementById('liq-d').textContent = 'Spread: ' + (ind.spreadBps ?? '–') + ' bps';
-    document.getElementById('block').textContent = '#' + (ind.blockNumber || '–');
-
-    // Usage total
-    const tr = await fetch(GH + 'total.json?t=' + Date.now());
-    const t = await tr.json();
+    document.getElementById('liq-d').textContent = 'Spread: ' + (q.spreadBps ?? ind.spreadBps ?? '–') + ' bps';
+    document.getElementById('block').textContent = '#' + (q.blockNumber || ind.blockNumber || '–');
     document.getElementById('total').textContent = t.totalQuotes ?? 0;
   } catch(err) {
     document.getElementById('ai-text').textContent = 'Could not load data — retrying…';
