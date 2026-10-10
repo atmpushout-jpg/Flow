@@ -1,13 +1,13 @@
 {
-  "explanation": "Aerodrome is beating the alternative by 1 basis points right now. On a $1,000 swap, that's roughly $0.10 saved. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 96ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
+  "explanation": "Both venues are pricing identically right now (uniswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 84ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
   "bottomLine": "BOTTOM LINE: Market is efficient right now. Our value here is confirmation \u2014 agents know they're getting a fair price.",
   "indicators": {
-    "venue": "aerodrome",
-    "edgeBps": 1,
+    "venue": "uniswap",
+    "edgeBps": 0,
     "liquidity": "deep",
-    "latencyMs": 96,
-    "blockNumber": 52438844,
+    "latencyMs": 84,
+    "blockNumber": 52439300,
     "spreadBps": 1
   },
-  "generatedAt": "2026-10-10T21:17:15.544306+00:00"
+  "generatedAt": "2026-10-10T21:32:26.778502+00:00"
 }
