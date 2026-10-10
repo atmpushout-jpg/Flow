@@ -1,0 +1,124 @@
+// GET /api/smart-wallets — smart-wallet leaderboard + real-time signal feed
+// + paper-trading record. Machine-readable JSON for AI agents, no auth.
+//
+// Data: Upstash Redis (flow:smartwallets, written every 2 min by the
+// offchain tracker) with a bundled-JSON fallback. Every response carries
+// dataAsOf/source so consumers can judge freshness themselves.
+//
+// Honest-math rules: win rates are always paired with sample sizes,
+// signals older than 10 min are flagged stale, and the paper record is
+// labeled PAPER on every field. Past pumps do not predict future returns.
+
+const fs = require("fs");
+const path = require("path");
+const x402 = require("../_x402");
+
+const REDIS_KEY = "flow:smartwallets";
+const STORE_TIMEOUT_MS = 1200;
+
+const DISCLAIMER =
+  "Paper record is simulated ($50 notional positions, no real money). " +
+  "The leaderboard ranks wallets by early buys on Base tokens that pumped " +
+  ">=50% in 24h — descriptive of the past, not predictive. Most copy-traders " +
+  "lose to latency: followers get worse fills than the wallet they copy. " +
+  "Signals older than 10 minutes are flagged stale; in memecoins a stale " +
+  "signal is a different trade.";
+
+const RESOURCE_META = {
+  path: "/api/smart-wallets",
+  description:
+    "Flow smart-wallet tracker: leaderboard of Base wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (timestamp + block number per signal, stale flags past 10 min), and a paper-trading record that copy-trades top wallets with $50 simulated positions.",
+};
+
+async function readStore() {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const tok = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (url && tok) {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), STORE_TIMEOUT_MS);
+      const r = await fetch(`${url}/get/${REDIS_KEY}`, {
+        headers: { Authorization: `Bearer ${tok}` },
+        signal: ctrl.signal,
+      });
+      clearTimeout(timer);
+      if (r.ok) {
+        const d = await r.json();
+        if (d && d.result) return { data: JSON.parse(d.result), source: "redis" };
+      }
+    } catch {
+      /* fall through to bundled */
+    }
+  }
+  try {
+    const raw = fs.readFileSync(
+      path.join(__dirname, "..", "..", "offchain", "smart-wallets.json"),
+      "utf8"
+    );
+    return { data: JSON.parse(raw), source: "bundled" };
+  } catch {
+    return { data: null, source: "none" };
+  }
+}
+
+module.exports = async (req, res) => {
+  const t0 = Date.now();
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "GET only" });
+  }
+
+  // --- x402 pay-per-call gate (skipped unless X402_ENABLED=true) ---
+  let gate = null;
+  if (x402.isEnabled()) {
+    gate = await x402.requirePayment(req, res, RESOURCE_META);
+    if (!gate) return; // 402 / 400 / 500 / 502 already sent
+  }
+
+  const { data, source } = await readStore();
+  if (!data) {
+    return res.status(503).json({
+      error: "smart-wallet data not available yet — the tracker runs every 15 min; try again shortly",
+    });
+  }
+
+  const now = Date.now();
+  const signals = (data.signals || []).slice(0, 20).map((s) => {
+    const ageSec = Math.max(0, Math.round((now - new Date(s.timestamp).getTime()) / 1000));
+    return { ...s, ageSec, stale: ageSec * 1000 > 10 * 60 * 1000 };
+  });
+
+  const body = {
+    leaderboard: (data.leaderboard || []).slice(0, 20),
+    signals,
+    paperRecord: data.paperRecord || null,
+    methodology: data.methodology || null,
+    leaderboardUpdatedAt: data.leaderboardUpdatedAt || null,
+    signalsUpdatedAt: data.signalsUpdatedAt || null,
+    dataAsOf: data.updatedAt || null,
+    source, // "redis" (live, ~2 min) or "bundled" (as of last deploy)
+    latencyMs: Date.now() - t0,
+    disclaimer: DISCLAIMER,
+  };
+
+  if (gate) {
+    let settled;
+    try {
+      settled = await x402.settlePayment(gate);
+    } catch (e) {
+      return res.status(502).json({ error: `Payment settlement unavailable: ${e.message.slice(0, 150)}` });
+    }
+    if (!settled.success) {
+      return res.status(402).json({
+        error: `Payment settlement failed: ${settled.response.errorReason || "unknown"}`,
+      });
+    }
+    x402.paymentResponseHeaders(res, settled.response);
+    body.payment = {
+      transaction: settled.response.transaction,
+      network: settled.response.network,
+      payer: settled.response.payer,
+    };
+  }
+
+  res.json(body);
+};
