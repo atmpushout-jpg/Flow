@@ -73,6 +73,11 @@ async function batchQuotes(requests) {
 async function main() {
   const t0 = Date.now();
   const size = ethers.parseUnits("10000", 6);
+  // Actual fill size: $20. Edges that only exist at $10k are quote-size
+  // artifacts (thin pools), not real filler opportunities. Verify at fill
+  // size before flagging.
+  const FILL_USDC = ethers.parseUnits("20", 6);
+  const FILL_WETH = ethers.parseEther("0.008"); // ~$20 of WETH
 
   // Build every quote we need: triangles + edges, all at once
   const requests = [];
@@ -81,16 +86,17 @@ async function main() {
   // Triangles: USDC->M1->M2->USDC (need hop quotes, but hops depend on amounts...)
   // For speed: quote first hops at full size, estimate rest
   // Simpler: check direct cross-venue edges on major pairs (fastest signal)
+  // [tokenIn, tokenOut, scanAmt, fillAmt, name]
   const pairs = [
-    [USDC, T.WETH, size, "USDC->WETH"],
-    [T.WETH, USDC, ethers.parseEther("4"), "WETH->USDC"],
-    [USDC, T.VIRTUAL, size, "USDC->VIRTUAL"],
-    [T.WETH, T.VIRTUAL, ethers.parseEther("4"), "WETH->VIRTUAL"],
-    [USDC, T.AERO, size, "USDC->AERO"],
-    [USDC, T.CBBTC, size, "USDC->CBBTC"],
+    [USDC, T.WETH, size, FILL_USDC, "USDC->WETH"],
+    [T.WETH, USDC, ethers.parseEther("4"), FILL_WETH, "WETH->USDC"],
+    [USDC, T.VIRTUAL, size, FILL_USDC, "USDC->VIRTUAL"],
+    [T.WETH, T.VIRTUAL, ethers.parseEther("4"), FILL_WETH, "WETH->VIRTUAL"],
+    [USDC, T.AERO, size, FILL_USDC, "USDC->AERO"],
+    [USDC, T.CBBTC, size, FILL_USDC, "USDC->CBBTC"],
   ];
 
-  pairs.forEach(([tIn, tOut, amt, name], pi) => {
+  pairs.forEach(([tIn, tOut, amt, , name], pi) => {
     idx[name] = { start: requests.length };
     UNI_TIERS.forEach((f) => requests.push({ venue: "uni", tokenIn: tIn, tokenOut: tOut, amountIn: amt.toString(), key: f }));
     AERO_SPACINGS.forEach((s) => requests.push({ venue: "aero", tokenIn: tIn, tokenOut: tOut, amountIn: amt.toString(), key: s }));
@@ -102,24 +108,58 @@ async function main() {
 
   console.log(`Scanned ${pairs.length} pairs x ${UNI_TIERS.length + AERO_SPACINGS.length} venues in ${ms}ms\n`);
 
-  let bestEdge = { bps: 0 };
-  for (const [tIn, tOut, amt, name] of pairs) {
+  // First pass: find candidates at scan size
+  const candidates = [];
+  for (const [tIn, tOut, amt, , name] of pairs) {
     const { start, count } = idx[name];
     const qs = quotes.slice(start, start + count);
     const uniQs = qs.slice(0, UNI_TIERS.length);
     const bestUni = uniQs.reduce((a, b) => (a > b ? a : b), 0n);
     const best = qs.reduce((a, b) => (a > b ? a : b), 0n);
     if (best === 0n || bestUni === 0n) continue;
-    // Edge = best execution anywhere vs best Uniswap (the public market).
-    // Skip if Uniswap has no real liquidity (bestUni tiny vs best).
     const bps = Number(((best - bestUni) * 10000n) / bestUni);
-    const mark = bps >= 15 ? " <-- OPPORTUNITY" : "";
-    console.log(`${name}: ${bps}bps${mark}`);
-    if (bps > bestEdge.bps) bestEdge = { bps, name };
+    console.log(`${name}: ${bps}bps (scan size)`);
+    if (bps >= 50) candidates.push([tIn, tOut, name]);
   }
 
-  console.log(`\nFastest edge: ${bestEdge.name || "none"} at ${bestEdge.bps}bps`);
-  console.log(`Total time: ${ms}ms`);
+  // Second pass: verify candidates at REAL fill size ($20).
+  // Only flag as OPPORTUNITY if the edge survives at fill size.
+  let bestEdge = { bps: 0 };
+  if (candidates.length > 0) {
+    console.log(`\nVerifying ${candidates.length} candidate(s) at $20 fill size...`);
+    const vReqs = [];
+    const vIdx = {};
+    for (const [tIn, tOut, name] of candidates) {
+      const pair = pairs.find((p) => p[4] === name);
+      const fillAmt = pair[3];
+      vIdx[name] = { start: vReqs.length };
+      UNI_TIERS.forEach((f) => vReqs.push({ venue: "uni", tokenIn: tIn, tokenOut: tOut, amountIn: fillAmt.toString(), key: f }));
+      AERO_SPACINGS.forEach((s) => vReqs.push({ venue: "aero", tokenIn: tIn, tokenOut: tOut, amountIn: fillAmt.toString(), key: s }));
+      vIdx[name].count = UNI_TIERS.length + AERO_SPACINGS.length;
+    }
+    const vQuotes = await batchQuotes(vReqs);
+    for (const [, , name] of candidates) {
+      const { start, count } = vIdx[name];
+      const qs = vQuotes.slice(start, start + count);
+      const uniQs = qs.slice(0, UNI_TIERS.length);
+      const bestUni = uniQs.reduce((a, b) => (a > b ? a : b), 0n);
+      const best = qs.reduce((a, b) => (a > b ? a : b), 0n);
+      if (best === 0n || bestUni === 0n) {
+        console.log(`${name}: no liquidity at fill size -> SKIP`);
+        continue;
+      }
+      const bps = Number(((best - bestUni) * 10000n) / bestUni);
+      // Rough net on $20: gross edge minus ~$0.10 est. gas for fill tx
+      const gross = (20 * bps) / 10000;
+      const net = gross - 0.10;
+      const mark = bps >= 50 && net > 0 ? " <-- REAL OPPORTUNITY" : " (artifact at size -> SKIP)";
+      console.log(`${name}: ${bps}bps at $20 fill, est net $${net.toFixed(2)}${mark}`);
+      if (bps >= 50 && net > 0 && bps > bestEdge.bps) bestEdge = { bps, name, net };
+    }
+  }
+
+  console.log(`\nFastest REAL edge: ${bestEdge.name || "none"}${bestEdge.name ? ` at ${bestEdge.bps}bps (est net $${bestEdge.net.toFixed(2)})` : ""}`);
+  console.log(`Total time: ${Date.now() - t0}ms`);
 }
 
 main().catch((e) => { console.error("FATAL:", e.message.slice(0, 150)); process.exit(1); });

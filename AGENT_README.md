@@ -14,7 +14,7 @@
 **1. Get a quote:**
 
 ```bash
-curl -X POST http://YOUR_HOST:3000/quote \
+curl -X POST https://flow-kg4x.vercel.app/quote \
   -H "Content-Type: application/json" \
   -d '{
     "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",

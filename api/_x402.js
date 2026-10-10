@@ -1,0 +1,314 @@
+// x402 (v2) pay-per-call protection for Vercel serverless functions.
+// Implements the x402 v2 wire protocol directly (no extra npm deps):
+//   - 402 responses carry a base64 PaymentRequired object in the
+//     PAYMENT-REQUIRED header (and as the JSON body).
+//   - Clients pay by sending X-PAYMENT (or PAYMENT-SIGNATURE) with a
+//     base64 PaymentPayload (EIP-3009 "exact" USDC authorization).
+//   - verify/settle run against the facilitator (CDP by default).
+// Spec: https://github.com/x402-foundation/x402 (specs/x402-specification-v2.md,
+// specs/transports-v2/http.md, specs/extensions/bazaar.md)
+
+const crypto = require("crypto");
+
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // verified on-chain
+const USDC_DECIMALS = 6;
+const DEFAULT_NETWORK = "eip155:8453"; // Base mainnet
+const DEFAULT_FACILITATOR = "https://api.cdp.coinbase.com/platform/v2/x402";
+const CDP_HOST = "api.cdp.coinbase.com";
+
+function isEnabled() {
+  return process.env.X402_ENABLED === "true";
+}
+
+function getConfig() {
+  const payTo = (process.env.X402_PAYEE_ADDRESS || "").trim();
+  const priceUsd = parseFloat(process.env.X402_PRICE_USD || "0.01");
+  const network = (process.env.X402_NETWORK || DEFAULT_NETWORK).trim();
+  const facilitator = (process.env.X402_FACILITATOR_URL || DEFAULT_FACILITATOR).trim().replace(/\/+$/, "");
+  const amount = String(Math.round(priceUsd * 10 ** USDC_DECIMALS)); // atomic units
+  return { payTo, priceUsd, network, facilitator, amount };
+}
+
+function configError() {
+  const c = getConfig();
+  if (!c.payTo) return "X402_PAYEE_ADDRESS is not set";
+  if (!/^0x[0-9a-fA-F]{40}$/.test(c.payTo)) return "X402_PAYEE_ADDRESS is not a valid EVM address";
+  if (!Number.isFinite(c.priceUsd) || c.priceUsd <= 0) return "X402_PRICE_USD must be a positive number";
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// PaymentRequired (402) builder
+// ---------------------------------------------------------------------------
+
+function resourceUrl(req) {
+  const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const host = req.headers.host || "flow-kg4x.vercel.app";
+  return `${proto}://${host}/api/quote`;
+}
+
+function paymentRequirements(req) {
+  const c = getConfig();
+  return {
+    scheme: "exact",
+    network: c.network,
+    amount: c.amount,
+    asset: USDC_BASE,
+    payTo: c.payTo,
+    maxTimeoutSeconds: 300,
+    extra: { name: "USD Coin", version: "2" }, // USDC EIP-712 domain on Base
+  };
+}
+
+// Bazaar discovery extension (top-level `extensions`, NOT inside accepts[]).
+// This is what Agentic.Market indexes after the first CDP settlement.
+function bazaarExtension() {
+  const info = {
+    input: {
+      type: "http",
+      method: "POST",
+      bodyType: "json",
+      body: {
+        tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        tokenOut: "0x4200000000000000000000000000000000000006",
+        amountIn: "1000000",
+      },
+    },
+    output: {
+      type: "json",
+      example: {
+        bestOut: "396812",
+        venue: "aerodrome",
+        edgeBps: 12,
+        protocolFee: "25% of price improvement over Uniswap baseline",
+      },
+    },
+  };
+  const schema = {
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    type: "object",
+    properties: {
+      input: {
+        type: "object",
+        properties: {
+          type: { type: "string", const: "http" },
+          method: { type: "string", enum: ["POST", "PUT", "PATCH"] },
+          bodyType: { type: "string", enum: ["json", "form-data", "text"] },
+          body: { type: "object" },
+          queryParams: { type: "object", additionalProperties: { type: "string" } },
+          headers: { type: "object", additionalProperties: { type: "string" } },
+        },
+        required: ["type", "method", "bodyType", "body"],
+        additionalProperties: false,
+      },
+      output: {
+        type: "object",
+        properties: {
+          type: { type: "string" },
+          example: { type: "object" },
+        },
+        required: ["type"],
+      },
+    },
+    required: ["input"],
+  };
+  return { info, schema };
+}
+
+function paymentRequiredBody(req) {
+  const c = getConfig();
+  return {
+    x402Version: 2,
+    error: `Payment required: sign an x402 v2 "exact" payment of $${c.priceUsd} USDC on Base and retry with an X-PAYMENT header.`,
+    resource: {
+      url: resourceUrl(req),
+      description:
+        "Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers for a token swap on Base and returns the best venue, expected output, and edge vs Uniswap baseline.",
+      mimeType: "application/json",
+      serviceName: "Flow",
+      tags: ["trading", "defi", "base", "dex", "quotes"],
+    },
+    accepts: [paymentRequirements(req)],
+    extensions: { bazaar: bazaarExtension() },
+  };
+}
+
+function send402(res, req, errorDetail) {
+  const body = paymentRequiredBody(req);
+  if (errorDetail) body.error = errorDetail;
+  const header = Buffer.from(JSON.stringify(body)).toString("base64");
+  res.setHeader("PAYMENT-REQUIRED", header);
+  return res.status(402).json(body);
+}
+
+// ---------------------------------------------------------------------------
+// Incoming payment parsing
+// ---------------------------------------------------------------------------
+
+function decodePaymentHeader(req) {
+  const raw = req.headers["x-payment"] || req.headers["payment-signature"];
+  if (!raw) return { ok: false, reason: "missing" };
+  let payload;
+  try {
+    payload = JSON.parse(Buffer.from(String(raw).trim(), "base64").toString("utf8"));
+  } catch {
+    return { ok: false, reason: "Payment header is not valid base64 JSON" };
+  }
+  if (payload.x402Version !== 2) return { ok: false, reason: "Unsupported x402Version (expected 2)" };
+  if (payload.scheme !== "exact" && payload.accepted?.scheme !== "exact")
+    return { ok: false, reason: "Unsupported scheme (expected exact)" };
+  return { ok: true, payload };
+}
+
+// Local sanity checks before spending facilitator quota.
+function localChecks(payload) {
+  const c = getConfig();
+  const network = payload.network || payload.accepted?.network;
+  if (network !== c.network) return `Wrong network (expected ${c.network})`;
+  const auth = payload.payload?.authorization;
+  if (!auth) return "Missing EIP-3009 authorization in payment payload";
+  if (String(auth.to).toLowerCase() !== c.payTo.toLowerCase()) return "Payment recipient does not match payTo";
+  if (String(auth.value) !== c.amount) return `Payment amount must be exactly ${c.amount} atomic USDC`;
+  const sig = payload.payload?.signature;
+  if (!sig || !/^0x[0-9a-fA-F]+$/.test(sig)) return "Missing or malformed authorization signature";
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// CDP facilitator auth (Ed25519 JWT, stdlib crypto only)
+// ---------------------------------------------------------------------------
+
+function cdpJwt(method, path) {
+  const keyId = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
+  let seed = Buffer.from(secret.trim(), "base64");
+  if (seed.length === 64) seed = seed.subarray(0, 32); // some exports include the pubkey
+  if (seed.length !== 32) throw new Error("CDP_API_KEY_SECRET must base64-decode to 32 bytes (Ed25519 seed)");
+  const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
+  const pem =
+    "-----BEGIN PRIVATE KEY-----\n" +
+    pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
+    "\n-----END PRIVATE KEY-----\n";
+  const key = crypto.createPrivateKey({ key: pem, format: "pem" });
+  const now = Math.floor(Date.now() / 1000);
+  const b64u = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
+  const signingInput =
+    b64u({ alg: "EdDSA", typ: "JWT", kid: keyId }) +
+    "." +
+    b64u({
+      iss: "cdp",
+      sub: keyId,
+      aud: ["cdp_service"],
+      nbf: now,
+      exp: now + 120,
+      uri: `${method} ${CDP_HOST}${path}`,
+    });
+  const sig = crypto.sign(null, Buffer.from(signingInput), key);
+  return `${signingInput}.${sig.toString("base64url")}`;
+}
+
+function facilitatorPath() {
+  // "/platform/v2/x402" -> path portion used for the JWT `uri` claim
+  const u = new URL(getConfig().facilitator);
+  return u.pathname.replace(/\/+$/, "");
+}
+
+async function facilitatorCall(op, paymentPayload, paymentRequirements) {
+  const c = getConfig();
+  const path = `${facilitatorPath()}/${op}`; // /verify or /settle
+  const url = `${c.facilitator}/${op}`;
+  const headers = { "Content-Type": "application/json" };
+  if (url.includes(CDP_HOST)) {
+    headers.Authorization = `Bearer ${cdpJwt("POST", path)}`;
+  }
+  const r = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ x402Version: 2, paymentPayload, paymentRequirements }),
+  });
+  const text = await r.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error(`Facilitator ${op} returned non-JSON (HTTP ${r.status})`);
+  }
+  if (!r.ok) throw new Error(`Facilitator ${op} HTTP ${r.status}: ${text.slice(0, 200)}`);
+  return data;
+}
+
+// ---------------------------------------------------------------------------
+// Main gate: call at the top of a protected handler.
+// Returns { payload, requirements } on success, or sends the HTTP response
+// itself and returns null (caller must `return` immediately).
+// ---------------------------------------------------------------------------
+
+async function requirePayment(req, res) {
+  const bad = configError();
+  if (bad) {
+    res.status(500).json({ error: `x402 misconfigured: ${bad}` });
+    return null;
+  }
+
+  const decoded = decodePaymentHeader(req);
+  if (!decoded.ok) {
+    if (decoded.reason === "missing") {
+      send402(res, req);
+      return null;
+    }
+    res.status(400).json({ error: `Invalid payment: ${decoded.reason}` });
+    return null;
+  }
+
+  const localErr = localChecks(decoded.payload);
+  if (localErr) {
+    send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`);
+    return null;
+  }
+
+  const requirements = paymentRequirements(req);
+  let verify;
+  try {
+    verify = await facilitatorCall("verify", decoded.payload, requirements);
+  } catch (e) {
+    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 150)}` });
+    return null;
+  }
+  if (!verify.isValid) {
+    send402(res, req, `Payment invalid: ${verify.invalidReason || "verification failed"}.`);
+    return null;
+  }
+  return { payload: decoded.payload, requirements, payer: verify.payer };
+}
+
+// Settle AFTER the resource has executed (authorization flow).
+// Returns { success, response } — response is the SettlementResponse object.
+async function settlePayment(gate) {
+  const settled = await facilitatorCall("settle", gate.payload, gate.requirements);
+  return { success: settled.success === true, response: settled };
+}
+
+function paymentResponseHeaders(res, settleResponse) {
+  const b64 = Buffer.from(JSON.stringify(settleResponse)).toString("base64");
+  res.setHeader("PAYMENT-RESPONSE", b64); // v2 canonical
+  res.setHeader("X-PAYMENT-RESPONSE", b64); // v1-style alias many clients read
+}
+
+module.exports = {
+  isEnabled,
+  getConfig,
+  configError,
+  paymentRequiredBody,
+  send402,
+  decodePaymentHeader,
+  localChecks,
+  requirePayment,
+  settlePayment,
+  paymentResponseHeaders,
+  USDC_BASE,
+};

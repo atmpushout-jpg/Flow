@@ -10,7 +10,7 @@
 > We're seeing up to 147bps better than Uniswap alone on some pairs.
 > 0 bps base fee — we only earn 25% when we beat the baseline.
 >
-> `POST https://YOUR_URL.vercel.app/api/quote`
+> `POST https://flow-kg4x.vercel.app/api/quote`
 >
 > Docs: [link to AGENT_README]
 >
@@ -38,4 +38,4 @@
 > Uniswap V3 + Aerodrome. EIP-712 intents for execution.
 >
 > Happy to build the plugin if there's interest.
-> API: https://YOUR_URL.vercel.app/api/quote
+> API: https://flow-kg4x.vercel.app/api/quote

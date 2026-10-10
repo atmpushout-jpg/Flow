@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'SF Mono',Menlo,monospace;padding:24px}
+.card{width:760px;background:#0d1424;border:1px solid #1e2a45;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.header{background:#131a2e;padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #1e2a45}
+.dot{width:12px;height:12px;border-radius:50%}
+.title{color:#e8ecf4;font-size:14px;font-weight:600;margin-left:8px}
+.badge{background:#00e5ff22;color:#00e5ff;font-size:11px;padding:4px 10px;border-radius:20px;margin-left:auto;font-family:-apple-system,sans-serif;white-space:nowrap}
+.body{padding:24px}
+.cmd{color:#8a93a8;font-size:13px;margin-bottom:6px}
+.cmd .p{color:#00e5a0}
+.req{background:#0a0f1e;border-radius:8px;padding:14px 16px;color:#a5b4fc;font-size:13px;margin-bottom:20px;white-space:pre-wrap;font-family:'SF Mono',Menlo,monospace}
+.label{color:#5a6378;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-family:-apple-system,sans-serif}
+.resp{background:#0a0f1e;border-radius:8px;padding:16px;font-size:13.5px;line-height:2;font-family:'SF Mono',Menlo,monospace}
+.k{color:#7dd3fc}.v{color:#e8ecf4}.num{color:#fbbf24}.venue{color:#00e5a0;font-weight:700}.flag{color:#00e5a0;font-weight:700}
+.note{color:#5a6378;font-size:12.5px;margin-top:14px;line-height:1.7;font-family:-apple-system,sans-serif}
+.note b{color:#a5b4fc;font-weight:600}
+.hl{background:#00e5ff11;border:1px solid #00e5ff33;border-radius:8px;padding:14px 16px;margin-top:18px;display:flex;gap:20px}
+.stat{text-align:center;flex:1}
+.stat .n{font-size:24px;font-weight:700;color:#00e5ff;font-family:-apple-system,sans-serif;white-space:nowrap}
+.stat .t{font-size:10.5px;color:#8a93a8;margin-top:4px;font-family:-apple-system,sans-serif;letter-spacing:.5px}
+.footer{padding:14px 24px;border-top:1px solid #1e2a45;color:#5a6378;font-size:12px;display:flex;justify-content:space-between;font-family:-apple-system,sans-serif}
+.footer a{color:#00e5ff;text-decoration:none}
+</style></head><body>
+<div class="card">
+<div class="header"><div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div><div class="title">FlowExecutor — one API call, answered</div><div class="badge">● REAL QUOTE · BASE MAINNET</div></div>
+<div class="body">
+<div class="cmd"><span class="p">$</span> curl -X POST https://flow-kg4x.vercel.app/api/quote</div>
+<div class="req">{ "tokenIn": "USDC", "tokenOut": "WETH", "amountIn": "$100.00" }</div>
+<div class="label">Response — everything an agent needs before it swaps</div>
+<div class="resp">{
+  <span class="k">"venue"</span>:      <span class="venue">"aerodrome"</span> <span style="color:#5a6378">← best price, picked for you</span>,
+  <span class="k">"edgeBps"</span>:    <span class="num">1</span> <span style="color:#5a6378">over the Uniswap V3 baseline</span>,
+  <span class="k">"blockNumber"</span>: <span class="num">52421295</span> <span style="color:#5a6378">← the exact block this was priced at</span>,
+  <span class="k">"quotedAt"</span>:    <span class="v">"2026-10-10T11:32:16Z"</span>,
+  <span class="k">"latencyMs"</span>:   <span class="num">92</span> <span style="color:#5a6378">← quote built in 92ms</span>,
+  <span class="k">"liquidity"</span>:   <span class="flag">"deep"</span> <span style="color:#5a6378">← edge will survive execution</span>,
+  <span class="k">"spreadBps"</span>:   <span class="num">0</span> <span style="color:#5a6378">← venues agree, no fragmentation</span>
+}</div>
+<div class="note"><b>Why this answers the stale-quote problem:</b> the quote tells you its own age (block number + timestamp), how long it took to build, and whether liquidity is deep enough for the edge to survive execution. The executing agent checks the block delta and sets its own slippage bound — the advisor never pretends to know the agent's risk tolerance.</div>
+<div class="hl">
+<div class="stat"><div class="n">92ms</div><div class="t">QUOTE BUILD TIME</div></div>
+<div class="stat"><div class="n">#52421295</div><div class="t">PRICED AT BLOCK</div></div>
+<div class="stat"><div class="n">deep</div><div class="t">LIQUIDITY FLAG</div></div>
+<div class="stat"><div class="n">$0</div><div class="t">COST · FREE BETA</div></div>
+</div>
+</div>
+<div class="footer"><span>Quote captured 2026-10-10 11:32 UTC · block 52421295</span><a href="#">flow-kg4x.vercel.app →</a></div>
+</div>
+</body></html>

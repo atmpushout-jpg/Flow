@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowExecutor — Mission Control</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0e1a; color: #e8ecf4; font-family: -apple-system, sans-serif; padding: 20px; max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .sub { color: #8a93a8; font-size: 13px; margin-bottom: 20px; }
+  .live { display: inline-block; width: 8px; height: 8px; background: #00e5a0; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .section { font-size: 12px; color: #5a6378; text-transform: uppercase; letter-spacing: 1.5px; margin: 24px 0 12px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { background: #131a2e; border: 1px solid #1e2a45; border-radius: 12px; padding: 16px; }
+  .card .label { font-size: 11px; color: #8a93a8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .card .value { font-size: 28px; font-weight: 700; color: #00e5ff; }
+  .card .value.green { color: #00e5a0; }
+  .card .value.yellow { color: #fbbf24; }
+  .card .value.red { color: #ff6b6b; }
+  .card .detail { font-size: 12px; color: #8a93a8; margin-top: 4px; }
+  .ai-box { background: linear-gradient(135deg, #131a2e, #1a2340); border: 1px solid #2a3a5f; border-radius: 12px; padding: 20px; margin-top: 8px; }
+  .ai-box .ai-label { font-size: 11px; color: #00e5ff; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .ai-box .ai-text { font-size: 14px; line-height: 1.7; color: #c8d0e0; }
+  .ai-box .bottom-line { margin-top: 12px; padding-top: 12px; border-top: 1px solid #2a3a5f; font-size: 14px; font-weight: 600; color: #00e5a0; }
+  .meta { margin-top: 16px; font-size: 12px; color: #5a6378; text-align: center; }
+  a { color: #00e5ff; }
+</style>
+</head>
+<body>
+  <h1><span class="live"></span>FlowExecutor Mission Control</h1>
+  <div class="sub">Live engine data + AI interpretation — refreshes every 60 seconds</div>
+
+  <div class="section">Engine — Live Quote ($100 USDC → WETH)</div>
+  <div class="cards">
+    <div class="card"><div class="label">Best Venue</div><div class="value green" id="venue">–</div><div class="detail" id="venue-d">–</div></div>
+    <div class="card"><div class="label">Edge</div><div class="value" id="edge">–</div><div class="detail" id="edge-d">–</div></div>
+    <div class="card"><div class="label">Speed</div><div class="value" id="latency">–</div><div class="detail" id="latency-d">–</div></div>
+    <div class="card"><div class="label">Liquidity</div><div class="value" id="liq">–</div><div class="detail" id="liq-d">–</div></div>
+  </div>
+  <div class="cards" style="margin-top:10px">
+    <div class="card"><div class="label">Block</div><div class="value" style="font-size:20px" id="block">–</div></div>
+    <div class="card"><div class="label">Total Quotes Served</div><div class="value" id="total">–</div></div>
+  </div>
+
+  <div class="section">AI Explainer — What This Means</div>
+  <div class="ai-box">
+    <div class="ai-label">🤖 FlowAgent Analysis</div>
+    <div class="ai-text" id="ai-text">Loading analysis…</div>
+    <div class="bottom-line" id="ai-bottom"></div>
+  </div>
+
+  <div class="meta">Auto-refreshes every 60s · <a href="/api/stats">raw JSON</a> · <a href="/api/openapi.json">API spec</a></div>
+
+<script>
+async function load() {
+  try {
+    const r = await fetch('/api/dashboard?t=' + Date.now());
+    const d = await r.json();
+    const q = d.quote || {};
+    const e = d.explanation || {};
+    const ind = e.indicators || q;
+    const t = d.total || {};
+
+    // AI explanation
+    document.getElementById('ai-text').textContent = e.explanation || 'Analysis pending — check back soon.';
+    document.getElementById('ai-bottom').textContent = e.bottomLine || '';
+
+    // Engine indicators (prefer live quote, fall back to explanation snapshot)
+    const venue = (q.venue || ind.venue || '–').toUpperCase();
+    document.getElementById('venue').textContent = venue;
+    document.getElementById('venue-d').textContent = 'Winning DEX';
+    const edge = q.edgeBps ?? ind.edgeBps ?? '–';
+    document.getElementById('edge').textContent = edge + ' bps';
+    document.getElementById('edge-d').textContent = 'Over Uniswap baseline';
+    const lat = q.latencyMs ?? ind.latencyMs ?? 0;
+    document.getElementById('latency').textContent = lat + 'ms';
+    document.getElementById('latency').className = 'value ' + (lat < 200 ? 'green' : lat < 1000 ? 'yellow' : 'red');
+    document.getElementById('latency-d').textContent = lat < 200 ? 'Blazing fast' : lat < 1000 ? 'Acceptable' : 'Too slow!';
+    const liq = ((q.liquidity || ind.liquidity) || '–').toUpperCase();
+    document.getElementById('liq').textContent = liq;
+    document.getElementById('liq').className = 'value ' + (liq === 'DEEP' ? 'green' : liq === 'WATCH' ? 'yellow' : 'red');
+    document.getElementById('liq-d').textContent = 'Spread: ' + (q.spreadBps ?? ind.spreadBps ?? '–') + ' bps';
+    document.getElementById('block').textContent = '#' + (q.blockNumber || ind.blockNumber || '–');
+    document.getElementById('total').textContent = t.totalQuotes ?? 0;
+  } catch(err) {
+    document.getElementById('ai-text').textContent = 'Could not load data — retrying…';
+  }
+}
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
