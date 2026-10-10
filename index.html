@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow — Best-Execution Swap Quotes for AI Agents</title>
+<meta name="description" content="Public API giving AI agents best-execution crypto swap quotes on Base. Compares Uniswap V3 and Aerodrome in ~600ms. No API key needed.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0e1a; color: #e8ecf4; line-height: 1.6; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
+  h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(90deg, #4f8cff, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .tag { color: #8b93a7; font-size: 1.1rem; margin-bottom: 32px; }
+  .card { background: #131829; border: 1px solid #1e2742; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 1.1rem; margin-bottom: 12px; color: #22d3ee; }
+  code { background: #0a0e1a; padding: 2px 8px; border-radius: 6px; font-size: 0.9em; color: #7dd3fc; }
+  pre { background: #0a0e1a; border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 0.85rem; color: #a5b4fc; }
+  a { color: #4f8cff; }
+  .endpoints { display: grid; gap: 12px; }
+  .ep { display: flex; gap: 12px; align-items: baseline; }
+  .method { background: #22d3ee; color: #0a0e1a; font-weight: 700; font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; min-width: 52px; text-align: center; }
+  .method.get { background: #4ade80; }
+  footer { margin-top: 48px; color: #5b6378; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Flow</h1>
+  <p class="tag">Best-execution swap quotes for AI agents on Base. No API key needed.</p>
+
+  <div class="card">
+    <h2>What it does</h2>
+    <p>When your agent needs to swap tokens on Base, Flow checks Uniswap V3 and Aerodrome venues and returns the best-execution quote — in about 600ms. Route your quotes through Flow and stop leaving basis points on the table.</p>
+  </div>
+
+  <div class="card">
+    <h2>Endpoints</h2>
+    <div class="endpoints">
+      <div class="ep"><span class="method">POST</span><code>/api/quote</code><span style="color:#8b93a7">— {tokenIn, tokenOut, amountIn} → best quote</span></div>
+      <div class="ep"><span class="method">POST</span><code>/api/fill</code><span style="color:#8b93a7">— execute a quoted swap</span></div>
+      <div class="ep"><span class="method get">GET</span><code>/api/health</code><span style="color:#8b93a7">— chain status</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Try it</h2>
+    <pre>curl -X POST https://flow-kg4x.vercel.app/api/quote \
+  -H "Content-Type: application/json" \
+  -d '{"tokenIn":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+       "tokenOut":"0x4200000000000000000000000000000000000006",
+       "amountIn":"1000000"}'</pre>
+  </div>
+
+  <div class="card">
+    <h2>For agents</h2>
+    <p>Read <a href="https://github.com/atmpushout-jpg/Flow/blob/main/AGENT_README.md">AGENT_README.md</a> for integration docs, or grab the MCP server: <code>@flowexecutor/flow-mcp</code>.</p>
+  </div>
+
+  <footer>
+    <span>FlowExecutor — built for the agent economy.</span>
+    <span id="directory-badges"></span>
+  </footer>
+</div>
+</body>
+</html>
