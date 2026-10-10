@@ -1,6 +1,6 @@
 // GET /api/dashboard — aggregated dashboard data in one same-origin call.
 // Avoids CORS issues from client-side fetches to raw.githubusercontent.com.
-const { getBestQuote } = require("./_lib");
+const { getBestQuote } = require("../_lib");
 
 const GH_RAW = "https://raw.githubusercontent.com/atmpushout-jpg/Flow/main/stats/";
 
