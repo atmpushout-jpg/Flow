@@ -20,11 +20,15 @@ function provider() {
 }
 
 async function getBestQuote(tokenIn, tokenOut, amountIn) {
+  const t0 = Date.now();
   const p = provider();
   const mc = new ethers.Contract(MULTICALL3, MULTICALL_ABI, p);
   const uniQ = new ethers.Contract(UNI_QUOTER, UNI_ABI, p);
   const aeroQ = new ethers.Contract(AERO_QUOTER, AERO_ABI, p);
   const coder = ethers.AbiCoder.defaultAbiCoder();
+
+  // Fetch block number in parallel with quotes for freshness tracking
+  const blockPromise = p.getBlockNumber();
 
   const calls = [];
   const meta = [];
@@ -46,8 +50,10 @@ async function getBestQuote(tokenIn, tokenOut, amountIn) {
   });
 
   const results = await mc.aggregate3.staticCall(calls);
+  const blockNumber = await blockPromise;
   let best = { amountOut: 0n, venue: null, key: null };
   let bestUni = 0n;
+  let secondBest = 0n;
 
   results.forEach((r, i) => {
     if (!r.success) return;
@@ -58,12 +64,20 @@ async function getBestQuote(tokenIn, tokenOut, amountIn) {
       )[0].toString());
       if (meta[i].venue === "uniswap" && amt > bestUni) bestUni = amt;
       if (amt > best.amountOut) {
+        secondBest = best.amountOut;
         best = { amountOut: amt, venue: meta[i].venue, key: meta[i].key };
+      } else if (amt > secondBest) {
+        secondBest = amt;
       }
     } catch {}
   });
 
   const edgeBps = bestUni > 0n ? Number(((best.amountOut - bestUni) * 10000n) / bestUni) : 0;
+
+  // Thin liquidity warning: if best beats second-best by a lot, the edge
+  // may vanish on execution (small pool, high slippage risk)
+  const spreadBps = secondBest > 0n ? Number(((best.amountOut - secondBest) * 10000n) / secondBest) : 0;
+  const liquidityFlag = spreadBps > 50 ? "thin" : spreadBps > 20 ? "watch" : "deep";
 
   return {
     amountIn: amountIn.toString(),
@@ -72,6 +86,11 @@ async function getBestQuote(tokenIn, tokenOut, amountIn) {
     venueKey: best.key,
     uniswapOut: bestUni.toString(),
     edgeBps,
+    blockNumber,
+    quotedAt: new Date().toISOString(),
+    latencyMs: Date.now() - t0,
+    liquidity: liquidityFlag,
+    spreadBps,
   };
 }
 
