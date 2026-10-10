@@ -2,6 +2,11 @@
 // For AI agents about to swap: "Is this safe AND am I getting a good price?"
 // Read-only. No funds touched. No audit needed.
 const { getBestQuote } = require("../_lib");
+// Direct internal import of the verify engine — NOT an HTTP call to /api/verify.
+// This bypasses the x402 payment gate (internal composition shouldn't pay),
+// and it's faster (no HTTP round-trip). The gate lives in verify's HTTP
+// handler; analyze() itself is pure logic.
+const { analyze, resolveChain } = require("../verify")._internals;
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
@@ -12,13 +17,17 @@ module.exports = async (req, res) => {
 
   const t0 = Date.now();
 
-  // Run safety check + price quote in parallel
-  const base = `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}`;
-  const verifyP = fetch(`${base}/api/verify`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token: tokenOut }),
-  }).then((r) => r.json()).catch((e) => ({ verdict: "unknown", score: 50, flags: ["Verify unavailable: " + e.message.slice(0, 80)] }));
+  // Run safety check + price quote in parallel.
+  // Safety runs IN-PROCESS via analyze() — never over HTTP — so flipping
+  // X402_ENABLED=true can never 402 this internal call.
+  const verifyP = (async () => {
+    try {
+      const chain = resolveChain("base");
+      return await analyze(tokenOut, chain);
+    } catch (e) {
+      return { verdict: "unknown", score: 50, flags: ["Verify unavailable: " + e.message.slice(0, 80)] };
+    }
+  })();
 
   const quoteP = getBestQuote(tokenIn, tokenOut, amountIn).catch((e) => ({ error: e.message.slice(0, 100) }));
 
