@@ -33,16 +33,15 @@
 <script>
 async function load() {
   try {
-    const r = await fetch('/api/stats');
+    const r = await fetch('https://raw.githubusercontent.com/atmpushout-jpg/Flow/main/stats/total.json?t=' + Date.now());
     const d = await r.json();
-    document.getElementById('quotes').textContent = d.quotesServed ?? 0;
-    document.getElementById('errors').textContent = d.errors ?? 0;
-    const up = Math.floor((d.uptimeSec || 0) / 60);
+    document.getElementById('quotes').textContent = d.totalQuotes ?? 0;
+    document.getElementById('errors').textContent = '–';
     document.getElementById('meta').innerHTML =
-      'Instance started <b>' + new Date(d.instanceStarted).toLocaleString() + '</b><br>' +
-      'Uptime <b>' + up + ' min</b> · Approximate per-instance counter (resets on deploy)';
+      'Last updated <b>' + new Date(d.lastUpdated).toLocaleString() + '</b><br>' +
+      'Running total across all instances · Updated every 5 min';
   } catch(e) {
-    document.getElementById('meta').textContent = 'Could not reach API — retrying…';
+    document.getElementById('meta').textContent = 'Could not reach stats — retrying…';
   }
 }
 load();
