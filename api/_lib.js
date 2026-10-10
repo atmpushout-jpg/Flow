@@ -19,8 +19,12 @@ function provider() {
   return _provider;
 }
 
-async function getBestQuote(tokenIn, tokenOut, amountIn) {
+async function getBestQuote(tokenIn, tokenOut, amountIn, opts = {}) {
   const t0 = Date.now();
+  // Expiring quotes: how many blocks this price is valid for (default 10 ≈ 20s on Base)
+  const validBlocks = opts.validBlocks || 10;
+  // Slippage buffer for minOutput guarantee (default 50 bps = 0.5%)
+  const slippageBps = opts.slippageBps || 50;
   const p = provider();
   const mc = new ethers.Contract(MULTICALL3, MULTICALL_ABI, p);
   const uniQ = new ethers.Contract(UNI_QUOTER, UNI_ABI, p);
@@ -91,6 +95,14 @@ async function getBestQuote(tokenIn, tokenOut, amountIn) {
     latencyMs: Date.now() - t0,
     liquidity: liquidityFlag,
     spreadBps,
+    // --- Expiring quote: verifiable freshness bound ---
+    // The quote is valid until this block. If current block > expiresAtBlock, re-quote.
+    expiresAtBlock: blockNumber + validBlocks,
+    validForBlocks: validBlocks,
+    // Minimum output after slippage buffer — the worst case you should accept.
+    // Enforceable on-chain via the router's minAmountOut.
+    minOutput: ((best.amountOut * BigInt(10000 - slippageBps)) / 10000n).toString(),
+    minOutputBps: slippageBps,
   };
 }
 

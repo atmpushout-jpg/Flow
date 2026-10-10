@@ -19,6 +19,15 @@ const AERO_ABI = ["function quoteExactInputSingle((address tokenIn,address token
 const WETH = "0x4200000000000000000000000000000000000006";
 const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
+// Canonical tokens: well-known, skip honeypot simulation (buying WETH with WETH always fails)
+const CANONICAL = new Set([
+  WETH.toLowerCase(),
+  USDC.toLowerCase(),
+  "0xd9aaec86b65d86f6a484f7a7db8703bf0ce5f2da", // USDbC (Base)
+  "0x50c5725949a6f0c72a27a4a927ab0bf511600031", // DAI (Base)
+  "0xcbB7C0000aB88B473b1f5fd9fd5b056d7fe061a12", // cbBTC (Base)
+].map(a => a.toLowerCase()));
+
 async function tryQuote(p, tokenIn, tokenOut, amountIn) {
   try {
     const q = new ethers.Contract(AERO_QUOTER, AERO_ABI, p);
@@ -77,29 +86,33 @@ module.exports = async (req, res) => {
   } catch { /* not ownable, fine */ }
 
   // 4. Honeypot simulation: buy 0.01 WETH worth, then sell it back
-  const buyAmt = 10n ** 16n; // 0.01 WETH
-  const buyOut = await tryQuote(p, WETH, token, buyAmt);
-  if (buyOut === null || buyOut === 0n) {
-    flags.push("Cannot buy this token via DEX (no liquidity or blocked)");
-    score -= 40;
+  // Skip for canonical tokens (WETH, USDC, etc.) — well-known, no honeypot risk
+  if (CANONICAL.has(token.toLowerCase())) {
+    info.canonical = true;
   } else {
-    info.buyQuote = buyOut.toString();
-    // Now try selling what we'd get
-    const sellOut = await tryQuote(p, token, WETH, buyOut);
-    if (sellOut === null || sellOut === 0n) {
-      flags.push("HONEYPOT: can buy but CANNOT sell — funds would be trapped");
-      score -= 60;
+    const buyAmt = 10n ** 16n; // 0.01 WETH
+    const buyOut = await tryQuote(p, WETH, token, buyAmt);
+    if (buyOut === null || buyOut === 0n) {
+      flags.push("Cannot buy this token via DEX (no liquidity or blocked)");
+      score -= 40;
     } else {
-      // Tax estimation: compare round-trip vs spot
-      // Expected back if no tax: ~buyAmt minus price impact. Rough check:
-      const ratio = Number((sellOut * 10000n) / buyAmt) / 100; // % returned
-      info.roundTripPct = Math.round(ratio * 100) / 100;
-      if (ratio < 70) {
-        flags.push(`High sell tax or slippage: only ${info.roundTripPct}% returned on round-trip`);
-        score -= 25;
-      } else if (ratio < 90) {
-        flags.push(`Moderate tax/slippage: ${info.roundTripPct}% returned on round-trip`);
-        score -= 10;
+      info.buyQuote = buyOut.toString();
+      // Now try selling what we'd get
+      const sellOut = await tryQuote(p, token, WETH, buyOut);
+      if (sellOut === null || sellOut === 0n) {
+        flags.push("HONEYPOT: can buy but CANNOT sell — funds would be trapped");
+        score -= 60;
+      } else {
+        // Tax estimation: compare round-trip vs spot
+        const ratio = Number((sellOut * 10000n) / buyAmt) / 100; // % returned
+        info.roundTripPct = Math.round(ratio * 100) / 100;
+        if (ratio < 70) {
+          flags.push(`High sell tax or slippage: only ${info.roundTripPct}% returned on round-trip`);
+          score -= 25;
+        } else if (ratio < 90) {
+          flags.push(`Moderate tax/slippage: ${info.roundTripPct}% returned on round-trip`);
+          score -= 10;
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
 // GET /api/dashboard — aggregated dashboard data in one same-origin call.
 // Avoids CORS issues from client-side fetches to raw.githubusercontent.com.
 const { getBestQuote } = require("../_lib");
+const stats = require("../_stats");
 
 const GH_RAW = "https://raw.githubusercontent.com/atmpushout-jpg/Flow/main/stats/";
 
@@ -30,10 +31,20 @@ module.exports = async (req, res) => {
     quote = { error: e.message.slice(0, 100) };
   }
 
-  const [explanation, total] = await Promise.all([
-    fetchJson(GH_RAW + "explanation.json"),
-    fetchJson(GH_RAW + "total.json"),
-  ]);
+  // Usage totals: read from the shared counter in this same process
+  // (stats/total.json on GitHub was never updated by any automation, so it
+  // always read 0 — replaced by the live shared snapshot). Shape kept
+  // compatible with dashboard.html ("totalQuotes").
+  const snap = await stats.snapshot();
+  const total = {
+    totalQuotes: snap.quotesServed,
+    errors: snap.errors,
+    store: snap.store,
+    lastUpdated: new Date().toISOString(),
+    note: snap.note,
+  };
+
+  const explanation = await fetchJson(GH_RAW + "explanation.json");
 
   res.json({ quote, explanation, total, at: new Date().toISOString() });
 };

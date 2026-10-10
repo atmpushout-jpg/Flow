@@ -14,14 +14,14 @@ module.exports = async (req, res) => {
     if (!gate) return; // 402 / 400 / 500 / 502 already sent
   }
 
-  const { tokenIn, tokenOut, amountIn } = req.body || {};
+  const { tokenIn, tokenOut, amountIn, slippageBps, validBlocks } = req.body || {};
   if (!tokenIn || !tokenOut || !amountIn) {
     return res.status(400).json({ error: "Missing tokenIn, tokenOut, or amountIn" });
   }
   try {
-    const quote = await getBestQuote(tokenIn, tokenOut, amountIn);
-    stats.trackQuote();
-    const snap = stats.snapshot();
+    const quote = await getBestQuote(tokenIn, tokenOut, amountIn, { slippageBps, validBlocks });
+    await stats.trackQuote();
+    const snap = await stats.snapshot();
     const body = {
       ...quote,
       protocolFee: "25% of price improvement over Uniswap baseline",
