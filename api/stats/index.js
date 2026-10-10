@@ -1,1 +1,10 @@
-Ly8gR0VUIC9hcGkvc3RhdHMg4oCUIHVzYWdlIHNuYXBzaG90IGZvciB0aGlzIHNlcnZlcmxlc3MgaW5zdGFuY2UuCi8vIEFwcHJveGltYXRlIGNvdW50ZXJzIChyZXNldCBvbiBjb2xkIHN0YXJ0KS4gUG9sbGVkIGV4dGVybmFsbHkgZm9yIHRyZW5kcy4KY29uc3Qgc3RhdHMgPSByZXF1aXJlKCIuLi9fc3RhdHMiKTsKCm1vZHVsZS5leHBvcnRzID0gYXN5bmMgKHJlcSwgcmVzKSA9PiB7CiAgaWYgKHJlcS5tZXRob2QgIT09ICJHRVQiKSB7CiAgICByZXR1cm4gcmVzLnN0YXR1cyg0MDUpLmpzb24oeyBlcnJvcjogIkdFVCBvbmx5IiB9KTsKICB9CiAgcmVzLmpzb24oeyBzZXJ2aWNlOiAiZmxvdy1leGVjdXRvciIsIC4uLnN0YXRzLnNuYXBzaG90KCkgfSk7Cn07Cg==
+// GET /api/stats — usage snapshot for this serverless instance.
+// Approximate counters (reset on cold start). Polled externally for trends.
+const stats = require("../_stats");
+
+module.exports = async (req, res) => {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "GET only" });
+  }
+  res.json({ service: "flow-executor", ...stats.snapshot() });
+};
