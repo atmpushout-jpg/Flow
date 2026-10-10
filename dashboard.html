@@ -56,7 +56,7 @@
 <script>
 async function load() {
   try {
-    const r = await fetch('/api/dashboard');
+    const r = await fetch('/api/dashboard?t=' + Date.now());
     const d = await r.json();
     const q = d.quote || {};
     const e = d.explanation || {};
