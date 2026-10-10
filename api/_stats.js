@@ -1,1 +1,20 @@
-Ly8gSW4tbWVtb3J5IHVzYWdlIGNvdW50ZXIgKHBlciBzZXJ2ZXJsZXNzIGluc3RhbmNlKS4KLy8gQXBwcm94aW1hdGUgYnkgZGVzaWduOiByZXNldHMgb24gY29sZCBzdGFydCwgc2VwYXJhdGUgcGVyIHJlZ2lvbi9pbnN0YW5jZS4KLy8gQSBwb2xsZXIgYWdncmVnYXRlcyB0aGVzZSBpbnRvIHRyZW5kIGRhdGEuIFplcm8gZXh0ZXJuYWwgZGVwcywgemVybyBzaWdudXAuCmNvbnN0IHN0YXJ0ZWQgPSBEYXRlLm5vdygpOwpsZXQgcXVvdGVzID0gMDsKbGV0IGVycm9ycyA9IDA7Cgptb2R1bGUuZXhwb3J0cyA9IHsKICB0cmFja1F1b3RlKCkgeyBxdW90ZXMrKzsgfSwKICB0cmFja0Vycm9yKCkgeyBlcnJvcnMrKzsgfSwKICBzbmFwc2hvdCgpIHsKICAgIHJldHVybiB7CiAgICAgIHF1b3Rlc1NlcnZlZDogcXVvdGVzLAogICAgICBlcnJvcnMsCiAgICAgIGluc3RhbmNlU3RhcnRlZDogbmV3IERhdGUoc3RhcnRlZCkudG9JU09TdHJpbmcoKSwKICAgICAgdXB0aW1lU2VjOiBNYXRoLnJvdW5kKChEYXRlLm5vdygpIC0gc3RhcnRlZCkgLyAxMDAwKSwKICAgICAgbm90ZTogIlBlci1pbnN0YW5jZSBhcHByb3hpbWF0ZSBjb3VudGVyLiBSZXNldHMgb24gY29sZCBzdGFydC4iLAogICAgfTsKICB9LAp9Owo=
+// In-memory usage counter (per serverless instance).
+// Approximate by design: resets on cold start, separate per region/instance.
+// A poller aggregates these into trend data. Zero external deps, zero signup.
+const started = Date.now();
+let quotes = 0;
+let errors = 0;
+
+module.exports = {
+  trackQuote() { quotes++; },
+  trackError() { errors++; },
+  snapshot() {
+    return {
+      quotesServed: quotes,
+      errors,
+      instanceStarted: new Date(started).toISOString(),
+      uptimeSec: Math.round((Date.now() - started) / 1000),
+      note: "Per-instance approximate counter. Resets on cold start.",
+    };
+  },
+};
