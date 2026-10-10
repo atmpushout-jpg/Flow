@@ -21,9 +21,11 @@ module.exports = async (req, res) => {
   try {
     const quote = await getBestQuote(tokenIn, tokenOut, amountIn);
     stats.trackQuote();
+    const snap = stats.snapshot();
     const body = {
       ...quote,
       protocolFee: "25% of price improvement over Uniswap baseline",
+      instanceQuotes: snap.quotesServed,
     };
 
     // Settle the authorized payment now that the resource has executed.
