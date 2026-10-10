@@ -1,1 +1,314 @@
-Ly8geDQwMiAodjIpIHBheS1wZXItY2FsbCBwcm90ZWN0aW9uIGZvciBWZXJjZWwgc2VydmVybGVzcyBmdW5jdGlvbnMuCi8vIEltcGxlbWVudHMgdGhlIHg0MDIgdjIgd2lyZSBwcm90b2NvbCBkaXJlY3RseSAobm8gZXh0cmEgbnBtIGRlcHMpOgovLyAgIC0gNDAyIHJlc3BvbnNlcyBjYXJyeSBhIGJhc2U2NCBQYXltZW50UmVxdWlyZWQgb2JqZWN0IGluIHRoZQovLyAgICAgUEFZTUVOVC1SRVFVSVJFRCBoZWFkZXIgKGFuZCBhcyB0aGUgSlNPTiBib2R5KS4KLy8gICAtIENsaWVudHMgcGF5IGJ5IHNlbmRpbmcgWC1QQVlNRU5UIChvciBQQVlNRU5ULVNJR05BVFVSRSkgd2l0aCBhCi8vICAgICBiYXNlNjQgUGF5bWVudFBheWxvYWQgKEVJUC0zMDA5ICJleGFjdCIgVVNEQyBhdXRob3JpemF0aW9uKS4KLy8gICAtIHZlcmlmeS9zZXR0bGUgcnVuIGFnYWluc3QgdGhlIGZhY2lsaXRhdG9yIChDRFAgYnkgZGVmYXVsdCkuCi8vIFNwZWM6IGh0dHBzOi8vZ2l0aHViLmNvbS94NDAyLWZvdW5kYXRpb24veDQwMiAoc3BlY3MveDQwMi1zcGVjaWZpY2F0aW9uLXYyLm1kLAovLyBzcGVjcy90cmFuc3BvcnRzLXYyL2h0dHAubWQsIHNwZWNzL2V4dGVuc2lvbnMvYmF6YWFyLm1kKQoKY29uc3QgY3J5cHRvID0gcmVxdWlyZSgiY3J5cHRvIik7CgovLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLy8gQ29uZmlnCi8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKY29uc3QgVVNEQ19CQVNFID0gIjB4ODMzNTg5ZkNENmVEYjZFMDhmNGM3QzMyRDRmNzFiNTRiZEEwMjkxMyI7IC8vIHZlcmlmaWVkIG9uLWNoYWluCmNvbnN0IFVTRENfREVDSU1BTFMgPSA2Owpjb25zdCBERUZBVUxUX05FVFdPUksgPSAiZWlwMTU1Ojg0NTMiOyAvLyBCYXNlIG1haW5uZXQKY29uc3QgREVGQVVMVF9GQUNJTElUQVRPUiA9ICJodHRwczovL2FwaS5jZHAuY29pbmJhc2UuY29tL3BsYXRmb3JtL3YyL3g0MDIiOwpjb25zdCBDRFBfSE9TVCA9ICJhcGkuY2RwLmNvaW5iYXNlLmNvbSI7CgpmdW5jdGlvbiBpc0VuYWJsZWQoKSB7CiAgcmV0dXJuIHByb2Nlc3MuZW52Llg0MDJfRU5BQkxFRCA9PT0gInRydWUiOwp9CgpmdW5jdGlvbiBnZXRDb25maWcoKSB7CiAgY29uc3QgcGF5VG8gPSAocHJvY2Vzcy5lbnYuWDQwMl9QQVlFRV9BRERSRVNTIHx8ICIiKS50cmltKCk7CiAgY29uc3QgcHJpY2VVc2QgPSBwYXJzZUZsb2F0KHByb2Nlc3MuZW52Llg0MDJfUFJJQ0VfVVNEIHx8ICIwLjAxIik7CiAgY29uc3QgbmV0d29yayA9IChwcm9jZXNzLmVudi5YNDAyX05FVFdPUksgfHwgREVGQVVMVF9ORVRXT1JLKS50cmltKCk7CiAgY29uc3QgZmFjaWxpdGF0b3IgPSAocHJvY2Vzcy5lbnYuWDQwMl9GQUNJTElUQVRPUl9VUkwgfHwgREVGQVVMVF9GQUNJTElUQVRPUikudHJpbSgpLnJlcGxhY2UoL1wvKyQvLCAiIik7CiAgY29uc3QgYW1vdW50ID0gU3RyaW5nKE1hdGgucm91bmQocHJpY2VVc2QgKiAxMCAqKiBVU0RDX0RFQ0lNQUxTKSk7IC8vIGF0b21pYyB1bml0cwogIHJldHVybiB7IHBheVRvLCBwcmljZVVzZCwgbmV0d29yaywgZmFjaWxpdGF0b3IsIGFtb3VudCB9Owp9CgpmdW5jdGlvbiBjb25maWdFcnJvcigpIHsKICBjb25zdCBjID0gZ2V0Q29uZmlnKCk7CiAgaWYgKCFjLnBheVRvKSByZXR1cm4gIlg0MDJfUEFZRUVfQUREUkVTUyBpcyBub3Qgc2V0IjsKICBpZiAoIS9eMHhbMC05YS1mQS1GXXs0MH0kLy50ZXN0KGMucGF5VG8pKSByZXR1cm4gIlg0MDJfUEFZRUVfQUREUkVTUyBpcyBub3QgYSB2YWxpZCBFVk0gYWRkcmVzcyI7CiAgaWYgKCFOdW1iZXIuaXNGaW5pdGUoYy5wcmljZVVzZCkgfHwgYy5wcmljZVVzZCA8PSAwKSByZXR1cm4gIlg0MDJfUFJJQ0VfVVNEIG11c3QgYmUgYSBwb3NpdGl2ZSBudW1iZXIiOwogIHJldHVybiBudWxsOwp9CgovLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLy8gUGF5bWVudFJlcXVpcmVkICg0MDIpIGJ1aWxkZXIKLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgpmdW5jdGlvbiByZXNvdXJjZVVybChyZXEpIHsKICBjb25zdCBwcm90byA9IChyZXEuaGVhZGVyc1sieC1mb3J3YXJkZWQtcHJvdG8iXSB8fCAiaHR0cHMiKS5zcGxpdCgiLCIpWzBdLnRyaW0oKTsKICBjb25zdCBob3N0ID0gcmVxLmhlYWRlcnMuaG9zdCB8fCAiZmxvdy1rZzR4LnZlcmNlbC5hcHAiOwogIHJldHVybiBgJHtwcm90b306Ly8ke2hvc3R9L2FwaS9xdW90ZWA7Cn0KCmZ1bmN0aW9uIHBheW1lbnRSZXF1aXJlbWVudHMocmVxKSB7CiAgY29uc3QgYyA9IGdldENvbmZpZygpOwogIHJldHVybiB7CiAgICBzY2hlbWU6ICJleGFjdCIsCiAgICBuZXR3b3JrOiBjLm5ldHdvcmssCiAgICBhbW91bnQ6IGMuYW1vdW50LAogICAgYXNzZXQ6IFVTRENfQkFTRSwKICAgIHBheVRvOiBjLnBheVRvLAogICAgbWF4VGltZW91dFNlY29uZHM6IDMwMCwKICAgIGV4dHJhOiB7IG5hbWU6ICJVU0QgQ29pbiIsIHZlcnNpb246ICIyIiB9LCAvLyBVU0RDIEVJUC03MTIgZG9tYWluIG9uIEJhc2UKICB9Owp9CgovLyBCYXphYXIgZGlzY292ZXJ5IGV4dGVuc2lvbiAodG9wLWxldmVsIGBleHRlbnNpb25zYCwgTk9UIGluc2lkZSBhY2NlcHRzW10pLgovLyBUaGlzIGlzIHdoYXQgQWdlbnRpYy5NYXJrZXQgaW5kZXhlcyBhZnRlciB0aGUgZmlyc3QgQ0RQIHNldHRsZW1lbnQuCmZ1bmN0aW9uIGJhemFhckV4dGVuc2lvbigpIHsKICBjb25zdCBpbmZvID0gewogICAgaW5wdXQ6IHsKICAgICAgdHlwZTogImh0dHAiLAogICAgICBtZXRob2Q6ICJQT1NUIiwKICAgICAgYm9keVR5cGU6ICJqc29uIiwKICAgICAgYm9keTogewogICAgICAgIHRva2VuSW46ICIweDgzMzU4OWZDRDZlRGI2RTA4ZjRjN0MzMkQ0ZjcxYjU0YmRBMDI5MTMiLAogICAgICAgIHRva2VuT3V0OiAiMHg0MjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA2IiwKICAgICAgICBhbW91bnRJbjogIjEwMDAwMDAiLAogICAgICB9LAogICAgfSwKICAgIG91dHB1dDogewogICAgICB0eXBlOiAianNvbiIsCiAgICAgIGV4YW1wbGU6IHsKICAgICAgICBiZXN0T3V0OiAiMzk2ODEyIiwKICAgICAgICB2ZW51ZTogImFlcm9kcm9tZSIsCiAgICAgICAgZWRnZUJwczogMTIsCiAgICAgICAgcHJvdG9jb2xGZWU6ICIyNSUgb2YgcHJpY2UgaW1wcm92ZW1lbnQgb3ZlciBVbmlzd2FwIGJhc2VsaW5lIiwKICAgICAgfSwKICAgIH0sCiAgfTsKICBjb25zdCBzY2hlbWEgPSB7CiAgICAkc2NoZW1hOiAiaHR0cHM6Ly9qc29uLXNjaGVtYS5vcmcvZHJhZnQvMjAyMC0xMi9zY2hlbWEiLAogICAgdHlwZTogIm9iamVjdCIsCiAgICBwcm9wZXJ0aWVzOiB7CiAgICAgIGlucHV0OiB7CiAgICAgICAgdHlwZTogIm9iamVjdCIsCiAgICAgICAgcHJvcGVydGllczogewogICAgICAgICAgdHlwZTogeyB0eXBlOiAic3RyaW5nIiwgY29uc3Q6ICJodHRwIiB9LAogICAgICAgICAgbWV0aG9kOiB7IHR5cGU6ICJzdHJpbmciLCBlbnVtOiBbIlBPU1QiLCAiUFVUIiwgIlBBVENIIl0gfSwKICAgICAgICAgIGJvZHlUeXBlOiB7IHR5cGU6ICJzdHJpbmciLCBlbnVtOiBbImpzb24iLCAiZm9ybS1kYXRhIiwgInRleHQiXSB9LAogICAgICAgICAgYm9keTogeyB0eXBlOiAib2JqZWN0IiB9LAogICAgICAgICAgcXVlcnlQYXJhbXM6IHsgdHlwZTogIm9iamVjdCIsIGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiB7IHR5cGU6ICJzdHJpbmciIH0gfSwKICAgICAgICAgIGhlYWRlcnM6IHsgdHlwZTogIm9iamVjdCIsIGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiB7IHR5cGU6ICJzdHJpbmciIH0gfSwKICAgICAgICB9LAogICAgICAgIHJlcXVpcmVkOiBbInR5cGUiLCAibWV0aG9kIiwgImJvZHlUeXBlIiwgImJvZHkiXSwKICAgICAgICBhZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UsCiAgICAgIH0sCiAgICAgIG91dHB1dDogewogICAgICAgIHR5cGU6ICJvYmplY3QiLAogICAgICAgIHByb3BlcnRpZXM6IHsKICAgICAgICAgIHR5cGU6IHsgdHlwZTogInN0cmluZyIgfSwKICAgICAgICAgIGV4YW1wbGU6IHsgdHlwZTogIm9iamVjdCIgfSwKICAgICAgICB9LAogICAgICAgIHJlcXVpcmVkOiBbInR5cGUiXSwKICAgICAgfSwKICAgIH0sCiAgICByZXF1aXJlZDogWyJpbnB1dCJdLAogIH07CiAgcmV0dXJuIHsgaW5mbywgc2NoZW1hIH07Cn0KCmZ1bmN0aW9uIHBheW1lbnRSZXF1aXJlZEJvZHkocmVxKSB7CiAgY29uc3QgYyA9IGdldENvbmZpZygpOwogIHJldHVybiB7CiAgICB4NDAyVmVyc2lvbjogMiwKICAgIGVycm9yOiBgUGF5bWVudCByZXF1aXJlZDogc2lnbiBhbiB4NDAyIHYyICJleGFjdCIgcGF5bWVudCBvZiAkJHtjLnByaWNlVXNkfSBVU0RDIG9uIEJhc2UgYW5kIHJldHJ5IHdpdGggYW4gWC1QQVlNRU5UIGhlYWRlci5gLAogICAgcmVzb3VyY2U6IHsKICAgICAgdXJsOiByZXNvdXJjZVVybChyZXEpLAogICAgICBkZXNjcmlwdGlvbjoKICAgICAgICAiRmxvdyBiZXN0LWV4ZWN1dGlvbiBxdW90ZXM6IGNvbXBhcmVzIFVuaXN3YXAgVjMgYW5kIEFlcm9kcm9tZSBhY3Jvc3MgZmVlIHRpZXJzIGZvciBhIHRva2VuIHN3YXAgb24gQmFzZSBhbmQgcmV0dXJucyB0aGUgYmVzdCB2ZW51ZSwgZXhwZWN0ZWQgb3V0cHV0LCBhbmQgZWRnZSB2cyBVbmlzd2FwIGJhc2VsaW5lLiIsCiAgICAgIG1pbWVUeXBlOiAiYXBwbGljYXRpb24vanNvbiIsCiAgICAgIHNlcnZpY2VOYW1lOiAiRmxvdyIsCiAgICAgIHRhZ3M6IFsidHJhZGluZyIsICJkZWZpIiwgImJhc2UiLCAiZGV4IiwgInF1b3RlcyJdLAogICAgfSwKICAgIGFjY2VwdHM6IFtwYXltZW50UmVxdWlyZW1lbnRzKHJlcSldLAogICAgZXh0ZW5zaW9uczogeyBiYXphYXI6IGJhemFhckV4dGVuc2lvbigpIH0sCiAgfTsKfQoKZnVuY3Rpb24gc2VuZDQwMihyZXMsIHJlcSwgZXJyb3JEZXRhaWwpIHsKICBjb25zdCBib2R5ID0gcGF5bWVudFJlcXVpcmVkQm9keShyZXEpOwogIGlmIChlcnJvckRldGFpbCkgYm9keS5lcnJvciA9IGVycm9yRGV0YWlsOwogIGNvbnN0IGhlYWRlciA9IEJ1ZmZlci5mcm9tKEpTT04uc3RyaW5naWZ5KGJvZHkpKS50b1N0cmluZygiYmFzZTY0Iik7CiAgcmVzLnNldEhlYWRlcigiUEFZTUVOVC1SRVFVSVJFRCIsIGhlYWRlcik7CiAgcmV0dXJuIHJlcy5zdGF0dXMoNDAyKS5qc29uKGJvZHkpOwp9CgovLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLy8gSW5jb21pbmcgcGF5bWVudCBwYXJzaW5nCi8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKZnVuY3Rpb24gZGVjb2RlUGF5bWVudEhlYWRlcihyZXEpIHsKICBjb25zdCByYXcgPSByZXEuaGVhZGVyc1sieC1wYXltZW50Il0gfHwgcmVxLmhlYWRlcnNbInBheW1lbnQtc2lnbmF0dXJlIl07CiAgaWYgKCFyYXcpIHJldHVybiB7IG9rOiBmYWxzZSwgcmVhc29uOiAibWlzc2luZyIgfTsKICBsZXQgcGF5bG9hZDsKICB0cnkgewogICAgcGF5bG9hZCA9IEpTT04ucGFyc2UoQnVmZmVyLmZyb20oU3RyaW5nKHJhdykudHJpbSgpLCAiYmFzZTY0IikudG9TdHJpbmcoInV0ZjgiKSk7CiAgfSBjYXRjaCB7CiAgICByZXR1cm4geyBvazogZmFsc2UsIHJlYXNvbjogIlBheW1lbnQgaGVhZGVyIGlzIG5vdCB2YWxpZCBiYXNlNjQgSlNPTiIgfTsKICB9CiAgaWYgKHBheWxvYWQueDQwMlZlcnNpb24gIT09IDIpIHJldHVybiB7IG9rOiBmYWxzZSwgcmVhc29uOiAiVW5zdXBwb3J0ZWQgeDQwMlZlcnNpb24gKGV4cGVjdGVkIDIpIiB9OwogIGlmIChwYXlsb2FkLnNjaGVtZSAhPT0gImV4YWN0IiAmJiBwYXlsb2FkLmFjY2VwdGVkPy5zY2hlbWUgIT09ICJleGFjdCIpCiAgICByZXR1cm4geyBvazogZmFsc2UsIHJlYXNvbjogIlVuc3VwcG9ydGVkIHNjaGVtZSAoZXhwZWN0ZWQgZXhhY3QpIiB9OwogIHJldHVybiB7IG9rOiB0cnVlLCBwYXlsb2FkIH07Cn0KCi8vIExvY2FsIHNhbml0eSBjaGVja3MgYmVmb3JlIHNwZW5kaW5nIGZhY2lsaXRhdG9yIHF1b3RhLgpmdW5jdGlvbiBsb2NhbENoZWNrcyhwYXlsb2FkKSB7CiAgY29uc3QgYyA9IGdldENvbmZpZygpOwogIGNvbnN0IG5ldHdvcmsgPSBwYXlsb2FkLm5ldHdvcmsgfHwgcGF5bG9hZC5hY2NlcHRlZD8ubmV0d29yazsKICBpZiAobmV0d29yayAhPT0gYy5uZXR3b3JrKSByZXR1cm4gYFdyb25nIG5ldHdvcmsgKGV4cGVjdGVkICR7Yy5uZXR3b3JrfSlgOwogIGNvbnN0IGF1dGggPSBwYXlsb2FkLnBheWxvYWQ/LmF1dGhvcml6YXRpb247CiAgaWYgKCFhdXRoKSByZXR1cm4gIk1pc3NpbmcgRUlQLTMwMDkgYXV0aG9yaXphdGlvbiBpbiBwYXltZW50IHBheWxvYWQiOwogIGlmIChTdHJpbmcoYXV0aC50bykudG9Mb3dlckNhc2UoKSAhPT0gYy5wYXlUby50b0xvd2VyQ2FzZSgpKSByZXR1cm4gIlBheW1lbnQgcmVjaXBpZW50IGRvZXMgbm90IG1hdGNoIHBheVRvIjsKICBpZiAoU3RyaW5nKGF1dGgudmFsdWUpICE9PSBjLmFtb3VudCkgcmV0dXJuIGBQYXltZW50IGFtb3VudCBtdXN0IGJlIGV4YWN0bHkgJHtjLmFtb3VudH0gYXRvbWljIFVTRENgOwogIGNvbnN0IHNpZyA9IHBheWxvYWQucGF5bG9hZD8uc2lnbmF0dXJlOwogIGlmICghc2lnIHx8ICEvXjB4WzAtOWEtZkEtRl0rJC8udGVzdChzaWcpKSByZXR1cm4gIk1pc3Npbmcgb3IgbWFsZm9ybWVkIGF1dGhvcml6YXRpb24gc2lnbmF0dXJlIjsKICByZXR1cm4gbnVsbDsKfQoKLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi8vIENEUCBmYWNpbGl0YXRvciBhdXRoIChFZDI1NTE5IEpXVCwgc3RkbGliIGNyeXB0byBvbmx5KQovLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCmZ1bmN0aW9uIGNkcEp3dChtZXRob2QsIHBhdGgpIHsKICBjb25zdCBrZXlJZCA9IHByb2Nlc3MuZW52LkNEUF9BUElfS0VZX0lEOwogIGNvbnN0IHNlY3JldCA9IHByb2Nlc3MuZW52LkNEUF9BUElfS0VZX1NFQ1JFVDsKICBpZiAoIWtleUlkIHx8ICFzZWNyZXQpIHRocm93IG5ldyBFcnJvcigiQ0RQX0FQSV9LRVlfSUQgLyBDRFBfQVBJX0tFWV9TRUNSRVQgYXJlIG5vdCBzZXQiKTsKICBsZXQgc2VlZCA9IEJ1ZmZlci5mcm9tKHNlY3JldC50cmltKCksICJiYXNlNjQiKTsKICBpZiAoc2VlZC5sZW5ndGggPT09IDY0KSBzZWVkID0gc2VlZC5zdWJhcnJheSgwLCAzMik7IC8vIHNvbWUgZXhwb3J0cyBpbmNsdWRlIHRoZSBwdWJrZXkKICBpZiAoc2VlZC5sZW5ndGggIT09IDMyKSB0aHJvdyBuZXcgRXJyb3IoIkNEUF9BUElfS0VZX1NFQ1JFVCBtdXN0IGJhc2U2NC1kZWNvZGUgdG8gMzIgYnl0ZXMgKEVkMjU1MTkgc2VlZCkiKTsKICBjb25zdCBwa2NzOERlciA9IEJ1ZmZlci5jb25jYXQoW0J1ZmZlci5mcm9tKCIzMDJlMDIwMTAwMzAwNTA2MDMyYjY1NzAwNDIyMDQyMCIsICJoZXgiKSwgc2VlZF0pOwogIGNvbnN0IHBlbSA9CiAgICAiLS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tXG4iICsKICAgIHBrY3M4RGVyLnRvU3RyaW5nKCJiYXNlNjQiKS5tYXRjaCgvLnsxLDY0fS9nKS5qb2luKCJcbiIpICsKICAgICJcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiI7CiAgY29uc3Qga2V5ID0gY3J5cHRvLmNyZWF0ZVByaXZhdGVLZXkoeyBrZXk6IHBlbSwgZm9ybWF0OiAicGVtIiB9KTsKICBjb25zdCBub3cgPSBNYXRoLmZsb29yKERhdGUubm93KCkgLyAxMDAwKTsKICBjb25zdCBiNjR1ID0gKG8pID0+IEJ1ZmZlci5mcm9tKEpTT04uc3RyaW5naWZ5KG8pKS50b1N0cmluZygiYmFzZTY0dXJsIik7CiAgY29uc3Qgc2lnbmluZ0lucHV0ID0KICAgIGI2NHUoeyBhbGc6ICJFZERTQSIsIHR5cDogIkpXVCIsIGtpZDoga2V5SWQgfSkgKwogICAgIi4iICsKICAgIGI2NHUoewogICAgICBpc3M6ICJjZHAiLAogICAgICBzdWI6IGtleUlkLAogICAgICBhdWQ6IFsiY2RwX3NlcnZpY2UiXSwKICAgICAgbmJmOiBub3csCiAgICAgIGV4cDogbm93ICsgMTIwLAogICAgICB1cmk6IGAke21ldGhvZH0gJHtDRFBfSE9TVH0ke3BhdGh9YCwKICAgIH0pOwogIGNvbnN0IHNpZyA9IGNyeXB0by5zaWduKG51bGwsIEJ1ZmZlci5mcm9tKHNpZ25pbmdJbnB1dCksIGtleSk7CiAgcmV0dXJuIGAke3NpZ25pbmdJbnB1dH0uJHtzaWcudG9TdHJpbmcoImJhc2U2NHVybCIpfWA7Cn0KCmZ1bmN0aW9uIGZhY2lsaXRhdG9yUGF0aCgpIHsKICAvLyAiL3BsYXRmb3JtL3YyL3g0MDIiIC0+IHBhdGggcG9ydGlvbiB1c2VkIGZvciB0aGUgSldUIGB1cmlgIGNsYWltCiAgY29uc3QgdSA9IG5ldyBVUkwoZ2V0Q29uZmlnKCkuZmFjaWxpdGF0b3IpOwogIHJldHVybiB1LnBhdGhuYW1lLnJlcGxhY2UoL1wvKyQvLCAiIik7Cn0KCmFzeW5jIGZ1bmN0aW9uIGZhY2lsaXRhdG9yQ2FsbChvcCwgcGF5bWVudFBheWxvYWQsIHBheW1lbnRSZXF1aXJlbWVudHMpIHsKICBjb25zdCBjID0gZ2V0Q29uZmlnKCk7CiAgY29uc3QgcGF0aCA9IGAke2ZhY2lsaXRhdG9yUGF0aCgpfS8ke29wfWA7IC8vIC92ZXJpZnkgb3IgL3NldHRsZQogIGNvbnN0IHVybCA9IGAke2MuZmFjaWxpdGF0b3J9LyR7b3B9YDsKICBjb25zdCBoZWFkZXJzID0geyAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24iIH07CiAgaWYgKHVybC5pbmNsdWRlcyhDRFBfSE9TVCkpIHsKICAgIGhlYWRlcnMuQXV0aG9yaXphdGlvbiA9IGBCZWFyZXIgJHtjZHBKd3QoIlBPU1QiLCBwYXRoKX1gOwogIH0KICBjb25zdCByID0gYXdhaXQgZmV0Y2godXJsLCB7CiAgICBtZXRob2Q6ICJQT1NUIiwKICAgIGhlYWRlcnMsCiAgICBib2R5OiBKU09OLnN0cmluZ2lmeSh7IHg0MDJWZXJzaW9uOiAyLCBwYXltZW50UGF5bG9hZCwgcGF5bWVudFJlcXVpcmVtZW50cyB9KSwKICB9KTsKICBjb25zdCB0ZXh0ID0gYXdhaXQgci50ZXh0KCk7CiAgbGV0IGRhdGE7CiAgdHJ5IHsKICAgIGRhdGEgPSBKU09OLnBhcnNlKHRleHQpOwogIH0gY2F0Y2ggewogICAgdGhyb3cgbmV3IEVycm9yKGBGYWNpbGl0YXRvciAke29wfSByZXR1cm5lZCBub24tSlNPTiAoSFRUUCAke3Iuc3RhdHVzfSlgKTsKICB9CiAgaWYgKCFyLm9rKSB0aHJvdyBuZXcgRXJyb3IoYEZhY2lsaXRhdG9yICR7b3B9IEhUVFAgJHtyLnN0YXR1c306ICR7dGV4dC5zbGljZSgwLCAyMDApfWApOwogIHJldHVybiBkYXRhOwp9CgovLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLy8gTWFpbiBnYXRlOiBjYWxsIGF0IHRoZSB0b3Agb2YgYSBwcm90ZWN0ZWQgaGFuZGxlci4KLy8gUmV0dXJucyB7IHBheWxvYWQsIHJlcXVpcmVtZW50cyB9IG9uIHN1Y2Nlc3MsIG9yIHNlbmRzIHRoZSBIVFRQIHJlc3BvbnNlCi8vIGl0c2VsZiBhbmQgcmV0dXJucyBudWxsIChjYWxsZXIgbXVzdCBgcmV0dXJuYCBpbW1lZGlhdGVseSkuCi8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKYXN5bmMgZnVuY3Rpb24gcmVxdWlyZVBheW1lbnQocmVxLCByZXMpIHsKICBjb25zdCBiYWQgPSBjb25maWdFcnJvcigpOwogIGlmIChiYWQpIHsKICAgIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6IGB4NDAyIG1pc2NvbmZpZ3VyZWQ6ICR7YmFkfWAgfSk7CiAgICByZXR1cm4gbnVsbDsKICB9CgogIGNvbnN0IGRlY29kZWQgPSBkZWNvZGVQYXltZW50SGVhZGVyKHJlcSk7CiAgaWYgKCFkZWNvZGVkLm9rKSB7CiAgICBpZiAoZGVjb2RlZC5yZWFzb24gPT09ICJtaXNzaW5nIikgewogICAgICBzZW5kNDAyKHJlcywgcmVxKTsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgICByZXMuc3RhdHVzKDQwMCkuanNvbih7IGVycm9yOiBgSW52YWxpZCBwYXltZW50OiAke2RlY29kZWQucmVhc29ufWAgfSk7CiAgICByZXR1cm4gbnVsbDsKICB9CgogIGNvbnN0IGxvY2FsRXJyID0gbG9jYWxDaGVja3MoZGVjb2RlZC5wYXlsb2FkKTsKICBpZiAobG9jYWxFcnIpIHsKICAgIHNlbmQ0MDIocmVzLCByZXEsIGBJbnZhbGlkIHBheW1lbnQ6ICR7bG9jYWxFcnJ9LiBTZWUgYWNjZXB0c1tdIGZvciBleGFjdCByZXF1aXJlbWVudHMuYCk7CiAgICByZXR1cm4gbnVsbDsKICB9CgogIGNvbnN0IHJlcXVpcmVtZW50cyA9IHBheW1lbnRSZXF1aXJlbWVudHMocmVxKTsKICBsZXQgdmVyaWZ5OwogIHRyeSB7CiAgICB2ZXJpZnkgPSBhd2FpdCBmYWNpbGl0YXRvckNhbGwoInZlcmlmeSIsIGRlY29kZWQucGF5bG9hZCwgcmVxdWlyZW1lbnRzKTsKICB9IGNhdGNoIChlKSB7CiAgICByZXMuc3RhdHVzKDUwMikuanNvbih7IGVycm9yOiBgUGF5bWVudCB2ZXJpZmljYXRpb24gdW5hdmFpbGFibGU6ICR7ZS5tZXNzYWdlLnNsaWNlKDAsIDE1MCl9YCB9KTsKICAgIHJldHVybiBudWxsOwogIH0KICBpZiAoIXZlcmlmeS5pc1ZhbGlkKSB7CiAgICBzZW5kNDAyKHJlcywgcmVxLCBgUGF5bWVudCBpbnZhbGlkOiAke3ZlcmlmeS5pbnZhbGlkUmVhc29uIHx8ICJ2ZXJpZmljYXRpb24gZmFpbGVkIn0uYCk7CiAgICByZXR1cm4gbnVsbDsKICB9CiAgcmV0dXJuIHsgcGF5bG9hZDogZGVjb2RlZC5wYXlsb2FkLCByZXF1aXJlbWVudHMsIHBheWVyOiB2ZXJpZnkucGF5ZXIgfTsKfQoKLy8gU2V0dGxlIEFGVEVSIHRoZSByZXNvdXJjZSBoYXMgZXhlY3V0ZWQgKGF1dGhvcml6YXRpb24gZmxvdykuCi8vIFJldHVybnMgeyBzdWNjZXNzLCByZXNwb25zZSB9IOKAlCByZXNwb25zZSBpcyB0aGUgU2V0dGxlbWVudFJlc3BvbnNlIG9iamVjdC4KYXN5bmMgZnVuY3Rpb24gc2V0dGxlUGF5bWVudChnYXRlKSB7CiAgY29uc3Qgc2V0dGxlZCA9IGF3YWl0IGZhY2lsaXRhdG9yQ2FsbCgic2V0dGxlIiwgZ2F0ZS5wYXlsb2FkLCBnYXRlLnJlcXVpcmVtZW50cyk7CiAgcmV0dXJuIHsgc3VjY2Vzczogc2V0dGxlZC5zdWNjZXNzID09PSB0cnVlLCByZXNwb25zZTogc2V0dGxlZCB9Owp9CgpmdW5jdGlvbiBwYXltZW50UmVzcG9uc2VIZWFkZXJzKHJlcywgc2V0dGxlUmVzcG9uc2UpIHsKICBjb25zdCBiNjQgPSBCdWZmZXIuZnJvbShKU09OLnN0cmluZ2lmeShzZXR0bGVSZXNwb25zZSkpLnRvU3RyaW5nKCJiYXNlNjQiKTsKICByZXMuc2V0SGVhZGVyKCJQQVlNRU5ULVJFU1BPTlNFIiwgYjY0KTsgLy8gdjIgY2Fub25pY2FsCiAgcmVzLnNldEhlYWRlcigiWC1QQVlNRU5ULVJFU1BPTlNFIiwgYjY0KTsgLy8gdjEtc3R5bGUgYWxpYXMgbWFueSBjbGllbnRzIHJlYWQKfQoKbW9kdWxlLmV4cG9ydHMgPSB7CiAgaXNFbmFibGVkLAogIGdldENvbmZpZywKICBjb25maWdFcnJvciwKICBwYXltZW50UmVxdWlyZWRCb2R5LAogIHNlbmQ0MDIsCiAgZGVjb2RlUGF5bWVudEhlYWRlciwKICBsb2NhbENoZWNrcywKICByZXF1aXJlUGF5bWVudCwKICBzZXR0bGVQYXltZW50LAogIHBheW1lbnRSZXNwb25zZUhlYWRlcnMsCiAgVVNEQ19CQVNFLAp9Owo=
+// x402 (v2) pay-per-call protection for Vercel serverless functions.
+// Implements the x402 v2 wire protocol directly (no extra npm deps):
+//   - 402 responses carry a base64 PaymentRequired object in the
+//     PAYMENT-REQUIRED header (and as the JSON body).
+//   - Clients pay by sending X-PAYMENT (or PAYMENT-SIGNATURE) with a
+//     base64 PaymentPayload (EIP-3009 "exact" USDC authorization).
+//   - verify/settle run against the facilitator (CDP by default).
+// Spec: https://github.com/x402-foundation/x402 (specs/x402-specification-v2.md,
+// specs/transports-v2/http.md, specs/extensions/bazaar.md)
+
+const crypto = require("crypto");
+
+// ---------------------------------------------------------------------------
+// Config
+// ---------------------------------------------------------------------------
+
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // verified on-chain
+const USDC_DECIMALS = 6;
+const DEFAULT_NETWORK = "eip155:8453"; // Base mainnet
+const DEFAULT_FACILITATOR = "https://api.cdp.coinbase.com/platform/v2/x402";
+const CDP_HOST = "api.cdp.coinbase.com";
+
+function isEnabled() {
+  return process.env.X402_ENABLED === "true";
+}
+
+function getConfig() {
+  const payTo = (process.env.X402_PAYEE_ADDRESS || "").trim();
+  const priceUsd = parseFloat(process.env.X402_PRICE_USD || "0.01");
+  const network = (process.env.X402_NETWORK || DEFAULT_NETWORK).trim();
+  const facilitator = (process.env.X402_FACILITATOR_URL || DEFAULT_FACILITATOR).trim().replace(/\/+$/, "");
+  const amount = String(Math.round(priceUsd * 10 ** USDC_DECIMALS)); // atomic units
+  return { payTo, priceUsd, network, facilitator, amount };
+}
+
+function configError() {
+  const c = getConfig();
+  if (!c.payTo) return "X402_PAYEE_ADDRESS is not set";
+  if (!/^0x[0-9a-fA-F]{40}$/.test(c.payTo)) return "X402_PAYEE_ADDRESS is not a valid EVM address";
+  if (!Number.isFinite(c.priceUsd) || c.priceUsd <= 0) return "X402_PRICE_USD must be a positive number";
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// PaymentRequired (402) builder
+// ---------------------------------------------------------------------------
+
+function resourceUrl(req) {
+  const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const host = req.headers.host || "flow-kg4x.vercel.app";
+  return `${proto}://${host}/api/quote`;
+}
+
+function paymentRequirements(req) {
+  const c = getConfig();
+  return {
+    scheme: "exact",
+    network: c.network,
+    amount: c.amount,
+    asset: USDC_BASE,
+    payTo: c.payTo,
+    maxTimeoutSeconds: 300,
+    extra: { name: "USD Coin", version: "2" }, // USDC EIP-712 domain on Base
+  };
+}
+
+// Bazaar discovery extension (top-level `extensions`, NOT inside accepts[]).
+// This is what Agentic.Market indexes after the first CDP settlement.
+function bazaarExtension() {
+  const info = {
+    input: {
+      type: "http",
+      method: "POST",
+      bodyType: "json",
+      body: {
+        tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        tokenOut: "0x4200000000000000000000000000000000000006",
+        amountIn: "1000000",
+      },
+    },
+    output: {
+      type: "json",
+      example: {
+        bestOut: "396812",
+        venue: "aerodrome",
+        edgeBps: 12,
+        protocolFee: "25% of price improvement over Uniswap baseline",
+      },
+    },
+  };
+  const schema = {
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    type: "object",
+    properties: {
+      input: {
+        type: "object",
+        properties: {
+          type: { type: "string", const: "http" },
+          method: { type: "string", enum: ["POST", "PUT", "PATCH"] },
+          bodyType: { type: "string", enum: ["json", "form-data", "text"] },
+          body: { type: "object" },
+          queryParams: { type: "object", additionalProperties: { type: "string" } },
+          headers: { type: "object", additionalProperties: { type: "string" } },
+        },
+        required: ["type", "method", "bodyType", "body"],
+        additionalProperties: false,
+      },
+      output: {
+        type: "object",
+        properties: {
+          type: { type: "string" },
+          example: { type: "object" },
+        },
+        required: ["type"],
+      },
+    },
+    required: ["input"],
+  };
+  return { info, schema };
+}
+
+function paymentRequiredBody(req) {
+  const c = getConfig();
+  return {
+    x402Version: 2,
+    error: `Payment required: sign an x402 v2 "exact" payment of $${c.priceUsd} USDC on Base and retry with an X-PAYMENT header.`,
+    resource: {
+      url: resourceUrl(req),
+      description:
+        "Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers for a token swap on Base and returns the best venue, expected output, and edge vs Uniswap baseline.",
+      mimeType: "application/json",
+      serviceName: "Flow",
+      tags: ["trading", "defi", "base", "dex", "quotes"],
+    },
+    accepts: [paymentRequirements(req)],
+    extensions: { bazaar: bazaarExtension() },
+  };
+}
+
+function send402(res, req, errorDetail) {
+  const body = paymentRequiredBody(req);
+  if (errorDetail) body.error = errorDetail;
+  const header = Buffer.from(JSON.stringify(body)).toString("base64");
+  res.setHeader("PAYMENT-REQUIRED", header);
+  return res.status(402).json(body);
+}
+
+// ---------------------------------------------------------------------------
+// Incoming payment parsing
+// ---------------------------------------------------------------------------
+
+function decodePaymentHeader(req) {
+  const raw = req.headers["x-payment"] || req.headers["payment-signature"];
+  if (!raw) return { ok: false, reason: "missing" };
+  let payload;
+  try {
+    payload = JSON.parse(Buffer.from(String(raw).trim(), "base64").toString("utf8"));
+  } catch {
+    return { ok: false, reason: "Payment header is not valid base64 JSON" };
+  }
+  if (payload.x402Version !== 2) return { ok: false, reason: "Unsupported x402Version (expected 2)" };
+  if (payload.scheme !== "exact" && payload.accepted?.scheme !== "exact")
+    return { ok: false, reason: "Unsupported scheme (expected exact)" };
+  return { ok: true, payload };
+}
+
+// Local sanity checks before spending facilitator quota.
+function localChecks(payload) {
+  const c = getConfig();
+  const network = payload.network || payload.accepted?.network;
+  if (network !== c.network) return `Wrong network (expected ${c.network})`;
+  const auth = payload.payload?.authorization;
+  if (!auth) return "Missing EIP-3009 authorization in payment payload";
+  if (String(auth.to).toLowerCase() !== c.payTo.toLowerCase()) return "Payment recipient does not match payTo";
+  if (String(auth.value) !== c.amount) return `Payment amount must be exactly ${c.amount} atomic USDC`;
+  const sig = payload.payload?.signature;
+  if (!sig || !/^0x[0-9a-fA-F]+$/.test(sig)) return "Missing or malformed authorization signature";
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// CDP facilitator auth (Ed25519 JWT, stdlib crypto only)
+// ---------------------------------------------------------------------------
+
+function cdpJwt(method, path) {
+  const keyId = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
+  let seed = Buffer.from(secret.trim(), "base64");
+  if (seed.length === 64) seed = seed.subarray(0, 32); // some exports include the pubkey
+  if (seed.length !== 32) throw new Error("CDP_API_KEY_SECRET must base64-decode to 32 bytes (Ed25519 seed)");
+  const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
+  const pem =
+    "-----BEGIN PRIVATE KEY-----\n" +
+    pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
+    "\n-----END PRIVATE KEY-----\n";
+  const key = crypto.createPrivateKey({ key: pem, format: "pem" });
+  const now = Math.floor(Date.now() / 1000);
+  const b64u = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
+  const signingInput =
+    b64u({ alg: "EdDSA", typ: "JWT", kid: keyId }) +
+    "." +
+    b64u({
+      iss: "cdp",
+      sub: keyId,
+      aud: ["cdp_service"],
+      nbf: now,
+      exp: now + 120,
+      uri: `${method} ${CDP_HOST}${path}`,
+    });
+  const sig = crypto.sign(null, Buffer.from(signingInput), key);
+  return `${signingInput}.${sig.toString("base64url")}`;
+}
+
+function facilitatorPath() {
+  // "/platform/v2/x402" -> path portion used for the JWT `uri` claim
+  const u = new URL(getConfig().facilitator);
+  return u.pathname.replace(/\/+$/, "");
+}
+
+async function facilitatorCall(op, paymentPayload, paymentRequirements) {
+  const c = getConfig();
+  const path = `${facilitatorPath()}/${op}`; // /verify or /settle
+  const url = `${c.facilitator}/${op}`;
+  const headers = { "Content-Type": "application/json" };
+  if (url.includes(CDP_HOST)) {
+    headers.Authorization = `Bearer ${cdpJwt("POST", path)}`;
+  }
+  const r = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ x402Version: 2, paymentPayload, paymentRequirements }),
+  });
+  const text = await r.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error(`Facilitator ${op} returned non-JSON (HTTP ${r.status})`);
+  }
+  if (!r.ok) throw new Error(`Facilitator ${op} HTTP ${r.status}: ${text.slice(0, 200)}`);
+  return data;
+}
+
+// ---------------------------------------------------------------------------
+// Main gate: call at the top of a protected handler.
+// Returns { payload, requirements } on success, or sends the HTTP response
+// itself and returns null (caller must `return` immediately).
+// ---------------------------------------------------------------------------
+
+async function requirePayment(req, res) {
+  const bad = configError();
+  if (bad) {
+    res.status(500).json({ error: `x402 misconfigured: ${bad}` });
+    return null;
+  }
+
+  const decoded = decodePaymentHeader(req);
+  if (!decoded.ok) {
+    if (decoded.reason === "missing") {
+      send402(res, req);
+      return null;
+    }
+    res.status(400).json({ error: `Invalid payment: ${decoded.reason}` });
+    return null;
+  }
+
+  const localErr = localChecks(decoded.payload);
+  if (localErr) {
+    send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`);
+    return null;
+  }
+
+  const requirements = paymentRequirements(req);
+  let verify;
+  try {
+    verify = await facilitatorCall("verify", decoded.payload, requirements);
+  } catch (e) {
+    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 150)}` });
+    return null;
+  }
+  if (!verify.isValid) {
+    send402(res, req, `Payment invalid: ${verify.invalidReason || "verification failed"}.`);
+    return null;
+  }
+  return { payload: decoded.payload, requirements, payer: verify.payer };
+}
+
+// Settle AFTER the resource has executed (authorization flow).
+// Returns { success, response } — response is the SettlementResponse object.
+async function settlePayment(gate) {
+  const settled = await facilitatorCall("settle", gate.payload, gate.requirements);
+  return { success: settled.success === true, response: settled };
+}
+
+function paymentResponseHeaders(res, settleResponse) {
+  const b64 = Buffer.from(JSON.stringify(settleResponse)).toString("base64");
+  res.setHeader("PAYMENT-RESPONSE", b64); // v2 canonical
+  res.setHeader("X-PAYMENT-RESPONSE", b64); // v1-style alias many clients read
+}
+
+module.exports = {
+  isEnabled,
+  getConfig,
+  configError,
+  paymentRequiredBody,
+  send402,
+  decodePaymentHeader,
+  localChecks,
+  requirePayment,
+  settlePayment,
+  paymentResponseHeaders,
+  USDC_BASE,
+};
