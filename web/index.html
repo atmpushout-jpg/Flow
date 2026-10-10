@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow — Private Swap Auction</title>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.17.0/dist/ethers.umd.min.js"></script>
+<style>
+  body { font-family: system-ui, sans-serif; background: #0a0e1a; color: #e8ecf4; margin: 0; padding: 24px; }
+  .card { max-width: 440px; margin: 40px auto; background: #131a2e; border: 1px solid #2a3558; border-radius: 16px; padding: 24px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: #8b93a7; font-size: 13px; margin-bottom: 20px; }
+  label { font-size: 12px; color: #8b93a7; display: block; margin: 12px 0 4px; }
+  input, select { width: 100%; box-sizing: border-box; padding: 12px; border-radius: 10px; border: 1px solid #2a3558; background: #0d1326; color: #fff; font-size: 16px; }
+  button { width: 100%; padding: 14px; margin-top: 16px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
+  .primary { background: linear-gradient(135deg, #4f7cff, #7c4dff); color: #fff; }
+  .primary:disabled { opacity: .45; cursor: default; }
+  .ghost { background: #1b2340; color: #cfd6e8; }
+  .row { display: flex; justify-content: space-between; font-size: 13px; color: #8b93a7; margin-top: 8px; }
+  .row b { color: #e8ecf4; }
+  .ok { color: #4ade80; } .warn { color: #fbbf24; } .err { color: #f87171; }
+  #log { font-size: 12px; color: #8b93a7; margin-top: 16px; white-space: pre-wrap; word-break: break-all; max-height: 180px; overflow-y: auto; }
+  a { color: #7c9cff; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>⚡ Flow Swap</h1>
+  <div class="sub">Private auction. Bots bid for your order. You keep the improvement.</div>
+
+  <button id="connect" class="ghost">Connect wallet</button>
+  <div class="row"><span>Wallet</span><b id="addr">—</b></div>
+
+  <label>Amount (USDC)</label>
+  <input id="amount" type="number" min="0" step="any" placeholder="10">
+
+  <div class="row"><span>Baseline quote</span><b id="q-base">—</b></div>
+  <div class="row"><span>Flow best bid</span><b id="q-best" class="ok">—</b></div>
+
+  <button id="swap" class="primary" disabled>Swap via Flow</button>
+  <div id="log"></div>
+</div>
+
+<script>
+// ---- config: edit for mainnet ----
+const CONFIG = {
+  chainId: 84532, // 8453 = Base mainnet, 84532 = Base Sepolia
+  router: "0xec7220cea8b5c5fef9ad7a3314ce9201f7f739dc", // v0.2 on Sepolia
+  usdc: "0x81aA5ab2E0d9E9a5Fd7FDA5fAB23118e09e953E5",   // test USDC on Sepolia
+  weth: "0x9E399bb133DC5A23c60487CE3Bac73f07a5C1c37",   // test WETH on Sepolia
+  usdcDecimals: 6,
+  wethDecimals: 18,
+  api: "", // same origin as this page
+};
+
+const ROUTER_ABI = [
+  "function nonces(address) view returns (uint256)",
+  "function hashIntent((address user,address tokenIn,address tokenOut,uint256 amountIn,uint256 minAmountOut,uint256 expiry,uint256 nonce)) view returns (bytes32)",
+];
+const ERC20_ABI = [
+  "function allowance(address owner, address spender) view returns (uint256)",
+  "function approve(address spender, uint256 amount) returns (bool)",
+];
+
+const $ = (id) => document.getElementById(id);
+const log = (m, cls) => { const d = document.createElement("div"); if (cls) d.className = cls; d.textContent = m; $("log").appendChild(d); };
+
+let provider, signer, userAddr;
+
+$("connect").onclick = async () => {
+  try {
+    if (!window.ethereum) { log("No wallet found.", "err"); return; }
+    provider = new ethers.BrowserProvider(window.ethereum);
+    const net = await provider.getNetwork();
+    if (Number(net.chainId) !== CONFIG.chainId) {
+      log(`Wrong network. Switch to chain ${CONFIG.chainId}.`, "err"); return;
+    }
+    signer = await provider.getSigner();
+    userAddr = await signer.getAddress();
+    $("addr").textContent = userAddr.slice(0, 6) + "…" + userAddr.slice(-4);
+    $("swap").disabled = false;
+    log("Connected.", "ok");
+  } catch (e) { log("Connect failed: " + e.message, "err"); }
+};
+
+let lastQuote = null;
+$("amount").oninput = async () => {
+  const v = parseFloat($("amount").value);
+  if (!v || v <= 0) { $("q-base").textContent = "—"; $("q-best").textContent = "—"; lastQuote = null; return; }
+  try {
+    const amountIn = ethers.parseUnits(v.toString(), CONFIG.usdcDecimals).toString();
+    const r = await fetch(`${CONFIG.api}/quote?tokenIn=${CONFIG.usdc}&tokenOut=${CONFIG.weth}&amountIn=${amountIn}`);
+    const q = await r.json();
+    if (q.error) throw new Error(q.error);
+    lastQuote = { ...q, amountIn };
+    $("q-base").textContent = ethers.formatUnits(q.baselineOut, CONFIG.wethDecimals) + " WETH";
+    $("q-best").textContent = ethers.formatUnits(q.bestOut, CONFIG.wethDecimals) + " WETH";
+  } catch (e) { log("Quote failed: " + e.message, "err"); }
+};
+
+$("swap").onclick = async () => {
+  try {
+    const v = parseFloat($("amount").value);
+    if (!v || v <= 0 || !lastQuote) { log("Enter an amount first.", "warn"); return; }
+    $("swap").disabled = true;
+
+    const router = new ethers.Contract(CONFIG.router, ROUTER_ABI, provider);
+    const usdc = new ethers.Contract(CONFIG.usdc, ERC20_ABI, signer);
+
+    // 1. Approve router to pull USDC
+    const amountIn = BigInt(lastQuote.amountIn);
+    const allowance = await usdc.allowance(userAddr, CONFIG.router);
+    if (allowance < amountIn) {
+      log("Approving USDC…", "warn");
+      const tx = await usdc.approve(CONFIG.router, amountIn);
+      await tx.wait();
+      log("Approved.", "ok");
+    }
+
+    // 2. Build intent (2% slippage on baseline; filler only bids above baseline)
+    const nonce = await router.nonces(userAddr);
+    const baseline = BigInt(lastQuote.baselineOut);
+    const intent = {
+      user: userAddr,
+      tokenIn: CONFIG.usdc,
+      tokenOut: CONFIG.weth,
+      amountIn: amountIn.toString(),
+      minAmountOut: ((baseline * 98n) / 100n).toString(),
+      expiry: Math.floor(Date.now() / 1000) + 180,
+      nonce: nonce.toString(),
+    };
+    const domain = { name: "FlowIntentRouter", version: "0", chainId: CONFIG.chainId, verifyingContract: CONFIG.router };
+    const types = { Intent: [
+      { name: "user", type: "address" }, { name: "tokenIn", type: "address" },
+      { name: "tokenOut", type: "address" }, { name: "amountIn", type: "uint256" },
+      { name: "minAmountOut", type: "uint256" }, { name: "expiry", type: "uint256" },
+      { name: "nonce", type: "uint256" },
+    ]};
+    log("Sign the intent in your wallet…", "warn");
+    const userSig = await signer.signTypedData(domain, types, intent);
+
+    // 3. Send to auctioneer
+    log("Sending to auction…");
+    const r = await fetch(`${CONFIG.api}/intent`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...intent, userSig }),
+    });
+    const out = await r.json();
+    if (out.status === "filled") {
+      log(`FILLED ✅ tx ${out.txHash}`, "ok");
+      log(`You received ${ethers.formatUnits(out.amountOut, CONFIG.wethDecimals)} WETH (baseline was ${ethers.formatUnits(out.baselineOut, CONFIG.wethDecimals)})`, "ok");
+    } else {
+      log(`Not filled: ${out.status} — ${out.error || ""}`, "warn");
+    }
+  } catch (e) {
+    log("Swap failed: " + (e.message || e), "err");
+  } finally {
+    $("swap").disabled = false;
+  }
+};
+</script>
+</body>
+</html>

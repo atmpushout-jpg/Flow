@@ -1,0 +1,3 @@
+file 'media-generation-pilot-footage-auction-0-4ee2dbb6-b07d-41aa-b6c1-7ca0e04b54ac.mp4'
+file 'media-generation-pilot-footage-network-0-03005f87-f55c-4aba-8664-398bde0df77a.mp4'
+file 'media-generation-pilot-footage-code-0-cd7f6c6c-3c6d-426b-8ac8-b4c89eab1727.mp4'

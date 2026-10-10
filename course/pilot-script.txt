@@ -1,0 +1,9 @@
+I had zero dollars to my name. And I wanted to build something on the blockchain that actually makes money.
+
+So in one night, I designed a protocol. Not a memecoin. Not a copy paste fork. A real swap auction engine, where trading bots bid against each other in milliseconds, and everyday users get better prices on every single trade.
+
+I wrote the smart contracts. Eighteen tests, all passing. I forked the Base blockchain itself and ran it against real liquidity pools with real tokens. Then I deployed it live to testnet and executed a real fill, verified on chain.
+
+Total cost: zero dollars. Total raised: zero dollars. This course is the full story. Every contract, every test, every failure, and the one thing nobody tells you about making money in DeFi.
+
+Zero to DeFi Builder. Let's build.

@@ -1,0 +1,11 @@
+Every time you swap crypto, you are overpaying. Not by a little. By enough that an entire hidden industry exists to pocket the difference. It's called MEV, and right now, you're the one paying for it.
+
+Flow flips the game with a three step machine. Step one: instead of firing your trade into the public mempool where bots pick it apart, you sign a private intent. Just what you want to swap, nothing exposed.
+
+Step two: that intent goes to auction. Trading bots bid against each other in under two hundred milliseconds for the right to fill your order. The best price wins. They compete, you profit.
+
+Step three: you receive more tokens than any public exchange would have given you. The protocol takes only twenty five percent of the improvement. No improvement, no fee. We only earn when you win.
+
+Here's the proof. Eighteen automated tests, all passing. Fork tested against the real Base blockchain with real liquidity. Deployed live on testnet with a verified on chain fill. Total cost to build: zero dollars.
+
+This course tears the whole machine apart, piece by piece, so you can build it too. Zero to DeFi Builder. The system is real. Let's go.

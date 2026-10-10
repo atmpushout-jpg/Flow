@@ -1,0 +1,17 @@
+# Secrets - never commit
+.env
+*.key
+*.pem
+
+# Foundry
+out/
+cache/
+broadcast/
+deployments/
+
+# Node
+node_modules/
+offchain/node_modules/
+
+# OS
+.DS_Store

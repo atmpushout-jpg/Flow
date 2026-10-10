@@ -1,0 +1,1 @@
+{"functions":{"api/fill/index.js":{"maxDuration":10},"api/health/index.js":{"maxDuration":10},"api/quote/index.js":{"maxDuration":30}},"version":2}

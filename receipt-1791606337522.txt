@@ -1,0 +1,6 @@
+--- Flow savings receipt ---
+Swapped 20 USDC -> WETH
+Market price: 0.008017220246478355 WETH
+Flow price:   0.008020233769458332 WETH
+Saved 0.05% vs the public market. No MEV taken.
+----------------------------
