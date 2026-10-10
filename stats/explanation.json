@@ -1,13 +1,13 @@
 {
-  "explanation": "Both venues are pricing identically right now (uniswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 65ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
+  "explanation": "Both venues are pricing identically right now (uniswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 77ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
   "bottomLine": "BOTTOM LINE: Market is efficient right now. Our value here is confirmation \u2014 agents know they're getting a fair price.",
   "indicators": {
     "venue": "uniswap",
     "edgeBps": 0,
     "liquidity": "deep",
-    "latencyMs": 65,
-    "blockNumber": 52428044,
+    "latencyMs": 77,
+    "blockNumber": 52428494,
     "spreadBps": 2
   },
-  "generatedAt": "2026-10-10T15:17:16.089758+00:00"
+  "generatedAt": "2026-10-10T15:32:15.839169+00:00"
 }
