@@ -6,8 +6,8 @@
     "edgeBps": 0,
     "liquidity": "deep",
     "latencyMs": 84,
-    "blockNumber": 52434800,
-    "spreadBps": 0
+    "blockNumber": 52435244,
+    "spreadBps": 3
   },
-  "generatedAt": "2026-10-10T19:02:26.439843+00:00"
+  "generatedAt": "2026-10-10T19:17:16.026293+00:00"
 }
