@@ -1,1 +1,56 @@
-Y29uc3QgeyBnZXRCZXN0UXVvdGUgfSA9IHJlcXVpcmUoIi4uL19saWIiKTsKY29uc3QgeDQwMiA9IHJlcXVpcmUoIi4uL194NDAyIik7CmNvbnN0IHN0YXRzID0gcmVxdWlyZSgiLi4vX3N0YXRzIik7Cgptb2R1bGUuZXhwb3J0cyA9IGFzeW5jIChyZXEsIHJlcykgPT4gewogIGlmIChyZXEubWV0aG9kICE9PSAiUE9TVCIpIHsKICAgIHJldHVybiByZXMuc3RhdHVzKDQwNSkuanNvbih7IGVycm9yOiAiUE9TVCBvbmx5IiB9KTsKICB9CgogIC8vIC0tLSB4NDAyIHBheS1wZXItY2FsbCBnYXRlIChza2lwcGVkIHVubGVzcyBYNDAyX0VOQUJMRUQ9dHJ1ZSkgLS0tCiAgbGV0IGdhdGUgPSBudWxsOwogIGlmICh4NDAyLmlzRW5hYmxlZCgpKSB7CiAgICBnYXRlID0gYXdhaXQgeDQwMi5yZXF1aXJlUGF5bWVudChyZXEsIHJlcyk7CiAgICBpZiAoIWdhdGUpIHJldHVybjsgLy8gNDAyIC8gNDAwIC8gNTAwIC8gNTAyIGFscmVhZHkgc2VudAogIH0KCiAgY29uc3QgeyB0b2tlbkluLCB0b2tlbk91dCwgYW1vdW50SW4gfSA9IHJlcS5ib2R5IHx8IHt9OwogIGlmICghdG9rZW5JbiB8fCAhdG9rZW5PdXQgfHwgIWFtb3VudEluKSB7CiAgICByZXR1cm4gcmVzLnN0YXR1cyg0MDApLmpzb24oeyBlcnJvcjogIk1pc3NpbmcgdG9rZW5JbiwgdG9rZW5PdXQsIG9yIGFtb3VudEluIiB9KTsKICB9CiAgdHJ5IHsKICAgIGNvbnN0IHF1b3RlID0gYXdhaXQgZ2V0QmVzdFF1b3RlKHRva2VuSW4sIHRva2VuT3V0LCBhbW91bnRJbik7CiAgICBzdGF0cy50cmFja1F1b3RlKCk7CiAgICBjb25zdCBib2R5ID0gewogICAgICAuLi5xdW90ZSwKICAgICAgcHJvdG9jb2xGZWU6ICIyNSUgb2YgcHJpY2UgaW1wcm92ZW1lbnQgb3ZlciBVbmlzd2FwIGJhc2VsaW5lIiwKICAgIH07CgogICAgLy8gU2V0dGxlIHRoZSBhdXRob3JpemVkIHBheW1lbnQgbm93IHRoYXQgdGhlIHJlc291cmNlIGhhcyBleGVjdXRlZC4KICAgIGlmIChnYXRlKSB7CiAgICAgIGxldCBzZXR0bGVkOwogICAgICB0cnkgewogICAgICAgIHNldHRsZWQgPSBhd2FpdCB4NDAyLnNldHRsZVBheW1lbnQoZ2F0ZSk7CiAgICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgICByZXR1cm4gcmVzLnN0YXR1cyg1MDIpLmpzb24oeyBlcnJvcjogYFBheW1lbnQgc2V0dGxlbWVudCB1bmF2YWlsYWJsZTogJHtlLm1lc3NhZ2Uuc2xpY2UoMCwgMTUwKX1gIH0pOwogICAgICB9CiAgICAgIGlmICghc2V0dGxlZC5zdWNjZXNzKSB7CiAgICAgICAgLy8gRG8gbm90IGhhbmQgb3ZlciB0aGUgcXVvdGUgd2hlbiBzZXR0bGVtZW50IGZhaWxlZC4KICAgICAgICByZXR1cm4gcmVzLnN0YXR1cyg0MDIpLmpzb24oewogICAgICAgICAgZXJyb3I6IGBQYXltZW50IHNldHRsZW1lbnQgZmFpbGVkOiAke3NldHRsZWQucmVzcG9uc2UuZXJyb3JSZWFzb24gfHwgInVua25vd24ifWAsCiAgICAgICAgfSk7CiAgICAgIH0KICAgICAgeDQwMi5wYXltZW50UmVzcG9uc2VIZWFkZXJzKHJlcywgc2V0dGxlZC5yZXNwb25zZSk7CiAgICAgIGJvZHkucGF5bWVudCA9IHsKICAgICAgICB0cmFuc2FjdGlvbjogc2V0dGxlZC5yZXNwb25zZS50cmFuc2FjdGlvbiwKICAgICAgICBuZXR3b3JrOiBzZXR0bGVkLnJlc3BvbnNlLm5ldHdvcmssCiAgICAgICAgcGF5ZXI6IHNldHRsZWQucmVzcG9uc2UucGF5ZXIsCiAgICAgIH07CiAgICB9CgogICAgcmVzLmpzb24oYm9keSk7CiAgfSBjYXRjaCAoZSkgewogICAgc3RhdHMudHJhY2tFcnJvcigpOwogICAgcmVzLnN0YXR1cyg1MDApLmpzb24oeyBlcnJvcjogKGUubWVzc2FnZSB8fCAicXVvdGUgZmFpbGVkIikuc2xpY2UoMCwgMjAwKSB9KTsKICB9Cn07Cg==
+const { getBestQuote } = require("../_lib");
+const x402 = require("../_x402");
+const stats = require("../_stats");
+
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "POST only" });
+  }
+
+  // --- x402 pay-per-call gate (skipped unless X402_ENABLED=true) ---
+  let gate = null;
+  if (x402.isEnabled()) {
+    gate = await x402.requirePayment(req, res);
+    if (!gate) return; // 402 / 400 / 500 / 502 already sent
+  }
+
+  const { tokenIn, tokenOut, amountIn } = req.body || {};
+  if (!tokenIn || !tokenOut || !amountIn) {
+    return res.status(400).json({ error: "Missing tokenIn, tokenOut, or amountIn" });
+  }
+  try {
+    const quote = await getBestQuote(tokenIn, tokenOut, amountIn);
+    stats.trackQuote();
+    const body = {
+      ...quote,
+      protocolFee: "25% of price improvement over Uniswap baseline",
+    };
+
+    // Settle the authorized payment now that the resource has executed.
+    if (gate) {
+      let settled;
+      try {
+        settled = await x402.settlePayment(gate);
+      } catch (e) {
+        return res.status(502).json({ error: `Payment settlement unavailable: ${e.message.slice(0, 150)}` });
+      }
+      if (!settled.success) {
+        // Do not hand over the quote when settlement failed.
+        return res.status(402).json({
+          error: `Payment settlement failed: ${settled.response.errorReason || "unknown"}`,
+        });
+      }
+      x402.paymentResponseHeaders(res, settled.response);
+      body.payment = {
+        transaction: settled.response.transaction,
+        network: settled.response.network,
+        payer: settled.response.payer,
+      };
+    }
+
+    res.json(body);
+  } catch (e) {
+    stats.trackError();
+    res.status(500).json({ error: (e.message || "quote failed").slice(0, 200) });
+  }
+};
