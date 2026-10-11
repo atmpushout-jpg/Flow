@@ -27,7 +27,7 @@ const DISCLAIMER =
 const RESOURCE_META = {
   path: "/api/smart-wallets",
   description:
-    "Flow smart-wallet tracker: leaderboard of Base wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (timestamp + block number per signal, stale flags past 10 min), and a paper-trading record that copy-trades top wallets with $50 simulated positions.",
+    "Flow smart-wallet tracker: leaderboard of Base wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (timestamp + block number per signal, stale flags past 10 min), a paper-trading record that copy-trades top wallets with $50 simulated positions, and a social-velocity overlay (DexScreener boost acceleration + GeckoTerminal trending rank, raw inputs included) showing where attention is spiking.",
 };
 
 async function readStore() {
@@ -90,6 +90,7 @@ module.exports = async (req, res) => {
   const body = {
     leaderboard: (data.leaderboard || []).slice(0, 20),
     signals,
+    socialVelocity: data.socialVelocity || null,
     paperRecord: data.paperRecord || null,
     methodology: data.methodology || null,
     leaderboardUpdatedAt: data.leaderboardUpdatedAt || null,
