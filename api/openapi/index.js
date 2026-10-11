@@ -1,9 +1,14 @@
-// Serves the OpenAPI spec at /api/openapi (rewritten from /api/openapi.json).
+// Serves the OpenAPI spec at /api/openapi (rewritten from /api/openapi.json
+// and /openapi.json, the x402scan discovery location).
 const SPEC = {
  "info": {
-  "description": "Best-execution swap quotes and price protection for AI agents on Base. Compares Uniswap V3 and Aerodrome in ~600ms. No API key needed. Free during beta.",
-  "title": "FlowExecutor API",
-  "version": "0.2.0"
+  "title": "Flow API",
+  "version": "0.3.0",
+  "description": "Best-execution swap quotes, contract safety verification, and smart-wallet signals for AI agents on Base. The quote engine compares Uniswap V3 and Aerodrome across fee tiers and answers in ~100ms. Pay-per-call via x402 ($0.01 USDC on Base) \u2014 no API key, no account.",
+  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping. POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
+  "contact": {
+   "email": "Flowexecutor@yahoo.com"
+  }
  },
  "openapi": "3.0.3",
  "paths": {
@@ -107,9 +112,24 @@ const SPEC = {
        }
       },
       "description": "Best quote"
+     },
+     "402": {
+      "description": "Payment required \u2014 x402 v2 exact, $0.01 USDC on Base (eip155:8453)."
      }
     },
-    "summary": "Get best swap price"
+    "summary": "Get best swap price",
+    "x-payment-info": {
+     "price": {
+      "mode": "fixed",
+      "currency": "USD",
+      "amount": "0.010000"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
+    }
    }
   },
   "/api/stats": {
@@ -239,13 +259,28 @@ const SPEC = {
      },
      "405": {
       "description": "POST only."
+     },
+     "402": {
+      "description": "Payment required \u2014 x402 v2 exact, $0.01 USDC on Base (eip155:8453)."
      }
+    },
+    "x-payment-info": {
+     "price": {
+      "mode": "fixed",
+      "currency": "USD",
+      "amount": "0.010000"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
     }
    }
   },
   "/api/smart-wallets": {
    "get": {
-    "description": "Smart-wallet tracker for Base: leaderboard of wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (each signal carries timestamp + block number; signals older than 10 min are flagged stale), and a PAPER paper-trading record that copy-trades top wallets with $50 simulated positions. No auth. x402 pay-per-call applies when enabled ($0.01 USDC).",
+    "description": "Smart-wallet tracker for Base: leaderboard of wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (each signal carries timestamp + block number; signals older than 10 min are flagged stale), a social-velocity overlay (DexScreener boost acceleration + GeckoTerminal trending rank, raw inputs included), and a PAPER paper-trading record that copy-trades top wallets with $50 simulated positions. x402 pay-per-call: $0.01 USDC on Base.",
     "responses": {
      "200": {
       "description": "Leaderboard (top 20), signals (latest 20), paperRecord, methodology, dataAsOf, source, disclaimer.",
@@ -258,10 +293,72 @@ const SPEC = {
       }
      },
      "402": {
-      "description": "Payment required (only when X402_ENABLED=true)."
+      "description": "Payment required \u2014 x402 v2 exact, $0.01 USDC on Base (eip155:8453)."
      },
      "503": {
       "description": "Tracker has not produced data yet."
+     }
+    },
+    "x-payment-info": {
+     "price": {
+      "mode": "fixed",
+      "currency": "USD",
+      "amount": "0.010000"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
+    }
+   }
+  },
+  "/api/precheck": {
+   "post": {
+    "summary": "Free combined quote + safety precheck",
+    "description": "Free pre-trade check: best-execution quote plus a safety verdict for the output token in one call (verdict safe|caution|danger, score 0-100, safeToProceed). No payment required.",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "tokenIn": {
+          "type": "string",
+          "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+         },
+         "tokenOut": {
+          "type": "string",
+          "example": "0x4200000000000000000000000000000000000006"
+         },
+         "amountIn": {
+          "type": "string",
+          "example": "1000000"
+         }
+        },
+        "required": [
+         "tokenIn",
+         "tokenOut",
+         "amountIn"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Quote + safety verdict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Missing tokenIn, tokenOut, or amountIn."
      }
     }
    }
