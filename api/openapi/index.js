@@ -4,8 +4,8 @@ const SPEC = {
  "info": {
   "title": "Flow API",
   "version": "0.3.0",
-  "description": "Best-execution swap quotes, contract safety verification, and smart-wallet signals for AI agents on Base. The quote engine compares Uniswap V3 and Aerodrome across fee tiers and answers in ~100ms. Pay-per-call via x402 ($0.01 USDC on Base) \u2014 no API key, no account.",
-  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping. POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
+  "description": "Best-execution swap quotes, contract safety verification, and smart-wallet signals for AI agents on Base. The quote engine compares Uniswap V3 and Aerodrome across fee tiers and answers in ~100ms. Pay-per-call via x402 on Base (quotes $0.01, safety verdicts $0.02) \u2014 no API key, no account.",
+  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping ($0.02/call). POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
   "contact": {
    "email": "Flowexecutor@yahoo.com"
   }
@@ -268,7 +268,7 @@ const SPEC = {
      "price": {
       "mode": "fixed",
       "currency": "USD",
-      "amount": "0.010000"
+      "amount": "0.020000"
      },
      "protocols": [
       {
