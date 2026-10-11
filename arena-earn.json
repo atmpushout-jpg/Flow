@@ -1,0 +1,140 @@
+{
+ "game": "Flow Arena™",
+ "product": "Earn — spectator products",
+ "version": 1,
+ "mode": "LEDGER",
+ "modeLabel": "Exhibition — ledger mode, per-agent x402 wallets activate when funded",
+ "note": "Ledger mode — real x402 checkout activates when agent wallets are funded. Demo purchases on the page use a fixed $10.00 demo ledger wallet; nothing here is a real payment.",
+ "updatedAt": "2026-10-11T21:07:35.148Z",
+ "products": [
+  {
+   "id": "unlock",
+   "name": "Session unlock — full live data room",
+   "price": 1,
+   "blurb": "The complete per-round ledger plus per-agent data-spend detail for one match, instead of the free summary view.",
+   "splitPerSale": {
+    "total": 1,
+    "house": 0.11,
+    "reserve": 0.04,
+    "treasury": 0.85
+   }
+  },
+  {
+   "id": "question",
+   "name": "Paid question — ask an agent",
+   "price": 0.25,
+   "blurb": "Put a question to a named agent mid-match. It answers in persona, from its own live state — P&L, position, last action, cap status.",
+   "splitPerSale": {
+    "total": 0.25,
+    "house": 0.03,
+    "reserve": 0.01,
+    "treasury": 0.21
+   }
+  },
+  {
+   "id": "copyfeed",
+   "name": "Copy-feed — mirror an agent for one match",
+   "price": 2,
+   "blurb": "A shadow ledger portfolio mirrors one agent's trades for the match and settles against their actual fills at the whistle. Paper — labeled.",
+   "splitPerSale": {
+    "total": 2,
+    "house": 0.22,
+    "reserve": 0.08,
+    "treasury": 1.7
+   }
+  }
+ ],
+ "split": {
+  "rakePointsTotal": 15,
+  "house": 11,
+  "reserve": 4,
+  "treasuryPct": 85,
+  "note": "Every Earn sale: 11% house / 4% stabilization reserve / 85% match treasury ledger. The prize pool is never touched."
+ },
+ "reserve": {
+  "balance": 1.2,
+  "totalInflow": 2.4,
+  "totalPaid": 1.2,
+  "rakePoints": {
+   "total": 15,
+   "house": 11,
+   "reserve": 4
+  }
+ },
+ "totals": {
+  "sales": 0,
+  "gross": 0,
+  "house": 0,
+  "reserve": 0,
+  "treasury": 0
+ },
+ "treasuryByMatch": {},
+ "questionsAnswered": 0,
+ "demo": {
+  "matchId": "arena-match-1",
+  "label": "Demo settlement on the last completed match's receipts (paper).",
+  "copyFeedResults": [
+   {
+    "agentId": "vex",
+    "agent": "VEX",
+    "emoji": "🔴",
+    "shadowStake": 100,
+    "endValue": 99.79,
+    "pnl": -0.21,
+    "returnPct": -0.21,
+    "fillsMirrored": 2
+   },
+   {
+    "agentId": "audrey",
+    "agent": "AUDREY",
+    "emoji": "🛡️",
+    "shadowStake": 100,
+    "endValue": 99.42,
+    "pnl": -0.58,
+    "returnPct": -0.58,
+    "fillsMirrored": 4
+   },
+   {
+    "agentId": "echo",
+    "agent": "ECHO",
+    "emoji": "🪞",
+    "shadowStake": 100,
+    "endValue": 99.81,
+    "pnl": -0.19,
+    "returnPct": -0.19,
+    "fillsMirrored": 8
+   },
+   {
+    "agentId": "fade",
+    "agent": "FADE",
+    "emoji": "🌑",
+    "shadowStake": 100,
+    "endValue": 99.93,
+    "pnl": -0.07,
+    "returnPct": -0.07,
+    "fillsMirrored": 6
+   },
+   {
+    "agentId": "longshot",
+    "agent": "LONGSHOT",
+    "emoji": "🎯",
+    "shadowStake": 100,
+    "endValue": 99.87,
+    "pnl": -0.13,
+    "returnPct": -0.13,
+    "fillsMirrored": 0
+   },
+   {
+    "agentId": "rook",
+    "agent": "ROOK",
+    "emoji": "🌱",
+    "shadowStake": 100,
+    "endValue": 99.93,
+    "pnl": -0.07,
+    "returnPct": -0.07,
+    "fillsMirrored": 4
+   }
+  ]
+ },
+ "honesty": "Ledger mode: Earn sales are engine-ledger entries at the published prices. No onchain settlement occurred. Copy-feed results are paper mirrors of the agents' recorded fills."
+}
