@@ -1,9 +1,14 @@
 // GET /api/smart-wallets — smart-wallet leaderboard + real-time signal feed
 // + paper-trading record. Machine-readable JSON for AI agents, no auth.
 //
-// Data: Upstash Redis (flow:smartwallets, written every 2 min by the
-// offchain tracker) with a bundled-JSON fallback. Every response carries
-// dataAsOf/source so consumers can judge freshness themselves.
+// Data: in fallback order — (1) Upstash Redis (flow:smartwallets,
+// written every 2 min by the offchain tracker) when the env vars are
+// configured; (2) the GitHub data plane: the offchain publisher
+// commits the state snapshot to GitHub main every ~2 min ("[skip ci]"
+// data commits) and this endpoint reads it back via
+// raw.githubusercontent.com; (3) the bundled repo file as of the last
+// deploy. Every response carries dataAsOf/source so consumers can
+// judge freshness themselves.
 //
 // Honest-math rules: win rates are always paired with sample sizes,
 // signals older than 10 min are flagged stale, and the paper record is
@@ -37,6 +42,29 @@ const RESOURCE_META = {
   },
 };
 
+const GITHUB_RAW_URL =
+  "https://raw.githubusercontent.com/atmpushout-jpg/Flow/main/offchain/smart-wallets.json";
+const GITHUB_TIMEOUT_MS = 2500;
+const GITHUB_CACHE_MS = 30 * 1000;
+let ghCache = null; // { data, at } — per warm instance
+
+async function readGithubState() {
+  if (ghCache && Date.now() - ghCache.at < GITHUB_CACHE_MS) return ghCache.data;
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), GITHUB_TIMEOUT_MS);
+    const r = await fetch(GITHUB_RAW_URL, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (!r.ok) return null;
+    const data = await r.json();
+    if (!data || typeof data !== "object") return null;
+    ghCache = { data, at: Date.now() };
+    return data;
+  } catch {
+    return null;
+  }
+}
+
 async function readStore() {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const tok = process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -54,9 +82,11 @@ async function readStore() {
         if (d && d.result) return { data: JSON.parse(d.result), source: "redis" };
       }
     } catch {
-      /* fall through to bundled */
+      /* fall through to the GitHub data plane */
     }
   }
+  const gh = await readGithubState();
+  if (gh) return { data: gh, source: "github" };
   try {
     const raw = fs.readFileSync(
       path.join(__dirname, "..", "..", "offchain", "smart-wallets.json"),
@@ -103,7 +133,7 @@ module.exports = async (req, res) => {
     leaderboardUpdatedAt: data.leaderboardUpdatedAt || null,
     signalsUpdatedAt: data.signalsUpdatedAt || null,
     dataAsOf: data.updatedAt || null,
-    source, // "redis" (live, ~2 min) or "bundled" (as of last deploy)
+    source, // "redis" (live, ~2 min), "github" (published snapshot, ~2 min), or "bundled" (as of last deploy)
     latencyMs: Date.now() - t0,
     disclaimer: DISCLAIMER,
   };
