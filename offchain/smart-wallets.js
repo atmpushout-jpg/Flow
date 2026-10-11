@@ -258,6 +258,7 @@ async function main() {
     hotPools: hotPools.slice(0, MAX_HOT_POOLS),
     signals: prev.signals || [], // preserved; the fast poller owns this list
     paperRecord: prev.paperRecord || null, // preserved; paper module owns this
+    socialVelocity: prev.socialVelocity || null, // preserved; signals poller owns this
     methodology: {
       pumperDefinition: `h24 >= +${PUMP_MIN_PCT}% with >=$${MIN_VOL_USD / 1000}k volume and >=$${MIN_LIQ_USD / 1000}k liquidity`,
       earlyBuyDefinition: `buy executed below ${(EARLY_PRICE_FRAC * 100).toFixed(0)}% of current price`,
