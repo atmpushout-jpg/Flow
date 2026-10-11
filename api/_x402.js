@@ -27,9 +27,13 @@ function isEnabled() {
   return process.env.X402_ENABLED === "true";
 }
 
-function getConfig() {
+function getConfig(meta) {
   const payTo = (process.env.X402_PAYEE_ADDRESS || "").trim();
-  const priceUsd = parseFloat(process.env.X402_PRICE_USD || "0.01");
+  // Per-endpoint price override: a handler's RESOURCE_META may set priceUsd
+  // (e.g. /api/verify charges $0.02 — the market-proven verdict price).
+  // Everything else falls back to X402_PRICE_USD (default $0.01).
+  const metaPrice = meta && Number.isFinite(meta.priceUsd) && meta.priceUsd > 0 ? meta.priceUsd : null;
+  const priceUsd = metaPrice !== null ? metaPrice : parseFloat(process.env.X402_PRICE_USD || "0.01");
   const network = (process.env.X402_NETWORK || DEFAULT_NETWORK).trim();
   const facilitator = (process.env.X402_FACILITATOR_URL || DEFAULT_FACILITATOR).trim().replace(/\/+$/, "");
   const amount = String(Math.round(priceUsd * 10 ** USDC_DECIMALS)); // atomic units
@@ -55,8 +59,8 @@ function resourceUrl(req, resourcePath) {
   return `${proto}://${host}${resourcePath || fallback}`;
 }
 
-function paymentRequirements(req) {
-  const c = getConfig();
+function paymentRequirements(req, meta) {
+  const c = getConfig(meta);
   return {
     scheme: "exact",
     network: c.network,
@@ -132,8 +136,8 @@ function bazaarExtension(meta) {
 }
 
 function paymentRequiredBody(req, resourceMeta) {
-  const c = getConfig();
   const meta = resourceMeta || {};
+  const c = getConfig(meta);
   const builderCode = (process.env.X402_BUILDER_CODE || "").trim();
   const body = {
     x402Version: 2,
@@ -147,7 +151,7 @@ function paymentRequiredBody(req, resourceMeta) {
       serviceName: "Flow",
       tags: ["trading", "defi", "base", "dex", "quotes"],
     },
-    accepts: [paymentRequirements(req)],
+    accepts: [paymentRequirements(req, meta)],
     extensions: { bazaar: bazaarExtension(meta) },
   };
   // Base Builder Code (ERC-8021): onchain attribution for x402 settlements.
@@ -187,8 +191,8 @@ function decodePaymentHeader(req) {
 }
 
 // Local sanity checks before spending facilitator quota.
-function localChecks(payload) {
-  const c = getConfig();
+function localChecks(payload, meta) {
+  const c = getConfig(meta);
   const network = payload.network || payload.accepted?.network;
   if (network !== c.network) return `Wrong network (expected ${c.network})`;
   const auth = payload.payload?.authorization;
@@ -287,13 +291,13 @@ async function requirePayment(req, res, resourceMeta) {
     return null;
   }
 
-  const localErr = localChecks(decoded.payload);
+  const localErr = localChecks(decoded.payload, resourceMeta);
   if (localErr) {
     send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`, resourceMeta);
     return null;
   }
 
-  const requirements = paymentRequirements(req);
+  const requirements = paymentRequirements(req, resourceMeta);
   let verify;
   try {
     verify = await facilitatorCall("verify", decoded.payload, requirements);
