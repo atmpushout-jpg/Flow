@@ -27,7 +27,7 @@ const DISCLAIMER =
 const RESOURCE_META = {
   path: "/api/smart-wallets",
   description:
-    "Flow smart-wallet tracker: leaderboard of Base wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (timestamp + block number per signal, stale flags past 10 min), a paper-trading record that copy-trades top wallets with $50 simulated positions, and a social-velocity overlay (DexScreener boost acceleration + GeckoTerminal trending rank, raw inputs included) showing where attention is spiking.",
+    "Use when an agent needs to know what profitable Base wallets are buying right now, or where social attention is spiking, before taking a position. Flow smart-wallet tracker: leaderboard of Base wallets ranked by early buys on pumping tokens, a real-time buy-signal feed (timestamp + block number per signal, stale flags past 10 min), a paper-trading record that copy-trades top wallets with $50 simulated positions, and a social-velocity overlay (DexScreener boost acceleration + GeckoTerminal trending rank, raw inputs included) showing where attention is spiking.",
   bazaarInput: { type: "http", method: "GET" },
   bazaarOutput: {
     leaderboard: [{ wallet: "0x…", rank: 1, wins: 7 }],
