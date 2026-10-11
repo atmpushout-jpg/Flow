@@ -5,14 +5,16 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",
+    "ethers": "^6.17.0",
     "zod": "^3.25.76"
   },
-  "description": "MCP server for the Flow best-execution swap quote API on Base. Gives AI agents multi-venue swap quotes (Uniswap V3, Aerodrome) with edge, liquidity flags, block number and latency metadata.",
+  "description": "MCP server for the Flow best-execution swap quote API on Base. Gives AI agents multi-venue swap quotes (Uniswap V3, PancakeSwap V3, Aerodrome) with edge, liquidity flags, block number and latency metadata. Includes a local starter wallet with x402 auto-pay (hard spend caps) and a $0.05 seed pilot.",
   "engines": {
     "node": ">=18"
   },
   "files": [
     "index.js",
+    "wallet.js",
     "README.md"
   ],
   "homepage": "https://flow-kg4x.vercel.app",
@@ -39,5 +41,5 @@
     "build": "mkdir -p dist && cp index.js dist/index.js && echo build-ok"
   },
   "type": "module",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
