@@ -579,6 +579,19 @@ async function analyze(address, chain) {
 // Handler
 // ---------------------------------------------------------------------------
 
+const RESOURCE_META = {
+  path: "/api/verify",
+  description:
+    "Flow contract safety verification for AI agents: send a token or contract address on Base and get a verdict (safe|caution|danger), a 0-100 safety score, the red flags found, and plain-English agent advice (APPROVE / REVIEW_MANUALLY / DO_NOT_APPROVE) before approving or swapping.",
+  bazaarInput: {
+    type: "http",
+    method: "POST",
+    bodyType: "json",
+    body: { address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" },
+  },
+  bazaarOutput: { verdict: "safe", score: 100, agentAdvice: "APPROVE" },
+};
+
 async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST only" });
@@ -587,7 +600,7 @@ async function handler(req, res) {
   // --- x402 pay-per-call gate (skipped unless X402_ENABLED=true) ---
   let gate = null;
   if (x402.isEnabled()) {
-    gate = await x402.requirePayment(req, res);
+    gate = await x402.requirePayment(req, res, RESOURCE_META);
     if (!gate) return; // 402 / 400 / 500 / 502 already sent
   }
 
