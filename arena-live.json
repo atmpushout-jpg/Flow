@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-11T14:31:33.722Z",
  "endedAt": null,
- "currentRound": 2,
+ "currentRound": 1,
  "totalRounds": 3,
  "rules": {
   "entryStakeUsd": 5,
@@ -298,29 +298,13 @@
    "agentId": "audrey",
    "symbol": "xdp",
    "line": "A scramble is not a substitute for diligence. Passing on xdp."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.652Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "echo",
-   "symbol": "xdp",
-   "line": "Nobody smart bought xdp first, so neither do I. Echo needs a source."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.654Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "fade",
-   "symbol": "xdp",
-   "line": "A scramble. For xdp. The crowd, sprinting, in one direction. I shall be walking the other way."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.97,
    "dataSpend": 0.03,
    "eliminated": false,
@@ -330,7 +314,7 @@
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.96,
    "dataSpend": 0.04,
    "eliminated": false,
@@ -340,7 +324,7 @@
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.94,
    "dataSpend": 0.06,
    "eliminated": false,
@@ -350,7 +334,7 @@
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.93,
    "dataSpend": 0.07,
    "eliminated": false,
@@ -360,7 +344,7 @@
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.91,
    "dataSpend": 0.09,
    "eliminated": false,
@@ -370,7 +354,7 @@
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 91,
+   "treasury": 90,
    "cash": 94.87,
    "dataSpend": 0.13,
    "eliminated": false,
