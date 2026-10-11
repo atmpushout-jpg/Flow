@@ -5,7 +5,7 @@ const MANIFEST = {
   x402Version: 2,
   serviceName: "Flow",
   description:
-    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3 and Aerodrome across fee tiers in ~91ms. Also: smart-wallet signals and contract safety checks.",
+    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, in ~91ms. Also: smart-wallet signals and contract safety checks.",
   homepage: "https://flow-kg4x.vercel.app",
   builderCode: "bc_60rzkc5g",
   network: "eip155:8453",
