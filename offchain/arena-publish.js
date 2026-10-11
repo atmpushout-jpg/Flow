@@ -101,8 +101,10 @@ function runBridge(argv, timeoutMs) {
 
 // Read the remote file via the bridge read path (not approval-gated).
 // Resolves { parsed, sha, raw } or { missing: true } or { error }.
-async function ghReadRemote() {
-  const args = { owner: OWNER, repo: REPO, path: REMOTE_PATH, branch: BRANCH };
+// `remotePath` defaults to the live-state file; other publishers (the
+// Earn summary) reuse the same discipline against their own path.
+async function ghReadRemote(remotePath = REMOTE_PATH) {
+  const args = { owner: OWNER, repo: REPO, path: remotePath, branch: BRANCH };
   const { stdout, err } = await runBridge(
     ["call-read-tool", "--name", "get_file_contents", "--arguments-json", JSON.stringify(args)],
     READ_TIMEOUT_MS);
@@ -162,17 +164,25 @@ function fingerprintOf(s) {
 // "unverified" as pending, NOT as lost — see LivePublisher's reconciler
 // and the lateVerifyMs option for the pushes that matter most.
 async function ghPushContent(content, message, matchId, opts = {}) {
+  const remotePath = opts.path || REMOTE_PATH;
   const bytes = Buffer.byteLength(content);
   const maxAttempts = opts.attempts || 2;
   const verifyTries = opts.verifyTries || VERIFY_TRIES;
   const verifyGapMs = opts.verifyGapMs || VERIFY_GAP_MS;
   let localSig = null;
-  try { localSig = signatureOf(JSON.parse(content)); } catch { /* raw compare fallback */ }
+  // The compact signature only describes arena match state (agents /
+  // leaderboard shaped). Other payloads (e.g. the Earn summary) verify by
+  // exact raw comparison instead — a state-shaped signature computed over
+  // a foreign object could collide and false-verify a stale file.
+  try {
+    const parsed = JSON.parse(content);
+    if (parsed && (parsed.agents || parsed.leaderboard)) localSig = signatureOf(parsed);
+  } catch { /* raw compare fallback */ }
   const sigMatches = (back) => back && back.raw != null &&
     (localSig && back.parsed ? signatureOf(back.parsed) === localSig : back.raw === content);
   let dispatched = false;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const remote = await ghReadRemote().catch(() => ({ error: "read threw" }));
+    const remote = await ghReadRemote(remotePath).catch(() => ({ error: "read threw" }));
     // Landed-late pre-check: a previous attempt's dispatch may commit
     // after its verify window closed (observed ~110s). If the remote
     // already carries exactly this content, don't write again — a second
@@ -182,7 +192,7 @@ async function ghPushContent(content, message, matchId, opts = {}) {
       logLine(matchId, "PUSH_LANDED_LATE previous dispatch committed after its verify window — content already current, no rewrite");
       return { ok: true, attempts: attempt - 1, bytes, landedLate: true };
     }
-    const args = { owner: OWNER, repo: REPO, path: REMOTE_PATH, branch: BRANCH, message, content };
+    const args = { owner: OWNER, repo: REPO, path: remotePath, branch: BRANCH, message, content };
     if (remote && remote.sha) args.sha = remote.sha;
     const argsJson = JSON.stringify(args);
     if (Buffer.byteLength(argsJson) > MAX_ARGS_BYTES) {
@@ -198,7 +208,7 @@ async function ghPushContent(content, message, matchId, opts = {}) {
     try { commitSeen = /commit/i.test(JSON.stringify(JSON.parse(w.stdout).result || {})); } catch { /* ignore */ }
     for (let v = 0; v < verifyTries; v++) {
       if (v > 0 || !commitSeen) await sleep(v === 0 ? 2000 : verifyGapMs);
-      const back = await ghReadRemote().catch(() => null);
+      const back = await ghReadRemote(remotePath).catch(() => null);
       if (sigMatches(back)) return { ok: true, attempts: attempt, bytes };
     }
     logLine(matchId, `PUSH_VERIFY_MISMATCH attempt=${attempt} — ${attempt < maxAttempts ? "retrying write once" : "no attempts left"}`);
@@ -209,7 +219,7 @@ async function ghPushContent(content, message, matchId, opts = {}) {
     const deadline = Date.now() + opts.lateVerifyMs;
     while (Date.now() < deadline) {
       await sleep(15000);
-      const back = await ghReadRemote().catch(() => null);
+      const back = await ghReadRemote(remotePath).catch(() => null);
       if (sigMatches(back)) {
         logLine(matchId, "PUSH_LANDED_LATE verified during the late-verify horizon");
         return { ok: true, attempts: maxAttempts, bytes, landedLate: true };
