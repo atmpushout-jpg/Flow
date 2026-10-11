@@ -51,7 +51,8 @@ function configError() {
 function resourceUrl(req, resourcePath) {
   const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
   const host = req.headers.host || "flow-kg4x.vercel.app";
-  return `${proto}://${host}${resourcePath || "/api/quote"}`;
+  const fallback = (req.url || "/api/quote").split("?")[0];
+  return `${proto}://${host}${resourcePath || fallback}`;
 }
 
 function paymentRequirements(req) {
@@ -68,29 +69,37 @@ function paymentRequirements(req) {
 }
 
 // Bazaar discovery extension (top-level `extensions`, NOT inside accepts[]).
-// This is what Agentic.Market indexes after the first CDP settlement.
-function bazaarExtension() {
+// Facilitator catalogs (PayAI/CDP Bazaar) and Agentic.Market index this
+// declaration from settled payment payloads. Per-endpoint accuracy
+// matters: a wrong input example lists the resource wrong everywhere,
+// so handlers pass their own bazaarInput/bazaarOutput in RESOURCE_META.
+const DEFAULT_BAZAAR_INPUT = {
+  type: "http",
+  method: "POST",
+  bodyType: "json",
+  body: {
+    tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    tokenOut: "0x4200000000000000000000000000000000000006",
+    amountIn: "1000000",
+  },
+};
+const DEFAULT_BAZAAR_OUTPUT = {
+  bestOut: "396812",
+  venue: "aerodrome",
+  edgeBps: 12,
+  protocolFee: "25% of price improvement over Uniswap baseline",
+};
+
+function bazaarExtension(meta) {
+  const input = (meta && meta.bazaarInput) || DEFAULT_BAZAAR_INPUT;
   const info = {
-    input: {
-      type: "http",
-      method: "POST",
-      bodyType: "json",
-      body: {
-        tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-        tokenOut: "0x4200000000000000000000000000000000000006",
-        amountIn: "1000000",
-      },
-    },
+    input,
     output: {
       type: "json",
-      example: {
-        bestOut: "396812",
-        venue: "aerodrome",
-        edgeBps: 12,
-        protocolFee: "25% of price improvement over Uniswap baseline",
-      },
+      example: (meta && meta.bazaarOutput) || DEFAULT_BAZAAR_OUTPUT,
     },
   };
+  const hasBody = !!input.body;
   const schema = {
     $schema: "https://json-schema.org/draft/2020-12/schema",
     type: "object",
@@ -99,13 +108,13 @@ function bazaarExtension() {
         type: "object",
         properties: {
           type: { type: "string", const: "http" },
-          method: { type: "string", enum: ["POST", "PUT", "PATCH"] },
+          method: { type: "string", enum: ["GET", "POST", "PUT", "PATCH"] },
           bodyType: { type: "string", enum: ["json", "form-data", "text"] },
           body: { type: "object" },
           queryParams: { type: "object", additionalProperties: { type: "string" } },
           headers: { type: "object", additionalProperties: { type: "string" } },
         },
-        required: ["type", "method", "bodyType", "body"],
+        required: hasBody ? ["type", "method", "bodyType", "body"] : ["type", "method"],
         additionalProperties: false,
       },
       output: {
@@ -139,7 +148,7 @@ function paymentRequiredBody(req, resourceMeta) {
       tags: ["trading", "defi", "base", "dex", "quotes"],
     },
     accepts: [paymentRequirements(req)],
-    extensions: { bazaar: bazaarExtension() },
+    extensions: { bazaar: bazaarExtension(meta) },
   };
   // Base Builder Code (ERC-8021): onchain attribution for x402 settlements.
   // Lets the CDP facilitator attribute payments to Flow for Base rewards.
