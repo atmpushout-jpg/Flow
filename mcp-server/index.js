@@ -41,7 +41,7 @@ async function getJson(path) {
 
 server.tool(
   "flow_quote",
-  "Get a best-execution swap quote on Base. Compares Uniswap V3 and Aerodrome, " +
+  "Get a best-execution swap quote on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome (plus two-hop routes via WETH), " +
     "returns the winning venue, expected output, edge in bps vs the baseline, " +
     "a liquidity flag (deep/watch/thin), the exact block number and timestamp, " +
     "and build latency. Read-only: no funds move.",
