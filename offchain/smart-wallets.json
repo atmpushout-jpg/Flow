@@ -1,7 +1,7 @@
 {
- "updatedAt": "2026-10-11T22:21:48.531Z",
+ "updatedAt": "2026-10-11T22:26:07.365Z",
  "leaderboardUpdatedAt": "2026-10-11T22:16:18.303Z",
- "signalsUpdatedAt": "2026-10-11T22:21:48.531Z",
+ "signalsUpdatedAt": "2026-10-11T22:26:07.365Z",
  "wallets": {},
  "leaderboard": [],
  "hotPools": [
@@ -92,6 +92,261 @@
  ],
  "signals": [
   {
+   "wallet": "0x01574a2cf34043900d9aa41e39c4bd2c895cec5c",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 6657.77,
+   "txHash": "0x6c1eaa191ad3c942d21891e9dc31062c8d5233dce7fc2189af5b4f6c600f0f9b",
+   "blockNumber": 52484054,
+   "timestamp": "2026-10-11T22:24:15Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 114,
+   "stale": false
+  },
+  {
+   "wallet": "0xd14602c85a25a4e520441c47a97a2c9da63ae1be",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1274.37,
+   "txHash": "0x75d22070af89b2eae82747e7a1b9116b5b06721283c7b773c4493ec9bc938303",
+   "blockNumber": 52484056,
+   "timestamp": "2026-10-11T22:24:19Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 110,
+   "stale": false
+  },
+  {
+   "wallet": "0xffe42fcb184a6dfd088f64c43f760e35d554084a",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 3233.27,
+   "txHash": "0x5d8a3ae81c82a535a273b7ac211a62369255bdedfb0eed12b352f6bad021ff37",
+   "blockNumber": 52484055,
+   "timestamp": "2026-10-11T22:24:17Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 112,
+   "stale": false
+  },
+  {
+   "wallet": "0xf7e56c4ff6f7d14b59777e9136dfb1781a84070c",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2774.61,
+   "txHash": "0x04af977dc76a8f5bdda727af09fb61281b966eb5415524ec2275519af4099345",
+   "blockNumber": 52484034,
+   "timestamp": "2026-10-11T22:23:35Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 154,
+   "stale": false
+  },
+  {
+   "wallet": "0xe498e1e64d106442bfb4556b8d31fa632a865a91",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 5426.68,
+   "txHash": "0xfbf52528f26fa968666260896725d41580ceb344286c7364ac1f42993e3532e9",
+   "blockNumber": 52484025,
+   "timestamp": "2026-10-11T22:23:17Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 172,
+   "stale": false
+  },
+  {
+   "wallet": "0x3ade7e67975edbb5d627127fed753e21a8a4b73c",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1537.16,
+   "txHash": "0xe16ad58951d581d3c394f92828d02f896534bc6e868ea6735027448b50bb0658",
+   "blockNumber": 52484024,
+   "timestamp": "2026-10-11T22:23:15Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 174,
+   "stale": false
+  },
+  {
+   "wallet": "0x1485a3e1b7ec11718d5c7f1d59f2a4808763b8fb",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1759.13,
+   "txHash": "0xbbad94d80be9f05655fe1e7a9dd275a53be59638630602a93b8b3d6b2d9ab41d",
+   "blockNumber": 52484014,
+   "timestamp": "2026-10-11T22:22:55Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 194,
+   "stale": false
+  },
+  {
+   "wallet": "0xe4468dd637af826e353d7afa6ff21d7d67a21f0e",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 8958.25,
+   "txHash": "0x2c6aaffcf539102987294b2200101ce3100c611ffecc8c1de51d8145d0ee8ff7",
+   "blockNumber": 52484013,
+   "timestamp": "2026-10-11T22:22:53Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 196,
+   "stale": false
+  },
+  {
+   "wallet": "0x1485a3e1b7ec11718d5c7f1d59f2a4808763b8fb",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 4871.14,
+   "txHash": "0xf173e73f756635d278b7fefcefa2105602f28a270aa9ac3801f2a075e542025e",
+   "blockNumber": 52484012,
+   "timestamp": "2026-10-11T22:22:51Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 198,
+   "stale": false
+  },
+  {
+   "wallet": "0xe4468dd637af826e353d7afa6ff21d7d67a21f0e",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 9795.16,
+   "txHash": "0x9b935c4d16c3270b7acb60173c0de4ae9bd2b97b806ff0d4c1c0b67e30258914",
+   "blockNumber": 52484011,
+   "timestamp": "2026-10-11T22:22:49Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 200,
+   "stale": false
+  },
+  {
+   "wallet": "0x2b9d61897ed28d6d244b87fe4896e8530201e9ed",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1500.6,
+   "txHash": "0x37f532511281c2c7d438d75d75271c6d58415ce66367e594048502e0acfbadfd",
+   "blockNumber": 52484050,
+   "timestamp": "2026-10-11T22:24:07Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 122,
+   "stale": false
+  },
+  {
+   "wallet": "0x653dcf7edc6adb1e744e25d13d931dd6da8885dd",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2320.7,
+   "txHash": "0x62990aed82ea32d1a5b1b3539934f0bed1e22bc3a2dc6e4a1d04e5a7349eebf2",
+   "blockNumber": 52484046,
+   "timestamp": "2026-10-11T22:23:59Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 130,
+   "stale": false
+  },
+  {
+   "wallet": "0x12c51473ecec31920552b2cefc96f7c3ccf1dacd",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1000.13,
+   "txHash": "0x4f9f953c8d09f23aee31eb9f07c1d3d4d3faf10b983de15f0e94548c7438ea1b",
+   "blockNumber": 52484046,
+   "timestamp": "2026-10-11T22:23:59Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 130,
+   "stale": false
+  },
+  {
+   "wallet": "0x4e4995d4c89e85bcfa8f6edc9e60807cdc9c6b02",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1077.7,
+   "txHash": "0xda47a0e201387df88d278e85503bdb1b8da0c05702c06717b9c38e09472cfba4",
+   "blockNumber": 52484033,
+   "timestamp": "2026-10-11T22:23:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 156,
+   "stale": false
+  },
+  {
+   "wallet": "0x3d75877b94600ce251ceec80402790d78486e8d1",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1053.57,
+   "txHash": "0x4eda16c8b3b313a024fd1bd3f6077c8eb71273ff59ad58773ee3f9cf1de8704e",
+   "blockNumber": 52484024,
+   "timestamp": "2026-10-11T22:23:15Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 174,
+   "stale": false
+  },
+  {
    "wallet": "0x694caa827d1bd3edd2cfbbd06131e17a6013dd74",
    "walletRank": null,
    "walletWins": 0,
@@ -105,7 +360,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -122,7 +377,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -139,7 +394,7 @@
    "timestamp": "2026-10-11T22:17:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 320,
+   "ageSec": 526,
    "stale": false
   },
   {
@@ -156,7 +411,7 @@
    "timestamp": "2026-10-11T22:17:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 320,
+   "ageSec": 526,
    "stale": false
   },
   {
@@ -173,7 +428,7 @@
    "timestamp": "2026-10-11T22:17:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 320,
+   "ageSec": 526,
    "stale": false
   },
   {
@@ -190,7 +445,7 @@
    "timestamp": "2026-10-11T22:17:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 322,
+   "ageSec": 528,
    "stale": false
   },
   {
@@ -207,7 +462,7 @@
    "timestamp": "2026-10-11T22:17:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 322,
+   "ageSec": 528,
    "stale": false
   },
   {
@@ -224,7 +479,7 @@
    "timestamp": "2026-10-11T22:17:15Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 328,
+   "ageSec": 534,
    "stale": false
   },
   {
@@ -241,7 +496,7 @@
    "timestamp": "2026-10-11T22:17:15Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 328,
+   "ageSec": 534,
    "stale": false
   },
   {
@@ -258,7 +513,7 @@
    "timestamp": "2026-10-11T22:17:09Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 334,
+   "ageSec": 540,
    "stale": false
   },
   {
@@ -275,7 +530,7 @@
    "timestamp": "2026-10-11T22:17:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 336,
+   "ageSec": 542,
    "stale": false
   },
   {
@@ -292,7 +547,7 @@
    "timestamp": "2026-10-11T22:17:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 336,
+   "ageSec": 542,
    "stale": false
   },
   {
@@ -309,7 +564,7 @@
    "timestamp": "2026-10-11T22:17:01Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 342,
+   "ageSec": 548,
    "stale": false
   },
   {
@@ -326,7 +581,7 @@
    "timestamp": "2026-10-11T22:17:01Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 342,
+   "ageSec": 548,
    "stale": false
   },
   {
@@ -343,7 +598,7 @@
    "timestamp": "2026-10-11T22:20:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 134,
+   "ageSec": 340,
    "stale": false
   },
   {
@@ -360,7 +615,7 @@
    "timestamp": "2026-10-11T22:20:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 140,
+   "ageSec": 346,
    "stale": false
   },
   {
@@ -377,7 +632,7 @@
    "timestamp": "2026-10-11T22:17:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 310,
+   "ageSec": 516,
    "stale": false
   },
   {
@@ -394,7 +649,7 @@
    "timestamp": "2026-10-11T22:17:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 318,
+   "ageSec": 524,
    "stale": false
   },
   {
@@ -411,7 +666,7 @@
    "timestamp": "2026-10-11T22:17:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 320,
+   "ageSec": 526,
    "stale": false
   },
   {
@@ -428,7 +683,7 @@
    "timestamp": "2026-10-11T22:17:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 326,
+   "ageSec": 532,
    "stale": false
   },
   {
@@ -445,7 +700,7 @@
    "timestamp": "2026-10-11T22:17:15Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 328,
+   "ageSec": 534,
    "stale": false
   },
   {
@@ -462,7 +717,7 @@
    "timestamp": "2026-10-11T22:17:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 332,
+   "ageSec": 538,
    "stale": false
   },
   {
@@ -479,7 +734,7 @@
    "timestamp": "2026-10-11T22:17:09Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 334,
+   "ageSec": 540,
    "stale": false
   },
   {
@@ -496,7 +751,7 @@
    "timestamp": "2026-10-11T22:17:01Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 342,
+   "ageSec": 548,
    "stale": false
   },
   {
@@ -513,7 +768,7 @@
    "timestamp": "2026-10-11T22:16:59Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 344,
+   "ageSec": 550,
    "stale": false
   },
   {
@@ -530,7 +785,7 @@
    "timestamp": "2026-10-11T22:16:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 348,
+   "ageSec": 554,
    "stale": false
   },
   {
@@ -547,7 +802,7 @@
    "timestamp": "2026-10-11T22:16:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 354,
+   "ageSec": 560,
    "stale": false
   },
   {
@@ -564,7 +819,7 @@
    "timestamp": "2026-10-11T22:16:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 366,
+   "ageSec": 572,
    "stale": false
   },
   {
@@ -581,7 +836,7 @@
    "timestamp": "2026-10-11T22:16:35Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 368,
+   "ageSec": 574,
    "stale": false
   },
   {
@@ -598,7 +853,7 @@
    "timestamp": "2026-10-11T22:16:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 370,
+   "ageSec": 576,
    "stale": false
   },
   {
@@ -615,7 +870,7 @@
    "timestamp": "2026-10-11T22:16:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 374,
+   "ageSec": 580,
    "stale": false
   },
   {
@@ -632,7 +887,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -649,7 +904,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -666,7 +921,7 @@
    "timestamp": "2026-10-11T22:21:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 76,
+   "ageSec": 282,
    "stale": false
   },
   {
@@ -683,7 +938,7 @@
    "timestamp": "2026-10-11T22:17:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 292,
+   "ageSec": 498,
    "stale": false
   },
   {
@@ -700,7 +955,7 @@
    "timestamp": "2026-10-11T22:17:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 296,
+   "ageSec": 502,
    "stale": false
   },
   {
@@ -717,7 +972,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -734,7 +989,7 @@
    "timestamp": "2026-10-11T22:17:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 320,
+   "ageSec": 526,
    "stale": false
   },
   {
@@ -751,7 +1006,7 @@
    "timestamp": "2026-10-11T22:16:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 354,
+   "ageSec": 560,
    "stale": false
   },
   {
@@ -768,7 +1023,7 @@
    "timestamp": "2026-10-11T22:16:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 372,
+   "ageSec": 578,
    "stale": false
   },
   {
@@ -785,7 +1040,7 @@
    "timestamp": "2026-10-11T22:16:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 376,
+   "ageSec": 582,
    "stale": false
   },
   {
@@ -802,7 +1057,7 @@
    "timestamp": "2026-10-11T22:16:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 386,
+   "ageSec": 592,
    "stale": false
   },
   {
@@ -819,7 +1074,7 @@
    "timestamp": "2026-10-11T22:17:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 312,
+   "ageSec": 518,
    "stale": false
   },
   {
@@ -836,7 +1091,7 @@
    "timestamp": "2026-10-11T22:10:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 734,
+   "ageSec": 940,
    "stale": true
   },
   {
@@ -853,262 +1108,7 @@
    "timestamp": "2026-10-11T22:10:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 740,
-   "stale": true
-  },
-  {
-   "wallet": "0x9f6079682730667463070d6a4c928efb065189fe",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1139.18,
-   "txHash": "0x31a79ddd690ae18b819fcccd23084308e20c8518a349b9c648aab69c399641ed",
-   "blockNumber": 52483627,
-   "timestamp": "2026-10-11T22:10:01Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 762,
-   "stale": true
-  },
-  {
-   "wallet": "0x9edd15584ea85e19bc9ec3f6c8d631198c043818",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1133.18,
-   "txHash": "0xda57e60d444956db092da6859664013be365478aa3011dadd658d8bb9bf251ca",
-   "blockNumber": 52483625,
-   "timestamp": "2026-10-11T22:09:57Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 766,
-   "stale": true
-  },
-  {
-   "wallet": "0xbc165e0542c078352a3f148de4c313d1c135d018",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.65,
-   "txHash": "0xcb1e209deb2bb3c6551e53ba98a73d3b8693a2272466c46864205bee0e472daf",
-   "blockNumber": 52483620,
-   "timestamp": "2026-10-11T22:09:47Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 776,
-   "stale": true
-  },
-  {
-   "wallet": "0xad3fe4fa38ad6e05b7fc11647fc36457943493ed",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.63,
-   "txHash": "0x449ad54edce7a5ff4875a2dc8b5f101116a5e3b883d2af805345ed67a109f38e",
-   "blockNumber": 52483618,
-   "timestamp": "2026-10-11T22:09:43Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 780,
-   "stale": true
-  },
-  {
-   "wallet": "0xb655bb6161c02e227c8d49a872e6b80fa0496956",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.52,
-   "txHash": "0x6f58901c29b4c1f7e38e16b51255e3e75254f74dfbc6b891c7e38020d29cf1c1",
-   "blockNumber": 52483616,
-   "timestamp": "2026-10-11T22:09:39Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 784,
-   "stale": true
-  },
-  {
-   "wallet": "0xad3fe4fa38ad6e05b7fc11647fc36457943493ed",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.54,
-   "txHash": "0xf1c9057c67a3c85ed245d93492df1f2a2892e9aa1961f088a3a966d38cbbb833",
-   "blockNumber": 52483612,
-   "timestamp": "2026-10-11T22:09:31Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 792,
-   "stale": true
-  },
-  {
-   "wallet": "0xb655bb6161c02e227c8d49a872e6b80fa0496956",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.57,
-   "txHash": "0xb2e7e8f74fc9e6b3a2b62704e4d898b8a0c8af372372712d42012273ac8d9a84",
-   "blockNumber": 52483610,
-   "timestamp": "2026-10-11T22:09:27Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 796,
-   "stale": true
-  },
-  {
-   "wallet": "0xbc165e0542c078352a3f148de4c313d1c135d018",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3443.41,
-   "txHash": "0x2e763596ea38aa0c71e5122b0e72909062c2125c27e3aeae8dd00ef77c8bbbda",
-   "blockNumber": 52483608,
-   "timestamp": "2026-10-11T22:09:23Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 800,
-   "stale": true
-  },
-  {
-   "wallet": "0xab770ddce9a1d7773a5cafa8d6fba75aaf5789be",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1207.46,
-   "txHash": "0xdadb52c14f2b63029bfbec6cbd39c8b7c23172bffe421dd137e615550769faba",
-   "blockNumber": 52483587,
-   "timestamp": "2026-10-11T22:08:41Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 842,
-   "stale": true
-  },
-  {
-   "wallet": "0xa7638c2f66102ac036930b5c1f9723f170942159",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3334.91,
-   "txHash": "0x69c376a4ad8a4cdfabfd1f56d3a8ded10a4eaeb2ae8e37e3b9c898ca59cefe78",
-   "blockNumber": 52483585,
-   "timestamp": "2026-10-11T22:08:37Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 846,
-   "stale": true
-  },
-  {
-   "wallet": "0xa7638c2f66102ac036930b5c1f9723f170942159",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 2329.32,
-   "txHash": "0xc7414b66d0d104c955bdd57f935e6f2e0a1c56bd8568706b9e3d38cecacea6ba",
-   "blockNumber": 52483583,
-   "timestamp": "2026-10-11T22:08:33Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 850,
-   "stale": true
-  },
-  {
-   "wallet": "0xe8267a1b9e3062cb9d1b1871dde3658d052b25e7",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1065.77,
-   "txHash": "0x350ab1e2aed15c54d4428aef6a1c33e22b841f5926f78fe26995628185e91e6c",
-   "blockNumber": 52483582,
-   "timestamp": "2026-10-11T22:08:31Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 852,
-   "stale": true
-  },
-  {
-   "wallet": "0x3ade7e67975edbb5d627127fed753e21a8a4b73c",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1389.96,
-   "txHash": "0x73646eeb0d2d206865c1b364f694a5ee273976640c3dfb9dd5b14e7ec411e1df",
-   "blockNumber": 52483705,
-   "timestamp": "2026-10-11T22:12:37Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 606,
-   "stale": true
-  },
-  {
-   "wallet": "0x136126cd2de7ddeb1d82e0785451bbe346c9f22d",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1488.23,
-   "txHash": "0x508f351a7002c9d27182c18e0a0cfe97bbecfa9429c3e10e55eb944d52c86834",
-   "blockNumber": 52483698,
-   "timestamp": "2026-10-11T22:12:23Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 620,
-   "stale": true
-  },
-  {
-   "wallet": "0x05f8f81f5cd626887ad789e820d45bb129bdca2d",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1573.34,
-   "txHash": "0x617f717d907265f5bf0596c63ceac05a7345b9be6260aaa35acdb49b3b6df037",
-   "blockNumber": 52483627,
-   "timestamp": "2026-10-11T22:10:01Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 762,
+   "ageSec": 946,
    "stale": true
   }
  ],
@@ -1125,7 +1125,7 @@
   "totalPnlUsd": 0,
   "bestTradeUsd": null,
   "worstTradeUsd": null,
-  "updatedAt": "2026-10-11T22:22:43.498Z"
+  "updatedAt": "2026-10-11T22:26:09.724Z"
  },
  "socialVelocity": {
   "updatedAt": "2026-10-11T22:21:49.724Z",
