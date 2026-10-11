@@ -585,7 +585,7 @@ const RESOURCE_META = {
   // verdict (ax1.vc q-verdict) proved at ~10k calls/day. Quotes stay $0.01.
   priceUsd: 0.02,
   description:
-    "Flow contract safety verification for AI agents: send a token or contract address on Base and get a verdict (safe|caution|danger), a 0-100 safety score, the red flags found, and plain-English agent advice (APPROVE / REVIEW_MANUALLY / DO_NOT_APPROVE) before approving or swapping.",
+    "Use when an agent is about to approve, buy, or first interact with an unfamiliar Base token or contract and needs a safety verdict before risking funds. Flow contract safety verification: send a token or contract address on Base and get a verdict (safe|caution|danger), a 0-100 safety score, the red flags found, and plain-English agent advice (APPROVE / REVIEW_MANUALLY / DO_NOT_APPROVE).",
   bazaarInput: {
     type: "http",
     method: "POST",
