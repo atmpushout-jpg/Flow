@@ -17,7 +17,10 @@ const crypto = require("crypto");
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // verified on-chain
 const USDC_DECIMALS = 6;
 const DEFAULT_NETWORK = "eip155:8453"; // Base mainnet
-const DEFAULT_FACILITATOR = "https://api.cdp.coinbase.com/platform/v2/x402";
+// Default facilitator: PayAI (no API key required, settles Base mainnet,
+// x402 v2 "exact"). CDP remains available by setting X402_FACILITATOR_URL to
+// https://api.cdp.coinbase.com/platform/v2/x402 plus CDP_API_KEY_ID/SECRET.
+const DEFAULT_FACILITATOR = "https://facilitator.payai.network";
 const CDP_HOST = "api.cdp.coinbase.com";
 
 function isEnabled() {
@@ -45,10 +48,10 @@ function configError() {
 // PaymentRequired (402) builder
 // ---------------------------------------------------------------------------
 
-function resourceUrl(req) {
+function resourceUrl(req, resourcePath) {
   const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
   const host = req.headers.host || "flow-kg4x.vercel.app";
-  return `${proto}://${host}/api/quote`;
+  return `${proto}://${host}${resourcePath || "/api/quote"}`;
 }
 
 function paymentRequirements(req) {
@@ -119,14 +122,17 @@ function bazaarExtension() {
   return { info, schema };
 }
 
-function paymentRequiredBody(req) {
+function paymentRequiredBody(req, resourceMeta) {
   const c = getConfig();
-  return {
+  const meta = resourceMeta || {};
+  const builderCode = (process.env.X402_BUILDER_CODE || "").trim();
+  const body = {
     x402Version: 2,
     error: `Payment required: sign an x402 v2 "exact" payment of $${c.priceUsd} USDC on Base and retry with an X-PAYMENT header.`,
     resource: {
-      url: resourceUrl(req),
+      url: resourceUrl(req, meta.path),
       description:
+        meta.description ||
         "Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers for a token swap on Base and returns the best venue, expected output, and edge vs Uniswap baseline.",
       mimeType: "application/json",
       serviceName: "Flow",
@@ -135,10 +141,17 @@ function paymentRequiredBody(req) {
     accepts: [paymentRequirements(req)],
     extensions: { bazaar: bazaarExtension() },
   };
+  // Base Builder Code (ERC-8021): onchain attribution for x402 settlements.
+  // Lets the CDP facilitator attribute payments to Flow for Base rewards.
+  if (builderCode) {
+    body.builderCode = builderCode;
+    body.resource.builderCode = builderCode;
+  }
+  return body;
 }
 
-function send402(res, req, errorDetail) {
-  const body = paymentRequiredBody(req);
+function send402(res, req, errorDetail, resourceMeta) {
+  const body = paymentRequiredBody(req, resourceMeta);
   if (errorDetail) body.error = errorDetail;
   const header = Buffer.from(JSON.stringify(body)).toString("base64");
   res.setHeader("PAYMENT-REQUIRED", header);
@@ -248,7 +261,7 @@ async function facilitatorCall(op, paymentPayload, paymentRequirements) {
 // itself and returns null (caller must `return` immediately).
 // ---------------------------------------------------------------------------
 
-async function requirePayment(req, res) {
+async function requirePayment(req, res, resourceMeta) {
   const bad = configError();
   if (bad) {
     res.status(500).json({ error: `x402 misconfigured: ${bad}` });
@@ -258,7 +271,7 @@ async function requirePayment(req, res) {
   const decoded = decodePaymentHeader(req);
   if (!decoded.ok) {
     if (decoded.reason === "missing") {
-      send402(res, req);
+      send402(res, req, undefined, resourceMeta);
       return null;
     }
     res.status(400).json({ error: `Invalid payment: ${decoded.reason}` });
@@ -267,7 +280,7 @@ async function requirePayment(req, res) {
 
   const localErr = localChecks(decoded.payload);
   if (localErr) {
-    send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`);
+    send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`, resourceMeta);
     return null;
   }
 
@@ -280,7 +293,7 @@ async function requirePayment(req, res) {
     return null;
   }
   if (!verify.isValid) {
-    send402(res, req, `Payment invalid: ${verify.invalidReason || "verification failed"}.`);
+    send402(res, req, `Payment invalid: ${verify.invalidReason || "verification failed"}.`, resourceMeta);
     return null;
   }
   return { payload: decoded.payload, requirements, payer: verify.payer };
