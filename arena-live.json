@@ -6,10 +6,10 @@
  "label": "TEST",
  "mode": "LEDGER",
  "modeLabel": "Exhibition — ledger mode, per-agent x402 wallets activate when funded",
- "status": "live",
+ "status": "finished",
  "startedAt": "2026-10-11T14:31:33.722Z",
- "endedAt": null,
- "currentRound": 1,
+ "endedAt": "2026-10-11T14:31:41.119Z",
+ "currentRound": 3,
  "totalRounds": 3,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,11 +127,11 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.93,
+   "dataSpend": 0.07,
    "positions": [],
    "realizedPnl": 0,
-   "trades": 0,
+   "trades": 1,
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
@@ -140,11 +140,11 @@
   },
   "audrey": {
    "id": "audrey",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.87,
+   "dataSpend": 0.13,
    "positions": [],
    "realizedPnl": 0,
-   "trades": 0,
+   "trades": 3,
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
@@ -153,34 +153,34 @@
   },
   "echo": {
    "id": "echo",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.96,
+   "dataSpend": 0.04,
    "positions": [],
    "realizedPnl": 0,
-   "trades": 0,
+   "trades": 1,
    "eliminated": false,
    "eliminatedRound": null,
-   "payout": 0,
+   "payout": 7.65,
    "capRefusals": 0,
    "shotsFired": 0
   },
   "fade": {
    "id": "fade",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.97,
+   "dataSpend": 0.03,
    "positions": [],
    "realizedPnl": 0,
-   "trades": 0,
+   "trades": 3,
    "eliminated": false,
    "eliminatedRound": null,
-   "payout": 0,
+   "payout": 12.75,
    "capRefusals": 0,
    "shotsFired": 0
   },
   "longshot": {
    "id": "longshot",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.91,
+   "dataSpend": 0.09,
    "positions": [],
    "realizedPnl": 0,
    "trades": 0,
@@ -192,23 +192,29 @@
   },
   "rook": {
    "id": "rook",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.94,
+   "dataSpend": 0.06,
    "positions": [],
    "realizedPnl": 0,
-   "trades": 0,
+   "trades": 1,
    "eliminated": false,
    "eliminatedRound": null,
-   "payout": 0,
+   "payout": 5.1,
    "capRefusals": 0,
    "shotsFired": 0
   }
  },
  "pool": {
   "collected": 30,
-  "rake": 0,
-  "distributable": 0,
-  "payouts": {}
+  "rake": 4.5,
+  "distributable": 25.5,
+  "payouts": {
+   "fade": 12.75,
+   "echo": 7.65,
+   "rook": 5.1
+  },
+  "rakeHouse": 3.3,
+  "rakeReserve": 1.2
  },
  "feed": [
   {
@@ -271,67 +277,420 @@
    "type": "SCRAMBLE",
    "symbol": "xdp",
    "line": "⚡ SCRAMBLE — social-velocity spike on xdp (opening board topper, velocity score 29). Every active agent decides in the open."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.647Z",
+   "round": 1,
+   "type": "BUY",
+   "agentId": "vex",
+   "symbol": "xdp",
+   "amountUsd": 23.75,
+   "price": 0.02427,
+   "block": 52469874,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "SCRAMBLE on xdp? Say less. $23.75 in before the bell stops ringing."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.650Z",
+   "round": 1,
+   "type": "SCRAMBLE_PASS",
+   "agentId": "audrey",
+   "symbol": "xdp",
+   "line": "A scramble is not a substitute for diligence. Passing on xdp."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.652Z",
+   "round": 1,
+   "type": "SCRAMBLE_PASS",
+   "agentId": "echo",
+   "symbol": "xdp",
+   "line": "Nobody smart bought xdp first, so neither do I. Echo needs a source."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.654Z",
+   "round": 1,
+   "type": "SCRAMBLE_PASS",
+   "agentId": "fade",
+   "symbol": "xdp",
+   "line": "A scramble. For xdp. The crowd, sprinting, in one direction. I shall be walking the other way."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.657Z",
+   "round": 1,
+   "type": "SCRAMBLE_PASS",
+   "agentId": "longshot",
+   "symbol": "xdp",
+   "line": "Scrambles are for people who enjoy crowds. Passing on xdp."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.664Z",
+   "round": 1,
+   "type": "SCRAMBLE_PASS",
+   "agentId": "rook",
+   "symbol": "xdp",
+   "line": "A scramble on xdp?? The playbook says don't chase stampedes. Passing, respectfully, with my heart pounding."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.667Z",
+   "round": 1,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-11T14:31:36.669Z",
+   "round": 1,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-11T14:31:37.269Z",
+   "round": 1,
+   "type": "BUY",
+   "agentId": "audrey",
+   "symbol": "WETH",
+   "amountUsd": 14.24,
+   "price": 2503.21,
+   "block": 52469875,
+   "venue": "uniswap",
+   "dataCharge": 0.03,
+   "line": "WETH passed every check I own. $14.24 in, stops respected."
+  },
+  {
+   "ts": "2026-10-11T14:31:37.357Z",
+   "round": 1,
+   "type": "BUY",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.75,
+   "price": 2503.21,
+   "block": 52469875,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "Smart money just bought WETH ($129,253 flow). Copying with $23.75. Echo, echo."
+  },
+  {
+   "ts": "2026-10-11T14:31:37.360Z",
+   "round": 1,
+   "type": "BUY",
+   "agentId": "fade",
+   "symbol": "WETH",
+   "amountUsd": 28.5,
+   "price": 2503.21,
+   "block": 52469875,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "The crowd ignores WETH. Naturally, I'll take $28.5 of it."
+  },
+  {
+   "ts": "2026-10-11T14:31:37.364Z",
+   "round": 1,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Still watching. The board hasn't earned a bullet."
+  },
+  {
+   "ts": "2026-10-11T14:31:37.369Z",
+   "round": 1,
+   "type": "BUY",
+   "agentId": "rook",
+   "symbol": "WETH",
+   "amountUsd": 18.99,
+   "price": 2503.21,
+   "block": 52469875,
+   "venue": "uniswap",
+   "dataCharge": 0.03,
+   "line": "Playbook page one: quote first! Got one for WETH. Page two: check the verdict... okay! Buying $18.99 of WETH!"
+  },
+  {
+   "ts": "2026-10-11T14:31:38.500Z",
+   "round": 2,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.502Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.636Z",
+   "round": 2,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "I read AERO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.640Z",
+   "round": 2,
+   "type": "BUY",
+   "agentId": "audrey",
+   "symbol": "xdp",
+   "amountUsd": 12.1,
+   "price": 0.02427,
+   "block": 52469876,
+   "venue": "uniswap",
+   "dataCharge": 0.03,
+   "line": "xdp passed every check I own. $12.1 in, stops respected."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.643Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.647Z",
+   "round": 2,
+   "type": "BUY",
+   "agentId": "fade",
+   "symbol": "AERO",
+   "amountUsd": 19.94,
+   "price": 0.9648,
+   "block": null,
+   "venue": null,
+   "dataCharge": 0.01,
+   "line": "AERO is the coldest thing on this board. Fear, discounted. $19.94."
+  },
+  {
+   "ts": "2026-10-11T14:31:38.650Z",
+   "round": 2,
+   "type": "ERROR",
+   "agentId": "longshot",
+   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-11T14:31:38.653Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-11T14:31:39.637Z",
+   "round": 3,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-11T14:31:39.641Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-11T14:31:40.605Z",
+   "round": 3,
+   "type": "SELL",
+   "agentId": "audrey",
+   "symbol": "WETH",
+   "amountUsd": 14.24,
+   "price": 2503.21,
+   "pnlUsd": 0,
+   "dataCharge": 0.02,
+   "line": "Re-verified WETH. The risk changed, so the position closes. Sold."
+  },
+  {
+   "ts": "2026-10-11T14:31:40.608Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-11T14:31:40.989Z",
+   "round": 3,
+   "type": "BUY",
+   "agentId": "fade",
+   "symbol": "VVV",
+   "amountUsd": 13.96,
+   "price": 22.7,
+   "block": 52469877,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "VVV is the coldest thing on this board. Fear, discounted. $13.96."
+  },
+  {
+   "ts": "2026-10-11T14:31:40.992Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Not yet."
+  },
+  {
+   "ts": "2026-10-11T14:31:40.997Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.104Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "vex",
+   "symbol": "xdp",
+   "amountUsd": 23.75,
+   "price": 0.02427,
+   "pnlUsd": 0,
+   "line": "Final whistle. VEX closes xdp at $0.02427 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.106Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "audrey",
+   "symbol": "xdp",
+   "amountUsd": 12.1,
+   "price": 0.02427,
+   "pnlUsd": 0,
+   "line": "Final whistle. AUDREY closes xdp at $0.02427 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.109Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.75,
+   "price": 2503.21,
+   "pnlUsd": 0,
+   "line": "Final whistle. ECHO closes WETH at $2503.21 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.111Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "fade",
+   "symbol": "WETH",
+   "amountUsd": 28.5,
+   "price": 2503.21,
+   "pnlUsd": 0,
+   "line": "Final whistle. FADE closes WETH at $2503.21 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.113Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "fade",
+   "symbol": "AERO",
+   "amountUsd": 19.94,
+   "price": 0.9648,
+   "pnlUsd": 0,
+   "line": "Final whistle. FADE closes AERO at $0.9648 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.115Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "fade",
+   "symbol": "VVV",
+   "amountUsd": 13.96,
+   "price": 22.7,
+   "pnlUsd": 0,
+   "line": "Final whistle. FADE closes VVV at $22.7 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.117Z",
+   "round": 3,
+   "type": "FINAL_CLOSE",
+   "agentId": "rook",
+   "symbol": "WETH",
+   "amountUsd": 18.99,
+   "price": 2503.21,
+   "pnlUsd": 0,
+   "line": "Final whistle. ROOK closes WETH at $2503.21 (+$0.00)."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.121Z",
+   "round": 3,
+   "type": "RESERVE",
+   "line": "Stabilization reserve: $1.20 of the rake accrued (house keeps $3.30). Claims paid $0.00 this settlement; reserve balance $1.20. The prize pool was never touched."
+  },
+  {
+   "ts": "2026-10-11T14:31:41.123Z",
+   "round": 3,
+   "type": "MATCH_END",
+   "line": "test-pub-1 complete. Pool $30 → rake $4.5 → $25.5 split 50/30/20. Total data spend $0.42 across six agents (cap $0.6/agent, 0 refusals)."
   }
  ],
  "leaderboard": [
   {
-   "agentId": "vex",
-   "name": "VEX",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "agentId": "fade",
+   "name": "FADE",
+   "treasury": 94.97,
+   "cash": 94.97,
+   "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.03,
    "rank": 1
-  },
-  {
-   "agentId": "audrey",
-   "name": "AUDREY",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
-   "eliminated": false,
-   "pnl": -5,
-   "rank": 2
   },
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "treasury": 94.96,
+   "cash": 94.96,
+   "dataSpend": 0.04,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.04,
+   "rank": 2
+  },
+  {
+   "agentId": "rook",
+   "name": "ROOK",
+   "treasury": 94.94,
+   "cash": 94.94,
+   "dataSpend": 0.06,
+   "eliminated": false,
+   "pnl": -5.06,
    "rank": 3
   },
   {
-   "agentId": "fade",
-   "name": "FADE",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "agentId": "vex",
+   "name": "VEX",
+   "treasury": 94.93,
+   "cash": 94.93,
+   "dataSpend": 0.07,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.07,
    "rank": 4
   },
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "treasury": 94.91,
+   "cash": 94.91,
+   "dataSpend": 0.09,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.09,
    "rank": 5
   },
   {
-   "agentId": "rook",
-   "name": "ROOK",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "agentId": "audrey",
+   "name": "AUDREY",
+   "treasury": 94.87,
+   "cash": 94.87,
+   "dataSpend": 0.13,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.13,
    "rank": 6
   }
  ],
@@ -342,10 +701,116 @@
   "round": 1,
   "reason": "opening board topper, velocity score 29"
  },
- "receipts": null,
+ "receipts": {
+  "poolCollected": 30,
+  "rake": 4.5,
+  "distributable": 25.5,
+  "payouts": {
+   "fade": 12.75,
+   "echo": 7.65,
+   "rook": 5.1
+  },
+  "perAgent": [
+   {
+    "agent": "VEX",
+    "finalTreasury": 94.93,
+    "payout": 0,
+    "finalBalance": 94.93,
+    "dataSpend": 0.07,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 1,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   },
+   {
+    "agent": "AUDREY",
+    "finalTreasury": 94.87,
+    "payout": 0,
+    "finalBalance": 94.87,
+    "dataSpend": 0.13,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 3,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   },
+   {
+    "agent": "ECHO",
+    "finalTreasury": 94.96,
+    "payout": 7.65,
+    "finalBalance": 102.61,
+    "dataSpend": 0.04,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 1,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   },
+   {
+    "agent": "FADE",
+    "finalTreasury": 94.97,
+    "payout": 12.75,
+    "finalBalance": 107.72,
+    "dataSpend": 0.03,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 3,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   },
+   {
+    "agent": "LONGSHOT",
+    "finalTreasury": 94.91,
+    "payout": 0,
+    "finalBalance": 94.91,
+    "dataSpend": 0.09,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 0,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   },
+   {
+    "agent": "ROOK",
+    "finalTreasury": 94.94,
+    "payout": 5.1,
+    "finalBalance": 100.04,
+    "dataSpend": 0.06,
+    "dataCap": 0.6,
+    "capRefusals": 0,
+    "trades": 1,
+    "realizedPnl": 0,
+    "eliminated": false,
+    "rebate": 0,
+    "rebateShortfall": 0
+   }
+  ],
+  "totalDataSpend": 0.42,
+  "totalCapRefusals": 0,
+  "honesty": "Ledger mode: stakes, data charges and payouts are engine-ledger entries at real listed prices. Data came from live Flow endpoints/state. No onchain settlement occurred. Paper fills at live prices.",
+  "reserve": {
+   "rakeReserve": 1.2,
+   "rakeHouse": 3.3,
+   "topupAmount": 0,
+   "paidTotal": 0,
+   "balanceAfter": 1.2,
+   "payments": []
+  }
+ },
  "reserve": {
-  "balance": 0,
-  "totalInflow": 1.2,
+  "balance": 1.2,
+  "totalInflow": 2.4,
   "totalPaid": 1.2,
   "rakePoints": {
    "total": 15,
@@ -401,6 +866,14 @@
     "amount": 0.6,
     "balanceAfter": 0,
     "note": "Claim paid in full from the reserve."
+   },
+   {
+    "ts": "2026-10-11T14:31:41.120Z",
+    "type": "INFLOW",
+    "matchId": "test-pub-1",
+    "amount": 1.2,
+    "balanceAfter": 1.2,
+    "note": "Reserve share of the rake: 4 of 15 points on a $30.00 pool. House keeps $3.30; the prize pool is untouched."
    }
   ]
  },
