@@ -21,6 +21,7 @@
 const fs = require("fs");
 const path = require("path");
 const paper = require("./smart-wallet-paper");
+const social = require("./social-velocity");
 
 const STATE_PATH = path.join(__dirname, "smart-wallets.json");
 const REDIS_KEY = "flow:smartwallets";
@@ -91,10 +92,25 @@ async function main() {
   const t0 = Date.now();
   const now = new Date().toISOString();
   const state = loadState();
-  if (!state || !state.leaderboard?.length || !state.hotPools?.length) {
-    console.log("no leaderboard/hotPools yet — run smart-wallets.js first");
+  if (!state || !state.hotPools?.length) {
+    console.log("no hotPools yet — run smart-wallets.js first");
     return;
   }
+  // Bootstrap mode: leaderboard empty (cold start) → watch ALL significant
+  // buys on hot pools ("whale watch"). Signals labeled unranked honestly.
+  // Once the leaderboard populates, we switch to smart-wallet-only.
+  const bootstrap = !state.leaderboard?.length;
+  if (bootstrap) console.log("BOOTSTRAP MODE: no ranked wallets yet, watching whale buys on hot pools");
+
+  // Social-velocity overlay ("read the replies, not just the chart"):
+  // refreshed at most every ~8 min inside the module; best-effort only.
+  let socialView = null;
+  try {
+    socialView = await social.refreshIfDue();
+  } catch (e) {
+    console.log("social-velocity failed:", e.message.slice(0, 60));
+  }
+  const socialFor = (addr) => socialView?.tokens?.[(addr || "").toLowerCase()] || null;
 
   const topWallets = new Map(); // addr -> {rank, wins}
   state.leaderboard.slice(0, TOP_WALLET_CUTOFF).forEach((w) => {
@@ -122,17 +138,23 @@ async function main() {
       const ts = new Date(a.block_timestamp).getTime();
       if (!ts || Date.now() - ts > FRESH_WINDOW_MS) continue; // only fresh trades
       const maker = (a.tx_from_address || "").toLowerCase();
-      if (!maker || !topWallets.has(maker)) continue;
+      if (!maker) continue;
+      const meta = topWallets.get(maker);
+      // In bootstrap mode, accept any significant buy; otherwise require ranked wallet
+      const buyUsd = parseFloat(a.volume_in_usd) || 0;
+      if (!bootstrap && !meta) continue;
+      if (bootstrap && buyUsd < 1000) continue; // whale threshold in bootstrap
       if (seenTx.has(a.tx_hash)) continue;
       const fromTok = (a.from_token_address || "").toLowerCase();
       const toTok = (a.to_token_address || "").toLowerCase();
-      const meta = topWallets.get(maker);
       if (toTok === subj) {
         // maker BOUGHT the subject token
+        const sv = socialFor(hp.tokenAddress);
         freshBuys.push({
           wallet: a.tx_from_address,
-          walletRank: meta.rank,
-          walletWins: meta.wins,
+          walletRank: meta?.rank || null,
+          walletWins: meta?.wins || 0,
+          unranked: bootstrap, // honest label: whale-watch, not proven smart wallet
           token: hp.tokenAddress,
           symbol: hp.symbol,
           side: "buy",
@@ -140,6 +162,12 @@ async function main() {
           txHash: a.tx_hash,
           blockNumber: a.block_number,
           timestamp: a.block_timestamp,
+          // Attention overlay: is social velocity spiking on this token
+          // at the moment the wallet bought? Raw inputs included.
+          socialVelocity: sv
+            ? { score: sv.score, level: sv.level, raw: sv.raw }
+            : null,
+          socialSpike: !!sv && sv.level === "hot",
         });
         seenTx.add(a.tx_hash);
       } else if (fromTok === subj && paperWallets.has(maker)) {
@@ -171,7 +199,9 @@ async function main() {
     ...(loadPaperTokens()),
   ]);
   const getPrice = async (addr) => prices[addr.toLowerCase()] || null;
-  const paperBuys = freshBuys.filter((b) => paperWallets.has(b.wallet.toLowerCase()));
+  const paperBuys = bootstrap
+    ? freshBuys // bootstrap: paper-trade all whale signals (labeled unranked)
+    : freshBuys.filter((b) => paperWallets.has(b.wallet.toLowerCase()));
   let paperRecord = state.paperRecord || null;
   try {
     paperRecord = await paper.updatePaper({ buys: paperBuys, sells, getPrice });
@@ -180,13 +210,24 @@ async function main() {
   }
 
   state.signals = signals;
+  // Compact social-velocity summary for the API; full series lives in
+  // offchain/social-velocity-state.json.
+  state.socialVelocity = socialView
+    ? {
+        updatedAt: socialView.updatedAt,
+        trackedTokens: Object.keys(socialView.tokens).length,
+        spikes: socialView.spikes.slice(0, 10),
+        methodology:
+          "Attention velocity from DexScreener boost totals + GeckoTerminal Base trending rank, snapshotted ~every 8 min and compared against a ~1h baseline. Boosts are paid promotion — an attention signal, not a quality signal. Raw inputs ship with every score.",
+      }
+    : state.socialVelocity || null;
   state.signalsUpdatedAt = now;
   state.updatedAt = now;
   state.paperRecord = paperRecord;
   fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 1));
   const redisOk = await redisWrite(state);
   console.log(
-    `poll ${(Date.now() - t0) / 1000}s | fresh signals: ${freshBuys.length} | sells seen: ${sells.length} | paper trades: ${paperRecord?.totalTrades ?? "?"} paperPnl: ${paperRecord?.totalPnlUsd ?? "?"} | redis: ${redisOk ? "ok" : "skipped"}`
+    `poll ${(Date.now() - t0) / 1000}s | fresh signals: ${freshBuys.length} | sells seen: ${sells.length} | paper trades: ${paperRecord?.totalTrades ?? "?"} paperPnl: ${paperRecord?.totalPnlUsd ?? "?"} | social spikes: ${socialView ? socialView.spikes.length : "?"} | redis: ${redisOk ? "ok" : "skipped"}`
   );
 }
 
