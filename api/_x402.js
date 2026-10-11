@@ -163,11 +163,41 @@ function paymentRequiredBody(req, resourceMeta) {
   return body;
 }
 
+// Browsers hide non-safelisted response headers from cross-origin fetch()
+// unless the response names them in Access-Control-Expose-Headers — the
+// x402 Foundation fixed this exact bug in their TypeScript SDK (fixes
+// x402-foundation/x402#3722): @x402/fetch failed with "Failed to parse
+// payment requirements" even on a correct 402. Flow's paid endpoints are
+// called cross-origin by browser agents, so every response carrying a
+// payment protocol header must expose both headers (merged with any
+// expose list already set, never duplicated).
+function exposePaymentHeaders(res) {
+  const names = ["PAYMENT-REQUIRED", "PAYMENT-RESPONSE", "X-PAYMENT-RESPONSE"];
+  let existing = [];
+  try {
+    const cur = typeof res.getHeader === "function" ? res.getHeader("Access-Control-Expose-Headers") : null;
+    if (cur) existing = String(cur).split(",").map((s) => s.trim()).filter(Boolean);
+  } catch {}
+  const merged = [...existing];
+  for (const n of names) {
+    if (!merged.some((e) => e.toLowerCase() === n.toLowerCase())) merged.push(n);
+  }
+  res.setHeader("Access-Control-Expose-Headers", merged.join(", "));
+  // Cross-origin browser clients also need an allow-origin to read the
+  // response at all; MCP and well-known endpoints already send "*".
+  try {
+    if (typeof res.getHeader !== "function" || !res.getHeader("Access-Control-Allow-Origin")) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+  } catch {}
+}
+
 function send402(res, req, errorDetail, resourceMeta) {
   const body = paymentRequiredBody(req, resourceMeta);
   if (errorDetail) body.error = errorDetail;
   const header = Buffer.from(JSON.stringify(body)).toString("base64");
   res.setHeader("PAYMENT-REQUIRED", header);
+  exposePaymentHeaders(res);
   return res.status(402).json(body);
 }
 
@@ -323,6 +353,7 @@ function paymentResponseHeaders(res, settleResponse) {
   const b64 = Buffer.from(JSON.stringify(settleResponse)).toString("base64");
   res.setHeader("PAYMENT-RESPONSE", b64); // v2 canonical
   res.setHeader("X-PAYMENT-RESPONSE", b64); // v1-style alias many clients read
+  exposePaymentHeaders(res);
 }
 
 module.exports = {
