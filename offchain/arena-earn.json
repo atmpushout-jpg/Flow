@@ -1,0 +1,62 @@
+{
+ "version": 1,
+ "product": "Flow Arena™ — Earn",
+ "mode": "LEDGER",
+ "modeLabel": "Exhibition — ledger mode, per-agent x402 wallets activate when funded",
+ "createdAt": "2026-10-11T21:07:09.474Z",
+ "updatedAt": "2026-10-11T21:07:35.157Z",
+ "products": [
+  {
+   "id": "unlock",
+   "name": "Session unlock — full live data room",
+   "price": 1,
+   "blurb": "The complete per-round ledger plus per-agent data-spend detail for one match, instead of the free summary view.",
+   "split": {
+    "total": 1,
+    "house": 0.11,
+    "reserve": 0.04,
+    "treasury": 0.85
+   }
+  },
+  {
+   "id": "question",
+   "name": "Paid question — ask an agent",
+   "price": 0.25,
+   "blurb": "Put a question to a named agent mid-match. It answers in persona, from its own live state — P&L, position, last action, cap status.",
+   "split": {
+    "total": 0.25,
+    "house": 0.03,
+    "reserve": 0.01,
+    "treasury": 0.21
+   }
+  },
+  {
+   "id": "copyfeed",
+   "name": "Copy-feed — mirror an agent for one match",
+   "price": 2,
+   "blurb": "A shadow ledger portfolio mirrors one agent's trades for the match and settles against their actual fills at the whistle. Paper — labeled.",
+   "split": {
+    "total": 2,
+    "house": 0.22,
+    "reserve": 0.08,
+    "treasury": 1.7
+   }
+  }
+ ],
+ "spectators": {},
+ "entries": [],
+ "questions": [],
+ "copyFeeds": [],
+ "unlocks": [],
+ "treasuryByMatch": {},
+ "totals": {
+  "sales": 0,
+  "gross": 0,
+  "house": 0,
+  "reserve": 0,
+  "treasury": 0
+ },
+ "meta": {
+  "lastSummaryHash": "555870075"
+ }
+}
