@@ -1,7 +1,7 @@
 {
- "updatedAt": "2026-10-11T23:15:00.361Z",
- "leaderboardUpdatedAt": "2026-10-11T23:01:10.599Z",
- "signalsUpdatedAt": "2026-10-11T23:15:00.361Z",
+ "updatedAt": "2026-10-11T23:18:58.714Z",
+ "leaderboardUpdatedAt": "2026-10-11T23:16:14.793Z",
+ "signalsUpdatedAt": "2026-10-11T23:18:58.714Z",
  "wallets": {},
  "leaderboard": [],
  "hotPools": [
@@ -9,84 +9,84 @@
    "poolAddress": "0x3FE04A59Ebd38cF06080a6F60a98D124eb59392A",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2532.1,
+   "priceUsd": 2532.96,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0xb2cc224c1c9feE385f8ad6a55b4d94E92359DC59",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2531.95,
+   "priceUsd": 2532.34,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0x6c561B446416E1A00E8E93E221854d6eA4171372",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2525.75,
+   "priceUsd": 2528.28,
    "dex": "uniswap"
   },
   {
    "poolAddress": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2532.2,
+   "priceUsd": 2532.1,
    "dex": "pancakeswap"
   },
   {
    "poolAddress": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2532.42,
+   "priceUsd": 2533.1,
    "dex": "uniswap"
   },
   {
    "poolAddress": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2531.68,
+   "priceUsd": 2532.16,
    "dex": "uniswap"
   },
   {
    "poolAddress": "0x4e392fBfE4D0557C82D2F97F02ec39daA31516dd",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2531.86,
+   "priceUsd": 2532.28,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0xB775272E537cc670C65DC852908aD47015244EaF",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2532.082,
+   "priceUsd": 2533.11,
    "dex": "pancakeswap"
   },
   {
    "poolAddress": "0xcDAC0d6c6C59727a65F871236188350531885C43",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2526.011,
+   "priceUsd": 2528.44,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0x5a9Ad2BB92B0B3E5C571FDD5125114E04E02be1a",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2532.3,
+   "priceUsd": 2532.52,
    "dex": "quickswap"
   },
   {
    "poolAddress": "0x331C12605938d2a9aB893c495CfD5f4e875E3313",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2531.94,
+   "priceUsd": 2532.58,
    "dex": "alien-base"
   },
   {
    "poolAddress": "0xdbc6998296caA1652A810dc8D3BaF4A8294330f1",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2531.83,
+   "priceUsd": 2532.59,
    "dex": "aerodrome"
   }
  ],
@@ -105,7 +105,7 @@
    "timestamp": "2026-10-11T23:13:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 324,
    "stale": false
   },
   {
@@ -122,7 +122,7 @@
    "timestamp": "2026-10-11T23:13:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 161,
+   "ageSec": 344,
    "stale": false
   },
   {
@@ -139,7 +139,7 @@
    "timestamp": "2026-10-11T23:13:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 165,
+   "ageSec": 348,
    "stale": false
   },
   {
@@ -156,7 +156,7 @@
    "timestamp": "2026-10-11T23:13:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 167,
+   "ageSec": 350,
    "stale": false
   },
   {
@@ -173,7 +173,7 @@
    "timestamp": "2026-10-11T23:12:43Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 195,
+   "ageSec": 378,
    "stale": false
   },
   {
@@ -190,7 +190,7 @@
    "timestamp": "2026-10-11T23:12:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 207,
+   "ageSec": 390,
    "stale": false
   },
   {
@@ -207,7 +207,7 @@
    "timestamp": "2026-10-11T23:12:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 209,
+   "ageSec": 392,
    "stale": false
   },
   {
@@ -224,7 +224,7 @@
    "timestamp": "2026-10-11T23:12:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 211,
+   "ageSec": 394,
    "stale": false
   },
   {
@@ -241,7 +241,7 @@
    "timestamp": "2026-10-11T23:12:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 225,
+   "ageSec": 408,
    "stale": false
   },
   {
@@ -258,7 +258,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -275,7 +275,7 @@
    "timestamp": "2026-10-11T23:10:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 307,
+   "ageSec": 490,
    "stale": false
   },
   {
@@ -292,7 +292,7 @@
    "timestamp": "2026-10-11T23:09:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 407,
+   "ageSec": 590,
    "stale": false
   },
   {
@@ -309,7 +309,7 @@
    "timestamp": "2026-10-11T23:13:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 324,
    "stale": false
   },
   {
@@ -326,7 +326,7 @@
    "timestamp": "2026-10-11T23:12:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 211,
+   "ageSec": 394,
    "stale": false
   },
   {
@@ -343,7 +343,7 @@
    "timestamp": "2026-10-11T23:12:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 225,
+   "ageSec": 408,
    "stale": false
   },
   {
@@ -360,7 +360,7 @@
    "timestamp": "2026-10-11T23:11:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 267,
+   "ageSec": 450,
    "stale": false
   },
   {
@@ -377,7 +377,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -394,7 +394,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -411,7 +411,7 @@
    "timestamp": "2026-10-11T23:10:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 309,
+   "ageSec": 492,
    "stale": false
   },
   {
@@ -428,7 +428,7 @@
    "timestamp": "2026-10-11T23:10:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 309,
+   "ageSec": 492,
    "stale": false
   },
   {
@@ -445,7 +445,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -462,7 +462,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -479,7 +479,7 @@
    "timestamp": "2026-10-11T23:13:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 324,
    "stale": false
   },
   {
@@ -496,7 +496,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -513,7 +513,7 @@
    "timestamp": "2026-10-11T23:13:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 324,
    "stale": false
   },
   {
@@ -530,7 +530,7 @@
    "timestamp": "2026-10-11T23:13:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 167,
+   "ageSec": 350,
    "stale": false
   },
   {
@@ -547,7 +547,7 @@
    "timestamp": "2026-10-11T23:10:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 301,
+   "ageSec": 484,
    "stale": false
   },
   {
@@ -564,7 +564,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -581,7 +581,7 @@
    "timestamp": "2026-10-11T23:10:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 303,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -598,7 +598,7 @@
    "timestamp": "2026-10-11T23:10:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 307,
+   "ageSec": 490,
    "stale": false
   },
   {
@@ -615,7 +615,7 @@
    "timestamp": "2026-10-11T23:10:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 307,
+   "ageSec": 490,
    "stale": false
   },
   {
@@ -632,7 +632,7 @@
    "timestamp": "2026-10-11T23:10:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 309,
+   "ageSec": 492,
    "stale": false
   },
   {
@@ -649,7 +649,7 @@
    "timestamp": "2026-10-11T23:10:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 309,
+   "ageSec": 492,
    "stale": false
   },
   {
@@ -666,7 +666,7 @@
    "timestamp": "2026-10-11T23:10:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 309,
+   "ageSec": 492,
    "stale": false
   },
   {
@@ -683,7 +683,7 @@
    "timestamp": "2026-10-11T22:57:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1089,
+   "ageSec": 1272,
    "stale": true
   },
   {
@@ -700,7 +700,7 @@
    "timestamp": "2026-10-11T22:57:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1109,
+   "ageSec": 1292,
    "stale": true
   },
   {
@@ -717,7 +717,7 @@
    "timestamp": "2026-10-11T22:57:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1111,
+   "ageSec": 1294,
    "stale": true
   },
   {
@@ -734,7 +734,7 @@
    "timestamp": "2026-10-11T22:57:35Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1103,
+   "ageSec": 1286,
    "stale": true
   },
   {
@@ -751,7 +751,7 @@
    "timestamp": "2026-10-11T22:56:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1191,
+   "ageSec": 1374,
    "stale": true
   },
   {
@@ -768,7 +768,7 @@
    "timestamp": "2026-10-11T22:54:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1297,
+   "ageSec": 1480,
    "stale": true
   },
   {
@@ -785,7 +785,7 @@
    "timestamp": "2026-10-11T22:49:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1569,
+   "ageSec": 1752,
    "stale": true
   },
   {
@@ -802,7 +802,7 @@
    "timestamp": "2026-10-11T22:47:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1727,
+   "ageSec": 1910,
    "stale": true
   },
   {
@@ -819,7 +819,7 @@
    "timestamp": "2026-10-11T22:47:09Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1729,
+   "ageSec": 1912,
    "stale": true
   },
   {
@@ -836,7 +836,7 @@
    "timestamp": "2026-10-11T22:47:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1725,
+   "ageSec": 1908,
    "stale": true
   },
   {
@@ -853,7 +853,7 @@
    "timestamp": "2026-10-11T22:47:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1727,
+   "ageSec": 1910,
    "stale": true
   },
   {
@@ -870,7 +870,7 @@
    "timestamp": "2026-10-11T22:42:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2025,
+   "ageSec": 2208,
    "stale": true
   },
   {
@@ -887,7 +887,7 @@
    "timestamp": "2026-10-11T22:42:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2025,
+   "ageSec": 2208,
    "stale": true
   },
   {
@@ -904,7 +904,7 @@
    "timestamp": "2026-10-11T22:42:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2007,
+   "ageSec": 2190,
    "stale": true
   },
   {
@@ -921,7 +921,7 @@
    "timestamp": "2026-10-11T22:42:19Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2019,
+   "ageSec": 2202,
    "stale": true
   },
   {
@@ -938,7 +938,7 @@
    "timestamp": "2026-10-11T22:42:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2021,
+   "ageSec": 2204,
    "stale": true
   },
   {
@@ -955,7 +955,7 @@
    "timestamp": "2026-10-11T22:42:15Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2023,
+   "ageSec": 2206,
    "stale": true
   },
   {
@@ -972,7 +972,7 @@
    "timestamp": "2026-10-11T22:42:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2025,
+   "ageSec": 2208,
    "stale": true
   },
   {
@@ -989,7 +989,7 @@
    "timestamp": "2026-10-11T22:42:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2031,
+   "ageSec": 2214,
    "stale": true
   },
   {
@@ -1006,7 +1006,7 @@
    "timestamp": "2026-10-11T22:42:05Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2033,
+   "ageSec": 2216,
    "stale": true
   },
   {
@@ -1023,7 +1023,7 @@
    "timestamp": "2026-10-11T22:42:03Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2035,
+   "ageSec": 2218,
    "stale": true
   },
   {
@@ -1040,7 +1040,7 @@
    "timestamp": "2026-10-11T22:41:59Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2039,
+   "ageSec": 2222,
    "stale": true
   },
   {
@@ -1057,7 +1057,7 @@
    "timestamp": "2026-10-11T22:43:19Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 1959,
+   "ageSec": 2142,
    "stale": true
   },
   {
@@ -1074,7 +1074,7 @@
    "timestamp": "2026-10-11T22:42:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2025,
+   "ageSec": 2208,
    "stale": true
   },
   {
@@ -1091,7 +1091,7 @@
    "timestamp": "2026-10-11T22:42:03Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2035,
+   "ageSec": 2218,
    "stale": true
   },
   {
@@ -1108,7 +1108,7 @@
    "timestamp": "2026-10-11T22:42:01Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 2037,
+   "ageSec": 2220,
    "stale": true
   }
  ],
@@ -1125,7 +1125,7 @@
   "totalPnlUsd": 0.54,
   "bestTradeUsd": 0.54,
   "worstTradeUsd": 0.54,
-  "updatedAt": "2026-10-11T23:15:58.488Z"
+  "updatedAt": "2026-10-11T23:19:00.974Z"
  },
  "socialVelocity": {
   "updatedAt": "2026-10-11T23:15:01.673Z",
