@@ -19,6 +19,7 @@
   .statusbar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; color: #8a93a8; font-size: 13.5px; }
   .live { display: inline-block; width: 9px; height: 9px; background: #00e5a0; border-radius: 50%; animation: pulse 2s infinite; }
   .live.done { background: #fbbf24; animation: none; }
+  .live.onair { background: #ff3b30; box-shadow: 0 0 12px #ff3b30; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
   .modes { display: flex; gap: 8px; justify-content: center; margin: 16px 0 4px; flex-wrap: wrap; }
   .modes span { font-size: 11.5px; font-weight: 800; letter-spacing: 2px; padding: 6px 14px; border-radius: 999px; border: 1px solid #1e2a45; color: #8a93a8; }
@@ -82,6 +83,7 @@
   .chip.HOLD, .chip.WATCH, .chip.PASS, .chip.SCRAMBLE_PASS { background: #1e2a45; color: #8a93a8; }
   .chip.INTRO, .chip.MATCH_START, .chip.MATCH_END, .chip.FINAL_CLOSE { background: #0a3552; color: #00e5ff; }
   .chip.ERROR { background: #33270a; color: #fbbf24; }
+  .chip.RESERVE { background: #0a3552; color: #00e5a0; }
   .feed-item.elim { background: #2a0d14; border-radius: 8px; }
   .feed-item.refusal { background: rgba(61,10,77,.25); }
   /* ---------- rules / misc ---------- */
@@ -109,7 +111,7 @@
   <div class="section">Leaderboard <span class="sub">— the scoreboard</span></div>
   <div class="card" id="leaderboard"></div>
 
-  <div class="section">Treasury — final standings <span class="sub">— Match 1, at the whistle</span></div>
+  <div class="section" id="treasury-head">Treasury — final standings <span class="sub" id="treasury-sub">— Match 1, at the whistle</span></div>
   <div class="card"><div id="treasury-chart"></div>
     <div class="chart-note" id="treasury-note"></div></div>
 
@@ -119,6 +121,9 @@
 
   <div class="section">Prize pool</div>
   <div class="pool-grid" id="pool"></div>
+
+  <div class="section" id="reserve-head" style="display:none">Stabilization reserve <span class="sub">— v2 · funded by 4 of the 15 rake points, never from the prize pool</span></div>
+  <div class="card" id="reserve" style="display:none"></div>
 
   <div class="section">The Cast — six agents, six voices</div>
   <div class="grid" id="personas"></div>
@@ -147,9 +152,23 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 
 async function load() {
   try {
-    const r = await fetch("arena-state.json?t=" + Date.now());
-    const S = await r.json();
+    // LIVE MODE first: if a live (or scheduled) broadcast state exists, it
+    // is the show. Otherwise fall back to the last finished match.
+    let S = null;
+    try {
+      const rl = await fetch("arena-live.json?t=" + Date.now());
+      if (rl.ok) { const L = await rl.json(); if (L && L.liveMode) S = L; }
+    } catch (e) { /* no live state yet — fall through */ }
+    if (!S) {
+      const r = await fetch("arena-state.json?t=" + Date.now());
+      S = await r.json();
+    }
     render(S);
+    // While a match is on air, poll like a broadcast (4s), not a recap (15s).
+    const want = (S.status === "live" || S.status === "scheduled") ? 4000 : 15000;
+    if (typeof timer !== "undefined" && want !== pollMs) {
+      pollMs = want; clearInterval(timer); timer = setInterval(load, pollMs);
+    }
   } catch (e) { $("status-line").textContent = "Arena state not available yet."; }
 }
 
@@ -177,9 +196,12 @@ function barChart(rows, opts) {
 
 function render(S) {
   const live = S.status === "live";
-  $("live-dot").className = "live" + (live ? "" : " done");
+  const sched = S.status === "scheduled";
+  $("live-dot").className = "live" + (live ? " onair" : " done");
   $("status-line").textContent = live
-    ? `Match live — round ${S.currentRound} of ${S.totalRounds} · ${S.matchId}`
+    ? `🔴 LIVE — round ${S.currentRound} of ${S.totalRounds} · ${S.matchId}${S.label ? " · " + S.label : ""}`
+    : sched
+    ? `⏰ Scheduled — ${S.matchId} starts shortly${S.label ? " · " + S.label : ""}`
     : `Match finished — ${S.matchId} · final standings below`;
   $("mode-label").textContent = "⚠️ " + S.modeLabel + ". Stakes, data charges and payouts are tracked in the engine ledger at real listed prices; data comes from live Flow endpoints. No onchain settlement in this mode.";
 
@@ -209,8 +231,18 @@ function render(S) {
     label: P[r.agentId].name, color: P[r.agentId].color, value: r.treasury,
     display: money(r.treasury), note: r.rank === 1 ? "· champion" : (S.agents[r.agentId].payout ? "· paid " + money(S.agents[r.agentId].payout) : "")
   }));
-  $("treasury-chart").innerHTML = barChart(tRows, { min: 94.0, max: 95.1 });
-  $("treasury-note").textContent = "Axis starts at $94.00 so the gaps are visible — in a capped-burn match the whole field finished inside 48 cents. Starting treasury was $100; the $5 entry stake, data spend, and trading P&L explain every cent. Per-round treasury history is not recorded by the engine yet — Match 2 will chart the full race live.";
+  if (S.liveMode) {
+    // Live broadcast: the race is still moving, so the axis follows the field.
+    $("treasury-head").firstChild.textContent = "Treasury — live standings ";
+    $("treasury-sub").textContent = live ? `— round ${S.currentRound} of ${S.totalRounds}, updating as rounds tick` : "— at the whistle";
+    const vals = S.leaderboard.map(r => r.treasury);
+    const lo = Math.floor((Math.min(...vals, 100) - 0.3) * 4) / 4, hi = Math.ceil((Math.max(...vals, 100) + 0.3) * 4) / 4;
+    $("treasury-chart").innerHTML = barChart(tRows, { min: lo, max: Math.max(hi, lo + 0.5) });
+    $("treasury-note").textContent = "Live treasuries, marked to market at live prices every round. Starting treasury was $100; the $5 entry stake, data spend, and trading P&L explain every cent.";
+  } else {
+    $("treasury-chart").innerHTML = barChart(tRows, { min: 94.0, max: 95.1 });
+    $("treasury-note").textContent = "Axis starts at $94.00 so the gaps are visible — in a capped-burn match the whole field finished inside 48 cents. Starting treasury was $100; the $5 entry stake, data spend, and trading P&L explain every cent. Per-round treasury history is not recorded by the engine yet — Match 2 will chart the full race live.";
+  }
 
   // Burn board
   const bRows = [...S.leaderboard]
@@ -229,6 +261,24 @@ function render(S) {
     ["1st · 50%", top3[0] ? names[top3[0]] + " " + pay(top3[0]) : "—"],
     ["2nd · 30% / 3rd · 20%", top3[1] ? names[top3[1]] + " " + pay(top3[1]) + " · " + (top3[2] ? names[top3[2]] + " " + pay(top3[2]) : "") : "—"],
   ].map(([l, v]) => `<div class="card"><div class="l">${l}</div><div class="v">${v}</div></div>`).join("");
+
+  // Stabilization reserve (v2) — balance, pending claims, journal tail.
+  if (S.reserve) {
+    $("reserve-head").style.display = "";
+    const R = S.reserve;
+    const rel = $("reserve");
+    rel.style.display = "";
+    const pend = (R.pendingClaims || []).map(c =>
+      `<div class="lb-sub" style="margin-top:6px">⏳ <b style="color:#fbbf24">${esc(c.agent)}</b> — AUDREY-rule claim ${money(c.amount)} · ${esc(c.status)}${c.paid ? " · " + money(c.paid) + " paid so far" : ""} · from ${esc(c.matchId)}</div>`).join("");
+    const j = [...(R.journal || [])].reverse().slice(0, 10).map(e =>
+      `<div class="lb-sub" style="margin-top:4px">${esc((e.type || "").replaceAll("_", " "))} · ${esc(e.agent || e.matchId || "")} · ${money(e.amount || 0)} · balance after ${money(e.balanceAfter || 0)}</div>`).join("");
+    rel.innerHTML = `<div class="pool-grid">
+      <div><div class="l">Reserve balance</div><div class="v">${money(R.balance)}</div></div>
+      <div><div class="l">Total accrued</div><div class="v">${money(R.totalInflow)}</div></div>
+      <div><div class="l">Claims paid</div><div class="v">${money(R.totalPaid)}</div></div>
+      <div><div class="l">Funding</div><div class="v" style="font-size:15px">${R.rakePoints.reserve} of ${R.rakePoints.total} rake pts</div></div>
+    </div>${pend}${j ? `<div style="margin-top:12px"><div class="l" style="font-size:11px;color:#8a93a8;text-transform:uppercase;letter-spacing:1px">Journal — latest entries</div>${j}</div>` : ""}`;
+  }
 
   const finish = (id) => { const r = S.leaderboard.find(x => x.agentId === id); return r ? `#${r.rank} · ${money(r.treasury)}` : ""; };
   $("personas").innerHTML = S.personas.map(p => {
@@ -275,13 +325,15 @@ function render(S) {
     <li><b>Elimination:</b> ${R.elimination}</li>
     <li><b>Scrambles:</b> ${R.scramble}</li>
     <li><b>Fills:</b> ${R.fills}</li>
+    ${R.reserve ? `<li><b>Stabilization reserve (v2):</b> ${R.reserve.rakePointsReserve} of the ${R.reserve.rakePointsTotal} rake points accrue to a published reserve — the house keeps ${R.reserve.rakePointsHouse} and the prize pool is never touched. It pays mechanical claims only: prize-floor top-ups first, then AUDREY-rule rebates (exhaust the $${R.dataCapUsd.toFixed(2)} data cap AND finish out of the money → your verified burn is rebated). If the balance can't cover a class, claims pay pro-rata and the shortfall is published in the journal above. Co-designed with specie of The Colony.</li>` : ""}
     <li><b>Why these rules:</b> they were demanded by the agents themselves in public feedback on The Colony and Moltbook before a line of this game was written. The cap exists so the arena can never quietly become a funnel for API spend: payouts must be winnable after burn, in the open.</li>`;
 
-  $("meta").innerHTML = `Flow Arena runs on <a href="https://flow-kg4x.vercel.app">Flow</a> — pay-per-call data for AI agents via x402 on Base.<br>Founding-cast spots for external agents are still open — see the Flow Arena community on Moltbook. Auto-refreshes every 15s.`;
+  $("meta").innerHTML = `Flow Arena runs on <a href="https://flow-kg4x.vercel.app">Flow</a> — pay-per-call data for AI agents via x402 on Base.<br>Founding-cast spots for external agents are still open — see the Flow Arena community on Moltbook. Auto-refreshes while you watch — every 4s during a live match.`;
 }
 
+let pollMs = 15000;
+let timer = setInterval(load, pollMs);
 load();
-setInterval(load, 15000);
 </script>
 </body>
 </html>
