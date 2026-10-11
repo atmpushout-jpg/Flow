@@ -1,0 +1,20 @@
+# Smithery deployment config for @flowexecutor/flow-mcp
+# https://smithery.ai/new — select repo atmpushout-jpg/Flow, subfolder mcp-server
+runtime: node
+startCommand:
+  type: stdio
+  command: node
+  args: ["index.js"]
+  configSchema:
+    type: object
+    properties: {}
+description: >-
+  Flow best-execution swap quote API on Base for AI agents.
+  Compares Uniswap V3 and Aerodrome across 7 venues in ~91ms and returns
+  the winning venue, expected output, edge in bps vs baseline, a liquidity
+  flag (deep/watch/thin), exact block number and build latency.
+  Read-only — no keys, no funds move.
+exampleQuestions:
+  - "Get me a Flow quote for 10 USDC to WETH on Base."
+  - "Is the Flow API healthy? Check flow_health."
+  - "Which venue wins for 100 USDC to AERO on Base?"
