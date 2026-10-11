@@ -32,10 +32,10 @@
   <h1><span class="live"></span>FlowExecutor Mission Control</h1>
   <div class="sub">Live engine data + AI interpretation — refreshes every 60 seconds</div>
 
-  <div class="section">Engine — Live Quote ($100 USDC → WETH)</div>
+  <div class="section">Engine — Live Quotes ($100 probes)</div>
   <div class="cards">
     <div class="card"><div class="label">Best Venue</div><div class="value green" id="venue">–</div><div class="detail" id="venue-d">–</div></div>
-    <div class="card"><div class="label">Edge</div><div class="value" id="edge">–</div><div class="detail" id="edge-d">–</div></div>
+    <div class="card"><div class="label">Best Live Edge</div><div class="value" id="edge">–</div><div class="detail" id="edge-d">–</div></div>
     <div class="card"><div class="label">Speed</div><div class="value" id="latency">–</div><div class="detail" id="latency-d">–</div></div>
     <div class="card"><div class="label">Liquidity</div><div class="value" id="liq">–</div><div class="detail" id="liq-d">–</div></div>
   </div>
@@ -70,10 +70,23 @@ async function load() {
     // Engine indicators (prefer live quote, fall back to explanation snapshot)
     const venue = (q.venue || ind.venue || '–').toUpperCase();
     document.getElementById('venue').textContent = venue;
-    document.getElementById('venue-d').textContent = 'Winning DEX';
-    const edge = q.edgeBps ?? ind.edgeBps ?? '–';
+    document.getElementById('venue-d').textContent = 'Winning DEX · $100 USDC → WETH';
+    // Hero edge = best live edge across all pairs the dashboard scans,
+    // labeled with the pair and venue that produced it. Falls back to the
+    // USDC → WETH probe (then the explanation snapshot) if bestEdge is absent.
+    const be = d.bestEdge || null;
+    let edge, edgeDetail;
+    if (be) {
+      edge = be.edgeBps ?? 0;
+      edgeDetail = edge > 0 && be.pair
+        ? be.pair + ' · via ' + String(be.venue || '').toUpperCase() + ' · over Uniswap baseline'
+        : 'No edge across ' + (be.pairsScanned ?? '–') + ' pairs right now';
+    } else {
+      edge = q.edgeBps ?? ind.edgeBps ?? '–';
+      edgeDetail = 'Over Uniswap baseline';
+    }
     document.getElementById('edge').textContent = edge + ' bps';
-    document.getElementById('edge-d').textContent = 'Over Uniswap baseline';
+    document.getElementById('edge-d').textContent = edgeDetail;
     const lat = q.latencyMs ?? ind.latencyMs ?? 0;
     document.getElementById('latency').textContent = lat + 'ms';
     document.getElementById('latency').className = 'value ' + (lat < 200 ? 'green' : lat < 1000 ? 'yellow' : 'red');
