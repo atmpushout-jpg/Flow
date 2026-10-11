@@ -6,6 +6,9 @@
  *   flow_quote  — multi-venue swap quote (Uniswap V3, Aerodrome) with edge vs baseline,
  *                 liquidity flag, block number and latency.
  *   flow_health — API health check (chain, latest block).
+ *   flow_signals — chronological smart-wallet signal feed for polling
+ *                 (paid x402 endpoint; pass an x402 X-PAYMENT header value
+ *                 obtained from your own wallet to retrieve fresh data).
  *
  * Read-only: never touches user funds or private keys.
  */
@@ -89,6 +92,85 @@ server.tool(
     const h = await getJson("/api/health");
     return {
       content: [{ type: "text", text: JSON.stringify(h, null, 2) }],
+    };
+  }
+);
+
+server.tool(
+  "flow_signals",
+  "Get the Flow smart-wallet signal feed: the most recent buy signals from " +
+    "tracked Base wallets plus social-velocity spikes, newest first, each " +
+    "with timestamp, block number, wallet, token, and signal score. " +
+    "Supports incremental polling: pass `since` (unix seconds, unix ms, " +
+    "ISO 8601, or a Base block number) to get only entries newer than your " +
+    "last check, and use the returned cursor for the next poll. This is a " +
+    "PAID x402 endpoint ($0.01 USDC on Base): pass a signed x402 v2 " +
+    "X-PAYMENT header value via `paymentHeader`. Without one, the tool " +
+    "returns the endpoint's 402 payment requirements so you can pay with " +
+    "your own wallet and retry. Read-only: never touches funds or keys.",
+  {
+    since: z
+      .string()
+      .optional()
+      .describe("Only return entries newer than this: unix seconds/ms, ISO 8601 timestamp, or Base block number"),
+    limit: z
+      .number()
+      .optional()
+      .describe("Max signals to return, 1..100 (default 50)"),
+    paymentHeader: z
+      .string()
+      .optional()
+      .describe("Base64 x402 v2 X-PAYMENT header value authorizing $0.01 USDC on Base to the Flow payee (from the 402 response)"),
+  },
+  async ({ since, limit, paymentHeader }) => {
+    const params = new URLSearchParams();
+    if (since) params.set("since", since);
+    if (limit) params.set("limit", String(limit));
+    const qs = params.toString();
+    const headers = paymentHeader ? { "X-PAYMENT": paymentHeader } : {};
+    const res = await fetch(`${API_BASE}/api/signals${qs ? `?${qs}` : ""}`, { headers });
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text, status: res.status };
+    }
+    if (res.status === 402) {
+      return {
+        content: [
+          {
+            type: "text",
+            text:
+              "Flow signals is a paid x402 endpoint ($0.01 USDC on Base). " +
+              "Pay the requirements below with your own wallet and call " +
+              "flow_signals again with paymentHeader set to the X-PAYMENT value:\n" +
+              JSON.stringify(data, null, 2),
+          },
+        ],
+      };
+    }
+    if (data.error) {
+      return { content: [{ type: "text", text: `Flow signals error: ${data.error}` }] };
+    }
+    const lines = (data.signals || [])
+      .slice(0, 10)
+      .map(
+        (s) =>
+          `${s.timestamp} block ${s.blockNumber}: ${s.wallet?.slice(0, 10)}… ${s.side} ${s.symbol} $${s.amountUsd} (score ${s.signalScore}${s.stale ? ", STALE" : ""})`
+      );
+    const summary = [
+      `Signals returned: ${data.returned} of ${data.available} available (data as of ${data.dataAsOf}, source ${data.source})`,
+      ...lines,
+      data.cursor ? `Next poll: flow_signals since=${data.cursor.lastTimestamp || data.cursor.lastBlock}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    return {
+      content: [
+        { type: "text", text: summary },
+        { type: "text", text: JSON.stringify(data, null, 2) },
+      ],
     };
   }
 );
