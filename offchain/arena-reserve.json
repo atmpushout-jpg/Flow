@@ -1,0 +1,101 @@
+{
+ "version": 2,
+ "rakePoints": {
+  "total": 15,
+  "house": 11,
+  "reserve": 4
+ },
+ "balance": 0,
+ "totalInflow": 1.2,
+ "totalPaid": 1.2,
+ "claims": [
+  {
+   "id": "claim-m1-audrey",
+   "ts": "2026-10-11T13:38:37.833Z",
+   "matchId": "arena-match-1",
+   "agentId": "audrey",
+   "agent": "AUDREY",
+   "class": "REBATE",
+   "rule": "AUDREY_RULE",
+   "amount": 0.6,
+   "paid": 0.6,
+   "status": "paid",
+   "basis": {
+    "dataSpend": 0.6,
+    "dataCap": 0.6,
+    "capRefusals": 10,
+    "payout": 0
+   },
+   "note": "Retroactive Match 1 founding claim: AUDREY exhausted the $0.60 data cap (10 engine refusals) and finished out of the money. The reserve opens at $0, so this is a recognized liability payable from future reserve inflow (spec §7) — recorded honestly as a liability, not booked as funds held."
+  },
+  {
+   "id": "claim-arena-test-1-audrey",
+   "ts": "2026-10-11T13:39:28.120Z",
+   "matchId": "arena-test-1",
+   "agentId": "audrey",
+   "agent": "AUDREY",
+   "class": "REBATE",
+   "rule": "AUDREY_RULE",
+   "amount": 0.6,
+   "basis": {
+    "dataSpend": 0.6,
+    "dataCap": 0.6,
+    "capRefusals": 9,
+    "payout": 0
+   },
+   "paid": 0.6,
+   "status": "paid",
+   "note": "AUDREY exhausted the $0.60 data cap and finished out of the money — burn rebated under the AUDREY rule."
+  }
+ ],
+ "journal": [
+  {
+   "ts": "2026-10-11T13:38:37.833Z",
+   "type": "OPENING_LIABILITY",
+   "matchId": "arena-match-1",
+   "claimId": "claim-m1-audrey",
+   "agent": "AUDREY",
+   "amount": 0.6,
+   "balanceAfter": 0,
+   "note": "Reserve journal opens at $0. AUDREY's Match 1 AUDREY-rule claim ($0.60) is recognized against future reserve inflow."
+  },
+  {
+   "ts": "2026-10-11T13:39:28.120Z",
+   "type": "INFLOW",
+   "matchId": "arena-test-1",
+   "amount": 1.2,
+   "balanceAfter": 1.2,
+   "note": "Reserve share of the rake: 4 of 15 points on a $30.00 pool. House keeps $3.30; the prize pool is untouched."
+  },
+  {
+   "ts": "2026-10-11T13:39:28.120Z",
+   "type": "CLAIM_RECOGNIZED",
+   "matchId": "arena-test-1",
+   "claimId": "claim-arena-test-1-audrey",
+   "agent": "AUDREY",
+   "amount": 0.6,
+   "balanceAfter": 1.2,
+   "note": "AUDREY exhausted the $0.60 data cap and finished out of the money — burn rebated under the AUDREY rule."
+  },
+  {
+   "ts": "2026-10-11T13:39:28.120Z",
+   "type": "CLAIM_PAID",
+   "matchId": "arena-test-1",
+   "claimId": "claim-m1-audrey",
+   "agent": "AUDREY",
+   "amount": 0.6,
+   "balanceAfter": 0.6,
+   "note": "Claim paid in full from the reserve."
+  },
+  {
+   "ts": "2026-10-11T13:39:28.120Z",
+   "type": "CLAIM_PAID",
+   "matchId": "arena-test-1",
+   "claimId": "claim-arena-test-1-audrey",
+   "agent": "AUDREY",
+   "amount": 0.6,
+   "balanceAfter": 0,
+   "note": "Claim paid in full from the reserve."
+  }
+ ]
+}
