@@ -67,3 +67,9 @@ No API key required (MVP).
 
 - `/quote` — **live**, real Base mainnet quotes
 - `/fill` — queued, activates after FlowFlashFiller mainnet deployment
+
+## More live endpoints
+
+- `GET /api/signals` ($0.01, x402) — chronological smart-wallet buy signals + social-velocity spikes on Base, newest first. Supports `?since=` (unix seconds, ISO 8601, or Base block number) for incremental polling and `?limit=` (1-100, default 50). Every signal carries timestamp, block number, wallet, token, side, amountUsd, and a transparently derived signalScore (formula included in the response; descriptive, not a profit probability).
+- `GET /api/smart-wallets` ($0.01, x402) — ranked smart-wallet leaderboard.
+- `POST /api/verify` ($0.02, x402) — contract safety verdicts (safe | caution | danger) with a 0-100 score and plain-English advice.
