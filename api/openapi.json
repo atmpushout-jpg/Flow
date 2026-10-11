@@ -141,6 +141,36 @@
         "summary": "Usage statistics"
       }
     },
+    "/api/signals": {
+      "get": {
+        "summary": "Smart-wallet signal feed (polling)",
+        "description": "Chronological buy-signal feed from tracked Base wallets plus social-velocity spikes, newest first, each entry with timestamp, block number, wallet, token, and signal score. Incremental polling via ?since=<unix timestamp or block number> and ?limit=<1..100>. x402 pay-per-call: $0.01 USDC on Base.",
+        "parameters": [
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only return entries strictly newer than this (unix seconds/ms, ISO 8601, or Base block number).",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Max signals to return, 1..100 (default 50).",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "signals, socialSpikes, cursor, dataAsOf, source, disclaimer."
+          },
+          "402": {
+            "description": "Payment required - x402 v2 exact, $0.01 USDC on Base (eip155:8453)."
+          }
+        }
+      }
+    },
     "/api/verify": {
       "post": {
         "description": "Contract safety check for AI agents: verifies whether a contract's source is published, detects upgradeable proxies, scans verified source for dangerous owner privileges (mint/pause/blacklist/taxes), checks ownership, and simulates a buy+sell to catch honeypots. Returns a plain-English risk report with a safe/caution/danger verdict.",
