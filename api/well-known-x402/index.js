@@ -29,6 +29,13 @@ const MANIFEST = {
       priceUsd: 0.01,
     },
     {
+      path: "/api/signals",
+      method: "GET",
+      description:
+        "Use when an agent is polling for fresh smart-wallet buy signals on Base and needs only what's new since its last check. Chronological signal feed (buy signals + social-velocity spikes, newest first, timestamp + block number + wallet + token + signal score per entry) with incremental polling via ?since=<unix timestamp or block number>.",
+      priceUsd: 0.01,
+    },
+    {
       path: "/api/verify",
       method: "POST",
       description:
