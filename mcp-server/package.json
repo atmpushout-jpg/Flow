@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "build": "echo \"no build step - pure Node.js\""
+    "build": "mkdir -p dist && cp index.js dist/index.js && echo build-ok"
   },
   "type": "module",
   "version": "0.1.0"
