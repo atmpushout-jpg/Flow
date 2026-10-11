@@ -146,7 +146,7 @@ function paymentRequiredBody(req, resourceMeta) {
       url: resourceUrl(req, meta.path),
       description:
         meta.description ||
-        "Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers for a token swap on Base and returns the best venue, expected output, and edge vs Uniswap baseline.",
+        "Use when an agent is about to swap on Base and needs the best executable price before committing funds. Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers and returns the best venue, expected output, edge vs Uniswap baseline, block number, and an expiry window so the agent knows exactly how long the price holds.",
       mimeType: "application/json",
       serviceName: "Flow",
       tags: ["trading", "defi", "base", "dex", "quotes"],
