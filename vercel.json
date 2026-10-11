@@ -11,6 +11,9 @@
     },
     "api/smart-wallets/index.js": {
       "maxDuration": 10
+    },
+    "api/signals/index.js": {
+      "maxDuration": 10
     }
   },
   "version": 2,
