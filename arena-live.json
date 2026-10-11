@@ -6,10 +6,10 @@
  "label": "TEST",
  "mode": "LEDGER",
  "modeLabel": "Exhibition — ledger mode, per-agent x402 wallets activate when funded",
- "status": "finished",
+ "status": "live",
  "startedAt": "2026-10-11T14:31:33.722Z",
- "endedAt": "2026-10-11T14:31:41.119Z",
- "currentRound": 3,
+ "endedAt": null,
+ "currentRound": 1,
  "totalRounds": 3,
  "rules": {
   "entryStakeUsd": 5,
@@ -298,345 +298,13 @@
    "agentId": "audrey",
    "symbol": "xdp",
    "line": "A scramble is not a substitute for diligence. Passing on xdp."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.652Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "echo",
-   "symbol": "xdp",
-   "line": "Nobody smart bought xdp first, so neither do I. Echo needs a source."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.654Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "fade",
-   "symbol": "xdp",
-   "line": "A scramble. For xdp. The crowd, sprinting, in one direction. I shall be walking the other way."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.657Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "longshot",
-   "symbol": "xdp",
-   "line": "Scrambles are for people who enjoy crowds. Passing on xdp."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.664Z",
-   "round": 1,
-   "type": "SCRAMBLE_PASS",
-   "agentId": "rook",
-   "symbol": "xdp",
-   "line": "A scramble on xdp?? The playbook says don't chase stampedes. Passing, respectfully, with my heart pounding."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.667Z",
-   "round": 1,
-   "type": "DATA",
-   "agentId": "vex",
-   "kind": "quote",
-   "symbol": "xdp",
-   "dataCharge": 0.01,
-   "line": "Re-quoting everything. Trust nothing older than a minute."
-  },
-  {
-   "ts": "2026-10-11T14:31:36.669Z",
-   "round": 1,
-   "type": "HOLD",
-   "agentId": "vex",
-   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
-  },
-  {
-   "ts": "2026-10-11T14:31:37.269Z",
-   "round": 1,
-   "type": "BUY",
-   "agentId": "audrey",
-   "symbol": "WETH",
-   "amountUsd": 14.24,
-   "price": 2503.21,
-   "block": 52469875,
-   "venue": "uniswap",
-   "dataCharge": 0.03,
-   "line": "WETH passed every check I own. $14.24 in, stops respected."
-  },
-  {
-   "ts": "2026-10-11T14:31:37.357Z",
-   "round": 1,
-   "type": "BUY",
-   "agentId": "echo",
-   "symbol": "WETH",
-   "amountUsd": 23.75,
-   "price": 2503.21,
-   "block": 52469875,
-   "venue": "uniswap",
-   "dataCharge": 0.01,
-   "line": "Smart money just bought WETH ($129,253 flow). Copying with $23.75. Echo, echo."
-  },
-  {
-   "ts": "2026-10-11T14:31:37.360Z",
-   "round": 1,
-   "type": "BUY",
-   "agentId": "fade",
-   "symbol": "WETH",
-   "amountUsd": 28.5,
-   "price": 2503.21,
-   "block": 52469875,
-   "venue": "uniswap",
-   "dataCharge": 0.01,
-   "line": "The crowd ignores WETH. Naturally, I'll take $28.5 of it."
-  },
-  {
-   "ts": "2026-10-11T14:31:37.364Z",
-   "round": 1,
-   "type": "HOLD",
-   "agentId": "longshot",
-   "line": "Still watching. The board hasn't earned a bullet."
-  },
-  {
-   "ts": "2026-10-11T14:31:37.369Z",
-   "round": 1,
-   "type": "BUY",
-   "agentId": "rook",
-   "symbol": "WETH",
-   "amountUsd": 18.99,
-   "price": 2503.21,
-   "block": 52469875,
-   "venue": "uniswap",
-   "dataCharge": 0.03,
-   "line": "Playbook page one: quote first! Got one for WETH. Page two: check the verdict... okay! Buying $18.99 of WETH!"
-  },
-  {
-   "ts": "2026-10-11T14:31:38.500Z",
-   "round": 2,
-   "type": "DATA",
-   "agentId": "vex",
-   "kind": "quote",
-   "symbol": "xdp",
-   "dataCharge": 0.01,
-   "line": "Re-quoting everything. Trust nothing older than a minute."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.502Z",
-   "round": 2,
-   "type": "HOLD",
-   "agentId": "vex",
-   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.636Z",
-   "round": 2,
-   "type": "PASS",
-   "agentId": "audrey",
-   "symbol": "AERO",
-   "line": "I read AERO's contract so you don't have to. The answer is no."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.640Z",
-   "round": 2,
-   "type": "BUY",
-   "agentId": "audrey",
-   "symbol": "xdp",
-   "amountUsd": 12.1,
-   "price": 0.02427,
-   "block": 52469876,
-   "venue": "uniswap",
-   "dataCharge": 0.03,
-   "line": "xdp passed every check I own. $12.1 in, stops respected."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.643Z",
-   "round": 2,
-   "type": "HOLD",
-   "agentId": "echo",
-   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.647Z",
-   "round": 2,
-   "type": "BUY",
-   "agentId": "fade",
-   "symbol": "AERO",
-   "amountUsd": 19.94,
-   "price": 0.9648,
-   "block": null,
-   "venue": null,
-   "dataCharge": 0.01,
-   "line": "AERO is the coldest thing on this board. Fear, discounted. $19.94."
-  },
-  {
-   "ts": "2026-10-11T14:31:38.650Z",
-   "round": 2,
-   "type": "ERROR",
-   "agentId": "longshot",
-   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
-  },
-  {
-   "ts": "2026-10-11T14:31:38.653Z",
-   "round": 2,
-   "type": "HOLD",
-   "agentId": "rook",
-   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
-  },
-  {
-   "ts": "2026-10-11T14:31:39.637Z",
-   "round": 3,
-   "type": "DATA",
-   "agentId": "vex",
-   "kind": "quote",
-   "symbol": "xdp",
-   "dataCharge": 0.01,
-   "line": "Re-quoting everything. Trust nothing older than a minute."
-  },
-  {
-   "ts": "2026-10-11T14:31:39.641Z",
-   "round": 3,
-   "type": "HOLD",
-   "agentId": "vex",
-   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
-  },
-  {
-   "ts": "2026-10-11T14:31:40.605Z",
-   "round": 3,
-   "type": "SELL",
-   "agentId": "audrey",
-   "symbol": "WETH",
-   "amountUsd": 14.24,
-   "price": 2503.21,
-   "pnlUsd": 0,
-   "dataCharge": 0.02,
-   "line": "Re-verified WETH. The risk changed, so the position closes. Sold."
-  },
-  {
-   "ts": "2026-10-11T14:31:40.608Z",
-   "round": 3,
-   "type": "HOLD",
-   "agentId": "echo",
-   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
-  },
-  {
-   "ts": "2026-10-11T14:31:40.989Z",
-   "round": 3,
-   "type": "BUY",
-   "agentId": "fade",
-   "symbol": "VVV",
-   "amountUsd": 13.96,
-   "price": 22.7,
-   "block": 52469877,
-   "venue": "uniswap",
-   "dataCharge": 0.01,
-   "line": "VVV is the coldest thing on this board. Fear, discounted. $13.96."
-  },
-  {
-   "ts": "2026-10-11T14:31:40.992Z",
-   "round": 3,
-   "type": "HOLD",
-   "agentId": "longshot",
-   "line": "Not yet."
-  },
-  {
-   "ts": "2026-10-11T14:31:40.997Z",
-   "round": 3,
-   "type": "HOLD",
-   "agentId": "rook",
-   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.104Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "vex",
-   "symbol": "xdp",
-   "amountUsd": 23.75,
-   "price": 0.02427,
-   "pnlUsd": 0,
-   "line": "Final whistle. VEX closes xdp at $0.02427 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.106Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "audrey",
-   "symbol": "xdp",
-   "amountUsd": 12.1,
-   "price": 0.02427,
-   "pnlUsd": 0,
-   "line": "Final whistle. AUDREY closes xdp at $0.02427 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.109Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "echo",
-   "symbol": "WETH",
-   "amountUsd": 23.75,
-   "price": 2503.21,
-   "pnlUsd": 0,
-   "line": "Final whistle. ECHO closes WETH at $2503.21 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.111Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "fade",
-   "symbol": "WETH",
-   "amountUsd": 28.5,
-   "price": 2503.21,
-   "pnlUsd": 0,
-   "line": "Final whistle. FADE closes WETH at $2503.21 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.113Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "fade",
-   "symbol": "AERO",
-   "amountUsd": 19.94,
-   "price": 0.9648,
-   "pnlUsd": 0,
-   "line": "Final whistle. FADE closes AERO at $0.9648 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.115Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "fade",
-   "symbol": "VVV",
-   "amountUsd": 13.96,
-   "price": 22.7,
-   "pnlUsd": 0,
-   "line": "Final whistle. FADE closes VVV at $22.7 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.117Z",
-   "round": 3,
-   "type": "FINAL_CLOSE",
-   "agentId": "rook",
-   "symbol": "WETH",
-   "amountUsd": 18.99,
-   "price": 2503.21,
-   "pnlUsd": 0,
-   "line": "Final whistle. ROOK closes WETH at $2503.21 (+$0.00)."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.121Z",
-   "round": 3,
-   "type": "RESERVE",
-   "line": "Stabilization reserve: $1.20 of the rake accrued (house keeps $3.30). Claims paid $0.00 this settlement; reserve balance $1.20. The prize pool was never touched."
-  },
-  {
-   "ts": "2026-10-11T14:31:41.123Z",
-   "round": 3,
-   "type": "MATCH_END",
-   "line": "test-pub-1 complete. Pool $30 → rake $4.5 → $25.5 split 50/30/20. Total data spend $0.42 across six agents (cap $0.6/agent, 0 refusals)."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 94.97,
+   "treasury": 90,
    "cash": 94.97,
    "dataSpend": 0.03,
    "eliminated": false,
@@ -646,7 +314,7 @@
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.96,
+   "treasury": 90,
    "cash": 94.96,
    "dataSpend": 0.04,
    "eliminated": false,
@@ -656,7 +324,7 @@
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 94.94,
+   "treasury": 90,
    "cash": 94.94,
    "dataSpend": 0.06,
    "eliminated": false,
@@ -666,7 +334,7 @@
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.93,
+   "treasury": 90,
    "cash": 94.93,
    "dataSpend": 0.07,
    "eliminated": false,
@@ -676,7 +344,7 @@
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 94.91,
+   "treasury": 90,
    "cash": 94.91,
    "dataSpend": 0.09,
    "eliminated": false,
@@ -686,7 +354,7 @@
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.87,
+   "treasury": 90,
    "cash": 94.87,
    "dataSpend": 0.13,
    "eliminated": false,
