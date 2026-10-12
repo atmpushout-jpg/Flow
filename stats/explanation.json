@@ -1,15 +1,15 @@
 {
-  "explanation": "Probe pair: $100 USDC \u2192 WETH. Both venues are pricing identically right now (uniswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 156ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
+  "explanation": "Probe pair: $100 USDC \u2192 WETH. Both venues are pricing identically right now (pancakeswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 163ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
   "bottomLine": "BOTTOM LINE: Market is efficient right now. Our value here is confirmation \u2014 agents know they're getting a fair price.",
   "indicators": {
-    "venue": "uniswap",
+    "venue": "pancakeswap",
     "edgeBps": 0,
     "liquidity": "deep",
-    "latencyMs": 156,
-    "blockNumber": 52522346,
+    "latencyMs": 163,
+    "blockNumber": 52524148,
     "spreadBps": 0,
     "pair": "USDC->WETH",
     "amountInUsd": 100
   },
-  "generatedAt": "2026-10-12T19:40:38.967443+00:00"
+  "generatedAt": "2026-10-12T20:40:44.814062+00:00"
 }
