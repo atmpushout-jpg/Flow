@@ -256,9 +256,19 @@ function cdpPrivateKey(secret) {
         "-----BEGIN " + m[1].trim() + "-----\n" +
         (body.match(/.{1,64}/g) || []).join("\n") +
         "\n-----END " + m[1].trim() + "-----\n";
-      k = crypto.createPrivateKey({ key: clean, format: "pem" });
+      try {
+        k = crypto.createPrivateKey({ key: clean, format: "pem" });
+      } catch (e) {
+        throw new Error("CDP_API_KEY_SECRET PEM unparseable (label \"" + m[1].trim() + "\", body " + body.length + " chars): " + e.message);
+      }
+      k.__via = "pem:" + m[1].trim();
     } else {
-      k = crypto.createPrivateKey({ key: t, format: "pem" });
+      try {
+        k = crypto.createPrivateKey({ key: t, format: "pem" });
+      } catch (e) {
+        throw new Error("CDP_API_KEY_SECRET PEM unparseable (no BEGIN/END span found): " + e.message);
+      }
+      k.__via = "pem:raw";
     }
     if (k.asymmetricKeyType !== "ed25519")
       throw new Error("CDP_API_KEY_SECRET is a " + k.asymmetricKeyType + " key - the CDP key must be Ed25519");
@@ -266,9 +276,14 @@ function cdpPrivateKey(secret) {
   };
   if (s.startsWith("-----BEGIN")) return asKey(s);
   const raw = Buffer.from(s.replace(/\s+/g, ""), "base64");
-  if (raw.subarray(0, 10).toString("latin1").startsWith("-----BEGIN")) return asKey(raw.toString("utf8"));
+  if (raw.subarray(0, 10).toString("latin1").startsWith("-----BEGIN")) {
+    const k = asKey(raw.toString("utf8"));
+    k.__via = "b64-" + (k.__via || "pem");
+    return k;
+  }
   let seed = raw;
-  if (seed.length === 64) seed = seed.subarray(0, 32); // some exports include the pubkey
+  const was64 = seed.length === 64;
+  if (was64) seed = seed.subarray(0, 32); // some exports include the pubkey
   if (seed.length !== 32)
     throw new Error("CDP_API_KEY_SECRET unrecognized format (base64-decoded length " + raw.length + ")");
   const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
@@ -276,7 +291,23 @@ function cdpPrivateKey(secret) {
     "-----BEGIN PRIVATE KEY-----\n" +
     pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
     "\n-----END PRIVATE KEY-----\n";
-  return crypto.createPrivateKey({ key: pem, format: "pem" });
+  const k = crypto.createPrivateKey({ key: pem, format: "pem" });
+  k.__via = was64 ? "seed64" : "seed32";
+  return k;
+}
+
+// Parse-status probe for /api/health: reports only format metadata
+// (branch taken, key type, sanitized error) - never any key material.
+function cdpKeyStatus() {
+  const id = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!id || !secret) return { configured: false };
+  try {
+    const k = cdpPrivateKey(secret);
+    return { configured: true, parses: true, keyType: k.asymmetricKeyType, via: k.__via || "unknown" };
+  } catch (e) {
+    return { configured: true, parses: false, error: String(e.message || e).slice(0, 200) };
+  }
 }
 
 function cdpJwt(method, path) {
@@ -401,4 +432,5 @@ module.exports = {
   settlePayment,
   paymentResponseHeaders,
   USDC_BASE,
+  cdpKeyStatus,
 };
