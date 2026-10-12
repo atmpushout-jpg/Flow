@@ -289,8 +289,16 @@ async function load() {
   try {
     // LIVE MODE first: if a live (or scheduled) broadcast state exists, it
     // is the show. Otherwise fall back to the last finished match.
+    // Fastest wire first: /api/arena serves the state the live publisher
+    // writes to the shared store on every tick — no deploy in the loop.
+    // The static arena-live.json below is the durable fallback (it only
+    // moves when a deployment lands the publisher's GitHub pushes).
     let S = null;
     try {
+      const ra = await fetch("/api/arena?t=" + Date.now());
+      if (ra.ok) { const A = await ra.json(); if (A && A.liveMode) S = A; }
+    } catch (e) { /* API wire unavailable — fall through to static */ }
+    if (!S) try {
       const rl = await fetch("arena-live.json?t=" + Date.now());
       if (rl.ok) { const L = await rl.json(); if (L && L.liveMode) S = L; }
     } catch (e) { /* no live state yet — fall through */ }
