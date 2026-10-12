@@ -238,6 +238,81 @@ function localChecks(payload, meta) {
 // CDP facilitator auth (Ed25519 JWT, stdlib crypto only)
 // ---------------------------------------------------------------------------
 
+// CDP issues the Ed25519 secret in several wraps depending on the export:
+// raw base64 seed (32B), base64 seed+pubkey (64B), PEM, or base64-of-PEM,
+// sometimes with JSON quotes. Normalize all of them; reject anything else
+// with the decoded length so a bad value is diagnosable without seeing it.
+function cdpPrivateKey(secret) {
+  let s = (secret || "").trim();
+  if (s.length >= 2 && s.startsWith('"') && s.endsWith('"')) s = s.slice(1, -1).trim();
+  const asKey = (pemText) => {
+    // Values pasted out of JSON downloads often carry literal \n escapes and
+    // mangled line breaks. Unescape, then extract the base64 body and re-wrap
+    // it cleanly under its original label before handing it to OpenSSL.
+    let t = String(pemText).replace(/\\r\\n|\\n|\\r/g, "\n");
+    const m = t.match(/-----BEGIN ([A-Z0-9 ]+)-----([\s\S]*?)-----END \1-----/);
+    let k;
+    if (m) {
+      const body = m[2].replace(/[^A-Za-z0-9+/=]/g, "");
+      const clean =
+        "-----BEGIN " + m[1].trim() + "-----\n" +
+        (body.match(/.{1,64}/g) || []).join("\n") +
+        "\n-----END " + m[1].trim() + "-----\n";
+      try {
+        k = crypto.createPrivateKey({ key: clean, format: "pem" });
+      } catch (e) {
+        throw new Error("CDP_API_KEY_SECRET PEM unparseable (label \"" + m[1].trim() + "\", body " + body.length + " chars): " + e.message);
+      }
+      k.__via = "pem:" + m[1].trim();
+    } else {
+      try {
+        k = crypto.createPrivateKey({ key: t, format: "pem" });
+      } catch (e) {
+        throw new Error("CDP_API_KEY_SECRET PEM unparseable (no BEGIN/END span found): " + e.message);
+      }
+      k.__via = "pem:raw";
+    }
+    if (k.asymmetricKeyType !== "ed25519")
+      throw new Error("CDP_API_KEY_SECRET is a " + k.asymmetricKeyType + " key - the CDP key must be Ed25519");
+    return k;
+  };
+  if (s.startsWith("-----BEGIN")) return asKey(s);
+  const raw = Buffer.from(s.replace(/\s+/g, ""), "base64");
+  if (raw.subarray(0, 10).toString("latin1").startsWith("-----BEGIN")) {
+    const k = asKey(raw.toString("utf8"));
+    k.__via = "b64-" + (k.__via || "pem");
+    return k;
+  }
+  let seed = raw;
+  const was64 = seed.length === 64;
+  if (was64) seed = seed.subarray(0, 32); // some exports include the pubkey
+  if (seed.length !== 32)
+    throw new Error("CDP_API_KEY_SECRET unrecognized format (base64-decoded length " + raw.length + ")");
+  const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
+  const pem =
+    "-----BEGIN PRIVATE KEY-----\n" +
+    pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
+    "\n-----END PRIVATE KEY-----\n";
+  const k = crypto.createPrivateKey({ key: pem, format: "pem" });
+  k.__via = was64 ? "seed64" : "seed32";
+  return k;
+}
+
+// Parse-status probe for /api/health: reports only format metadata
+// (branch taken, key type, sanitized error) - never any key material.
+function cdpKeyStatus() {
+  const id = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!id || !secret) return { configured: false };
+  try {
+    const k = cdpPrivateKey(secret);
+    return { configured: true, parses: true, keyType: k.asymmetricKeyType, via: k.__via || "unknown" };
+  } catch (e) {
+    return { configured: true, parses: false, error: String(e.message || e).slice(0, 200) };
+  }
+}
+
+
 function cdpJwt(method, path) {
   const keyId = process.env.CDP_API_KEY_ID;
   const secret = process.env.CDP_API_KEY_SECRET;
@@ -491,4 +566,5 @@ module.exports = {
   settlePayment,
   paymentResponseHeaders,
   USDC_BASE,
+  cdpKeyStatus,
 };
