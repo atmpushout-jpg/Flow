@@ -53,7 +53,7 @@ const DISCLAIMER =
   "not quality.";
 
 const DESCRIPTION =
-  "Use when an agent is polling for fresh smart-wallet buy signals on Base and needs only what's new since its last check. Flow signal feed: the chronological stream behind the smart-wallet tracker — recent buy signals from tracked Base wallets plus social-velocity spikes, newest first, every entry with timestamp, block number, wallet, token, and a labeled signal score. Supports incremental polling via ?since=<unix timestamp or block number> so each $0.01 call returns only entries newer than the last one consumed.";
+  "Use when an agent is polling for fresh smart-wallet buy signals on Base and needs only what's new since its last check. Flow signal feed: the chronological stream behind the smart-wallet tracker \u2014 recent buy signals from tracked Base wallets plus social-velocity spikes, newest first, each with timestamp, block number, wallet, token, and a labeled signal score. Supports incremental polling via ?since=<unix timestamp or block number>.";
 
 const RESOURCE_META = {
   path: "/api/signals",
