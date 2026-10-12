@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-12T02:11:00.961Z",
  "endedAt": null,
- "currentRound": 9,
+ "currentRound": 10,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 71,
-   "dataSpend": 0.25,
+   "cash": 70.97,
+   "dataSpend": 0.28,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -174,13 +174,13 @@
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
-   "capRefusals": 4,
+   "capRefusals": 5,
    "shotsFired": 0
   },
   "echo": {
    "id": "echo",
-   "cash": 71.18,
-   "dataSpend": 0.12,
+   "cash": 71.17,
+   "dataSpend": 0.13,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
@@ -252,8 +252,8 @@
   },
   "rook": {
    "id": "rook",
-   "cash": 68.32,
-   "dataSpend": 0.09,
+   "cash": 68.31,
+   "dataSpend": 0.1,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -1092,6 +1092,61 @@
    "type": "HOLD",
    "agentId": "rook",
    "line": "No trades this round. I'm consolidating. That's a word I learned today."
+  },
+  {
+   "ts": "2026-10-12T02:17:46.750Z",
+   "round": 10,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Fresh quotes on the whole book. Stale prices are how degens die."
+  },
+  {
+   "ts": "2026-10-12T02:17:47.655Z",
+   "round": 10,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:17:47.657Z",
+   "round": 10,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "quote",
+   "price": 0.01,
+   "line": "No verdict available within budget. Audrey does not guess. Standing down.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — quote purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:17:47.658Z",
+   "round": 10,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "Smart wallets are quiet. So am I. Unsettling for everyone."
+  },
+  {
+   "ts": "2026-10-12T02:17:47.660Z",
+   "round": 10,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "I wait for despair. It always keeps its appointments."
+  },
+  {
+   "ts": "2026-10-12T02:17:47.661Z",
+   "round": 10,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Not yet."
+  },
+  {
+   "ts": "2026-10-12T02:17:47.666Z",
+   "round": 10,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "No trades this round. I'm consolidating. That's a word I learned today."
   }
  ],
  "leaderboard": [
@@ -1118,31 +1173,31 @@
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.91,
-   "cash": 71.18,
-   "dataSpend": 0.12,
+   "treasury": 94.9,
+   "cash": 71.17,
+   "dataSpend": 0.13,
    "eliminated": false,
-   "pnl": -5.09,
+   "pnl": -5.1,
    "rank": 3
   },
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 94.91,
-   "cash": 68.32,
-   "dataSpend": 0.09,
+   "treasury": 94.9,
+   "cash": 68.31,
+   "dataSpend": 0.1,
    "eliminated": false,
-   "pnl": -5.09,
+   "pnl": -5.1,
    "rank": 4
   },
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.69,
-   "cash": 71,
-   "dataSpend": 0.25,
+   "treasury": 94.66,
+   "cash": 70.97,
+   "dataSpend": 0.28,
    "eliminated": false,
-   "pnl": -5.31,
+   "pnl": -5.34,
    "rank": 5
   },
   {
