@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-12T02:11:00.961Z",
  "endedAt": null,
- "currentRound": 10,
+ "currentRound": 11,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 70.97,
-   "dataSpend": 0.28,
+   "cash": 70.95,
+   "dataSpend": 0.3,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -1147,17 +1147,27 @@
    "type": "HOLD",
    "agentId": "rook",
    "line": "No trades this round. I'm consolidating. That's a word I learned today."
+  },
+  {
+   "ts": "2026-10-12T02:18:31.041Z",
+   "round": 11,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 95.01,
+   "treasury": 95.03,
    "cash": 32.57,
    "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -4.99,
+   "pnl": -4.97,
    "rank": 1
   },
   {
@@ -1173,41 +1183,41 @@
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.9,
+   "treasury": 94.92,
    "cash": 71.17,
    "dataSpend": 0.13,
    "eliminated": false,
-   "pnl": -5.1,
+   "pnl": -5.08,
    "rank": 3
   },
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 94.9,
+   "treasury": 94.91,
    "cash": 68.31,
    "dataSpend": 0.1,
    "eliminated": false,
-   "pnl": -5.1,
+   "pnl": -5.09,
    "rank": 4
   },
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.66,
-   "cash": 70.97,
-   "dataSpend": 0.28,
+   "treasury": 94.64,
+   "cash": 70.95,
+   "dataSpend": 0.3,
    "eliminated": false,
-   "pnl": -5.34,
+   "pnl": -5.36,
    "rank": 5
   },
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.39,
+   "treasury": 94.4,
    "cash": 70.47,
    "dataSpend": 0.6,
    "eliminated": false,
-   "pnl": -5.61,
+   "pnl": -5.6,
    "rank": 6
   }
  ],
