@@ -236,19 +236,39 @@ function localChecks(payload, meta) {
 // CDP facilitator auth (Ed25519 JWT, stdlib crypto only)
 // ---------------------------------------------------------------------------
 
-function cdpJwt(method, path) {
-  const keyId = process.env.CDP_API_KEY_ID;
-  const secret = process.env.CDP_API_KEY_SECRET;
-  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
-  let seed = Buffer.from(secret.trim(), "base64");
+// CDP issues the Ed25519 secret in several wraps depending on the export:
+// raw base64 seed (32B), base64 seed+pubkey (64B), PEM, or base64-of-PEM,
+// sometimes with JSON quotes. Normalize all of them; reject anything else
+// with the decoded length so a bad value is diagnosable without seeing it.
+function cdpPrivateKey(secret) {
+  let s = (secret || "").trim();
+  if (s.length >= 2 && s.startsWith('"') && s.endsWith('"')) s = s.slice(1, -1).trim();
+  const asKey = (pem) => {
+    const k = crypto.createPrivateKey({ key: pem, format: "pem" });
+    if (k.asymmetricKeyType !== "ed25519")
+      throw new Error("CDP_API_KEY_SECRET is a " + k.asymmetricKeyType + " key - the CDP key must be Ed25519");
+    return k;
+  };
+  if (s.startsWith("-----BEGIN")) return asKey(s);
+  const raw = Buffer.from(s.replace(/\s+/g, ""), "base64");
+  if (raw.subarray(0, 10).toString("latin1").startsWith("-----BEGIN")) return asKey(raw.toString("utf8"));
+  let seed = raw;
   if (seed.length === 64) seed = seed.subarray(0, 32); // some exports include the pubkey
-  if (seed.length !== 32) throw new Error("CDP_API_KEY_SECRET must base64-decode to 32 bytes (Ed25519 seed)");
+  if (seed.length !== 32)
+    throw new Error("CDP_API_KEY_SECRET unrecognized format (base64-decoded length " + raw.length + ")");
   const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
   const pem =
     "-----BEGIN PRIVATE KEY-----\n" +
     pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
     "\n-----END PRIVATE KEY-----\n";
-  const key = crypto.createPrivateKey({ key: pem, format: "pem" });
+  return crypto.createPrivateKey({ key: pem, format: "pem" });
+}
+
+function cdpJwt(method, path) {
+  const keyId = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
+  const key = cdpPrivateKey(secret);
   const now = Math.floor(Date.now() / 1000);
   const b64u = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
   const signingInput =
