@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 70.95,
-   "dataSpend": 0.3,
+   "cash": 70.94,
+   "dataSpend": 0.31,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -174,13 +174,13 @@
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
-   "capRefusals": 5,
+   "capRefusals": 6,
    "shotsFired": 0
   },
   "echo": {
    "id": "echo",
-   "cash": 71.17,
-   "dataSpend": 0.13,
+   "cash": 71.16,
+   "dataSpend": 0.14,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
@@ -239,8 +239,8 @@
   },
   "longshot": {
    "id": "longshot",
-   "cash": 95,
-   "dataSpend": 0,
+   "cash": 94.97,
+   "dataSpend": 0.03,
    "positions": [],
    "realizedPnl": 0,
    "trades": 0,
@@ -1157,6 +1157,51 @@
    "symbol": "xdp",
    "dataCharge": 0.01,
    "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:18:32.201Z",
+   "round": 11,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:18:32.203Z",
+   "round": 11,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "quote",
+   "price": 0.01,
+   "line": "No verdict available within budget. Audrey does not guess. Standing down.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — quote purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:18:32.205Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-12T02:18:32.207Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-12T02:18:32.209Z",
+   "round": 11,
+   "type": "ERROR",
+   "agentId": "longshot",
+   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:18:32.211Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
   }
  ],
  "leaderboard": [
@@ -1173,21 +1218,21 @@
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 95,
-   "cash": 95,
-   "dataSpend": 0,
+   "treasury": 94.97,
+   "cash": 94.97,
+   "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.03,
    "rank": 2
   },
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.92,
-   "cash": 71.17,
-   "dataSpend": 0.13,
+   "treasury": 94.91,
+   "cash": 71.16,
+   "dataSpend": 0.14,
    "eliminated": false,
-   "pnl": -5.08,
+   "pnl": -5.09,
    "rank": 3
   },
   {
@@ -1203,11 +1248,11 @@
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.64,
-   "cash": 70.95,
-   "dataSpend": 0.3,
+   "treasury": 94.63,
+   "cash": 70.94,
+   "dataSpend": 0.31,
    "eliminated": false,
-   "pnl": -5.36,
+   "pnl": -5.37,
    "rank": 5
   },
   {
