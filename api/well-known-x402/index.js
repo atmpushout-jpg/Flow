@@ -40,14 +40,14 @@ const MANIFEST = {
       method: "POST",
       description:
         "Contract safety check for AI agents: verdict, risk score, and plain-English report before approving a token.",
-      priceUsd: 0.01,
+      priceUsd: 0.02,
     },
     {
       path: "/api/precheck",
       method: "POST",
       description:
-        "Combined safety + price precheck in one call: runs verify and quote together.",
-      priceUsd: 0.01,
+        "Combined safety + price precheck in one call: runs verify and quote together. Free — not payment-gated.",
+      priceUsd: 0,
     },
   ],
 };
