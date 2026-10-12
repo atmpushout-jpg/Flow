@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-12T02:11:00.961Z",
  "endedAt": null,
- "currentRound": 2,
+ "currentRound": 9,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 71.2,
-   "dataSpend": 0.05,
+   "cash": 71,
+   "dataSpend": 0.25,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -149,8 +149,8 @@
   },
   "audrey": {
    "id": "audrey",
-   "cash": 70.99,
-   "dataSpend": 0.08,
+   "cash": 70.47,
+   "dataSpend": 0.6,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -174,25 +174,25 @@
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
-   "capRefusals": 0,
+   "capRefusals": 4,
    "shotsFired": 0
   },
   "echo": {
    "id": "echo",
-   "cash": 71.23,
-   "dataSpend": 0.02,
+   "cash": 71.18,
+   "dataSpend": 0.12,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
      "symbol": "WETH",
-     "units": 0.009355366041006046,
-     "entryPrice": 2538.65,
-     "costUsd": 23.75,
-     "entryRound": 1
+     "units": 0.00933564659089568,
+     "entryPrice": 2541.87,
+     "costUsd": 23.73,
+     "entryRound": 9
     }
    ],
-   "realizedPnl": 0,
-   "trades": 1,
+   "realizedPnl": 0.03,
+   "trades": 5,
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
@@ -201,8 +201,8 @@
   },
   "fade": {
    "id": "fade",
-   "cash": 66.49,
-   "dataSpend": 0.01,
+   "cash": 32.57,
+   "dataSpend": 0.03,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
@@ -211,10 +211,26 @@
      "entryPrice": 2538.65,
      "costUsd": 28.5,
      "entryRound": 1
+    },
+    {
+     "token": "0x940181a94a35a4569e4529a3cDfB74e38Fd98631",
+     "symbol": "AERO",
+     "units": 21.339897260273975,
+     "entryPrice": 0.9344,
+     "costUsd": 19.94,
+     "entryRound": 2
+    },
+    {
+     "token": "0xc6405d7a226e1c18e559be2f335f74c01ad07bf5",
+     "symbol": "STFY",
+     "units": 14522.001456361178,
+     "entryPrice": 0.0009613,
+     "costUsd": 13.96,
+     "entryRound": 3
     }
    ],
    "realizedPnl": 0,
-   "trades": 1,
+   "trades": 3,
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
@@ -236,8 +252,8 @@
   },
   "rook": {
    "id": "rook",
-   "cash": 68.34,
-   "dataSpend": 0.07,
+   "cash": 68.32,
+   "dataSpend": 0.09,
    "positions": [
     {
      "token": "0x07b3d902783c3c12b077508c3b5c00113d1291d0",
@@ -496,9 +512,599 @@
    "agentId": "audrey",
    "symbol": "AERO",
    "line": "I read AERO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.174Z",
+   "round": 2,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "I read POD's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.801Z",
+   "round": 2,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "VVV",
+   "line": "I read VVV's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.803Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.804Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.805Z",
+   "round": 2,
+   "type": "BUY",
+   "agentId": "fade",
+   "symbol": "AERO",
+   "amountUsd": 19.94,
+   "price": 0.9344,
+   "block": null,
+   "venue": null,
+   "dataCharge": 0.01,
+   "line": "AERO is the coldest thing on this board. Fear, discounted. $19.94."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.807Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Still watching. The board hasn't earned a bullet."
+  },
+  {
+   "ts": "2026-10-12T02:11:49.808Z",
+   "round": 2,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:12:32.028Z",
+   "round": 3,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:12:32.033Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-12T02:12:32.955Z",
+   "round": 3,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "AERO verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-12T02:12:33.409Z",
+   "round": 3,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "POD verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-12T02:12:34.940Z",
+   "round": 3,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "VVV",
+   "line": "VVV verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-12T02:12:34.942Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Nothing on this board earns my capital this round. Cash is a position."
+  },
+  {
+   "ts": "2026-10-12T02:12:34.943Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-12T02:12:35.372Z",
+   "round": 3,
+   "type": "BUY",
+   "agentId": "fade",
+   "symbol": "STFY",
+   "amountUsd": 13.96,
+   "price": 0.0009613,
+   "block": 52490904,
+   "venue": null,
+   "dataCharge": 0.01,
+   "line": "STFY is the coldest thing on this board. Fear, discounted. $13.96."
+  },
+  {
+   "ts": "2026-10-12T02:12:35.374Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Not yet."
+  },
+  {
+   "ts": "2026-10-12T02:12:35.376Z",
+   "round": 3,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:13:18.867Z",
+   "round": 4,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:13:19.671Z",
+   "round": 4,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:13:19.855Z",
+   "round": 4,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "I read AERO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.299Z",
+   "round": 4,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "I read POD's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.301Z",
+   "round": 4,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "VVV",
+   "line": "I read VVV's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.302Z",
+   "round": 4,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.304Z",
+   "round": 4,
+   "type": "SELL",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.75,
+   "price": 2538.65,
+   "pnlUsd": 0,
+   "dataCharge": 0,
+   "line": "Signal's stale on WETH. Copycats leave when the copying stops paying."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.306Z",
+   "round": 4,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "I wait for despair. It always keeps its appointments."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.308Z",
+   "round": 4,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Watching."
+  },
+  {
+   "ts": "2026-10-12T02:13:20.309Z",
+   "round": 4,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "No trades this round. I'm consolidating. That's a word I learned today."
+  },
+  {
+   "ts": "2026-10-12T02:14:02.725Z",
+   "round": 5,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:14:03.581Z",
+   "round": 5,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:14:03.779Z",
+   "round": 5,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "I read AERO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:04.420Z",
+   "round": 5,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "I read POD's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:04.421Z",
+   "round": 5,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "VVV",
+   "line": "I read VVV's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:04.423Z",
+   "round": 5,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-12T02:14:05.719Z",
+   "round": 5,
+   "type": "BUY",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.73,
+   "price": 2538.65,
+   "block": 52490949,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "WETH is what the big wallets are eating. Same plate for me. $23.73."
+  },
+  {
+   "ts": "2026-10-12T02:14:05.721Z",
+   "round": 5,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-12T02:14:05.723Z",
+   "round": 5,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Still watching. The board hasn't earned a bullet."
+  },
+  {
+   "ts": "2026-10-12T02:14:05.725Z",
+   "round": 5,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:14:49.175Z",
+   "round": 6,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:14:50.029Z",
+   "round": 6,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:14:50.503Z",
+   "round": 6,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "I read AERO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.535Z",
+   "round": 6,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "I read POD's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.537Z",
+   "round": 6,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "VVV",
+   "line": "I read VVV's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.538Z",
+   "round": 6,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.540Z",
+   "round": 6,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.541Z",
+   "round": 6,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.543Z",
+   "round": 6,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Not yet."
+  },
+  {
+   "ts": "2026-10-12T02:14:52.544Z",
+   "round": 6,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:15:35.839Z",
+   "round": 7,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:15:36.857Z",
+   "round": 7,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:15:36.988Z",
+   "round": 7,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "AERO",
+   "line": "AERO verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.409Z",
+   "round": 7,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "POD",
+   "line": "POD verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.411Z",
+   "round": 7,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "quote",
+   "price": 0.01,
+   "line": "My data budget is exhausted, so I CANNOT verify — therefore I do not trade. Rules are rules, especially mine.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — quote purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.412Z",
+   "round": 7,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.415Z",
+   "round": 7,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.416Z",
+   "round": 7,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Watching."
+  },
+  {
+   "ts": "2026-10-12T02:15:37.417Z",
+   "round": 7,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:16:19.871Z",
+   "round": 8,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-12T02:16:20.793Z",
+   "round": 8,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:16:20.795Z",
+   "round": 8,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "quote",
+   "price": 0.01,
+   "line": "No verdict available within budget. Audrey does not guess. Standing down.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — quote purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:16:20.801Z",
+   "round": 8,
+   "type": "SELL",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.76,
+   "price": 2541.87,
+   "pnlUsd": 0.03,
+   "dataCharge": 0,
+   "line": "The echo faded on WETH. Out — three rounds is a long marriage."
+  },
+  {
+   "ts": "2026-10-12T02:16:20.803Z",
+   "round": 8,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-12T02:16:20.806Z",
+   "round": 8,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Watching."
+  },
+  {
+   "ts": "2026-10-12T02:16:20.808Z",
+   "round": 8,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-12T02:17:03.129Z",
+   "round": 9,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "xdp",
+   "dataCharge": 0.01,
+   "line": "Fresh quotes on the whole book. Stale prices are how degens die."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.081Z",
+   "round": 9,
+   "type": "ERROR",
+   "agentId": "vex",
+   "line": "(VEX hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-12T02:17:04.083Z",
+   "round": 9,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "verdict",
+   "price": 0.02,
+   "line": "No verdict available within budget. Audrey does not guess. Standing down.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — verdict purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.084Z",
+   "round": 9,
+   "type": "DATA_CAP_REFUSAL",
+   "agentId": "audrey",
+   "kind": "quote",
+   "price": 0.01,
+   "line": "No verdict available within budget. Audrey does not guess. Standing down.",
+   "note": "Data cap hit: $0.60 of $0.60 spent — quote purchase REFUSED by design."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.440Z",
+   "round": 9,
+   "type": "BUY",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.73,
+   "price": 2541.87,
+   "block": 52491038,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "Smart money just bought WETH ($234,275 flow). Copying with $23.73. Echo, echo."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.443Z",
+   "round": 9,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "I wait for despair. It always keeps its appointments."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.445Z",
+   "round": 9,
+   "type": "HOLD",
+   "agentId": "longshot",
+   "line": "Watching."
+  },
+  {
+   "ts": "2026-10-12T02:17:04.447Z",
+   "round": 9,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "No trades this round. I'm consolidating. That's a word I learned today."
   }
  ],
  "leaderboard": [
+  {
+   "agentId": "fade",
+   "name": "FADE",
+   "treasury": 95.01,
+   "cash": 32.57,
+   "dataSpend": 0.03,
+   "eliminated": false,
+   "pnl": -4.99,
+   "rank": 1
+  },
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
@@ -507,56 +1113,46 @@
    "dataSpend": 0,
    "eliminated": false,
    "pnl": -5,
-   "rank": 1
-  },
-  {
-   "agentId": "fade",
-   "name": "FADE",
-   "treasury": 94.99,
-   "cash": 66.49,
-   "dataSpend": 0.01,
-   "eliminated": false,
-   "pnl": -5.01,
    "rank": 2
   },
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.98,
-   "cash": 71.23,
-   "dataSpend": 0.02,
+   "treasury": 94.91,
+   "cash": 71.18,
+   "dataSpend": 0.12,
    "eliminated": false,
-   "pnl": -5.02,
+   "pnl": -5.09,
    "rank": 3
-  },
-  {
-   "agentId": "vex",
-   "name": "VEX",
-   "treasury": 94.93,
-   "cash": 71.2,
-   "dataSpend": 0.05,
-   "eliminated": false,
-   "pnl": -5.07,
-   "rank": 4
   },
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 94.92,
-   "cash": 68.34,
-   "dataSpend": 0.07,
+   "treasury": 94.91,
+   "cash": 68.32,
+   "dataSpend": 0.09,
    "eliminated": false,
-   "pnl": -5.08,
+   "pnl": -5.09,
+   "rank": 4
+  },
+  {
+   "agentId": "vex",
+   "name": "VEX",
+   "treasury": 94.69,
+   "cash": 71,
+   "dataSpend": 0.25,
+   "eliminated": false,
+   "pnl": -5.31,
    "rank": 5
   },
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.91,
-   "cash": 70.99,
-   "dataSpend": 0.08,
+   "treasury": 94.39,
+   "cash": 70.47,
+   "dataSpend": 0.6,
    "eliminated": false,
-   "pnl": -5.09,
+   "pnl": -5.61,
    "rank": 6
   }
  ],
@@ -647,6 +1243,278 @@
  },
  "_signals": [
   {
+   "wallet": "0xf04a2505afb967a1b4f43304e17994e94bdc13a1",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 5471.29,
+   "txHash": "0xcfbfd625c323c65d17878901383ea3f3f271e67c7be16ca1fcf56d910fc6d874",
+   "blockNumber": 52490889,
+   "timestamp": "2026-10-12T02:12:05Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 56,
+   "stale": false
+  },
+  {
+   "wallet": "0xe498e1e64d106442bfb4556b8d31fa632a865a91",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2942.56,
+   "txHash": "0xa07f719f3d9ca1c84ecc61da3c1cd5f9c2487372695861684876e867b5b7d235",
+   "blockNumber": 52490862,
+   "timestamp": "2026-10-12T02:11:11Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 110,
+   "stale": false
+  },
+  {
+   "wallet": "0x1485a3e1b7ec11718d5c7f1d59f2a4808763b8fb",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 9926.1,
+   "txHash": "0x53d77e609b7aeb5e11dd95b1e3f67cf2cf326a0eb8cf8c64c4f82eac80091315",
+   "blockNumber": 52490849,
+   "timestamp": "2026-10-12T02:10:45Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 136,
+   "stale": false
+  },
+  {
+   "wallet": "0xe4468dd637af826e353d7afa6ff21d7d67a21f0e",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 3943.8,
+   "txHash": "0xe22f6e09d0b7f31fa612f7ab68afba1605b21ad2da2fd3c319c0249e4b05c190",
+   "blockNumber": 52490848,
+   "timestamp": "2026-10-12T02:10:43Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 138,
+   "stale": false
+  },
+  {
+   "wallet": "0x136126cd2de7ddeb1d82e0785451bbe346c9f22d",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 3354.37,
+   "txHash": "0x8839819ed83a0fdf72b3553d1fbfa54b55b73d9c754f3e4a784fb1491c908f12",
+   "blockNumber": 52490826,
+   "timestamp": "2026-10-12T02:09:59Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 182,
+   "stale": false
+  },
+  {
+   "wallet": "0x1485a3e1b7ec11718d5c7f1d59f2a4808763b8fb",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2949.44,
+   "txHash": "0x136a9497e0550b9d2e8a9553a0397eec4d234ccb3f388a538f79c8e3f7e31b94",
+   "blockNumber": 52490825,
+   "timestamp": "2026-10-12T02:09:57Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 184,
+   "stale": false
+  },
+  {
+   "wallet": "0x136126cd2de7ddeb1d82e0785451bbe346c9f22d",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2183.69,
+   "txHash": "0x97213a782ac20050b8757d33c1571b9a3692e7a8bf2fe0127135c1887a90cb64",
+   "blockNumber": 52490824,
+   "timestamp": "2026-10-12T02:09:55Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 186,
+   "stale": false
+  },
+  {
+   "wallet": "0x8aaf253ae0373e8c28875b25549a076a83c51dc2",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2340.01,
+   "txHash": "0xb4798cc08e97a870b2c1e2163410a2af98c59769a58118d48d963bb7708af08e",
+   "blockNumber": 52490817,
+   "timestamp": "2026-10-12T02:09:41Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 200,
+   "stale": false
+  },
+  {
+   "wallet": "0x5dfe65f8138693515205c1630c27bc079511d4bb",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1014.09,
+   "txHash": "0xbaa3975c74e08e23c86904de534860e92d331531b703dba736bd922fb6af4972",
+   "blockNumber": 52490816,
+   "timestamp": "2026-10-12T02:09:39Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 202,
+   "stale": false
+  },
+  {
+   "wallet": "0xb655bb6161c02e227c8d49a872e6b80fa0496956",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 4998.55,
+   "txHash": "0x1dc218294bb3da4f85377962e4ee07eac39e39525363011c2475b83a83e2c3b4",
+   "blockNumber": 52490759,
+   "timestamp": "2026-10-12T02:07:45Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 316,
+   "stale": false
+  },
+  {
+   "wallet": "0x05f8f81f5cd626887ad789e820d45bb129bdca2d",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1831.06,
+   "txHash": "0xb642f5101e1cf6a021728815daaacb3fb1935b0664703b9150764aa319e61a3f",
+   "blockNumber": 52490754,
+   "timestamp": "2026-10-12T02:07:35Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 326,
+   "stale": false
+  },
+  {
+   "wallet": "0xd14602c85a25a4e520441c47a97a2c9da63ae1be",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2066.89,
+   "txHash": "0xfc60f35f0387d6fa1d77ff990cb7094e3bfc2a71d24364297eb4d484451f9c25",
+   "blockNumber": 52490753,
+   "timestamp": "2026-10-12T02:07:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 328,
+   "stale": false
+  },
+  {
+   "wallet": "0xd14602c85a25a4e520441c47a97a2c9da63ae1be",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1125.21,
+   "txHash": "0xedd5143a21ae811985689567becef30650c3616883e78f544dd78c5a3c380b08",
+   "blockNumber": 52490753,
+   "timestamp": "2026-10-12T02:07:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 328,
+   "stale": false
+  },
+  {
+   "wallet": "0xb62a47684f68647965463b2cbb3a1d9081eb0be4",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2752.23,
+   "txHash": "0x909af891951d56f587828a345a9481b100757dbde16bab84bb665b73a56cf01d",
+   "blockNumber": 52490753,
+   "timestamp": "2026-10-12T02:07:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 328,
+   "stale": false
+  },
+  {
+   "wallet": "0xf04a2505afb967a1b4f43304e17994e94bdc13a1",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2290.99,
+   "txHash": "0x894aa5da8a72b5a0c0bbd77c06bb2533bdef3ea3ac42537ec89ae874f1f22a17",
+   "blockNumber": 52490753,
+   "timestamp": "2026-10-12T02:07:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 328,
+   "stale": false
+  },
+  {
+   "wallet": "0xc86af583c5000d500116887248beec77d8713abd",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 1055.46,
+   "txHash": "0x2c49b7a0edcda3794564c99487a1dae9d5eaf048271f8b36b4bb6c9e1688f48b",
+   "blockNumber": 52490753,
+   "timestamp": "2026-10-12T02:07:33Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 328,
+   "stale": false
+  },
+  {
    "wallet": "0xbc165e0542c078352a3f148de4c313d1c135d018",
    "walletRank": null,
    "walletWins": 0,
@@ -660,7 +1528,7 @@
    "timestamp": "2026-10-12T02:07:41Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 229,
+   "ageSec": 320,
    "stale": false
   },
   {
@@ -677,7 +1545,7 @@
    "timestamp": "2026-10-12T02:07:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 237,
+   "ageSec": 328,
    "stale": false
   },
   {
@@ -694,7 +1562,7 @@
    "timestamp": "2026-10-12T02:07:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 237,
+   "ageSec": 328,
    "stale": false
   },
   {
@@ -711,7 +1579,7 @@
    "timestamp": "2026-10-12T02:07:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 253,
+   "ageSec": 344,
    "stale": false
   },
   {
@@ -728,7 +1596,7 @@
    "timestamp": "2026-10-12T02:06:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 283,
+   "ageSec": 374,
    "stale": false
   },
   {
@@ -745,7 +1613,7 @@
    "timestamp": "2026-10-12T02:06:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 305,
+   "ageSec": 396,
    "stale": false
   },
   {
@@ -762,7 +1630,7 @@
    "timestamp": "2026-10-12T02:05:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 426,
    "stale": false
   },
   {
@@ -779,7 +1647,7 @@
    "timestamp": "2026-10-12T02:07:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 241,
+   "ageSec": 332,
    "stale": false
   },
   {
@@ -796,7 +1664,7 @@
    "timestamp": "2026-10-12T02:07:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 241,
+   "ageSec": 332,
    "stale": false
   },
   {
@@ -813,7 +1681,7 @@
    "timestamp": "2026-10-12T02:07:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 241,
+   "ageSec": 332,
    "stale": false
   },
   {
@@ -830,7 +1698,7 @@
    "timestamp": "2026-10-12T02:06:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 313,
+   "ageSec": 404,
    "stale": false
   },
   {
@@ -847,7 +1715,7 @@
    "timestamp": "2026-10-12T02:05:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 333,
+   "ageSec": 424,
    "stale": false
   },
   {
@@ -864,7 +1732,7 @@
    "timestamp": "2026-10-12T02:05:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 426,
    "stale": false
   },
   {
@@ -881,7 +1749,7 @@
    "timestamp": "2026-10-12T02:05:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 426,
    "stale": false
   },
   {
@@ -898,7 +1766,7 @@
    "timestamp": "2026-10-12T02:05:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 426,
    "stale": false
   },
   {
@@ -915,7 +1783,7 @@
    "timestamp": "2026-10-12T02:05:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 337,
+   "ageSec": 428,
    "stale": false
   },
   {
@@ -932,7 +1800,7 @@
    "timestamp": "2026-10-12T02:05:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 363,
+   "ageSec": 454,
    "stale": false
   },
   {
@@ -949,7 +1817,7 @@
    "timestamp": "2026-10-12T02:05:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 363,
+   "ageSec": 454,
    "stale": false
   },
   {
@@ -966,7 +1834,7 @@
    "timestamp": "2026-10-12T02:05:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 365,
+   "ageSec": 456,
    "stale": false
   },
   {
@@ -983,7 +1851,7 @@
    "timestamp": "2026-10-12T02:05:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 367,
+   "ageSec": 458,
    "stale": false
   },
   {
@@ -1000,7 +1868,7 @@
    "timestamp": "2026-10-12T02:05:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 379,
+   "ageSec": 470,
    "stale": false
   },
   {
@@ -1017,7 +1885,7 @@
    "timestamp": "2026-10-12T02:05:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 379,
+   "ageSec": 470,
    "stale": false
   },
   {
@@ -1034,7 +1902,7 @@
    "timestamp": "2026-10-12T02:05:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 383,
+   "ageSec": 474,
    "stale": false
   },
   {
@@ -1051,7 +1919,7 @@
    "timestamp": "2026-10-12T02:04:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 395,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -1068,7 +1936,7 @@
    "timestamp": "2026-10-12T02:04:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 395,
+   "ageSec": 486,
    "stale": false
   },
   {
@@ -1085,7 +1953,7 @@
    "timestamp": "2026-10-12T02:04:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 397,
+   "ageSec": 488,
    "stale": false
   },
   {
@@ -1102,7 +1970,7 @@
    "timestamp": "2026-10-12T02:07:39Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 231,
+   "ageSec": 322,
    "stale": false
   },
   {
@@ -1119,7 +1987,7 @@
    "timestamp": "2026-10-12T02:07:35Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 235,
+   "ageSec": 326,
    "stale": false
   },
   {
@@ -1136,7 +2004,7 @@
    "timestamp": "2026-10-12T02:06:19Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 311,
+   "ageSec": 402,
    "stale": false
   },
   {
@@ -1153,7 +2021,7 @@
    "timestamp": "2026-10-12T02:06:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 323,
+   "ageSec": 414,
    "stale": false
   },
   {
@@ -1170,7 +2038,7 @@
    "timestamp": "2026-10-12T02:05:59Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 331,
+   "ageSec": 422,
    "stale": false
   },
   {
@@ -1187,7 +2055,7 @@
    "timestamp": "2026-10-12T02:05:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 333,
+   "ageSec": 424,
    "stale": false
   },
   {
@@ -1204,7 +2072,7 @@
    "timestamp": "2026-10-12T02:05:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 426,
    "stale": false
   },
   {
@@ -1221,7 +2089,7 @@
    "timestamp": "2026-10-12T02:05:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 357,
+   "ageSec": 448,
    "stale": false
   },
   {
@@ -1238,7 +2106,7 @@
    "timestamp": "2026-10-12T02:05:29Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 361,
+   "ageSec": 452,
    "stale": false
   },
   {
@@ -1255,7 +2123,7 @@
    "timestamp": "2026-10-12T02:05:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 363,
+   "ageSec": 454,
    "stale": false
   },
   {
@@ -1272,7 +2140,7 @@
    "timestamp": "2026-10-12T02:05:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 365,
+   "ageSec": 456,
    "stale": false
   },
   {
@@ -1289,7 +2157,7 @@
    "timestamp": "2026-10-12T02:05:13Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 377,
+   "ageSec": 468,
    "stale": false
   },
   {
@@ -1306,7 +2174,7 @@
    "timestamp": "2026-10-12T02:05:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 379,
+   "ageSec": 470,
    "stale": false
   },
   {
@@ -1323,7 +2191,7 @@
    "timestamp": "2026-10-12T02:05:09Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 381,
+   "ageSec": 472,
    "stale": false
   },
   {
@@ -1340,7 +2208,7 @@
    "timestamp": "2026-10-12T02:05:01Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 389,
+   "ageSec": 480,
    "stale": false
   },
   {
@@ -1357,7 +2225,7 @@
    "timestamp": "2026-10-12T02:04:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 393,
+   "ageSec": 484,
    "stale": false
   },
   {
@@ -1374,7 +2242,7 @@
    "timestamp": "2026-10-12T02:04:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 397,
+   "ageSec": 488,
    "stale": false
   },
   {
@@ -1391,279 +2259,7 @@
    "timestamp": "2026-10-12T02:04:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 401,
-   "stale": false
-  },
-  {
-   "wallet": "0xb62a47684f68647965463b2cbb3a1d9081eb0be4",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 4749.15,
-   "txHash": "0x3e3a78b8df41f8ae86062e79ce94cbdb2af4eed9f91cd29124a7e8cd951147fb",
-   "blockNumber": 52490668,
-   "timestamp": "2026-10-12T02:04:43Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 407,
-   "stale": false
-  },
-  {
-   "wallet": "0xc86af583c5000d500116887248beec77d8713abd",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 2791.28,
-   "txHash": "0x9b1391088fd00f8e5dfcb6cc166665e6645b671db5917c90d24a4f3c26af9d31",
-   "blockNumber": 52490667,
-   "timestamp": "2026-10-12T02:04:41Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 409,
-   "stale": false
-  },
-  {
-   "wallet": "0xb62a47684f68647965463b2cbb3a1d9081eb0be4",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 4231.51,
-   "txHash": "0x1e4fa5d8e01e595c8ce1dcefc0489fc302152ec866bb8dce042061232423ad38",
-   "blockNumber": 52490666,
-   "timestamp": "2026-10-12T02:04:39Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 411,
-   "stale": false
-  },
-  {
-   "wallet": "0xf7e56c4ff6f7d14b59777e9136dfb1781a84070c",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 5615.2,
-   "txHash": "0x42cff86f0e2240c3e33111ab354c80e94aa9664f821a80ed9cad13c229e34734",
-   "blockNumber": 52490660,
-   "timestamp": "2026-10-12T02:04:27Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 423,
-   "stale": false
-  },
-  {
-   "wallet": "0xe498e1e64d106442bfb4556b8d31fa632a865a91",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 5697.19,
-   "txHash": "0xe0c25b84936833a4d2d47e8c2d3f937c8f27c18e57077643289330dd0a93f34b",
-   "blockNumber": 52490659,
-   "timestamp": "2026-10-12T02:04:25Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 425,
-   "stale": false
-  },
-  {
-   "wallet": "0xf7e56c4ff6f7d14b59777e9136dfb1781a84070c",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 6129.1,
-   "txHash": "0xfbe52440268584bb3b1a295cdbf09d3dfc829866facc1369f9738c4fc45e0a35",
-   "blockNumber": 52490658,
-   "timestamp": "2026-10-12T02:04:23Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 427,
-   "stale": false
-  },
-  {
-   "wallet": "0xe498e1e64d106442bfb4556b8d31fa632a865a91",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1619.59,
-   "txHash": "0xebbef95d77c0ea1c7e3f0fdff5dc48a4d8c187a37df639f63d4ebb739f1302aa",
-   "blockNumber": 52490657,
-   "timestamp": "2026-10-12T02:04:21Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 429,
-   "stale": false
-  },
-  {
-   "wallet": "0xe498e1e64d106442bfb4556b8d31fa632a865a91",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 3813.61,
-   "txHash": "0x8e6ee2e10166abc3f16f3050c2bfc3c7f5eaca373d385ad64249173ea08556f4",
-   "blockNumber": 52490655,
-   "timestamp": "2026-10-12T02:04:17Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 433,
-   "stale": false
-  },
-  {
-   "wallet": "0xf8e73aa29adbad279bdaafca4b3b9085acddd95a",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 5315.71,
-   "txHash": "0x9e4d35b02b9b88f60e62c23db3aef5c0c41679a67c4bdbc4be3ed365526d8ed3",
-   "blockNumber": 52490715,
-   "timestamp": "2026-10-12T02:06:17Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 313,
-   "stale": false
-  },
-  {
-   "wallet": "0x476f05ab3eeb2c3abf2ff1af09afa7b81615cd6f",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 2627.8,
-   "txHash": "0x5185e4739dbf359ef022fdb15cf9d6cb774569a6e937459efb5bc909b6305b89",
-   "blockNumber": 52490715,
-   "timestamp": "2026-10-12T02:06:17Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 313,
-   "stale": false
-  },
-  {
-   "wallet": "0x4506de02071dcd46a22638aab6cd19e57e252e22",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1097.58,
-   "txHash": "0x6002ab0237eb253f1406611a0a5064d7d009907819953e1b655b9aeeea1ca0fb",
-   "blockNumber": 52490705,
-   "timestamp": "2026-10-12T02:05:57Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 333,
-   "stale": false
-  },
-  {
-   "wallet": "0xe6fec63723e5e45130e964fce5aa952e8c559736",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 10363.87,
-   "txHash": "0x3516cc763855fa7c133f6d1685c8223b76c0c35cdec379d53e39ba3ba9eb9112",
-   "blockNumber": 52490705,
-   "timestamp": "2026-10-12T02:05:57Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 333,
-   "stale": false
-  },
-  {
-   "wallet": "0xb4914da207321c0e79080ea7a3023e8a5a3cb4f3",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1131.58,
-   "txHash": "0xf0047e643b32fe8c4b2235786769a9525d755d1c451bf8f7ec04edfc19554cee",
-   "blockNumber": 52490704,
-   "timestamp": "2026-10-12T02:05:55Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 335,
-   "stale": false
-  },
-  {
-   "wallet": "0xfc0eb530d7c701c7ec2f33abd04ca6313625738f",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 8839.6,
-   "txHash": "0xe196d32bc26b39b1697924db3d1cde0c570f81afb0f77abbf1d9cf0dda85cb08",
-   "blockNumber": 52490704,
-   "timestamp": "2026-10-12T02:05:55Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 335,
-   "stale": false
-  },
-  {
-   "wallet": "0x2ece532189c5ffba0124c78428875e6bf1f57128",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1499.07,
-   "txHash": "0xabfd9b35da06872861f2fa1f7f6daf8c12a5d895209aed8bd85e413d2a723edc",
-   "blockNumber": 52490704,
-   "timestamp": "2026-10-12T02:05:55Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 335,
-   "stale": false
-  },
-  {
-   "wallet": "0xdbe83aaceb8dcc1c4ae9f330e074f2c7a5a692ae",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1567.79,
-   "txHash": "0x94660ecb69de525c7938dc9ca567b09173b74a0e4800cdab438e218d301cf8be",
-   "blockNumber": 52490704,
-   "timestamp": "2026-10-12T02:05:55Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 335,
+   "ageSec": 492,
    "stale": false
   }
  ]
