@@ -1,13 +1,13 @@
 {
-  "explanation": "Pancakeswap is beating the alternative by 1 basis points right now. On a $1,000 swap, that's roughly $0.10 saved. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 56ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
+  "explanation": "Both venues are pricing identically right now (pancakeswap marginally ahead). No meaningful edge \u2014 agents get a fair price either way. Liquidity is DEEP \u2014 this edge is real and executable. Agents can trust this quote. Quote generated in 103ms \u2014 fast enough for real-time pre-swap checks. Agents won't miss the price.",
   "bottomLine": "BOTTOM LINE: Market is efficient right now. Our value here is confirmation \u2014 agents know they're getting a fair price.",
   "indicators": {
     "venue": "pancakeswap",
-    "edgeBps": 1,
+    "edgeBps": 0,
     "liquidity": "deep",
-    "latencyMs": 56,
-    "blockNumber": 52489249,
-    "spreadBps": 1
+    "latencyMs": 103,
+    "blockNumber": 52492083,
+    "spreadBps": 0
   },
-  "generatedAt": "2026-10-12T01:17:25.570611+00:00"
+  "generatedAt": "2026-10-12T02:51:53.147102+00:00"
 }
