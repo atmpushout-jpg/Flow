@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:api": "node tests/quote-engine.test.js",
+    "test:starter": "node tests/starter-kit.test.js",
     "test:api:live": "FLOW_LIVE_TEST=1 node tests/quote-engine.test.js"
   },
   "keywords": [],
