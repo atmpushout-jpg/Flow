@@ -358,7 +358,7 @@ async function facilitatorCall(op, paymentPayload, paymentRequirements) {
   } catch {
     throw new Error(`Facilitator ${op} returned non-JSON (HTTP ${r.status})`);
   }
-  if (!r.ok) throw new Error(`Facilitator ${op} HTTP ${r.status}: ${text.slice(0, 200)}`);
+  if (!r.ok) throw new Error(`Facilitator ${op} HTTP ${r.status}: ${text.slice(0, 800)}`);
   return data;
 }
 
@@ -396,7 +396,7 @@ async function requirePayment(req, res, resourceMeta) {
   try {
     verify = await facilitatorCall("verify", decoded.payload, requirements);
   } catch (e) {
-    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 150)}` });
+    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 600)}` });
     return null;
   }
   if (!verify.isValid) {
