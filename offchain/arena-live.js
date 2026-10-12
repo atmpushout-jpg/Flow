@@ -30,6 +30,13 @@
  * Note: a push lands on GitHub immediately, but the public page only
  * picks it up when Vercel's daily deploy cap allows a deployment.
  *
+ * FAST WIRE (arena-publish-upstash.js): in parallel, the same state is
+ * written to the shared Upstash store on every change, and arena.html
+ * polls GET /api/arena (which reads the store) BEFORE the static files
+ * — so the broadcast no longer depends on deployments at all. The
+ * GitHub wire remains the durable post-match record. The Upstash wire
+ * follows the same publish flags and never blocks or crashes the match.
+ *
  * Run:  node offchain/arena-live.js [--rounds N] [--round-ms MS]
  *           [--match-id ID] [--label TEXT]
  *           [--publish | --no-publish | --publish-test]
@@ -38,6 +45,7 @@
 
 const arena = require("./arena.js");
 const { LivePublisher } = require("./arena-publish.js");
+const { UpstashPublisher } = require("./arena-publish-upstash.js");
 
 const args = process.argv.slice(2);
 const opt = (name, dflt) => {
@@ -64,9 +72,20 @@ const publishEnabled = has("no-publish") ? false
 
 async function run() {
   let publisher = null;
+  let upstash = null;
   if (publishEnabled) {
     publisher = new LivePublisher({ matchId });
     publisher.start();
+    // Fast wire: /api/arena reads the shared store, so the page updates
+    // tick by tick with no git push / Vercel deploy in the loop (the
+    // GitHub wire above remains the durable record — and the only wire
+    // when the store is not configured).
+    if (UpstashPublisher.available()) {
+      upstash = new UpstashPublisher({ matchId });
+      upstash.start();
+    } else {
+      console.log("[publish:upstash] OFF — UPSTASH_REDIS_REST_URL/TOKEN not set; GitHub wire only.");
+    }
   } else {
     console.log(`[publish] OFF for ${matchId} (${isTest ? "test match — pass --publish-test to publish" : "--no-publish"}). State stays local.`);
   }
@@ -84,6 +103,17 @@ async function run() {
     });
   } catch (e) {
     matchError = e;
+  }
+  if (upstash) {
+    // Fast wire first: the final state lands in the store in ~a second,
+    // long before the approval-gated GitHub push below can land.
+    try {
+      const fin = await upstash.finalize();
+      const sum = upstash.summary();
+      console.log(`[publish:upstash] done: ${sum.pushes} pushed, ${sum.failures} failed, final=${fin.ok ? "ok" : (fin.reason || "failed")}`);
+    } catch (e) {
+      console.error("[publish:upstash] finalize error (match result unaffected):", e.message);
+    }
   }
   if (publisher) {
     // The final state ALWAYS goes out (even if the match errored, whatever
