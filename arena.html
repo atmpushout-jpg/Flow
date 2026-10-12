@@ -280,6 +280,11 @@ function earnCopySettlement(state, agentId, shadowStake) {
 }
 /* EARN-PORT-END */
 
+let lastRenderKey = null;
+function renderKey(S) {
+  return [S.status || "", S.currentRound || 0, S.endedAt || "", S.matchId || ""].join("|");
+}
+
 async function load() {
   try {
     // LIVE MODE first: if a live (or scheduled) broadcast state exists, it
@@ -293,7 +298,26 @@ async function load() {
       const r = await fetch("arena-state.json?t=" + Date.now());
       S = await r.json();
     }
-    render(S);
+    // CALM-PAGE (owner directive 2026-10-11, "calm the page only — keep 40s
+    // rounds"): repaint only when the round or match status actually changes.
+    // Polls in between refresh just the one-line status, so the tables and
+    // feed hold still long enough to read. Scroll position is preserved
+    // across repaints.
+    const key = renderKey(S);
+    if (key !== lastRenderKey) {
+      const y = window.scrollY;
+      render(S);
+      lastRenderKey = key;
+      requestAnimationFrame(() => window.scrollTo(0, y));
+    } else {
+      const live = S.status === "live";
+      const sched = S.status === "scheduled";
+      $("status-line").textContent = live
+        ? `🔴 LIVE — round ${S.currentRound} of ${S.totalRounds} · ${S.matchId}${S.label ? " · " + S.label : ""}`
+        : sched
+        ? `⏰ Scheduled — ${S.matchId} starts shortly${S.label ? " · " + S.label : ""}`
+        : `Match finished — ${S.matchId} · final standings below`;
+    }
     // While a match is on air, poll like a broadcast (4s), not a recap (15s).
     const want = (S.status === "live" || S.status === "scheduled") ? 4000 : 15000;
     if (typeof timer !== "undefined" && want !== pollMs) {
