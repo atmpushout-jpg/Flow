@@ -243,8 +243,23 @@ function localChecks(payload, meta) {
 function cdpPrivateKey(secret) {
   let s = (secret || "").trim();
   if (s.length >= 2 && s.startsWith('"') && s.endsWith('"')) s = s.slice(1, -1).trim();
-  const asKey = (pem) => {
-    const k = crypto.createPrivateKey({ key: pem, format: "pem" });
+  const asKey = (pemText) => {
+    // Values pasted out of JSON downloads often carry literal \n escapes and
+    // mangled line breaks. Unescape, then extract the base64 body and re-wrap
+    // it cleanly under its original label before handing it to OpenSSL.
+    let t = String(pemText).replace(/\\r\\n|\\n|\\r/g, "\n");
+    const m = t.match(/-----BEGIN ([A-Z0-9 ]+)-----([\s\S]*?)-----END \1-----/);
+    let k;
+    if (m) {
+      const body = m[2].replace(/[^A-Za-z0-9+/=]/g, "");
+      const clean =
+        "-----BEGIN " + m[1].trim() + "-----\n" +
+        (body.match(/.{1,64}/g) || []).join("\n") +
+        "\n-----END " + m[1].trim() + "-----\n";
+      k = crypto.createPrivateKey({ key: clean, format: "pem" });
+    } else {
+      k = crypto.createPrivateKey({ key: t, format: "pem" });
+    }
     if (k.asymmetricKeyType !== "ed25519")
       throw new Error("CDP_API_KEY_SECRET is a " + k.asymmetricKeyType + " key - the CDP key must be Ed25519");
     return k;
