@@ -146,7 +146,7 @@ function paymentRequiredBody(req, resourceMeta) {
       url: resourceUrl(req, meta.path),
       description:
         meta.description ||
-        "Use when an agent is about to swap on Base and needs the best executable price before committing funds. Flow best-execution quotes: compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and returns the best venue, expected output, edge vs Uniswap baseline, block number, and an expiry window so the agent knows exactly how long the price holds.",
+        "Use when an agent is about to swap on Base and needs the best executable price before committing funds. Flow best-execution quotes: compares Uniswap V3 and Aerodrome across fee tiers and returns the best venue, expected output, edge vs Uniswap baseline, block number, and an expiry window so the agent knows exactly how long the price holds.",
       mimeType: "application/json",
       serviceName: "Flow",
       tags: ["trading", "defi", "base", "dex", "quotes"],
@@ -163,6 +163,8 @@ function paymentRequiredBody(req, resourceMeta) {
   return body;
 }
 
+// Browsers hide non-safelisted response headers from cross-origin fetch()
+// unless the response names them in Access-Control-Expose-Headers — the
 // x402 Foundation fixed this exact bug in their TypeScript SDK (fixes
 // x402-foundation/x402#3722): @x402/fetch failed with "Failed to parse
 // payment requirements" even on a correct 402. Flow's paid endpoints are
@@ -236,85 +238,19 @@ function localChecks(payload, meta) {
 // CDP facilitator auth (Ed25519 JWT, stdlib crypto only)
 // ---------------------------------------------------------------------------
 
-// CDP issues the Ed25519 secret in several wraps depending on the export:
-// raw base64 seed (32B), base64 seed+pubkey (64B), PEM, or base64-of-PEM,
-// sometimes with JSON quotes. Normalize all of them; reject anything else
-// with the decoded length so a bad value is diagnosable without seeing it.
-function cdpPrivateKey(secret) {
-  let s = (secret || "").trim();
-  if (s.length >= 2 && s.startsWith('"') && s.endsWith('"')) s = s.slice(1, -1).trim();
-  const asKey = (pemText) => {
-    // Values pasted out of JSON downloads often carry literal \n escapes and
-    // mangled line breaks. Unescape, then extract the base64 body and re-wrap
-    // it cleanly under its original label before handing it to OpenSSL.
-    let t = String(pemText).replace(/\\r\\n|\\n|\\r/g, "\n");
-    const m = t.match(/-----BEGIN ([A-Z0-9 ]+)-----([\s\S]*?)-----END \1-----/);
-    let k;
-    if (m) {
-      const body = m[2].replace(/[^A-Za-z0-9+/=]/g, "");
-      const clean =
-        "-----BEGIN " + m[1].trim() + "-----\n" +
-        (body.match(/.{1,64}/g) || []).join("\n") +
-        "\n-----END " + m[1].trim() + "-----\n";
-      try {
-        k = crypto.createPrivateKey({ key: clean, format: "pem" });
-      } catch (e) {
-        throw new Error("CDP_API_KEY_SECRET PEM unparseable (label \"" + m[1].trim() + "\", body " + body.length + " chars): " + e.message);
-      }
-      k.__via = "pem:" + m[1].trim();
-    } else {
-      try {
-        k = crypto.createPrivateKey({ key: t, format: "pem" });
-      } catch (e) {
-        throw new Error("CDP_API_KEY_SECRET PEM unparseable (no BEGIN/END span found): " + e.message);
-      }
-      k.__via = "pem:raw";
-    }
-    if (k.asymmetricKeyType !== "ed25519")
-      throw new Error("CDP_API_KEY_SECRET is a " + k.asymmetricKeyType + " key - the CDP key must be Ed25519");
-    return k;
-  };
-  if (s.startsWith("-----BEGIN")) return asKey(s);
-  const raw = Buffer.from(s.replace(/\s+/g, ""), "base64");
-  if (raw.subarray(0, 10).toString("latin1").startsWith("-----BEGIN")) {
-    const k = asKey(raw.toString("utf8"));
-    k.__via = "b64-" + (k.__via || "pem");
-    return k;
-  }
-  let seed = raw;
-  const was64 = seed.length === 64;
-  if (was64) seed = seed.subarray(0, 32); // some exports include the pubkey
-  if (seed.length !== 32)
-    throw new Error("CDP_API_KEY_SECRET unrecognized format (base64-decoded length " + raw.length + ")");
+function cdpJwt(method, path) {
+  const keyId = process.env.CDP_API_KEY_ID;
+  const secret = process.env.CDP_API_KEY_SECRET;
+  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
+  let seed = Buffer.from(secret.trim(), "base64");
+  if (seed.length === 64) seed = seed.subarray(0, 32); // some exports include the pubkey
+  if (seed.length !== 32) throw new Error("CDP_API_KEY_SECRET must base64-decode to 32 bytes (Ed25519 seed)");
   const pkcs8Der = Buffer.concat([Buffer.from("302e020100300506032b657004220420", "hex"), seed]);
   const pem =
     "-----BEGIN PRIVATE KEY-----\n" +
     pkcs8Der.toString("base64").match(/.{1,64}/g).join("\n") +
     "\n-----END PRIVATE KEY-----\n";
-  const k = crypto.createPrivateKey({ key: pem, format: "pem" });
-  k.__via = was64 ? "seed64" : "seed32";
-  return k;
-}
-
-// Parse-status probe for /api/health: reports only format metadata
-// (branch taken, key type, sanitized error) - never any key material.
-function cdpKeyStatus() {
-  const id = process.env.CDP_API_KEY_ID;
-  const secret = process.env.CDP_API_KEY_SECRET;
-  if (!id || !secret) return { configured: false };
-  try {
-    const k = cdpPrivateKey(secret);
-    return { configured: true, parses: true, keyType: k.asymmetricKeyType, via: k.__via || "unknown" };
-  } catch (e) {
-    return { configured: true, parses: false, error: String(e.message || e).slice(0, 200) };
-  }
-}
-
-function cdpJwt(method, path) {
-  const keyId = process.env.CDP_API_KEY_ID;
-  const secret = process.env.CDP_API_KEY_SECRET;
-  if (!keyId || !secret) throw new Error("CDP_API_KEY_ID / CDP_API_KEY_SECRET are not set");
-  const key = cdpPrivateKey(secret);
+  const key = crypto.createPrivateKey({ key: pem, format: "pem" });
   const now = Math.floor(Date.now() / 1000);
   const b64u = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
   const signingInput =
@@ -338,6 +274,69 @@ function facilitatorPath() {
   return u.pathname.replace(/\/+$/, "");
 }
 
+// ---------------------------------------------------------------------------
+// Facilitator calls — hardened 2026-10-12 after the CDP 5xx window
+// (13:47–14:02 EDT) that surfaced as bare 502s on paid endpoints:
+//   * Every call has a 15s AbortController timeout — a hanging facilitator
+//     must never hang the function until the gateway gives up.
+//   * Exactly ONE retry (750ms backoff) on connection-level network errors
+//     or HTTP 5xx responses that carry no verdict body. Timeout aborts are
+//     NOT retried: a facilitator that just burned 15s hanging will not
+//     un-hang in 750ms, and the client has already waited long enough.
+//   * The JSON body is parsed BEFORE the HTTP status is judged. CDP wraps
+//     verdicts in error envelopes (e.g. HTTP 400 carrying
+//     { isValid: false, invalidReason }); a body that carries a verdict
+//     (verify: boolean isValid, settle: boolean success) IS the result —
+//     an invalid payment must surface as our 402 with the reason, never
+//     as a thrown 502 "verification unavailable".
+//   * Every attempt is console-logged (op, attempt, HTTP status, latency,
+//     error body snippet) so the next window is diagnosable from the
+//     Vercel function logs.
+// Settle-retry choice: settle is retried ONLY when the first attempt's
+// outcome is genuinely unknown (connection error or 5xx with no verdict
+// body). That is safe against double-settlement: the EIP-3009 nonce in
+// the signed authorization can only be spent once on-chain, so a retry
+// can never take the payer's funds twice — and if the first attempt did
+// land, the retry's response reports the settlement state, which is what
+// gets surfaced (loudly logged). The chain remains ground truth.
+// ---------------------------------------------------------------------------
+
+const FACILITATOR_TIMEOUT_MS = 15000;
+const FACILITATOR_RETRY_BACKOFF_MS = 750;
+const FACILITATOR_MAX_ATTEMPTS = 2; // initial attempt + exactly one retry
+
+function facilitatorSleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Does this parsed body carry the op's verdict? Verdicts win over HTTP
+// status — see the hardening note above.
+function facilitatorVerdict(op, data) {
+  if (!data || typeof data !== "object") return false;
+  if (op === "verify") return typeof data.isValid === "boolean";
+  if (op === "settle") return typeof data.success === "boolean";
+  return false;
+}
+
+async function facilitatorAttempt(op, url, headers, bodyStr) {
+  const started = Date.now();
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), FACILITATOR_TIMEOUT_MS);
+  try {
+    const r = await fetch(url, { method: "POST", headers, body: bodyStr, signal: ctl.signal });
+    const text = await r.text();
+    let data = null;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      /* non-JSON body — data stays null; the caller decides */
+    }
+    return { status: r.status, text, data, ms: Date.now() - started };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function facilitatorCall(op, paymentPayload, paymentRequirements) {
   const c = getConfig();
   const path = `${facilitatorPath()}/${op}`; // /verify or /settle
@@ -346,20 +345,80 @@ async function facilitatorCall(op, paymentPayload, paymentRequirements) {
   if (url.includes(CDP_HOST)) {
     headers.Authorization = `Bearer ${cdpJwt("POST", path)}`;
   }
-  const r = await fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ x402Version: 2, paymentPayload, paymentRequirements }),
-  });
-  const text = await r.text();
-  let data;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    throw new Error(`Facilitator ${op} returned non-JSON (HTTP ${r.status})`);
+  const bodyStr = JSON.stringify({ x402Version: 2, paymentPayload, paymentRequirements });
+
+  let lastErr = null;
+  for (let attempt = 1; attempt <= FACILITATOR_MAX_ATTEMPTS; attempt++) {
+    let out;
+    try {
+      out = await facilitatorAttempt(op, url, headers, bodyStr);
+    } catch (e) {
+      if (e && e.name === "AbortError") {
+        // Timeout: NOT retried (see header note). Surfaces as a clean,
+        // bounded error — the caller turns it into a JSON 502.
+        console.log(
+          `[x402] facilitator ${op} attempt ${attempt}/${FACILITATOR_MAX_ATTEMPTS}: TIMEOUT after ${FACILITATOR_TIMEOUT_MS}ms — not retrying a hanging facilitator`
+        );
+        throw new Error(`Facilitator ${op} timed out after ${FACILITATOR_TIMEOUT_MS}ms`);
+      }
+      // Connection-level network error: the request may never have
+      // arrived; outcome unknown → the one allowed retry.
+      console.log(
+        `[x402] facilitator ${op} attempt ${attempt}/${FACILITATOR_MAX_ATTEMPTS}: network error (${e && e.message ? e.message : e})`
+      );
+      lastErr = e instanceof Error ? e : new Error(String(e));
+      if (attempt < FACILITATOR_MAX_ATTEMPTS) {
+        if (op === "settle") {
+          console.log(
+            `[x402] facilitator settle: RETRYING after unknown outcome — the EIP-3009 nonce prevents double-settlement; the retry response is authoritative`
+          );
+        }
+        await facilitatorSleep(FACILITATOR_RETRY_BACKOFF_MS);
+        continue;
+      }
+      throw lastErr;
+    }
+
+    console.log(`[x402] facilitator ${op} attempt ${attempt}/${FACILITATOR_MAX_ATTEMPTS}: HTTP ${out.status} in ${out.ms}ms`);
+
+    // Body first: a verdict is a verdict whatever envelope it arrived in.
+    if (facilitatorVerdict(op, out.data)) {
+      if (out.status < 200 || out.status >= 300) {
+        console.log(
+          `[x402] facilitator ${op}: verdict delivered inside HTTP ${out.status} envelope — returning the verdict, not an error`
+        );
+      }
+      return out.data;
+    }
+
+    if (out.status >= 500 && out.status <= 599) {
+      // 5xx with no verdict: transient facilitator trouble; outcome
+      // unknown → the one allowed retry, then a clean throw.
+      console.log(
+        `[x402] facilitator ${op} attempt ${attempt}/${FACILITATOR_MAX_ATTEMPTS}: HTTP ${out.status} with no verdict body — body snippet: ${out.text.slice(0, 200)}`
+      );
+      lastErr = new Error(`Facilitator ${op} HTTP ${out.status}: ${out.text.slice(0, 200)}`);
+      if (attempt < FACILITATOR_MAX_ATTEMPTS) {
+        if (op === "settle") {
+          console.log(
+            `[x402] facilitator settle: RETRYING after unknown outcome (HTTP ${out.status}) — the EIP-3009 nonce prevents double-settlement; the retry response is authoritative`
+          );
+        }
+        await facilitatorSleep(FACILITATOR_RETRY_BACKOFF_MS);
+        continue;
+      }
+      throw lastErr;
+    }
+
+    if (!out.data) {
+      throw new Error(`Facilitator ${op} returned non-JSON (HTTP ${out.status})`);
+    }
+    if (out.status < 200 || out.status >= 300) {
+      throw new Error(`Facilitator ${op} HTTP ${out.status}: ${out.text.slice(0, 200)}`);
+    }
+    return out.data;
   }
-  if (!r.ok) throw new Error(`Facilitator ${op} HTTP ${r.status}: ${text.slice(0, 800)}`);
-  return data;
+  throw lastErr || new Error(`Facilitator ${op} failed`);
 }
 
 // ---------------------------------------------------------------------------
@@ -396,7 +455,7 @@ async function requirePayment(req, res, resourceMeta) {
   try {
     verify = await facilitatorCall("verify", decoded.payload, requirements);
   } catch (e) {
-    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 600)}` });
+    res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 150)}` });
     return null;
   }
   if (!verify.isValid) {
@@ -432,5 +491,4 @@ module.exports = {
   settlePayment,
   paymentResponseHeaders,
   USDC_BASE,
-  cdpKeyStatus,
 };
