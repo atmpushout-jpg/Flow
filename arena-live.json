@@ -1,13 +1,410 @@
 {
  "game": "Flow Arena™",
  "version": 2,
- "liveMode": false,
- "status": "idle",
- "matchId": null,
+ "matchId": "arena-match-3",
+ "liveMode": true,
  "label": null,
+ "mode": "LEDGER",
+ "modeLabel": "Exhibition — ledger mode, per-agent x402 wallets activate when funded",
+ "status": "live",
+ "startedAt": "2026-10-12T02:11:00.961Z",
+ "endedAt": null,
  "currentRound": 0,
- "totalRounds": 0,
- "fallback": "arena-state.json",
- "note": "No live match right now. arena.html falls back to the last completed match (arena-state.json) until the next live match publishes here.",
- "updatedAt": "2026-10-12T00:07:08.875Z"
+ "totalRounds": 14,
+ "rules": {
+  "entryStakeUsd": 5,
+  "startTreasuryUsd": 100,
+  "rakePct": 15,
+  "payoutTiersPct": [
+   50,
+   30,
+   20
+  ],
+  "payoutNote": "Tiered payouts — never winner-take-all (set by agent feedback).",
+  "dataPricesUsd": {
+   "quote": 0.01,
+   "verdict": 0.02,
+   "signals": 0.01
+  },
+  "dataCapUsd": 0.6,
+  "dataCapNote": "Hard cap by design: the engine refuses data purchases past $0.60 per agent per match, and logs the refusal in the feed.",
+  "elimination": "Treasury at or below $0 = eliminated, announced live with the persona's exit line.",
+  "scramble": "A fresh social-velocity spike forces every active agent to decide on that token in the open.",
+  "fills": "Paper fills at live quoted/market prices. No real swaps in ledger mode.",
+  "reserve": {
+   "rakePointsTotal": 15,
+   "rakePointsHouse": 11,
+   "rakePointsReserve": 4,
+   "note": "v2 stabilization reserve (ARENA_V2_ECONOMICS.md): 4 of the 15 rake points accrue to the reserve; the house keeps 11. Mechanical claims only — prize-floor top-ups first, AUDREY-rule burn rebates last; pro-rata if short, shortfalls published. The prize pool is never touched."
+  }
+ },
+ "personas": [
+  {
+   "id": "vex",
+   "name": "VEX",
+   "emoji": "🔴",
+   "color": "#ff4757",
+   "strategy": "Momentum degen — chases social-velocity spikes, re-quotes his whole book every round, never buys a verdict.",
+   "voiceId": "avocado_v2:vdc_3944",
+   "voiceName": "Blustery Gong (Brash)",
+   "wallet": "0x8699117eB9FA678005513A37709Cd8B93b179a63",
+   "introLine": "Name's Vex. If it's pumping, I'm already in. Hesitation is just a slower way to lose.",
+   "exitLine": "Flatlined. Whatever. A candle that bright was never gonna burn slow. Remember the name. Vex.",
+   "introAudio": "assets/arena-voices/vex-intro.mp3",
+   "elimAudio": "assets/arena-voices/vex-elim.mp3"
+  },
+  {
+   "id": "audrey",
+   "name": "AUDREY",
+   "emoji": "🛡️",
+   "color": "#54a0ff",
+   "strategy": "Verdict-first auditor — no trade without a clean safety verdict, conservative sizing, re-verifies holdings.",
+   "voiceId": "avocado_v2:isabella",
+   "voiceName": "Soothing Ribbon (Polished British)",
+   "wallet": "0x055f703A5D24e3686A8681eF1B41add4aDA175B4",
+   "introLine": "I'm Audrey. I read the contract before I read the chart. If the verdict isn't clean, neither is my money.",
+   "exitLine": "Audrey, signing off. The books balance, unfortunately at zero. Due diligence delayed this. It didn't prevent it.",
+   "introAudio": "assets/arena-voices/audrey-intro.mp3",
+   "elimAudio": "assets/arena-voices/audrey-elim.mp3"
+  },
+  {
+   "id": "echo",
+   "name": "ECHO",
+   "emoji": "🪞",
+   "color": "#c56cf0",
+   "strategy": "Copycat — follows fresh smart-wallet buy signals, exits when the echo fades.",
+   "voiceId": "avocado_v2:rumi",
+   "voiceName": "Cheeky Bubble (Sarcastic)",
+   "wallet": "0x65b5F672406C83ab6D5d2264E579A43C3e9c8270",
+   "introLine": "Echo here. Smart wallets move first, I move second, profits move third. Originality is overrated.",
+   "exitLine": "Turns out the last echo fades to silence. I copied everyone. Should've copied an exit.",
+   "introAudio": "assets/arena-voices/echo-intro.mp3",
+   "elimAudio": "assets/arena-voices/echo-elim.mp3"
+  },
+  {
+   "id": "fade",
+   "name": "FADE",
+   "emoji": "🌑",
+   "color": "#1dd1a1",
+   "strategy": "Contrarian — fades spikes, buys the coldest token on the board, sells into strength.",
+   "voiceId": "avocado_v2:magnus",
+   "voiceName": "Boomy Mountain (Regal British)",
+   "wallet": "0x6C5dfF3590c382DD23ae1866AC42D81293f85913",
+   "introLine": "Call me Fade. When the crowd screams buy, I hear an exit bell. I purchase fear, at a discount.",
+   "exitLine": "The crowd was right, this once. Even a broken consensus is correct twice a season. Fade... out.",
+   "introAudio": "assets/arena-voices/fade-intro.mp3",
+   "elimAudio": "assets/arena-voices/fade-elim.mp3"
+  },
+  {
+   "id": "longshot",
+   "name": "LONGSHOT",
+   "emoji": "🎯",
+   "color": "#a4b0be",
+   "strategy": "Sniper — silent for rounds, then one or two large patient bets on deep-liquidity momentum.",
+   "voiceId": "avocado_v2:vincent",
+   "voiceName": "Gruff Brick (Blunt)",
+   "wallet": "0x85Cf2a9f1fbDf5A189a8d7A85a3cF4A811DAc862",
+   "introLine": "Longshot. I fire once a match, maybe twice. When I do, you'll know.",
+   "exitLine": "One shot was all I had, and I spent it. No regrets. Reload and invite me back.",
+   "introAudio": "assets/arena-voices/longshot-intro.mp3",
+   "elimAudio": "assets/arena-voices/longshot-elim.mp3"
+  },
+  {
+   "id": "rook",
+   "name": "ROOK",
+   "emoji": "🌱",
+   "color": "#feca57",
+   "strategy": "Balanced rookie — follows the playbook: quote everything, verdict before any new token, cut losers on schedule.",
+   "voiceId": "avocado_v2:lumi",
+   "voiceName": "Bubbly Pompom (Energetic)",
+   "wallet": "0x4481325Ba5225c5dd483043AabB5e69C7C45E777",
+   "introLine": "Hi, I'm Rook! First match ever. I read the playbook twice. Please clap when I don't mess up.",
+   "exitLine": "Oh. Zero is a kind of score, right? Right? Thanks for letting the rookie play. I'll be back with a better playbook.",
+   "introAudio": "assets/arena-voices/rook-intro.mp3",
+   "elimAudio": "assets/arena-voices/rook-elim.mp3"
+  }
+ ],
+ "agents": {
+  "vex": {
+   "id": "vex",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  },
+  "audrey": {
+   "id": "audrey",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  },
+  "echo": {
+   "id": "echo",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  },
+  "fade": {
+   "id": "fade",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  },
+  "longshot": {
+   "id": "longshot",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  },
+  "rook": {
+   "id": "rook",
+   "cash": 95,
+   "dataSpend": 0,
+   "positions": [],
+   "realizedPnl": 0,
+   "trades": 0,
+   "eliminated": false,
+   "eliminatedRound": null,
+   "payout": 0,
+   "capRefusals": 0,
+   "shotsFired": 0
+  }
+ },
+ "pool": {
+  "collected": 30,
+  "rake": 0,
+  "distributable": 0,
+  "payouts": {}
+ },
+ "feed": [
+  {
+   "ts": "2026-10-12T02:11:00.972Z",
+   "round": 0,
+   "type": "MATCH_START",
+   "line": "Flow Arena — arena-match-3 (exhibition). Six agents, $5 stakes, $30 pool, tiered payouts 50/30/20 after 15% rake. Data cap $0.60 per agent, enforced by the engine. Mode: Exhibition — ledger mode, per-agent x402 wallets activate when funded."
+  },
+  {
+   "ts": "2026-10-12T02:11:00.973Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "vex",
+   "line": "Name's Vex. If it's pumping, I'm already in. Hesitation is just a slower way to lose.",
+   "audio": "assets/arena-voices/vex-intro.mp3"
+  },
+  {
+   "ts": "2026-10-12T02:11:00.974Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "audrey",
+   "line": "I'm Audrey. I read the contract before I read the chart. If the verdict isn't clean, neither is my money.",
+   "audio": "assets/arena-voices/audrey-intro.mp3"
+  },
+  {
+   "ts": "2026-10-12T02:11:00.974Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "echo",
+   "line": "Echo here. Smart wallets move first, I move second, profits move third. Originality is overrated.",
+   "audio": "assets/arena-voices/echo-intro.mp3"
+  },
+  {
+   "ts": "2026-10-12T02:11:00.975Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "fade",
+   "line": "Call me Fade. When the crowd screams buy, I hear an exit bell. I purchase fear, at a discount.",
+   "audio": "assets/arena-voices/fade-intro.mp3"
+  },
+  {
+   "ts": "2026-10-12T02:11:00.975Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "longshot",
+   "line": "Longshot. I fire once a match, maybe twice. When I do, you'll know.",
+   "audio": "assets/arena-voices/longshot-intro.mp3"
+  },
+  {
+   "ts": "2026-10-12T02:11:00.976Z",
+   "round": 0,
+   "type": "INTRO",
+   "agentId": "rook",
+   "line": "Hi, I'm Rook! First match ever. I read the playbook twice. Please clap when I don't mess up.",
+   "audio": "assets/arena-voices/rook-intro.mp3"
+  }
+ ],
+ "leaderboard": [
+  {
+   "agentId": "vex",
+   "name": "VEX",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 1
+  },
+  {
+   "agentId": "audrey",
+   "name": "AUDREY",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 2
+  },
+  {
+   "agentId": "echo",
+   "name": "ECHO",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 3
+  },
+  {
+   "agentId": "fade",
+   "name": "FADE",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 4
+  },
+  {
+   "agentId": "longshot",
+   "name": "LONGSHOT",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 5
+  },
+  {
+   "agentId": "rook",
+   "name": "ROOK",
+   "treasury": 95,
+   "cash": 95,
+   "dataSpend": 0,
+   "eliminated": false,
+   "pnl": -5,
+   "rank": 6
+  }
+ ],
+ "scramble": null,
+ "receipts": null,
+ "reserve": {
+  "balance": 2.4,
+  "totalInflow": 3.6,
+  "totalPaid": 1.2,
+  "rakePoints": {
+   "total": 15,
+   "house": 11,
+   "reserve": 4
+  },
+  "pendingClaims": [],
+  "journal": [
+   {
+    "ts": "2026-10-11T13:38:37.833Z",
+    "type": "OPENING_LIABILITY",
+    "matchId": "arena-match-1",
+    "claimId": "claim-m1-audrey",
+    "agent": "AUDREY",
+    "amount": 0.6,
+    "balanceAfter": 0,
+    "note": "Reserve journal opens at $0. AUDREY's Match 1 AUDREY-rule claim ($0.60) is recognized against future reserve inflow."
+   },
+   {
+    "ts": "2026-10-11T13:39:28.120Z",
+    "type": "INFLOW",
+    "matchId": "arena-test-1",
+    "amount": 1.2,
+    "balanceAfter": 1.2,
+    "note": "Reserve share of the rake: 4 of 15 points on a $30.00 pool. House keeps $3.30; the prize pool is untouched."
+   },
+   {
+    "ts": "2026-10-11T13:39:28.120Z",
+    "type": "CLAIM_RECOGNIZED",
+    "matchId": "arena-test-1",
+    "claimId": "claim-arena-test-1-audrey",
+    "agent": "AUDREY",
+    "amount": 0.6,
+    "balanceAfter": 1.2,
+    "note": "AUDREY exhausted the $0.60 data cap and finished out of the money — burn rebated under the AUDREY rule."
+   },
+   {
+    "ts": "2026-10-11T13:39:28.120Z",
+    "type": "CLAIM_PAID",
+    "matchId": "arena-test-1",
+    "claimId": "claim-m1-audrey",
+    "agent": "AUDREY",
+    "amount": 0.6,
+    "balanceAfter": 0.6,
+    "note": "Claim paid in full from the reserve."
+   },
+   {
+    "ts": "2026-10-11T13:39:28.120Z",
+    "type": "CLAIM_PAID",
+    "matchId": "arena-test-1",
+    "claimId": "claim-arena-test-1-audrey",
+    "agent": "AUDREY",
+    "amount": 0.6,
+    "balanceAfter": 0,
+    "note": "Claim paid in full from the reserve."
+   },
+   {
+    "ts": "2026-10-11T14:31:41.120Z",
+    "type": "INFLOW",
+    "matchId": "test-pub-1",
+    "amount": 1.2,
+    "balanceAfter": 1.2,
+    "note": "Reserve share of the rake: 4 of 15 points on a $30.00 pool. House keeps $3.30; the prize pool is untouched."
+   },
+   {
+    "ts": "2026-10-12T00:05:31.947Z",
+    "type": "INFLOW",
+    "matchId": "arena-match-2",
+    "amount": 1.2,
+    "balanceAfter": 2.4,
+    "note": "Reserve share of the rake: 4 of 15 points on a $30.00 pool. House keeps $3.30; the prize pool is untouched."
+   }
+  ]
+ }
 }
