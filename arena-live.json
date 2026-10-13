@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-13T00:20:24.274Z",
  "endedAt": null,
- "currentRound": 10,
+ "currentRound": 11,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 71.04,
-   "dataSpend": 0.21,
+   "cash": 71.02,
+   "dataSpend": 0.23,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -149,8 +149,8 @@
   },
   "audrey": {
    "id": "audrey",
-   "cash": 36.79,
-   "dataSpend": 0.38,
+   "cash": 36.76,
+   "dataSpend": 0.41,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -211,8 +211,8 @@
   },
   "echo": {
    "id": "echo",
-   "cash": 71.15,
-   "dataSpend": 0.13,
+   "cash": 71.14,
+   "dataSpend": 0.14,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
@@ -271,8 +271,8 @@
   },
   "longshot": {
    "id": "longshot",
-   "cash": 94.7,
-   "dataSpend": 0.3,
+   "cash": 94.67,
+   "dataSpend": 0.33,
    "positions": [],
    "realizedPnl": 0,
    "trades": 0,
@@ -1085,17 +1085,77 @@
    "type": "HOLD",
    "agentId": "rook",
    "line": "No trades this round. I'm consolidating. That's a word I learned today."
+  },
+  {
+   "ts": "2026-10-13T00:27:48.676Z",
+   "round": 11,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "TEST",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-13T00:27:48.686Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-13T00:27:49.508Z",
+   "round": 11,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "THEO",
+   "line": "I read THEO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-13T00:27:49.517Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-13T00:27:49.526Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "echo",
+   "line": "No fresh footprints to follow. An echo with nothing to repeat just... waits."
+  },
+  {
+   "ts": "2026-10-13T00:27:49.536Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-13T00:27:49.543Z",
+   "round": 11,
+   "type": "ERROR",
+   "agentId": "longshot",
+   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-13T00:27:49.549Z",
+   "round": 11,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 94.99,
+   "treasury": 95,
    "cash": 32.57,
    "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -5.01,
+   "pnl": -5,
    "rank": 1
   },
   {
@@ -1111,41 +1171,41 @@
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.87,
-   "cash": 71.15,
-   "dataSpend": 0.13,
+   "treasury": 94.86,
+   "cash": 71.14,
+   "dataSpend": 0.14,
    "eliminated": false,
-   "pnl": -5.13,
+   "pnl": -5.14,
    "rank": 3
   },
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.79,
-   "cash": 71.04,
-   "dataSpend": 0.21,
+   "treasury": 94.77,
+   "cash": 71.02,
+   "dataSpend": 0.23,
    "eliminated": false,
-   "pnl": -5.21,
+   "pnl": -5.23,
    "rank": 4
   },
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 94.7,
-   "cash": 94.7,
-   "dataSpend": 0.3,
+   "treasury": 94.67,
+   "cash": 94.67,
+   "dataSpend": 0.33,
    "eliminated": false,
-   "pnl": -5.3,
+   "pnl": -5.33,
    "rank": 5
   },
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.62,
-   "cash": 36.79,
-   "dataSpend": 0.38,
+   "treasury": 94.58,
+   "cash": 36.76,
+   "dataSpend": 0.41,
    "eliminated": false,
-   "pnl": -5.38,
+   "pnl": -5.42,
    "rank": 6
   }
  ],
