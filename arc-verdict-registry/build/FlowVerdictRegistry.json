@@ -1,0 +1,241 @@
+{
+  "contractName": "FlowVerdictRegistry",
+  "solcVersion": "0.8.37+commit.f401782d.Emscripten.clang",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "subject",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "sourceChain",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "score",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "verdict",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "verdictHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "recorder",
+          "type": "address"
+        }
+      ],
+      "name": "VerdictRecorded",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getVerdict",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "subject",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "sourceChain",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "score",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "verdict",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "verdictHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "recorder",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "timestamp",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "subject",
+          "type": "address"
+        }
+      ],
+      "name": "latestFor",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "found",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "score",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "verdict",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "verdictHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint64",
+          "name": "timestamp",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "latestVerdictId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "subject",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "sourceChain",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "score",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "verdict",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "verdictHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "recordVerdict",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalVerdicts",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "verdictCountFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600e575f5ffd5b506107298061001c5f395ff3fe608060405234801561000f575f5ffd5b5060043610610060575f3560e01c80631f5b12451461006457806333f3e74b1461007a5780635ddaaeb3146100dd578063689cb719146100f05780639f51d7391461010f578063d54824551461012e575b5f5ffd5b5f545b6040519081526020015b60405180910390f35b61008d6100883660046105ec565b610181565b604080516001600160a01b039889168152602081019790975260ff958616908701529290931660608501526080840152921660a082015267ffffffffffffffff90911660c082015260e001610071565b6100676100eb36600461062e565b610204565b6100676100fe36600461067f565b60026020525f908152604090205481565b61006761011d36600461067f565b60016020525f908152604090205481565b61014161013c36600461067f565b61052b565b604080519615158752602087019590955260ff9384169486019490945291166060840152608083015267ffffffffffffffff1660a082015260c001610071565b5f5f5f5f5f5f5f5f5f898154811061019b5761019b61069f565b5f918252602090912060059091020180546001820154600283015460038401546004909401546001600160a01b039384169e929d5060ff8083169d506101009092049091169a509298509082169650600160a01b90910467ffffffffffffffff16945092505050565b5f6001600160a01b03861661024f5760405162461bcd60e51b815260206004820152600c60248201526b1e995c9bc81cdd589a9958dd60a21b60448201526064015b60405180910390fd5b60648460ff1611156102915760405162461bcd60e51b815260206004820152600b60248201526a073636f7265203e203130360ac1b6044820152606401610246565b60028360ff1611156102d35760405162461bcd60e51b815260206004820152600b60248201526a3b32b93234b1ba101f101960a91b6044820152606401610246565b8161030c5760405162461bcd60e51b81526020600482015260096024820152680f4cae4de40d0c2e6d60bb1b6044820152606401610246565b5f8054905090505f6040518060e00160405280886001600160a01b031681526020018781526020018660ff1681526020018560ff168152602001848152602001336001600160a01b031681526020014267ffffffffffffffff16815250908060018154018082558091505060019003905f5260205f2090600502015f909190919091505f820151815f015f6101000a8154816001600160a01b0302191690836001600160a01b03160217905550602082015181600101556040820151816002015f6101000a81548160ff021916908360ff16021790555060608201518160020160016101000a81548160ff021916908360ff1602179055506080820151816003015560a0820151816004015f6101000a8154816001600160a01b0302191690836001600160a01b0316021790555060c08201518160040160146101000a81548167ffffffffffffffff021916908367ffffffffffffffff16021790555050506001805f886001600160a01b03166001600160a01b031681526020019081526020015f205f82825461049d91906106c7565b909155506104ae90508160016106c7565b6001600160a01b0387165f8181526002602090815260409182902093909355805188815260ff8089169482019490945292861690830152606082018490523360808301529082907f222631fdf8183ae658b60ee3612709380d9e41fe9f283a53fa3422bfd9a390ad9060a00160405180910390a395945050505050565b6001600160a01b0381165f908152600260205260408120548190819081908190819080820361056c57505f95508594508493508392508291508190506105e3565b5f806105796001846106e0565b815481106105895761058961069f565b905f5260205f2090600502019050600180836105a591906106e0565b60028301546003840154600490940154929a5090985060ff8082169850610100909104169550909350600160a01b900467ffffffffffffffff169150505b91939550919395565b5f602082840312156105fc575f5ffd5b5035919050565b80356001600160a01b0381168114610619575f5ffd5b919050565b803560ff81168114610619575f5ffd5b5f5f5f5f5f60a08688031215610642575f5ffd5b61064b86610603565b9450602086013593506106606040870161061e565b925061066e6060870161061e565b949793965091946080013592915050565b5f6020828403121561068f575f5ffd5b61069882610603565b9392505050565b634e487b7160e01b5f52603260045260245ffd5b634e487b7160e01b5f52601160045260245ffd5b808201808211156106da576106da6106b3565b92915050565b818103818111156106da576106da6106b356fea264697066735822122040f2f4c775df1adb1fc9a6aaa551b78bcb7ad77159c345dbe842e06f912a819164736f6c63430008250033",
+  "sourceHash": "c1c6c1a5fb4ad39373eb1ee393864074aedda139c4529780726afe6afdb19404",
+  "compiledAt": "2026-10-13T02:00:30.748Z"
+}
