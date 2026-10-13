@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
 
   const { tokenIn, tokenOut, amountIn, slippageBps, validBlocks } = req.body || {};
   if (!tokenIn || !tokenOut || !amountIn) {
+    await x402.releaseBuilderKey(gate); // malformed body — a builder-key call is not consumed
     return res.status(400).json({ error: "Missing tokenIn, tokenOut, or amountIn" });
   }
   try {
@@ -29,7 +30,8 @@ module.exports = async (req, res) => {
     };
 
     // Settle the authorized payment now that the resource has executed.
-    if (gate) {
+    // (Builder-key gates already reserved their test call — no settle.)
+    if (gate && !gate.builderKey) {
       let settled;
       try {
         settled = await x402.settlePayment(gate);
@@ -48,6 +50,10 @@ module.exports = async (req, res) => {
         network: settled.response.network,
         payer: settled.response.payer,
       };
+    }
+
+    if (gate && gate.builderKey) {
+      body.builderKey = { callsRemaining: gate.builderKey.callsRemaining };
     }
 
     res.json(body);
