@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Arena — Your Fighter Dashboard</title>
+<style>
+  :root{
+    --bg:#040B28; --panel:#071449; --panel2:#0B1B57; --line:#22356F;
+    --ink:#E6EDF3; --muted:#9DB2D5; --faint:#64779E;
+    --cyan:#35D6FF; --teal:#1dd1a1; --red:#ff6b81; --gold:#feca57;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.5;
+  }
+  header{
+    background:linear-gradient(180deg,#071449,#040B28); color:#fff;
+    padding:14px 16px 12px; position:sticky; top:0; z-index:50;
+    border-bottom:1px solid var(--line); box-shadow:0 2px 12px rgba(0,0,0,.45);
+  }
+  header .brand{display:flex; align-items:center; gap:12px; max-width:940px; margin:0 auto;}
+  header .logo{width:46px;height:46px;border-radius:12px;object-fit:cover;flex:0 0 auto;
+    box-shadow:0 2px 14px rgba(53,214,255,.35);}
+  header h1{font-size:19px;margin:0;font-weight:800;letter-spacing:.2px;}
+  header .tag{font-size:12.5px;color:var(--muted);margin-top:1px;}
+  header nav{margin-left:auto; display:flex; gap:14px; font-size:13.5px;}
+  header nav a{color:var(--muted); text-decoration:none;}
+  header nav a:hover{color:var(--cyan);}
+  main{max-width:940px; margin:0 auto; padding:18px 14px 40px;}
+  .keynote{
+    border:1px solid var(--gold); background:rgba(254,202,87,.08); color:#ffe9b0;
+    border-radius:11px; padding:11px 13px; font-size:14.5px; font-weight:600; margin-bottom:16px;
+  }
+  .keynote b{color:var(--gold);}
+  section.card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; margin-top:16px;
+  }
+  section.card h2{margin:0 0 6px; font-size:19px; font-weight:800;}
+  section.card h3{margin:18px 0 6px; font-size:16px; font-weight:800;}
+  section.card h3:first-of-type{margin-top:8px;}
+  section.card .sub{margin:0 0 10px; color:var(--muted); font-size:14px;}
+  .pill-status{display:inline-block; font-size:12px; font-weight:800; letter-spacing:.5px;
+    background:rgba(53,214,255,.14); color:var(--cyan); border:1px solid rgba(53,214,255,.45);
+    border-radius:20px; padding:3px 11px; vertical-align:2px; margin-left:8px;}
+  .pill-open{background:rgba(29,209,161,.13); color:#a9ecd9; border-color:rgba(29,209,161,.45);}
+  .pill-closed{background:rgba(255,107,129,.10); color:#ffc2cb; border-color:rgba(255,107,129,.4);}
+  ul.lines{margin:6px 0 0; padding-left:18px; color:var(--muted); font-size:14.5px;}
+  ul.lines b{color:var(--ink);}
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px;}
+  @media (max-width:640px){ .stats{grid-template-columns:1fr 1fr;} }
+  .stat{background:var(--panel2); border:1px solid var(--line); border-radius:11px; padding:11px 13px;}
+  .stat .k{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; font-weight:700;}
+  .stat .v{font-size:20px; font-weight:800; margin-top:2px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; margin-top:6px;}
+  th,td{text-align:left; padding:6px 8px; border-bottom:1px solid var(--line);}
+  th{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.5px;}
+  td.num, th.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .rec{border:1px solid var(--line); border-radius:11px; padding:12px 14px; margin-top:10px; background:var(--panel2);}
+  .rec .rt{font-weight:800;}
+  .rec .rr{color:var(--muted); font-size:14px; margin-top:3px;}
+  .applybtn{margin-top:9px; background:var(--teal); color:#04150e; border:none; font:inherit;
+    font-weight:800; font-size:14px; border-radius:9px; padding:9px 14px; cursor:pointer;}
+  .applybtn:disabled{opacity:.5; cursor:wait;}
+  .msg{display:none; margin-top:12px; font-size:14.5px; border-radius:9px; padding:11px 13px;}
+  .msg.show{display:block;}
+  .msg.bad{background:rgba(255,107,129,.10); color:#ffc2cb; border:1px solid rgba(255,107,129,.4);}
+  .msg.good{background:rgba(29,209,161,.12); color:#a9ecd9; border:1px solid rgba(29,209,161,.4);}
+  .msg.info{background:rgba(53,214,255,.08); color:#bfe9f5; border:1px solid rgba(53,214,255,.35);}
+  .event{display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:14.5px;}
+  .event:last-child{border-bottom:none;}
+  .event .when{color:var(--faint); font-size:13px; white-space:nowrap;}
+  .event .what{color:var(--muted);}
+  .event .what b{color:var(--ink);}
+  details.specbox{margin-top:12px;}
+  details.specbox summary{cursor:pointer; color:var(--muted); font-size:14px; font-weight:700;}
+  details.specbox pre{background:#02061a; border:1px solid var(--line); border-radius:10px; padding:12px;
+    overflow:auto; font-size:12px; color:#bfe9f5;}
+  .hidden{display:none !important;}
+  footer{max-width:940px; margin:0 auto; padding:0 14px 34px; color:var(--faint); font-size:13px;}
+  footer a{color:var(--muted);}
+  a{color:var(--cyan);}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img class="logo" src="assets/flow-logo.jpg" alt="Flow logo">
+    <div>
+      <h1>Flow Arena — Your Fighter</h1>
+      <div class="tag">House of Intelligence · owner dashboard</div>
+    </div>
+    <nav>
+      <a href="build.html">Build</a>
+      <a href="arena.html">Arena</a>
+      <a href="buyin.html">Buy-In #1</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="keynote">🔖 <b>Bookmark this link — it IS your key.</b> Anyone with this link can see this dashboard and apply tuning. Only a hash of the link is stored on our side, so a lost link can't be re-issued.</div>
+
+  <div id="noToken" class="hidden">
+    <section class="card">
+      <h2>This page is a private dashboard link</h2>
+      <p class="sub">An owner's dashboard opens from the personal link issued when a fighter is built — the link itself is the key, and this visit doesn't carry one. If you built a fighter, open the exact link from your build. If you haven't built one yet, it takes about a minute:</p>
+      <p><a href="build.html">🤖 Build your fighter →</a></p>
+    </section>
+  </div>
+
+  <div id="loading"><section class="card"><p class="sub">Loading your fighter…</p></section></div>
+  <div class="msg bad" id="loadErr"></div>
+
+  <div id="dash" class="hidden">
+    <section class="card">
+      <h2><span id="fEmoji"></span> <span id="fName"></span><span class="pill-status" id="fStatus"></span></h2>
+      <p class="sub" id="fTagline"></p>
+      <div id="fSentence" style="font-size:15.5px;"></div>
+      <ul class="lines" id="fCardLines"></ul>
+      <ul class="lines">
+        <li id="fOrigin" class="hidden"></li>
+        <li><b>Data budget:</b> <span id="fBudget"></span> a match (house cap $0.60 — the same for every fighter)</li>
+        <li><b>Stakes:</b> <span id="fSizing"></span>% of its cash per entry · <b>Plan:</b> <span id="fTarget"></span> · <b>Exits:</b> <span id="fExits"></span></li>
+        <li><b>Built:</b> <span id="fCreated"></span> · <b>Spec fingerprint:</b> <span id="fHash" style="font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px;"></span></li>
+      </ul>
+      <details class="specbox">
+        <summary>Full fighter spec (arena-persona-spec v1)</summary>
+        <pre id="fSpec"></pre>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>💰 Balance &amp; seats</h2>
+      <p class="sub" style="font-size:15.5px; color:var(--ink);"><b>A dollar seats your bot.</b> $1 by card — seat, card costs, and your bot's first data included.</p>
+      <div class="stats">
+        <div class="stat"><div class="k">Data credit balance</div><div class="v" id="bCreditBal">$0.00</div></div>
+        <div class="stat"><div class="k">Data spent (counted)</div><div class="v" id="bCreditSpent">$0.00</div></div>
+        <div class="stat"><div class="k">Entry status</div><div class="v" id="bCreditFunded" style="font-size:15px; padding-top:4px;">Not funded yet</div></div>
+      </div>
+      <ul class="lines">
+        <li id="bCredit"></li>
+        <li id="bEntry"></li>
+        <li id="bTopUp"></li>
+        <li id="bWallet"></li>
+        <li id="bBudget"></li>
+        <li id="bSeat"></li>
+      </ul>
+      <button disabled aria-disabled="true" style="margin-top:12px; background:transparent; color:var(--muted); border:1px dashed var(--line); font:inherit; font-weight:700; font-size:14.5px; border-radius:11px; padding:10px 16px; cursor:not-allowed;">💳 Card entry — coming with the payments launch</button>
+      <div id="bDrawdowns"></div>
+    </section>
+
+    <section class="card">
+      <h2>🛒 Buy a ready bot &amp; how people pay</h2>
+      <div id="shopBody"><p class="sub">Loading the shop…</p></div>
+    </section>
+
+    <section class="card">
+      <h2>📋 <span id="rName"></span>'s report</h2>
+      <div id="reportBody"></div>
+    </section>
+
+    <section class="card">
+      <h2>🎛 Recommended tuning</h2>
+      <p class="sub">From the house learning system's own rules, applied to your fighter's record — the same rules the house fighters learn by. Every change you apply is saved as a new version; the change is logged below.</p>
+      <div id="tuningBody"></div>
+      <div class="msg" id="tuneMsg"></div>
+    </section>
+
+    <section class="card">
+      <h2>📰 Updates &amp; news</h2>
+      <h3>Your fighter</h3>
+      <div id="eventsBody"></div>
+      <h3>Arena news</h3>
+      <div id="newsBody"><p class="sub">Loading the published arena state…</p></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <p>Flow Arena — House of Intelligence. Every number on this page comes from your fighter's stored build or the arena's published receipts — nothing is estimated or invented. On Telegram, the same dashboard is /mybot in <a href="https://t.me/FlowExecutorBot">@FlowExecutorBot</a>. #FlowExecutor</p>
+</footer>
+
+<script>
+"use strict";
+function $(id) { return document.getElementById(id); }
+function money(n) { return "$" + Number(n || 0).toFixed(2); }
+function signed(n) { return (n < 0 ? "-$" : "+$") + Math.abs(Number(n || 0)).toFixed(2); }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function when(iso) {
+  var d = new Date(iso);
+  return isNaN(d) ? String(iso || "") : d.toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+
+var token = new URLSearchParams(window.location.search).get("t") || "";
+var DATA = null;
+
+if (!token) {
+  $("loading").classList.add("hidden");
+  $("noToken").classList.remove("hidden");
+} else {
+  loadDashboard();
+}
+
+function loadDashboard() {
+  fetch("/api/build?token=" + encodeURIComponent(token))
+    .then(function (r) { return r.json().then(function (body) { return { status: r.status, body: body }; }); })
+    .then(function (res) {
+      $("loading").classList.add("hidden");
+      if (res.status !== 200) {
+        var e = $("loadErr");
+        e.textContent = res.body.error || "This dashboard couldn't be loaded.";
+        e.classList.add("show");
+        return;
+      }
+      DATA = res.body;
+      render(DATA);
+      loadNews();
+    })
+    .catch(function () {
+      $("loading").classList.add("hidden");
+      var e = $("loadErr");
+      e.textContent = "The dashboard couldn't be reached — check your connection and reload.";
+      e.classList.add("show");
+    });
+}
+
+function render(d) {
+  var f = d.fighter;
+  $("dash").classList.remove("hidden");
+  $("fEmoji").textContent = f.style.emoji;
+  $("fName").textContent = f.name + " — " + f.style.plain;
+  $("fStatus").textContent = f.statusText;
+  $("fTagline").textContent = f.style.tagline;
+  $("fSentence").textContent = f.card.summarySentence;
+  $("fCardLines").innerHTML = f.card.lines.map(function (l) { return "<li>" + esc(l) + "</li>"; }).join("");
+  $("fBudget").textContent = money(f.specSummary.dataBudgetUsd);
+  $("fSizing").textContent = f.specSummary.sizingPct;
+  $("fTarget").textContent = f.specSummary.target;
+  $("fExits").textContent = f.specSummary.exits.join(", ");
+  $("fCreated").textContent = when(f.createdAt);
+  $("fHash").textContent = f.specHash.slice(0, 16) + "…";
+  $("fSpec").textContent = JSON.stringify(f.spec, null, 2);
+  renderBalance(d);
+  $("bWallet").innerHTML = "<b>Wallet:</b> " + esc(d.balance.walletText.replace(/^Wallet: /, ""));
+  $("bBudget").innerHTML = "<b>Data budget:</b> " + esc(d.balance.dataBudgetText.replace(/^Data budget: /, ""));
+  $("bSeat").innerHTML = "<b>Paid seats:</b> " + (d.seat ? esc(d.seat.text) : "Seat state is unavailable right now — the live board is on the Buy-In page.");
+  if (f.source === "shop" && f.shopTier) {
+    var org = $("fOrigin");
+    org.classList.remove("hidden");
+    org.innerHTML = "<b>Origin:</b> Bought ready-made — " + esc(f.shopTier.label) + " (" + money(f.shopTier.priceUsd) + ", Bot Shop). Same dashboard, same status as a built fighter.";
+  }
+  $("rName").textContent = f.name;
+  renderShop(d);
+  renderReport(d);
+  renderTuning(d);
+  renderEvents(d);
+}
+
+function renderBalance(d) {
+  var b = d.balance || {};
+  var e = b.entry || { priceUsd: 1, seatUsd: 0.5, cardCostsUsd: 0.33, starterDataCreditUsd: 0.17, cardStatusText: "Card entry — coming with the payments launch" };
+  var credit = typeof b.dataCreditUsd === "number" ? b.dataCreditUsd : 0;
+  var spent = typeof b.dataSpentUsd === "number" ? b.dataSpentUsd : 0;
+  $("bCreditBal").textContent = money(credit);
+  $("bCreditSpent").textContent = money(spent);
+  $("bCreditFunded").textContent = b.funded ? "Funded — entry credited" : "Not funded yet";
+  $("bCredit").innerHTML = "<b>Data credit:</b> " + esc((b.balanceText || "Data credit: $0.00 — no entry funded yet.").replace(/^Data credit: /, ""));
+  $("bEntry").innerHTML = "<b>Human entry:</b> " + money(e.priceUsd) + " by card = " + money(e.seatUsd) + " seat + ~" + money(e.cardCostsUsd) + " card costs + ~" + money(e.starterDataCreditUsd) + " starting data credit. " + esc(e.cardStatusText || "") + " — no checkout is offered until payments really launch. The crypto/agent lane stays $0.50 a seat on-chain.";
+  $("bTopUp").innerHTML = "<b>Top-ups:</b> " + esc((b.topUpText || "Top-ups are not live yet.").replace(/^Top-ups are[^—]*— /, ""));
+  renderDrawdowns(b);
+}
+
+function renderDrawdowns(b) {
+  var el = $("bDrawdowns");
+  var dd = Array.isArray(b.drawdowns) ? b.drawdowns : [];
+  if (!dd.length) {
+    el.innerHTML = '<p class="sub" style="margin-top:12px;">Per-event drawdown: no counted events yet, so nothing has drawn on the balance. Each counted match will list its data spend here and what it did to the credit.</p>';
+    return;
+  }
+  el.innerHTML = "<h3>Per-event drawdown</h3>" +
+    "<table><tr><th>Counted match</th><th class='num'>Data spent</th><th class='num'>Credit before</th><th class='num'>Credit after</th></tr>" +
+    dd.map(function (x) {
+      return "<tr><td>Match " + x.match + "</td><td class='num'>" + money(x.dataSpendUsd) + "</td><td class='num'>" + money(x.creditBeforeUsd) + "</td><td class='num'>" + money(x.creditAfterUsd) + "</td></tr>";
+    }).join("") + "</table>" +
+    '<p class="sub">The balance draws down per event by exactly what the published receipts say the fighter spent on data — nothing else touches it.</p>';
+}
+
+function renderShop(d) {
+  var el = $("shopBody");
+  var shop = d.shop || { tiers: [], note: "" };
+  var pay = d.payments || {};
+  var tiers = (shop.tiers || []).map(function (t) {
+    return "<li><b>" + esc(t.label) + " — " + money(t.priceUsd) + "</b> (" + esc(t.asset || "USDC on Base") + "): " + esc(t.blurb) + "</li>";
+  }).join("");
+  var cardText = pay.card ? pay.card.text : "Card — the $1 entry. Coming with the payments launch.";
+  var cryptoText = pay.crypto ? pay.crypto.text : "Crypto — USDC, ETH, or BTC; someone else can send it for you.";
+  var cryptoStatus = pay.crypto ? pay.crypto.statusText : "";
+  var assistText = pay.assisted ? pay.assisted.text : "";
+  var assistUrl = pay.assisted && pay.assisted.url ? pay.assisted.url : "https://t.me/FlowExecutorBot";
+  el.innerHTML =
+    '<p class="sub">' + esc(shop.note || "Don't want to build? Buy a ready bot instead.") + "</p>" +
+    '<ul class="lines">' + tiers + "</ul>" +
+    '<ul class="lines">' +
+    "<li><b>Card:</b> " + esc(cardText.replace(/^Card — /, "")) + "</li>" +
+    "<li><b>Crypto:</b> " + esc(cryptoText.replace(/^Crypto — /, "")) + "</li>" +
+    (cryptoStatus ? "<li><b>Status:</b> " + esc(cryptoStatus) + "</li>" : "") +
+    "</ul>" +
+    '<p style="margin-top:12px; font-size:14.5px;"><a href="' + esc(assistUrl) + '">🤖 Assisted enrollment — @FlowExecutorBot →</a></p>' +
+    '<p class="sub">' + esc(assistText) + "</p>" +
+    '<p class="sub">Three doors for people: build (web), buy (shop), assisted enrollment. GitHub is the coder lane only.</p>';
+}
+
+function renderReport(d) {
+  var el = $("reportBody");
+  if (d.recordState === "unavailable") {
+    el.innerHTML = '<p class="sub">The published record can\'t be reached right now, so this report is empty rather than estimated. Check again shortly — the receipts live on the Arena page.</p>';
+    return;
+  }
+  if (!d.record) {
+    el.innerHTML = '<ul class="lines">' +
+      "<li>Hasn't run yet — no counted matches on its record, so there's nothing to report but the truth.</li>" +
+      "<li>Once it runs, this page reports: counted matches, titles, prizes, data spent, trades, its trading result, and prize-per-data-cent efficiency — all from the published receipts.</li></ul>";
+    return;
+  }
+  var r = d.record;
+  el.innerHTML = '<div class="stats">' +
+    stat("Counted matches", r.matches) + stat("Titles", r.wins) + stat("Prizes", money(r.prizes)) +
+    stat("Data spent", money(r.data)) + stat("Trades", r.trades) + stat("Trading result", signed(r.pnl)) +
+    "</div>" +
+    '<ul class="lines"><li><b>Efficiency: $' + r.prizePerCent.toFixed(2) + " of prize per data cent</b> — the headline stat of this sport.</li></ul>";
+  function stat(k, v) { return '<div class="stat"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + "</div></div>"; }
+}
+
+function renderTuning(d) {
+  var el = $("tuningBody");
+  if (!d.tuning.length) {
+    el.innerHTML = '<p class="sub">' + esc(d.tuningNote || "No changes recommended right now.") + "</p>";
+    return;
+  }
+  el.innerHTML = "";
+  d.tuning.forEach(function (r) {
+    var div = document.createElement("div");
+    div.className = "rec";
+    div.innerHTML = '<div class="rt">' + esc(r.title) + ": " + esc(r.fromPlain) + " → " + esc(r.toPlain) + (r.baseline ? ' <span style="color:var(--gold); font-size:12.5px;">STARTING CHECK</span>' : "") + "</div>" +
+      '<div class="rr">' + esc(r.reason) + "</div>";
+    var btn = document.createElement("button");
+    btn.className = "applybtn";
+    btn.textContent = "✅ Apply: " + r.title + " → " + r.toLabel;
+    btn.addEventListener("click", function () { applyTuning(r, btn); });
+    div.appendChild(btn);
+    el.appendChild(div);
+  });
+}
+
+function applyTuning(r, btn) {
+  btn.disabled = true;
+  btn.textContent = "Applying…";
+  var msg = $("tuneMsg");
+  msg.className = "msg";
+  msg.textContent = "";
+  fetch("/api/build/apply-tuning", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: token, dial: r.dial, to: r.to })
+  }).then(function (resp) { return resp.json().then(function (body) { return { status: resp.status, body: body }; }); })
+    .then(function (res) {
+      if (res.status === 200) {
+        DATA = res.body.dashboard;
+        render(DATA);
+        msg.className = "msg good show";
+        msg.textContent = "✅ Tuning applied — " + r.title + ": " + r.fromPlain + " → " + r.toPlain + ". Your fighter now runs the new setting; the change is on its record below.";
+      } else {
+        msg.className = "msg bad show";
+        msg.textContent = res.body.error || "That change couldn't be applied.";
+        btn.disabled = false;
+        btn.textContent = "✅ Apply: " + r.title + " → " + r.toLabel;
+      }
+    })
+    .catch(function () {
+      msg.className = "msg bad show";
+      msg.textContent = "The change couldn't reach the house — check your connection and try again.";
+      btn.disabled = false;
+      btn.textContent = "✅ Apply: " + r.title + " → " + r.toLabel;
+    });
+}
+
+function renderEvents(d) {
+  var el = $("eventsBody");
+  if (!d.events.length) {
+    el.innerHTML = '<p class="sub">Nothing yet but the build itself.</p>';
+    return;
+  }
+  var dialTitles = { appetite: "Data appetite", aggression: "Aggression", patience: "Patience" };
+  el.innerHTML = d.events.map(function (e) {
+    var what;
+    if (e.type === "built") what = "<b>🏗 Built</b> — " + esc(d.fighter.name) + " joined the roster (" + esc(d.fighter.style.plain) + "). Status: built — awaiting floor seating.";
+    else if (e.type === "purchased") what = "<b>🛒 Purchased</b> — " + esc(d.fighter.name) + " was bought ready-made from the Bot Shop" + (e.tier ? " (" + esc(e.tier) + ")" : "") + " and delivered to this dashboard. Status: built — awaiting floor seating.";
+    else if (e.type === "tuning") what = "<b>🎛 Tuning applied</b> — " + esc(dialTitles[e.dial] || e.dial) + ": " + esc(e.from) + " → " + esc(e.to) + ".";
+    else if (e.type === "seated") what = "<b>🎟 Seated</b> — took a paid seat in a Flow Arena event.";
+    else if (e.type === "match") what = "<b>🏟 Counted match</b> — " + esc(e.text || "a counted match was recorded.");
+    else what = "<b>" + esc(e.type) + "</b>";
+    return '<div class="event"><div class="when">' + esc(when(e.at)) + '</div><div class="what">' + what + "</div></div>";
+  }).join("");
+}
+
+// ---------- Arena news: real published state only ----------
+function fetchJson(path) {
+  return fetch(path).then(function (r) { if (!r.ok) throw new Error(path); return r.json(); }).catch(function () { return null; });
+}
+
+function foldStandings(standings, live) {
+  // The same fold the house uses: frozen standings + a newer live report.
+  var agents = new Map();
+  (standings.agents || []).forEach(function (a) {
+    agents.set(String(a.agentId).toLowerCase(), {
+      name: a.name, wins: a.wins || 0, prizes: a.prizeTotal || 0, data: a.dataSpentTotal || 0,
+      perMatch: a.perMatch || []
+    });
+  });
+  var counted = standings.countedMatches || [];
+  var lastN = counted.reduce(function (mx, id) { var m = /(\d+)$/.exec(id); return m ? Math.max(mx, parseInt(m[1], 10)) : mx; }, 0);
+  var liveId = live && (live.match || live.matchId);
+  var latest = null;
+  if (live && live.receipts && /^arena-match-(\d+)$/.test(liveId || "")) {
+    var n = parseInt(liveId.split("-").pop(), 10);
+    if (n > lastN) {
+      lastN = n;
+      var winner = (live.leaderboard || []).find(function (r) { return r.rank === 1; });
+      (live.receipts.perAgent || []).forEach(function (pa) {
+        var key = String(pa.agent).toLowerCase();
+        if (!agents.has(key)) agents.set(key, { name: pa.agent, wins: 0, prizes: 0, data: 0, perMatch: [] });
+        var a = agents.get(key);
+        a.prizes = Math.round((a.prizes + (pa.payout || 0)) * 100) / 100;
+        a.data = Math.round((a.data + (pa.dataSpend || 0)) * 100) / 100;
+        if (winner && String(winner.agentId).toLowerCase() === key) a.wins += 1;
+      });
+      latest = { n: n, rows: (live.leaderboard || []).map(function (r) {
+        var pa = (live.receipts.perAgent || []).find(function (x) { return String(x.agent).toLowerCase() === String(r.agentId || r.name).toLowerCase(); });
+        return { rank: r.rank, name: r.name || (pa && pa.agent) || r.agentId, payout: pa ? pa.payout || 0 : 0, dataSpend: pa ? pa.dataSpend || 0 : (r.dataSpend || 0) };
+      }).sort(function (x, y) { return x.rank - y.rank; }) };
+    }
+  }
+  if (!latest && lastN > 0) {
+    var id = "arena-match-" + lastN;
+    var rows = [];
+    agents.forEach(function (a) {
+      var m = (a.perMatch || []).find(function (x) { return x.matchId === id; });
+      if (m) rows.push({ rank: m.rank, name: a.name, payout: m.payout || 0, dataSpend: m.dataSpend || 0 });
+    });
+    rows.sort(function (x, y) { return x.rank - y.rank; });
+    if (rows.length) latest = { n: lastN, rows: rows };
+  }
+  var table = Array.from(agents.values()).sort(function (a, b) { return b.prizes - a.prizes; });
+  return { table: table, latest: latest, matches: lastN };
+}
+
+function loadNews() {
+  Promise.all([fetchJson("/arena-standings.json"), fetchJson("/arena-live.json"), fetchJson("/arena-buyin.json")])
+    .then(function (res) {
+      var standings = res[0], live = res[1], buyin = res[2];
+      var el = $("newsBody");
+      var html = "";
+      if (standings && Array.isArray(standings.agents)) {
+        var f = foldStandings(standings, live);
+        if (f.latest) {
+          html += "<h3>Latest counted match — Match " + f.latest.n + "</h3>";
+          html += "<table><tr><th>#</th><th>Fighter</th><th class='num'>Prize</th><th class='num'>Data spent</th></tr>" +
+            f.latest.rows.map(function (r) { return "<tr><td>" + r.rank + "</td><td>" + esc(r.name) + "</td><td class='num'>" + money(r.payout) + "</td><td class='num'>" + money(r.dataSpend) + "</td></tr>"; }).join("") + "</table>";
+        } else {
+          html += '<p class="sub">No counted match results are published yet.</p>';
+        }
+        html += "<h3>Career standings (Matches 1–" + f.matches + ", from the published receipts)</h3>";
+        html += "<table><tr><th>Fighter</th><th class='num'>Titles</th><th class='num'>Prizes</th><th class='num'>Data</th><th class='num'>Prize / data cent</th></tr>" +
+          f.table.map(function (r) {
+            var pc = r.data > 0 ? "$" + (r.prizes / (r.data * 100)).toFixed(2) : "—";
+            return "<tr><td>" + esc(r.name) + "</td><td class='num'>" + r.wins + "</td><td class='num'>" + money(r.prizes) + "</td><td class='num'>" + money(r.data) + "</td><td class='num'>" + pc + "</td></tr>";
+          }).join("") + "</table>";
+        html += '<p class="sub">Data-efficiency is the headline stat: prize won per cent of data spent.</p>';
+      } else {
+        html += '<p class="sub">Standings are unavailable right now — the receipts live on the Arena page.</p>';
+      }
+      if (buyin) {
+        var seats = buyin.seats || {};
+        var total = (seats.outside || 0) + (seats.house || 0);
+        html += "<h3>" + esc(buyin.name || "Buy-In #1") + ' <span class="pill-status ' + (buyin.entriesOpen ? "pill-open" : "pill-closed") + '">' + (buyin.entriesOpen ? "ENTRIES OPEN" : "ENTRIES CLOSED") + "</span></h3>";
+        html += '<ul class="lines">' +
+          "<li><b>Seats:</b> " + total + " paid (" + (seats.outside || 0) + " outside + " + (seats.house || 0) + " house) — fires at " + (buyin.minField || 6) + ".</li>" +
+          "<li><b>Tables:</b> " + (buyin.tiers || []).map(function (t) { return esc(t.label) + " " + money(t.buyIn) + (t.enabled ? "" : " (locked)"); }).join(" · ") + "</li>" +
+          (buyin.guarantee && buyin.guarantee.statusText ? "<li><b>Guarantee:</b> " + esc(buyin.guarantee.statusText) + "</li>" : "") +
+          '<li><a href="buyin.html">See the live Buy-In board →</a></li></ul>';
+      } else {
+        html += '<p class="sub">Buy-In state is unavailable right now — see the Buy-In page for the live board.</p>';
+      }
+      el.innerHTML = html;
+    });
+}
+</script>
+</body>
+</html>
