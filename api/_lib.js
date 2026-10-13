@@ -82,8 +82,15 @@ async function getBestQuote(tokenIn, tokenOut, amountIn, opts = {}) {
   const pancakeQ = new ethers.Contract(PANCAKE_QUOTER, UNI_ABI, p);
   const aeroQ = new ethers.Contract(AERO_QUOTER, AERO_ABI, p);
 
+  // Optional block pinning (opts.blockTag, a block number): when set, every
+  // quote read runs AT that block and it becomes the returned blockNumber.
+  // When unset, behavior is exactly the historical behavior. No existing
+  // caller passes blockTag; /api/fill uses it so a paid re-quote reproduces
+  // the fee measured by the unpaid first quote.
+  const blockTag = opts.blockTag != null ? Number(opts.blockTag) : null;
+
   // Fetch block number in parallel with quotes for freshness tracking
-  const blockPromise = p.getBlockNumber();
+  const blockPromise = blockTag != null ? Promise.resolve(blockTag) : p.getBlockNumber();
 
   const calls = [];
   const meta = [];
@@ -124,7 +131,9 @@ async function getBestQuote(tokenIn, tokenOut, amountIn, opts = {}) {
     });
   }
 
-  const results = await mc.aggregate3.staticCall(calls);
+  const results = blockTag != null
+    ? await mc.aggregate3.staticCall(calls, { blockTag })
+    : await mc.aggregate3.staticCall(calls);
   const blockNumber = await blockPromise;
   const { best, bestUni, secondBest } = rankResults(results, meta);
 
