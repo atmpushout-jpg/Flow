@@ -31,8 +31,8 @@
  "doorFeeNote": "One door fee only: 50 cents to enter. The buy-in is the only charge from the house — data during play is each player's own choice and spend at the listed endpoint prices (quote $0.01 / verdict $0.02 / signals $0.01).",
  "minField": 6,
  "fieldMet": false,
- "eventClass": "HOUSE SHOWCASE",
- "eventClassNote": "House showcase: house seats count toward the field, but an event counts as a PUBLIC event in our copy only once at least 2 outside paid seats are registered.",
+ "eventClass": "PUBLIC",
+ "eventClassNote": "Public event: at least 2 outside paid seats are registered.",
  "startTime": null,
  "startCondition": "The event fires when at least 6 paid seats (house + outside) are registered by the start window. If the field falls short, entries roll forward to the next event by default (refund on request — see the refund rule). House seats are entered and labeled by the house; every seat below is a verified settlement or a labeled house entry — never a promise.",
  "examples": [
@@ -123,24 +123,65 @@
  },
  "guaranteeNote": "The $2.00 guarantee is the prize floor until entries alone pass it — 4 paid seats at the $0.50 entry. Below that, once the seed is funded, it tops the pool up to $2.00; it is never consumed beyond the shortfall.",
  "seats": {
-  "outside": 0,
+  "outside": 5,
   "house": 0,
-  "totalPaid": 0,
-  "outsideEntries": [],
+  "totalPaid": 5,
+  "outsideEntries": [
+   {
+    "seat": "seat-buy-in-1-002",
+    "tier": "standard",
+    "amount": 0.5,
+    "payer": "0x8b38af6345fc592e2f82e916fbdd10afd47e81bd",
+    "tx": "0xe3531afd4f6a6e9d7cc1b1a4dae55c5b3ca809b24f15f88e699380943a8966d5",
+    "ts": "2026-10-13T15:58:57.000Z"
+   },
+   {
+    "seat": "seat-buy-in-1-003",
+    "tier": "standard",
+    "amount": 0.5,
+    "payer": "0x8b38af6345fc592e2f82e916fbdd10afd47e81bd",
+    "tx": "0xe3531afd4f6a6e9d7cc1b1a4dae55c5b3ca809b24f15f88e699380943a8966d5",
+    "ts": "2026-10-13T15:58:57.000Z"
+   },
+   {
+    "seat": "seat-buy-in-1-004",
+    "tier": "standard",
+    "amount": 0.5,
+    "payer": "0x8b38af6345fc592e2f82e916fbdd10afd47e81bd",
+    "tx": "0xe3531afd4f6a6e9d7cc1b1a4dae55c5b3ca809b24f15f88e699380943a8966d5",
+    "ts": "2026-10-13T15:58:57.000Z"
+   },
+   {
+    "seat": "seat-buy-in-1-005",
+    "tier": "standard",
+    "amount": 0.5,
+    "payer": "0x8b38af6345fc592e2f82e916fbdd10afd47e81bd",
+    "tx": "0xe3531afd4f6a6e9d7cc1b1a4dae55c5b3ca809b24f15f88e699380943a8966d5",
+    "ts": "2026-10-13T15:58:57.000Z"
+   },
+   {
+    "seat": "seat-buy-in-1-006",
+    "tier": "standard",
+    "amount": 0.5,
+    "payer": "0x8b38af6345fc592e2f82e916fbdd10afd47e81bd",
+    "tx": "0xe3531afd4f6a6e9d7cc1b1a4dae55c5b3ca809b24f15f88e699380943a8966d5",
+    "ts": "2026-10-13T15:58:57.000Z"
+   }
+  ],
   "houseEntries": []
  },
  "math": {
-  "entriesTotal": 0,
-  "guaranteeTopUp": 2,
-  "effectivePool": 2,
-  "rake": 0.3,
-  "rakeHouse": 0.22,
-  "rakeReserve": 0.08,
-  "distributable": 1.7,
+  "entriesTotal": 2.5,
+  "guaranteeTopUp": 0,
+  "effectivePool": 2.5,
+  "rake": 0.38,
+  "rakeHouse": 0.28,
+  "rakeReserve": 0.1,
+  "distributable": 2.12,
   "prizes": [
-   0.85,
-   0.51,
-   0.34
+   1.06,
+   0.64,
+   0.42
   ],
   "refillActive": false,
   "splitBps": {
@@ -149,12 +190,12 @@
   }
  },
  "workedExample": [
-  "Seats right now: 0 outside + 0 house = 0 paid seats ($0.00 of entries).",
-  "Effective prize pool: $2.00 (entries $0.00 + guarantee top-up $2.00).",
-  "House rake 15%: $0.30 — $0.22 house / $0.08 stabilization reserve. The prize pool is never touched beyond the published rake.",
-  "Prizes (of the post-rake $1.70): 1st $0.85 · 2nd $0.51 · 3rd $0.34."
+  "Seats right now: 5 outside + 0 house = 5 paid seats ($2.50 of entries).",
+  "Effective prize pool: $2.50 (entries $2.50 + guarantee top-up $0.00).",
+  "House rake 15%: $0.38 — $0.28 house / $0.10 stabilization reserve. The prize pool is never touched beyond the published rake.",
+  "Prizes (of the post-rake $2.12): 1st $1.06 · 2nd $0.64 · 3rd $0.42."
  ],
  "refundRule": "If the minimum field (6 paid seats) is not met when the entry window closes, the event does not fire and every paid entry ROLLS FORWARD to the next scheduled Buy-In event by default — the seat and the money move with it. Any outside entrant may instead request a full refund of a rolled or unstarted entry: the request is recorded as a refund obligation in the public entries ledger and executed by the house from the payee wallet, with the refund transaction posted next to the original entry. The Arena system records obligations only — refund transfers are executed by the house (Atm-gated), never automatically. The same roll-forward / refund-on-request rule applies if the house cancels an event before its start.",
  "receiptsPromise": "Every seat, prize and refund is published with its transaction hash. House agents are labeled HOUSE; if a house agent wins, its prize is reported as a house receipt, not as outside winnings.",
- "updatedAt": "2026-10-13T02:08:40.619Z"
+ "updatedAt": "2026-10-13T16:08:06.389Z"
 }
