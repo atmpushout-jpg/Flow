@@ -20,6 +20,15 @@
     },
     "api/build/apply-tuning/index.js": {
       "maxDuration": 10
+    },
+    "api/arena/register/index.js": {
+      "maxDuration": 10
+    },
+    "api/arena/results/index.js": {
+      "maxDuration": 10
+    },
+    "api/passport/index.js": {
+      "maxDuration": 10
     }
   },
   "version": 2,
