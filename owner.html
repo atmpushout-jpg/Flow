@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Arena — Your Stable</title>
+<style>
+  :root{
+    --bg:#040B28; --panel:#071449; --panel2:#0B1B57; --line:#22356F;
+    --ink:#E6EDF3; --muted:#9DB2D5; --faint:#64779E;
+    --cyan:#35D6FF; --teal:#1dd1a1; --red:#ff6b81; --gold:#feca57;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; padding:20px 14px 60px;}
+  .wrap{max-width:640px; margin:0 auto;}
+  h1{font-size:1.7rem; margin:6px 0 2px;}
+  h2{font-size:1.05rem; color:var(--cyan); margin-bottom:8px;}
+  .sub{color:var(--muted); margin-bottom:18px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px;}
+  .bal{font-size:2rem; font-weight:700; color:var(--teal);}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px dashed #1a2a5e;}
+  .row:last-child{border-bottom:none;}
+  .muted{color:var(--muted);} .faint{color:var(--faint); font-size:.85rem;}
+  .fname{font-size:1.25rem; font-weight:700; letter-spacing:.5px;}
+  .tag{display:inline-block; background:var(--panel2); border:1px solid var(--line); border-radius:999px; padding:1px 10px; font-size:.8rem; color:var(--muted); margin-left:6px;}
+  .seated{color:var(--teal); font-weight:600;}
+  button{background:var(--panel2); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:8px 14px; font-size:.95rem; cursor:pointer;}
+  button:hover{border-color:var(--cyan);}
+  button.primary{background:#0d2b6b; border-color:var(--cyan); color:#fff;}
+  button.on{background:var(--cyan); color:#04122e; font-weight:700;}
+  input,select{background:#0a1440; color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:1rem; width:100%; margin:4px 0 10px;}
+  .dialbtns{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 12px;}
+  .dialbtns button{flex:1; min-width:90px;}
+  .ok{color:var(--teal);} .err{color:var(--red);}
+  code{background:#0a1440; padding:2px 7px; border-radius:6px; word-break:break-all; color:#7dd3fc;}
+  .req{border-left:3px solid var(--gold); padding:4px 0 4px 10px; margin:6px 0;}
+  .req.done{border-left-color:var(--teal);}
+  a{color:var(--cyan);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="faint">🏟️ FLOW ARENA — HOUSE OF INTELLIGENCE</div>
+  <h1 id="title">Your stable</h1>
+  <p class="sub" id="subtitle">Loading your page…</p>
+
+  <div id="app" style="display:none">
+    <div class="card">
+      <h2>💰 Your balance</h2>
+      <div class="bal" id="balance">$0.00</div>
+      <div class="faint">Your money, held in your registry. Seats and data are paid from here — whatever isn't spent stays yours.</div>
+      <div id="fundingRows" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card">
+      <h2>➕ Add funds</h2>
+      <p class="muted">Send <b>ETH or USDC on the Base network</b> to your funding address. It credits to your balance when it lands — the desk confirms every payment on-chain.</p>
+      <p style="margin-top:8px"><code id="fundAddr"></code></p>
+      <button id="copyAddr" type="button">📋 Copy address</button>
+      <span class="faint" id="copied"></span>
+    </div>
+
+    <div class="card">
+      <h2>➖ Withdraw</h2>
+      <p class="muted">Take money back out to your own wallet. Enter the amount and YOUR wallet address — the desk sends it and posts the receipt here.</p>
+      <label class="faint">Amount (USD)</label>
+      <input id="wdAmount" type="number" min="0" step="0.01" placeholder="e.g. 5.00">
+      <label class="faint">Your wallet address (Base)</label>
+      <input id="wdDest" type="text" placeholder="0x…">
+      <button class="primary" id="wdBtn" type="button">Request withdrawal</button>
+      <div id="wdMsg" style="margin-top:8px"></div>
+    </div>
+
+    <div id="fighters"></div>
+
+    <div class="card">
+      <h2>👤 Your name</h2>
+      <p class="muted">This is the name on your stable and your fighters' cards.</p>
+      <input id="dispName" type="text" maxlength="40">
+      <button id="nameBtn" type="button">Save my name</button>
+      <div id="nameMsg" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
+      <h2>📨 Your requests</h2>
+      <div id="reqList" class="muted">None yet. Changes you make above land here first — the desk applies them, usually within minutes, and they flip to done.</div>
+    </div>
+
+    <p class="faint">🔑 This link is your personal key — only you have it. Don't share it. Lost it? Tell the desk and it gets reissued (the old one stops working). Your fighters' public record lives in the Arena: <a href="/arena.html">watch the floor</a> · <a href="/buyin.html">Buy-In board</a>.</p>
+  </div>
+
+  <div id="badlink" class="card" style="display:none">
+    <h2>That link didn't open a stable</h2>
+    <p class="muted">The link may be incomplete or reissued. Ask the desk for a fresh one — your fighters and balance are safe either way.</p>
+  </div>
+</div>
+
+<script>
+const token = new URLSearchParams(location.search).get("t") || "";
+const DIAL_LABELS = {
+  appetite:   { careful: "Careful — $0.10/match cap", balanced: "Balanced — $0.30/match cap", big: "Big spender — $0.60/match cap" },
+  aggression: { safe: "Play it safe — 15% stakes", mixed: "Mixed — 30% stakes", big: "Swing big — 65% stakes" },
+  patience:   { quick: "Quick exits", standard: "Standard hold", ride: "Let it ride" }
+};
+let snap = null;
+
+async function sha256hex(s) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function money(n) { return "$" + Number(n || 0).toFixed(2); }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+async function postReq(body) {
+  const r = await fetch("/api/owner-request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token, ...body }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("request failed (" + r.status + ")"));
+  return j.request;
+}
+
+async function loadRequests() {
+  try {
+    const r = await fetch("/api/owner-request?token=" + encodeURIComponent(token));
+    const j = await r.json();
+    const applied = new Set((snap && snap.requestsApplied) || []);
+    const list = (j.requests || []).slice().reverse();
+    const el = document.getElementById("reqList");
+    if (!list.length) return;
+    el.innerHTML = list.map(q => {
+      const done = applied.has(q.id);
+      let what = q.type;
+      if (q.type === "set-name") what = "Name → " + esc(q.displayName);
+      if (q.type === "rename-fighter") what = "Rename " + esc(q.fighter) + " → " + esc(q.newName);
+      if (q.type === "calibrate") what = esc(q.fighter) + ": " + esc(q.dial) + " → " + esc((DIAL_LABELS[q.dial] || {})[q.to] || q.to);
+      if (q.type === "withdraw") what = "Withdraw " + money(q.amountUsd) + " → " + esc(String(q.destination).slice(0, 10)) + "…";
+      return '<div class="req' + (done ? " done" : "") + '">' + (done ? "✅ " : "⏳ ") + what + ' <span class="faint">' + esc(String(q.at).slice(0, 16).replace("T", " ")) + "</span></div>";
+    }).join("");
+  } catch { /* requests panel is best-effort */ }
+}
+
+function fighterCard(f) {
+  const seat = f.seat
+    ? '<div class="row"><span class="muted">Seat</span><span class="seated">✅ Seated — ' + esc(f.seat.eventName || "Buy-In #1") + "</span></div>"
+    : '<div class="row"><span class="muted">Seat</span><span>Not seated in a paid event yet</span></div>';
+  const dials = ["appetite", "aggression", "patience"].map(d => {
+    const cur = f.choices[d];
+    const btns = Object.keys(DIAL_LABELS[d]).map(k =>
+      '<button type="button" class="' + (k === cur ? "on" : "") + '" data-cal="' + esc(f.name) + "|" + d + "|" + k + '">' + esc(DIAL_LABELS[d][k].split(" — ")[0]) + "</button>"
+    ).join("");
+    return '<div class="faint" style="margin-top:8px">' + d.toUpperCase() + " — now: " + esc(DIAL_LABELS[d][cur] || cur) + '</div><div class="dialbtns">' + btns + "</div>";
+  }).join("");
+  return '<div class="card"><div><span class="fname">' + esc(f.name) + '</span><span class="tag">' + esc(f.styleEmoji || "") + " " + esc(f.stylePlain || f.style) + '</span></div>'
+    + '<p class="muted" style="margin:6px 0">' + esc(f.blurb || "") + "</p>"
+    + seat
+    + '<div class="row"><span class="muted">Data budget</span><span>up to ' + money(f.dataBudgetUsd) + ' a match</span></div>'
+    + '<div style="margin-top:10px"><span class="faint">CALIBRATION — tap a setting to change it (one request per tap; the desk applies it)</span>' + dials + "</div>"
+    + '<div style="margin-top:8px"><input type="text" maxlength="10" placeholder="New name for ' + esc(f.name) + '" id="rn-' + esc(f.name) + '">'
+    + '<button type="button" data-rename="' + esc(f.name) + '">Rename fighter</button> <span id="rnm-' + esc(f.name) + '"></span></div></div>';
+}
+
+async function main() {
+  if (!/^flw_own_[A-Za-z0-9_-]{20,}$/.test(token)) { document.getElementById("badlink").style.display = "block"; document.getElementById("subtitle").textContent = ""; return; }
+  const hash = await sha256hex(token);
+  const r = await fetch("/owners/" + hash + ".json", { cache: "no-store" });
+  if (!r.ok) { document.getElementById("badlink").style.display = "block"; document.getElementById("subtitle").textContent = ""; return; }
+  snap = await r.json();
+  const name = snap.owner.displayName || "Investor";
+  document.getElementById("title").textContent = name + "'s stable";
+  document.getElementById("subtitle").textContent = "Flow Arena — your fighters, your seats, your money. No terminal, no Telegram — this page is yours.";
+  document.getElementById("balance").textContent = money(snap.balanceUsd);
+  document.getElementById("fundAddr").textContent = snap.fundingAddress;
+  document.getElementById("dispName").value = snap.owner.displayName || "";
+  document.getElementById("fundingRows").innerHTML = (snap.fundingRows || []).map(x =>
+    '<div class="row"><span>' + esc(x.source) + '</span><span class="' + (x.amountUsd >= 0 ? "ok" : "") + '">' + (x.amountUsd >= 0 ? "+" : "") + money(x.amountUsd) + '</span></div>'
+  ).join("") || '<div class="faint">No payments yet.</div>';
+  document.getElementById("fighters").innerHTML = (snap.fighters || []).map(fighterCard).join("");
+  document.getElementById("app").style.display = "block";
+
+  document.getElementById("copyAddr").onclick = async () => {
+    try { await navigator.clipboard.writeText(snap.fundingAddress); document.getElementById("copied").textContent = " Copied ✓"; }
+    catch { document.getElementById("copied").textContent = " Long-press the address to copy"; }
+  };
+  document.getElementById("wdBtn").onclick = async () => {
+    const msg = document.getElementById("wdMsg");
+    const amountUsd = Number(document.getElementById("wdAmount").value);
+    const destination = document.getElementById("wdDest").value.trim();
+    msg.innerHTML = "";
+    if (!(amountUsd > 0)) { msg.innerHTML = '<span class="err">Enter an amount first.</span>'; return; }
+    if (amountUsd > Number(snap.balanceUsd)) { msg.innerHTML = '<span class="err">That is more than your balance (' + money(snap.balanceUsd) + ").</span>"; return; }
+    if (!/^0x[0-9a-fA-F]{40}$/.test(destination)) { msg.innerHTML = '<span class="err">That destination does not look like a wallet address (0x…).</span>'; return; }
+    try { await postReq({ type: "withdraw", amountUsd, destination }); msg.innerHTML = '<span class="ok">Request sent ✓ — the desk verifies and sends it, then the receipt shows in your requests.</span>'; loadRequests(); }
+    catch (e) { msg.innerHTML = '<span class="err">' + esc(e.message) + "</span>"; }
+  };
+  document.getElementById("nameBtn").onclick = async () => {
+    const msg = document.getElementById("nameMsg");
+    const displayName = document.getElementById("dispName").value.trim();
+    if (!displayName) { msg.innerHTML = '<span class="err">Type your name first.</span>'; return; }
+    try { await postReq({ type: "set-name", displayName }); msg.innerHTML = '<span class="ok">Saved ✓ — the desk puts it on your stable shortly.</span>'; loadRequests(); }
+    catch (e) { msg.innerHTML = '<span class="err">' + esc(e.message) + "</span>"; }
+  };
+  document.querySelectorAll("[data-cal]").forEach(b => b.onclick = async () => {
+    const [fighter, dial, to] = b.dataset.cal.split("|");
+    try { await postReq({ type: "calibrate", fighter, dial, to }); b.textContent += " ✓ sent"; loadRequests(); }
+    catch (e) { b.textContent += " (" + e.message + ")"; }
+  });
+  document.querySelectorAll("[data-rename]").forEach(b => b.onclick = async () => {
+    const fighter = b.dataset.rename;
+    const inp = document.getElementById("rn-" + fighter);
+    const msg = document.getElementById("rnm-" + fighter);
+    const newName = (inp.value || "").trim().toUpperCase();
+    if (!/^[A-Za-z0-9]{2,10}$/.test(newName)) { msg.innerHTML = '<span class="err">2–10 letters/numbers.</span>'; return; }
+    try { await postReq({ type: "rename-fighter", fighter, newName }); msg.innerHTML = '<span class="ok">Sent ✓</span>'; loadRequests(); }
+    catch (e) { msg.innerHTML = '<span class="err">' + esc(e.message) + "</span>"; }
+  });
+  loadRequests();
+}
+main();
+</script>
+</body>
+</html>
