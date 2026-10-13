@@ -11,11 +11,11 @@
    "styleEmoji": "🪞",
    "blurb": "follows the smart wallets",
    "choices": {
-    "appetite": "careful",
+    "appetite": "big",
     "aggression": "mixed",
     "patience": "standard"
    },
-   "dataBudgetUsd": 0.1,
+   "dataBudgetUsd": 0.6,
    "seat": {
     "eventId": "buy-in-1",
     "eventName": "Buy-In #1",
@@ -50,5 +50,5 @@
   "024dbf06-d932-469c-a94e-07beee8b2be2",
   "c7535c53-9336-49c6-8751-40a1005b5974"
  ],
- "updatedAt": "2026-10-13T16:31:41.351Z"
+ "updatedAt": "2026-10-13T16:56:01.665Z"
 }
