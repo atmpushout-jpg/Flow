@@ -1,0 +1,101 @@
+{
+ "owner": {
+  "id": "assisted-brother",
+  "displayName": "K1N9"
+ },
+ "fighters": [
+  {
+   "name": "FLY",
+   "style": "copycat",
+   "stylePlain": "Copy the pros",
+   "styleEmoji": "🪞",
+   "blurb": "follows the smart wallets",
+   "choices": {
+    "appetite": "careful",
+    "aggression": "mixed",
+    "patience": "standard"
+   },
+   "dataBudgetUsd": 0.1,
+   "seat": {
+    "eventId": "buy-in-1",
+    "eventName": "Buy-In #1",
+    "seatId": "seat-buy-in-1-002",
+    "status": "SEATED"
+   }
+  },
+  {
+   "name": "SABLE",
+   "style": "sniper",
+   "stylePlain": "Patient sniper",
+   "styleEmoji": "🎯",
+   "blurb": "waits, then one big shot",
+   "choices": {
+    "appetite": "careful",
+    "aggression": "big",
+    "patience": "ride"
+   },
+   "dataBudgetUsd": 0.1,
+   "seat": {
+    "eventId": "buy-in-1",
+    "eventName": "Buy-In #1",
+    "seatId": "seat-buy-in-1-003",
+    "status": "SEATED"
+   }
+  },
+  {
+   "name": "REBEL",
+   "style": "contrarian",
+   "stylePlain": "Lone wolf",
+   "styleEmoji": "🌑",
+   "blurb": "buys what the crowd ignores",
+   "choices": {
+    "appetite": "balanced",
+    "aggression": "mixed",
+    "patience": "standard"
+   },
+   "dataBudgetUsd": 0.3,
+   "seat": {
+    "eventId": "buy-in-1",
+    "eventName": "Buy-In #1",
+    "seatId": "seat-buy-in-1-004",
+    "status": "SEATED"
+   }
+  },
+  {
+   "name": "SURGE",
+   "style": "momentum",
+   "stylePlain": "Bold striker",
+   "styleEmoji": "🔴",
+   "blurb": "attacks what's moving",
+   "choices": {
+    "appetite": "big",
+    "aggression": "big",
+    "patience": "quick"
+   },
+   "dataBudgetUsd": 0.6,
+   "seat": {
+    "eventId": "buy-in-1",
+    "eventName": "Buy-In #1",
+    "seatId": "seat-buy-in-1-005",
+    "status": "SEATED"
+   }
+  }
+ ],
+ "balanceUsd": 7,
+ "fundingRows": [
+  {
+   "amountUsd": 9.5,
+   "source": "assisted-funding (family investor)",
+   "at": "2026-10-13T15:58:57.000Z"
+  },
+  {
+   "amountUsd": -2.5,
+   "source": "5 seats - Buy-In #1 (FLY, SABLE, REBEL, SURGE, LEDGER) at $0.50",
+   "at": "2026-10-13T16:12:00.000Z"
+  }
+ ],
+ "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+ "payoutWallet": "0xbc28fff339Bbe53448fdEe4ef30C77E31b13893B",
+ "requestsApplied": [],
+ "updatedAt": "2026-10-13T16:18:54.228Z"
+}
