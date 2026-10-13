@@ -96,6 +96,8 @@
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xbc28fff339Bbe53448fdEe4ef30C77E31b13893B",
- "requestsApplied": [],
- "updatedAt": "2026-10-13T16:18:54.228Z"
+ "requestsApplied": [
+  "65e19555-f6c1-4c9a-a540-2cfb39ae7f65"
+ ],
+ "updatedAt": "2026-10-13T16:23:06.538Z"
 }
