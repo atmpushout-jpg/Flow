@@ -1,18 +1,18 @@
 {
- "generatedAt": "2026-10-13T01:14:29.590Z",
- "basis": "One training pass over the full recorded corpus (Matches 1-4 counted + floor exhibitions behavioral + corpus accuracy). Production defaults in offchain/arena-learning.md.",
+ "generatedAt": "2026-10-13T06:20:06.770Z",
+ "basis": "Balance-fix pass (Atm directive 2026-10-13). One deterministic pass over the full recorded corpus (Matches 1-4 counted + floor exhibitions behavioral + corpus accuracy incl. the 2026-10-13 exhibition series) from production defaults, under learning rules v1.1 (catch-up step multiplier, V-ACT verified-no-convert, META-4 burn-discipline) — see offchain/arena-learning.md.",
  "params": {
   "vex": {
-   "requoteCount": 2,
-   "spikeEntryScore": 15,
+   "requoteCount": 1,
+   "spikeEntryScore": 11,
    "entrySizePct": 40,
-   "exitSpikeFloor": 7
+   "exitSpikeFloor": 6
   },
   "audrey": {
-   "candidatesScanned": 2,
+   "candidatesScanned": 1,
    "verdictScoreFloor": 75,
    "entrySizePct": 15,
-   "reverifyEveryRounds": 4
+   "reverifyEveryRounds": 5
   },
   "echo": {
    "signalMaxAgeSec": 600,
