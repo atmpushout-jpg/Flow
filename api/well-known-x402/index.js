@@ -3,9 +3,9 @@
 // Lists paid endpoints so x402scan and other crawlers can discover them.
 const MANIFEST = {
   x402Version: 2,
-  serviceName: "Flow",
+  serviceName: "Flow — Order-Flow Intelligence on Base",
   description:
-    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, in ~91ms. Also: smart-wallet signals and contract safety checks.",
+    "Flow is order-flow intelligence on Base: multi-venue swap quotes ($0.01/call), contract verification ($0.02), smart-wallet signals ($0.01), and a fill rail charging 25% of measured improvement (10 bps cap). x402-native (Base mainnet, USDC). Every number is published as a recomputable receipt.",
   homepage: "https://flow-kg4x.vercel.app",
   builderCode: "bc_60rzkc5g",
   network: "eip155:8453",
