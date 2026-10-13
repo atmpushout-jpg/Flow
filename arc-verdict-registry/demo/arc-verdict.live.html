@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow Verdict Registry — on Arc</title>
+<style>
+  :root { --bg:#060b18; --panel:#0b1526; --line:#1b2b47; --cyan:#22d3ee; --txt:#dbe7f5; --dim:#8aa3c0; --safe:#34d399; --caution:#fbbf24; --danger:#f87171; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  .wrap { max-width:980px; margin:0 auto; padding:28px 18px 60px; }
+  h1 { font-size:26px; margin:0 0 4px; } h1 .f { color:var(--cyan); }
+  .sub { color:var(--dim); margin:0 0 22px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-bottom:22px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .card .k { color:var(--dim); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+  .card .v { font-size:17px; margin-top:4px; word-break:break-all; }
+  a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th, td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); font-size:13.5px; vertical-align:top; }
+  th { color:var(--dim); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em; }
+  tr:last-child td { border-bottom:none; }
+  .badge { display:inline-block; padding:1px 9px; border-radius:999px; font-size:12px; font-weight:600; }
+  .safe { background:rgba(52,211,153,.15); color:var(--safe); }
+  .caution { background:rgba(251,191,36,.15); color:var(--caution); }
+  .danger { background:rgba(248,113,113,.15); color:var(--danger); }
+  .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; }
+  .note { color:var(--dim); font-size:13.5px; margin-top:18px; }
+  .pending { border:1px dashed var(--cyan); border-radius:12px; padding:16px; color:var(--txt); background:rgba(34,211,238,.06); }
+  .err { color:var(--danger); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span class="f">Flow</span> Verdict Registry <span style="color:var(--dim); font-size:16px;">on Arc</span></h1>
+  <p class="sub">Flow grades token &amp; contract safety on Base through its paid <span class="mono">/api/verify</span> endpoint.
+  This page reads the on-chain registry on <b>Arc mainnet</b> (chain 5042) where those verdicts are anchored — immutable, ownerless, and checkable by anyone.</p>
+
+  <div class="cards">
+    <div class="card"><div class="k">Registry contract (Arc)</div><div class="v mono" id="c-addr">—</div></div>
+    <div class="card"><div class="k">Verdicts anchored</div><div class="v" id="c-total">—</div></div>
+    <div class="card"><div class="k">Gas token</div><div class="v">USDC (native)</div></div>
+    <div class="card"><div class="k">Verdict source</div><div class="v"><a href="https://flow-kg4x.vercel.app" target="_blank" rel="noopener">Flow /api/verify</a></div></div>
+  </div>
+
+  <div id="pending"></div>
+  <div id="tablewrap"></div>
+  <p class="note" id="status"></p>
+
+  <p class="note"><b>How it works:</b> (1) an agent pays $0.02 via x402 to Flow's <span class="mono">/api/verify</span> and gets a 0–100 safety score with a safe / caution / danger verdict;
+  (2) Flow anchors a compact attestation on Arc — subject, source chain, score, verdict, and a keccak256 hash of the full verdict payload;
+  (3) anyone can recompute the hash from the API response and confirm the on-chain entry matches. The registry holds no funds and has no owner or admin keys.</p>
+  <p class="note">Receipts-first: entries are never edited or deleted. A newer check of the same contract simply adds a newer entry.</p>
+</div>
+
+<script>
+// Written by scripts/deploy.js — Arc mainnet deployment of the Flow Verdict Registry.
+window.FLOW_ARC = {
+  registry: "0x24fDd7Cce5c2E2640a6D687C64d0d97cCD1F8339",
+  deployTx: "0xad6e821e2cb51c9ede00a9926f25d881910475005da558deb007d9b5a3927770",
+  chainId: 5042,
+  rpc: "https://rpc.mainnet.arc.io",
+  explorer: "https://explorer.arc.io",
+  flowSite: "https://flow-kg4x.vercel.app",
+};
+</script>
+<script>
+(function () {
+  var CFG = window.FLOW_ARC || {};
+  var RPCS = [CFG.rpc || "https://rpc.mainnet.arc.io", "https://arc.rpc.hypersync.xyz"];
+  var SEL = { total: "0x1f5b1245", get: "0x33f3e74b" }; // totalVerdicts() / getVerdict(uint256)
+  var VERDICTS = ["safe", "caution", "danger"];
+  var CHAINS = { "8453": "Base", "1": "Ethereum", "10": "Optimism", "42161": "Arbitrum", "137": "Polygon" };
+
+  function rpc(method, params) {
+    var attempt = function (i) {
+      return fetch(RPCS[i], { method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: method, params: params }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { if (j.error) throw new Error(j.error.message); return j.result; })
+        .catch(function (e) { if (i + 1 < RPCS.length) return attempt(i + 1); throw e; });
+    };
+    return attempt(0);
+  }
+  function call(data) { return rpc("eth_call", [{ to: CFG.registry, data: data }, "latest"]); }
+  function word(hex, i) { return hex.slice(2 + i * 64, 2 + (i + 1) * 64); }
+  function toNum(w) { return parseInt(w, 16); }
+  function toAddr(w) { return "0x" + w.slice(24); }
+  function short(a) { return a.slice(0, 6) + "…" + a.slice(-4); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  function render() {
+    var addrEl = document.getElementById("c-addr");
+    if (!CFG.registry) {
+      addrEl.textContent = "deployment pending";
+      document.getElementById("pending").innerHTML =
+        '<div class="pending">The registry contract is built and tested; its Arc mainnet deployment lands with the launch steps in DEPLOY.md. This page goes live against it the moment the deploy tx confirms.</div>';
+      return;
+    }
+    addrEl.innerHTML = '<a href="' + CFG.explorer + "/address/" + CFG.registry + '" target="_blank" rel="noopener">' + short(CFG.registry) + "</a>";
+    call(SEL.total).then(function (res) {
+      var total = toNum(res);
+      document.getElementById("c-total").textContent = total;
+      var ids = [];
+      for (var i = total - 1; i >= 0 && ids.length < 25; i--) ids.push(i);
+      return Promise.all(ids.map(function (id) {
+        var data = SEL.get + id.toString(16).padStart(64, "0");
+        return call(data).then(function (r) { return { id: id, r: r }; });
+      }));
+    }).then(function (rows) {
+      if (!rows) return;
+      var html = "<table><tr><th>#</th><th>Subject</th><th>Chain</th><th>Score</th><th>Verdict</th><th>Verdict hash</th><th>Anchored</th></tr>";
+      rows.forEach(function (row) {
+        var r = row.r;
+        var subject = toAddr(word(r, 0)), chain = String(toNum(word(r, 1)));
+        var score = toNum(word(r, 2)), verdict = toNum(word(r, 3));
+        var hash = "0x" + word(r, 4), ts = toNum(word(r, 6));
+        var label = VERDICTS[verdict] || "?";
+        html += "<tr><td>" + row.id + "</td>" +
+          '<td class="mono"><a href="' + CFG.explorer + "/address/" + CFG.registry + '" target="_blank" rel="noopener" title="' + esc(subject) + '">' + short(subject) + "</a></td>" +
+          "<td>" + (CHAINS[chain] || chain) + "</td><td>" + score + "</td>" +
+          '<td><span class="badge ' + label + '">' + label + "</span></td>" +
+          '<td class="mono" title="' + hash + '">' + short(hash) + "</td>" +
+          "<td>" + new Date(ts * 1000).toLocaleString() + "</td></tr>";
+      });
+      html += "</table>";
+      document.getElementById("tablewrap").innerHTML = html;
+      document.getElementById("status").textContent = "Live from Arc mainnet · refreshed " + new Date().toLocaleTimeString();
+    }).catch(function (e) {
+      document.getElementById("status").innerHTML = '<span class="err">Could not reach the Arc RPC: ' + esc(e.message) + "</span>";
+    });
+  }
+  render();
+  setInterval(render, 30000);
+})();
+</script>
+</body>
+</html>
