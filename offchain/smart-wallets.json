@@ -1,7 +1,7 @@
 {
- "updatedAt": "2026-10-13T10:40:13.004Z",
+ "updatedAt": "2026-10-13T10:42:07.430Z",
  "leaderboardUpdatedAt": "2026-10-13T10:31:11.979Z",
- "signalsUpdatedAt": "2026-10-13T10:40:13.004Z",
+ "signalsUpdatedAt": "2026-10-13T10:42:07.430Z",
  "wallets": {},
  "leaderboard": [],
  "hotPools": [
@@ -92,6 +92,40 @@
  ],
  "signals": [
   {
+   "wallet": "0x883e1eaeb15dd9f62d3889abf63dd383d649c70d",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 2174.43,
+   "txHash": "0x1577c026391b8401adbc3739dcf84b7951a8734b677e58015521fac0414a79eb",
+   "blockNumber": 52549217,
+   "timestamp": "2026-10-13T10:36:21Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 348,
+   "stale": false
+  },
+  {
+   "wallet": "0xf23320c5460fa6973cbe256301c9793df29ca2e1",
+   "walletRank": null,
+   "walletWins": 0,
+   "unranked": true,
+   "token": "0x4200000000000000000000000000000000000006",
+   "symbol": "WETH",
+   "side": "buy",
+   "amountUsd": 3216.39,
+   "txHash": "0x662f1156a90ff6031400b6aaf9ec804d5b69768fc20b795205e4c9e1a25d6450",
+   "blockNumber": 52549215,
+   "timestamp": "2026-10-13T10:36:17Z",
+   "socialVelocity": null,
+   "socialSpike": false,
+   "ageSec": 352,
+   "stale": false
+  },
+  {
    "wallet": "0xf04a2505afb967a1b4f43304e17994e94bdc13a1",
    "walletRank": null,
    "walletWins": 0,
@@ -105,7 +139,7 @@
    "timestamp": "2026-10-13T10:38:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 137,
+   "ageSec": 200,
    "stale": false
   },
   {
@@ -122,7 +156,7 @@
    "timestamp": "2026-10-13T10:38:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 139,
+   "ageSec": 202,
    "stale": false
   },
   {
@@ -139,7 +173,7 @@
    "timestamp": "2026-10-13T10:38:41Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 145,
+   "ageSec": 208,
    "stale": false
   },
   {
@@ -156,7 +190,7 @@
    "timestamp": "2026-10-13T10:38:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 149,
+   "ageSec": 212,
    "stale": false
   },
   {
@@ -173,7 +207,7 @@
    "timestamp": "2026-10-13T10:38:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 153,
+   "ageSec": 216,
    "stale": false
   },
   {
@@ -190,7 +224,7 @@
    "timestamp": "2026-10-13T10:38:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 155,
+   "ageSec": 218,
    "stale": false
   },
   {
@@ -207,7 +241,7 @@
    "timestamp": "2026-10-13T10:38:27Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 159,
+   "ageSec": 222,
    "stale": false
   },
   {
@@ -224,7 +258,7 @@
    "timestamp": "2026-10-13T10:38:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 161,
+   "ageSec": 224,
    "stale": false
   },
   {
@@ -241,7 +275,7 @@
    "timestamp": "2026-10-13T10:38:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 163,
+   "ageSec": 226,
    "stale": false
   },
   {
@@ -258,7 +292,7 @@
    "timestamp": "2026-10-13T10:37:59Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 187,
+   "ageSec": 250,
    "stale": false
   },
   {
@@ -275,7 +309,7 @@
    "timestamp": "2026-10-13T10:37:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 189,
+   "ageSec": 252,
    "stale": false
   },
   {
@@ -292,7 +326,7 @@
    "timestamp": "2026-10-13T10:37:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 191,
+   "ageSec": 254,
    "stale": false
   },
   {
@@ -309,7 +343,7 @@
    "timestamp": "2026-10-13T10:36:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 283,
+   "ageSec": 346,
    "stale": false
   },
   {
@@ -326,7 +360,7 @@
    "timestamp": "2026-10-13T10:36:23Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 283,
+   "ageSec": 346,
    "stale": false
   },
   {
@@ -343,7 +377,7 @@
    "timestamp": "2026-10-13T10:36:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 285,
+   "ageSec": 348,
    "stale": false
   },
   {
@@ -360,7 +394,7 @@
    "timestamp": "2026-10-13T10:36:19Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 287,
+   "ageSec": 350,
    "stale": false
   },
   {
@@ -377,7 +411,7 @@
    "timestamp": "2026-10-13T10:39:55Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 71,
+   "ageSec": 134,
    "stale": false
   },
   {
@@ -394,7 +428,7 @@
    "timestamp": "2026-10-13T10:39:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 73,
+   "ageSec": 136,
    "stale": false
   },
   {
@@ -411,7 +445,7 @@
    "timestamp": "2026-10-13T10:39:41Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 85,
+   "ageSec": 148,
    "stale": false
   },
   {
@@ -428,7 +462,7 @@
    "timestamp": "2026-10-13T10:39:31Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 95,
+   "ageSec": 158,
    "stale": false
   },
   {
@@ -445,7 +479,7 @@
    "timestamp": "2026-10-13T10:39:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 109,
+   "ageSec": 172,
    "stale": false
   },
   {
@@ -462,7 +496,7 @@
    "timestamp": "2026-10-13T10:39:15Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 111,
+   "ageSec": 174,
    "stale": false
   },
   {
@@ -479,7 +513,7 @@
    "timestamp": "2026-10-13T10:39:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 115,
+   "ageSec": 178,
    "stale": false
   },
   {
@@ -496,7 +530,7 @@
    "timestamp": "2026-10-13T10:39:07Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 119,
+   "ageSec": 182,
    "stale": false
   },
   {
@@ -513,7 +547,7 @@
    "timestamp": "2026-10-13T10:39:03Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 123,
+   "ageSec": 186,
    "stale": false
   },
   {
@@ -530,7 +564,7 @@
    "timestamp": "2026-10-13T10:38:45Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 204,
    "stale": false
   },
   {
@@ -547,7 +581,7 @@
    "timestamp": "2026-10-13T10:38:45Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 141,
+   "ageSec": 204,
    "stale": false
   },
   {
@@ -564,7 +598,7 @@
    "timestamp": "2026-10-13T10:38:43Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 143,
+   "ageSec": 206,
    "stale": false
   },
   {
@@ -581,7 +615,7 @@
    "timestamp": "2026-10-13T10:38:35Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 151,
+   "ageSec": 214,
    "stale": false
   },
   {
@@ -598,7 +632,7 @@
    "timestamp": "2026-10-13T10:38:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 165,
+   "ageSec": 228,
    "stale": false
   },
   {
@@ -615,7 +649,7 @@
    "timestamp": "2026-10-13T10:37:57Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 189,
+   "ageSec": 252,
    "stale": false
   },
   {
@@ -632,7 +666,7 @@
    "timestamp": "2026-10-13T10:37:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 193,
+   "ageSec": 256,
    "stale": false
   },
   {
@@ -649,7 +683,7 @@
    "timestamp": "2026-10-13T10:37:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 221,
+   "ageSec": 284,
    "stale": false
   },
   {
@@ -666,7 +700,7 @@
    "timestamp": "2026-10-13T10:37:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 225,
+   "ageSec": 288,
    "stale": false
   },
   {
@@ -683,7 +717,7 @@
    "timestamp": "2026-10-13T10:38:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 139,
+   "ageSec": 202,
    "stale": false
   },
   {
@@ -700,7 +734,7 @@
    "timestamp": "2026-10-13T10:39:59Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 67,
+   "ageSec": 130,
    "stale": false
   },
   {
@@ -717,7 +751,7 @@
    "timestamp": "2026-10-13T10:39:25Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 101,
+   "ageSec": 164,
    "stale": false
   },
   {
@@ -734,7 +768,7 @@
    "timestamp": "2026-10-13T10:36:11Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 295,
+   "ageSec": 358,
    "stale": false
   },
   {
@@ -751,7 +785,7 @@
    "timestamp": "2026-10-13T10:36:09Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 297,
+   "ageSec": 360,
    "stale": false
   },
   {
@@ -768,7 +802,7 @@
    "timestamp": "2026-10-13T10:35:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 315,
+   "ageSec": 378,
    "stale": false
   },
   {
@@ -785,7 +819,7 @@
    "timestamp": "2026-10-13T10:35:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 317,
+   "ageSec": 380,
    "stale": false
   },
   {
@@ -802,7 +836,7 @@
    "timestamp": "2026-10-13T10:34:39Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 387,
+   "ageSec": 450,
    "stale": false
   },
   {
@@ -819,7 +853,7 @@
    "timestamp": "2026-10-13T10:34:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 389,
+   "ageSec": 452,
    "stale": false
   },
   {
@@ -836,7 +870,7 @@
    "timestamp": "2026-10-13T10:34:35Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 391,
+   "ageSec": 454,
    "stale": false
   },
   {
@@ -853,7 +887,7 @@
    "timestamp": "2026-10-13T10:34:33Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 393,
+   "ageSec": 456,
    "stale": false
   },
   {
@@ -870,7 +904,7 @@
    "timestamp": "2026-10-13T10:33:37Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 449,
+   "ageSec": 512,
    "stale": false
   },
   {
@@ -887,7 +921,7 @@
    "timestamp": "2026-10-13T10:33:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 465,
+   "ageSec": 528,
    "stale": false
   },
   {
@@ -904,7 +938,7 @@
    "timestamp": "2026-10-13T10:33:19Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 467,
+   "ageSec": 530,
    "stale": false
   },
   {
@@ -921,7 +955,7 @@
    "timestamp": "2026-10-13T10:32:53Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 493,
+   "ageSec": 556,
    "stale": false
   },
   {
@@ -938,7 +972,7 @@
    "timestamp": "2026-10-13T10:32:51Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 495,
+   "ageSec": 558,
    "stale": false
   },
   {
@@ -955,7 +989,7 @@
    "timestamp": "2026-10-13T10:32:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 497,
+   "ageSec": 560,
    "stale": false
   },
   {
@@ -972,7 +1006,7 @@
    "timestamp": "2026-10-13T10:32:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 499,
+   "ageSec": 562,
    "stale": false
   },
   {
@@ -989,7 +1023,7 @@
    "timestamp": "2026-10-13T10:36:21Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 285,
+   "ageSec": 348,
    "stale": false
   },
   {
@@ -1006,7 +1040,7 @@
    "timestamp": "2026-10-13T10:36:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 289,
+   "ageSec": 352,
    "stale": false
   },
   {
@@ -1023,7 +1057,7 @@
    "timestamp": "2026-10-13T10:36:17Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 289,
+   "ageSec": 352,
    "stale": false
   },
   {
@@ -1040,7 +1074,7 @@
    "timestamp": "2026-10-13T10:35:49Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 317,
+   "ageSec": 380,
    "stale": false
   },
   {
@@ -1057,7 +1091,7 @@
    "timestamp": "2026-10-13T10:35:47Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 319,
+   "ageSec": 382,
    "stale": false
   },
   {
@@ -1074,41 +1108,7 @@
    "timestamp": "2026-10-13T10:35:43Z",
    "socialVelocity": null,
    "socialSpike": false,
-   "ageSec": 323,
-   "stale": false
-  },
-  {
-   "wallet": "0xf04a2505afb967a1b4f43304e17994e94bdc13a1",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1990.4,
-   "txHash": "0x4bfe0ff749064e3f3f31e2dd15fe257c9746d2899a77a6f5909706118f9e46df",
-   "blockNumber": 52549196,
-   "timestamp": "2026-10-13T10:35:39Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 327,
-   "stale": false
-  },
-  {
-   "wallet": "0xd14602c85a25a4e520441c47a97a2c9da63ae1be",
-   "walletRank": null,
-   "walletWins": 0,
-   "unranked": true,
-   "token": "0x4200000000000000000000000000000000000006",
-   "symbol": "WETH",
-   "side": "buy",
-   "amountUsd": 1063.4,
-   "txHash": "0x1a4866d842d06f67c25e39428a07f1d832d01342e60814fbe1e2bcc4fad6e49b",
-   "blockNumber": 52549189,
-   "timestamp": "2026-10-13T10:35:25Z",
-   "socialVelocity": null,
-   "socialSpike": false,
-   "ageSec": 341,
+   "ageSec": 386,
    "stale": false
   }
  ],
@@ -1125,7 +1125,7 @@
   "totalPnlUsd": -0.54,
   "bestTradeUsd": 0.54,
   "worstTradeUsd": -1.08,
-  "updatedAt": "2026-10-13T10:41:06.238Z"
+  "updatedAt": "2026-10-13T10:42:09.813Z"
  },
  "socialVelocity": {
   "updatedAt": "2026-10-13T10:38:09.970Z",
