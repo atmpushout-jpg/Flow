@@ -256,7 +256,7 @@ module.exports = async (req, res) => {
 
   await stats.trackQuote();
 
-  if (gate) {
+  if (gate && !gate.builderKey) {
     let settled;
     try {
       settled = await x402.settlePayment(gate);
@@ -274,6 +274,10 @@ module.exports = async (req, res) => {
       network: settled.response.network,
       payer: settled.response.payer,
     };
+  }
+
+  if (gate && gate.builderKey) {
+    body.builderKey = { callsRemaining: gate.builderKey.callsRemaining };
   }
 
   res.json(body);
