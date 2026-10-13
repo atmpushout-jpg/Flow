@@ -12,6 +12,16 @@
 //                          i.e. cap = 0.001 * amountIn valued in USD.
 //   feeUsdAtomic         = floor(feeUsd * 1e6)  (USDC atomic, rounded DOWN)
 //   no improvement       => fee is exactly 0 (no base fee, ever)
+//   fee floor            => the CDP facilitator rejects payments below
+//                          $0.001 (1000 USDC atomic) with amount_too_low
+//                          (undocumented minimum, empirically confirmed on
+//                          Base mainnet: ~$0.0002-$0.0005 rejected, $0.001
+//                          settles). A computed fee in (0, floor) can never
+//                          settle, so it is charged as $0 instead of being
+//                          quoted: the package is served free with
+//                          charged:false, exactly like zero improvement.
+//                          The raw computed fee is preserved in
+//                          computedFeeUsdAtomic and feeBelowFloor is set.
 //
 // All money math is BigInt rational arithmetic — no floats touch a fee.
 
@@ -20,6 +30,10 @@
 const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 const WETH = "0x4200000000000000000000000000000000000006";
 const FEE_RULE = "25% of price improvement over Uniswap baseline, capped at 10 bps of output";
+
+// Minimum fee the CDP facilitator can settle, in USDC atomic ($0.001).
+// See the fee-floor note in the header comment.
+const MIN_SETTLEABLE_FEE_ATOMIC = 1000n;
 
 // Router addresses Flow's own swap code uses (copied exactly, with sources):
 //   uniswap   SwapRouter02 — offchain/fill-bot.js:39 (UNI_ROUTER) and
@@ -113,6 +127,8 @@ function computeFillFee(input) {
       feeUsd: 0,
       feeUsdAtomic: 0n,
       feeAmountUsd: 0,
+      feeBelowFloor: false,
+      computedFeeUsdAtomic: "0",
     };
   }
 
@@ -126,7 +142,11 @@ function computeFillFee(input) {
   const cap = { n: amountIn * rate.n, d: 1000n * rate.d }; // 10 bps of input value
   const capApplied = uncapped.n * cap.d > cap.n * uncapped.d;
   const fee = capApplied ? cap : uncapped;
-  const feeUsdAtomic = (fee.n * 1000000n) / fee.d; // floor (all values >= 0)
+  const rawFeeUsdAtomic = (fee.n * 1000000n) / fee.d; // floor (all values >= 0)
+  // Fee floor: a positive fee below the facilitator's settleable minimum
+  // can never be collected, so it is charged as $0 (see header note).
+  const feeBelowFloor = rawFeeUsdAtomic > 0n && rawFeeUsdAtomic < MIN_SETTLEABLE_FEE_ATOMIC;
+  const feeUsdAtomic = feeBelowFloor ? 0n : rawFeeUsdAtomic;
 
   return {
     improvementOut: (bestOut - uniswapOut).toString(),
@@ -138,6 +158,8 @@ function computeFillFee(input) {
     feeUsd: Number(feeUsdAtomic) / 1e6,
     feeUsdAtomic,
     feeAmountUsd: Number(feeUsdAtomic) / 1e6,
+    feeBelowFloor,
+    computedFeeUsdAtomic: rawFeeUsdAtomic.toString(),
   };
 }
 
@@ -209,6 +231,8 @@ function buildRoutePackage({ quote, tokenIn, tokenOut, amountIn, fee, recipient,
       feeUsd: fee.feeUsd,
       amountUsd: fee.feeUsd, // alias named by the zero-improvement contract
       feeUsdAtomic: fee.feeUsdAtomic.toString(),
+      belowFloor: fee.feeBelowFloor === true,
+      computedFeeUsdAtomic: fee.computedFeeUsdAtomic != null ? String(fee.computedFeeUsdAtomic) : fee.feeUsdAtomic.toString(),
       capApplied: fee.capApplied,
       rule: FEE_RULE,
     },
@@ -235,6 +259,6 @@ function buildRoutePackage({ quote, tokenIn, tokenOut, amountIn, fee, recipient,
 }
 
 module.exports = {
-  USDC, WETH, FEE_RULE, ROUTERS, UNI_SWAP_ABI, AERO_SWAP_ABI,
+  USDC, WETH, FEE_RULE, MIN_SETTLEABLE_FEE_ATOMIC, ROUTERS, UNI_SWAP_ABI, AERO_SWAP_ABI,
   computeFillFee, buildRoutePackage, buildCalldata, _test: { parseRate },
 };
