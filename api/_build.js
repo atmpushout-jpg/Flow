@@ -81,6 +81,61 @@ const HUMAN_ENTRY = {
   cryptoSeatUsd: 0.5,
 };
 
+// ---------------------------------------------------------------------------
+// BOT SHOP + PAYMENT FRAMING (Atm, 2026-10-13)
+//   Alongside building, a person can BUY a ready bot (Bot Shop
+//   prices set 2026-10-12: starter $5 / pro-tuned $25, one-time,
+//   USDC on Base). A purchased fighter lands on the SAME owner
+//   dashboard (private token link) with the same honest status —
+//   "Built — awaiting floor seating."
+//   Payment framing for humans: card (the $1 entry above; Stripe
+//   pending), USDC, ETH, and BTC — including the ASSISTED-SEND
+//   pattern: someone else can send the crypto for you; we watch
+//   the wallet, verify the payment, and seat/deliver from there
+//   (the same verify-then-act pattern as Telegram enrollment).
+//   HONESTY (v1): there is NO crypto payment watcher yet — it is
+//   the follow-on build. The surfaces show the methods + the
+//   pattern and route buyers to assisted enrollment today; no
+//   fake pay buttons, no fake checkout. Shop purchase records
+//   will be created server-side by the watcher after a VERIFIED
+//   payment, through the same create path (source: "shop").
+//   SIGNPOSTING: GitHub is the CODER lane only — never the human
+//   door. The human doors are: build (web), buy (shop), and
+//   assisted enrollment (the Telegram front desk).
+// ---------------------------------------------------------------------------
+
+const SHOP_TIERS = {
+  starter: {
+    key: "starter", label: "Starter", priceUsd: 5, asset: "USDC on Base",
+    blurb: "A ready-made fighter with its own character, built by the house and handed to you on your private dashboard.",
+  },
+  pro: {
+    key: "pro", label: "Pro-tuned", priceUsd: 25, asset: "USDC on Base",
+    blurb: "A ready-made fighter, hand-tuned by the house before handover — same fairness rules, sharper starting dials. Tuning is care, never competitive power: every fighter still plays on the same tape, prices, and $0.60 cap.",
+  },
+};
+
+const PAYMENT_FRAMING = {
+  card: {
+    method: "card", label: "Card", live: false,
+    text: "Card — the $1 entry (seat, card costs, and your bot's first data included). Coming with the payments launch; no card checkout is offered until it really works.",
+  },
+  crypto: {
+    methods: ["USDC", "ETH", "BTC"], live: false,
+    text: "Crypto — USDC, ETH, or BTC. Someone else can send it for you: hand the money to someone with crypto, they send it to the address we give you for the purchase, and we watch the wallet, verify the payment, and seat your bot from there.",
+    statusText: "Crypto payment verification launches with the shop — today, join via assisted enrollment and we'll walk the payment through with you.",
+  },
+  assisted: {
+    label: "Assisted enrollment",
+    text: "Today's door for buyers: message the front desk (@FlowExecutorBot on Telegram) and a purchase is walked through with help — payment verified by a human-checked process, then your fighter is delivered to your private dashboard link.",
+    url: "https://t.me/FlowExecutorBot",
+  },
+  doors: {
+    human: ["build (this page)", "buy (Bot Shop)", "assisted enrollment (Telegram front desk)"],
+    coder: "GitHub is the coder lane only — specs and code for builders. It is never the way a regular person gets a bot.",
+  },
+};
+
 const round2 = (n) => Math.round(Number(n || 0) * 100) / 100;
 
 /** The entry block stored on a fresh build record (unfunded in v1). */
@@ -507,6 +562,12 @@ async function createBuild(store, input, opts = {}) {
   const fighterId = newFighterId();
   const ownerToken = generateToken();
   const tokenHash = hashToken(ownerToken);
+  // Origin: "web-build" for self-built fighters. "shop" is reserved
+  // for server-side creation by the future payment watcher after a
+  // VERIFIED shop payment (opts-only — the public POST body cannot
+  // claim a purchase).
+  const source = opts.source === "shop" ? "shop" : "web-build";
+  const shopTier = source === "shop" && SHOP_TIERS[opts.shopTier] ? opts.shopTier : null;
   const record = {
     fighterId,
     name,
@@ -519,9 +580,15 @@ async function createBuild(store, input, opts = {}) {
     createdAt: now,
     updatedAt: now,
     status: "built",
+    source,
+    shopTier,
     entry: defaultEntry(),
     balance: defaultBalance(),
-    events: [{ type: "built", at: now, via: "web" }],
+    events: [
+      source === "shop"
+        ? { type: "purchased", at: now, via: "shop", tier: shopTier }
+        : { type: "built", at: now, via: "web" },
+    ],
   };
 
   // Record first, then claim the name + spec hash atomically; a race
@@ -557,6 +624,8 @@ async function createBuild(store, input, opts = {}) {
       name,
       status: "built",
       statusText: "Built — awaiting floor seating",
+      source,
+      shopTier,
       spec,
       specHash,
       ownerToken,
@@ -611,6 +680,11 @@ function dashboardBody(record, published) {
       name: record.name,
       status: record.status,
       statusText: "Built — awaiting floor seating",
+      source: record.source || "web-build",
+      shopTier:
+        record.source === "shop" && SHOP_TIERS[record.shopTier]
+          ? { key: record.shopTier, label: SHOP_TIERS[record.shopTier].label, priceUsd: SHOP_TIERS[record.shopTier].priceUsd }
+          : null,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
       style: { key: record.style, label: a.label, plain: a.plain, emoji: a.emoji, color: a.color, tagline: a.blurb, blurb: STYLE_BUTTON_BLURBS[record.style] },
@@ -653,6 +727,12 @@ function dashboardBody(record, published) {
       ? (recs.length ? null : "No changes recommended — its record doesn't trip any of the house tuning rules right now. The learners only adjust on recorded evidence, and so does this page.")
       : (recs.length ? null : "No changes recommended yet — it needs its first runs before tuning means anything. The house learners only adjust on recorded evidence."),
     events: [...(record.events || [])].reverse(),
+    shop: {
+      note: "Don't want to build? Buy a ready bot instead — it arrives on this same dashboard, same status: Built — awaiting floor seating.",
+      tiers: Object.values(SHOP_TIERS),
+      paymentsLive: false,
+    },
+    payments: PAYMENT_FRAMING,
     published: { standingsOk: !!standings, buyinOk: !!buyin },
     dashboardPath: DASHBOARD_PATH,
   };
@@ -754,6 +834,11 @@ async function programSummary(store) {
       howToBuild: 'POST /api/build with JSON {name, style, dials:{appetite, aggression, patience}, ownerName?}. The response carries your dashboard link ONCE — bookmark it; the link is your key.',
       dashboard: `GET /api/build?token=<ownerToken> — or open ${DASHBOARD_PATH}?t=<ownerToken> in a browser.`,
       applyTuning: "POST /api/build/apply-tuning with JSON {token, dial, to} — one dial, one step, exactly like the dashboard's Apply buttons.",
+      shop: {
+        tiers: Object.values(SHOP_TIERS),
+        note: "Buy a ready bot instead of building: a purchased fighter is delivered to the buyer's own private dashboard link with the same status — Built — awaiting floor seating. Purchases are created only after a verified payment; the crypto payment watcher is the follow-on build, so today purchases run through assisted enrollment (see payments).",
+      },
+      payments: PAYMENT_FRAMING,
       humanEntry: {
         ...HUMAN_ENTRY,
         note: "The human entry is $1.00 by card: the standard $0.50 seat + ~$0.33 card costs + ~$0.17 starting data credit. The dashboard balance starts at $0.00, is credited with the entry, and draws down per event as the fighter spends on data. Card payment is NOT live yet (it waits on the house Stripe account) — no checkout is offered. The crypto/agent lane stays $0.50 a seat on-chain.",
@@ -769,6 +854,8 @@ module.exports = {
   TOKEN_PREFIX,
   DASHBOARD_PATH,
   HUMAN_ENTRY,
+  SHOP_TIERS,
+  PAYMENT_FRAMING,
   defaultEntry,
   defaultBalance,
   balanceForRecord,
