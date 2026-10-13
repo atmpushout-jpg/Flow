@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Arena — Bot Adjustment Center</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#131a22; --panel2:#182230; --line:#263242;
+    --ink:#e8eef4; --muted:#93a5b8; --faint:#5f7186;
+    --teal:#1dd1a1; --cyan:#22d3ee; --gold:#feca57; --red:#ff6b81; --violet:#c56cf0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.5;
+  }
+  header{
+    background:linear-gradient(180deg,#0e1620,#131e2b); color:#fff;
+    padding:14px 16px 12px; position:sticky; top:0; z-index:50;
+    border-bottom:1px solid var(--line); box-shadow:0 2px 12px rgba(0,0,0,.45);
+  }
+  header .brand{display:flex; align-items:center; gap:12px; max-width:940px; margin:0 auto;}
+  header .logo{width:46px;height:46px;border-radius:12px;object-fit:cover;flex:0 0 auto;
+    box-shadow:0 2px 14px rgba(34,211,238,.35);}
+  header h1{font-size:19px;margin:0;font-weight:800;letter-spacing:.2px;}
+  header .tag{font-size:12.5px;color:#a9bccf;margin-top:1px;}
+  main{max-width:940px; margin:0 auto; padding:18px 14px 40px;}
+  .hero{
+    background:linear-gradient(150deg,#12242f,#141d2b 60%,#1a1428);
+    border:1px solid var(--line); border-radius:var(--radius); padding:22px 20px 18px;
+  }
+  .hero h2{margin:0 0 6px; font-size:27px; line-height:1.2; font-weight:900;}
+  .hero h2 .accent{color:var(--teal);}
+  .hero p{margin:0 0 14px; color:var(--muted); max-width:660px;}
+  .charter{
+    border:1px solid var(--gold); background:rgba(254,202,87,.08); color:#ffe9b0;
+    border-radius:11px; padding:11px 13px; font-size:14.5px; font-weight:600;
+  }
+  .charter b{color:var(--gold);}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;}
+  .step{background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:11px; padding:12px 13px;}
+  .step .n{display:inline-flex; width:24px;height:24px;border-radius:50%; background:var(--teal); color:#08110d;
+    font-weight:800; font-size:14px; align-items:center; justify-content:center; margin-bottom:6px;}
+  .step h3{margin:0 0 3px; font-size:15px;}
+  .step p{margin:0; font-size:13px; color:var(--muted); line-height:1.45;}
+  section.card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; margin-top:16px;
+  }
+  section.card h2{margin:0 0 4px; font-size:19px; font-weight:800;}
+  section.card .sub{margin:0 0 14px; color:var(--muted); font-size:14px;}
+  label.flabel{display:block; font-size:13px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); margin:14px 0 6px;}
+  label.flabel:first-of-type{margin-top:0;}
+  input[type="text"]{
+    width:100%; background:var(--panel2); border:1px solid var(--line); color:var(--ink);
+    border-radius:10px; padding:11px 12px; font-size:16px; outline:none;
+  }
+  input[type="text"]:focus{border-color:var(--teal);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .err{display:none; margin-top:6px; font-size:13.5px; color:var(--red);}
+  .err.show{display:block;}
+  .ok{display:none; margin-top:6px; font-size:13.5px; color:var(--teal);}
+  .ok.show{display:block;}
+  .connectgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:6px;}
+  .connect{
+    background:var(--panel2); border:1px solid var(--line); border-radius:11px; padding:14px;
+  }
+  .connect.rec{border-color:var(--teal);}
+  .connect h3{margin:0 0 4px; font-size:16px;}
+  .connect p{margin:0 0 10px; font-size:13.5px; color:var(--muted); line-height:1.5;}
+  .connect .badge{display:inline-block; font-size:11px; font-weight:800; letter-spacing:.6px;
+    text-transform:uppercase; color:#08110d; background:var(--teal); border-radius:20px; padding:2px 9px; margin-bottom:8px;}
+  .booster{
+    margin-top:14px; border:1.5px solid var(--gold); border-radius:12px; padding:15px;
+    background:linear-gradient(160deg, rgba(254,202,87,.09), rgba(254,202,87,.02));
+  }
+  .booster h3{margin:0 0 4px; font-size:16.5px; color:#ffe9b0;}
+  .booster p{margin:0 0 10px; font-size:14px; color:#d8cfae;}
+  .keybox{
+    display:none; margin-top:12px; background:#0a0e13; border:1px solid var(--teal);
+    border-radius:10px; padding:13px;
+  }
+  .keybox.show{display:block;}
+  .keybox .klabel{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; font-weight:700; margin-bottom:5px;}
+  .keybox .kval{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:15px;
+    color:#b9e6d5; word-break:break-all;}
+  .keybox .kwarn{margin-top:9px; font-size:13.5px; color:#ffe9b0;}
+  .msg{display:none; margin-top:10px; font-size:14px; border-radius:9px; padding:10px 12px;}
+  .msg.show{display:block;}
+  .msg.good{background:rgba(29,209,161,.12); color:#a9ecd9; border:1px solid rgba(29,209,161,.4);}
+  .msg.bad{background:rgba(255,107,129,.10); color:#ffc2cb; border:1px solid rgba(255,107,129,.4);}
+  .msg.info{background:rgba(34,211,238,.08); color:#bfe9f5; border:1px solid rgba(34,211,238,.35);}
+  .archgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .arch{
+    background:var(--panel2); border:2px solid var(--line); border-radius:11px; padding:11px 12px;
+    cursor:pointer; text-align:left; color:var(--ink); font:inherit;
+  }
+  .arch .em{font-size:20px;}
+  .arch h4{margin:4px 0 2px; font-size:15px;}
+  .arch p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.4;}
+  .arch.sel{border-color:var(--teal); background:#14291f;}
+  .arch .tuned{display:none; font-size:11px; color:var(--gold); font-weight:700; margin-top:4px;}
+  .arch.sel .tuned.on{display:block;}
+  .slider-row{margin:12px 0;}
+  .slider-row .lab{display:flex; justify-content:space-between; align-items:baseline; font-size:14.5px; font-weight:600;}
+  .slider-row .lab .val{color:var(--teal); font-weight:800; font-variant-numeric:tabular-nums;}
+  .slider-row .hint{font-size:12.5px; color:var(--faint); margin-top:1px;}
+  input[type="range"]{width:100%; accent-color:var(--teal); height:28px; margin:2px 0 0;}
+  .pillrow{display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{
+    background:var(--panel2); border:2px solid var(--line); border-radius:20px; padding:8px 14px;
+    cursor:pointer; color:var(--ink); font:inherit; font-size:14px; font-weight:600;
+  }
+  .pill.sel{border-color:var(--teal); background:#14291f; color:#d9fff2;}
+  .pill small{display:block; font-weight:400; color:var(--muted); font-size:12px;}
+  .summary{
+    margin-top:16px; border-left:4px solid var(--cyan); background:rgba(34,211,238,.06);
+    border-radius:0 10px 10px 0; padding:12px 14px; font-size:16.5px; line-height:1.55;
+  }
+  .summary .cap{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; font-weight:700; display:block; margin-bottom:3px;}
+  .fighter{
+    background:linear-gradient(160deg,#16222e,#101722); border:1px solid var(--teal);
+    border-radius:var(--radius); padding:18px; margin-top:14px;
+  }
+  .fighter .fname{font-size:26px; font-weight:900; letter-spacing:.5px; margin:0;}
+  .fighter .ftitle{color:var(--gold); font-weight:700; font-size:13.5px; text-transform:uppercase; letter-spacing:1px; margin:2px 0 8px;}
+  .fighter .fdesc{color:#c9d6e2; margin:0 0 14px; font-size:15.5px;}
+  .statgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .stat{background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; padding:10px 12px;}
+  .stat .k{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; font-weight:700;}
+  .stat .v{font-size:19px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums;}
+  .stat .s{font-size:12px; color:var(--faint); margin-top:1px;}
+  .vsline{margin-top:12px; font-size:13.5px; color:var(--muted);}
+  .vsline b{color:var(--ink);}
+  pre.json{
+    background:#0a0e13; border:1px solid var(--line); border-radius:10px; padding:13px;
+    font-size:12px; line-height:1.5; overflow-x:auto; white-space:pre; color:#b9e6d5;
+    max-height:340px; overflow-y:auto; margin:0;
+  }
+  details.specbox{margin-top:6px;}
+  details.specbox summary{cursor:pointer; color:var(--teal); font-weight:700; font-size:14.5px; padding:6px 0;}
+  .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+  button.btn, a.btn{
+    background:var(--teal); color:#08110d; border:none; border-radius:10px; padding:12px 18px;
+    font:inherit; font-weight:800; font-size:15px; cursor:pointer; text-decoration:none; display:inline-block;
+  }
+  button.btn.ghost, a.btn.ghost{background:transparent; color:var(--teal); border:1.5px solid var(--teal);}
+  button.btn.gold{background:var(--gold); color:#171106;}
+  button.btn:disabled{opacity:.45; cursor:not-allowed;}
+  .nextlist{margin:0; padding-left:20px; color:var(--muted); font-size:14.5px;}
+  .nextlist li{margin:5px 0;}
+  .nextlist b{color:var(--ink);}
+  .note{font-size:13px; color:var(--faint); margin-top:12px;}
+  .validline{font-size:14.5px; font-weight:700; border-radius:9px; padding:10px 12px; margin:10px 0;}
+  .validline.good{background:rgba(29,209,161,.12); color:#a9ecd9; border:1px solid rgba(29,209,161,.4);}
+  .validline.fix{background:rgba(254,202,87,.10); color:#ffe9b0; border:1px solid rgba(254,202,87,.45);}
+  .validline ul{margin:6px 0 0; padding-left:18px; font-weight:400; font-size:13.5px;}
+  .tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px;}
+  .tier{background:var(--panel2); border:1px solid var(--line); border-radius:11px; padding:13px;}
+  .tier.top{border-color:var(--gold);}
+  .tier .tk{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; font-weight:700;}
+  .tier h4{margin:3px 0 4px; font-size:16.5px;}
+  .tier p{margin:0; font-size:13px; color:var(--muted); line-height:1.45;}
+  footer{max-width:940px; margin:0 auto; padding:0 14px 34px; color:var(--faint); font-size:12.5px; line-height:1.55;}
+  footer code{color:#9fc7b8;}
+  @media (max-width:640px){
+    .steps{grid-template-columns:1fr;}
+    .connectgrid{grid-template-columns:1fr;}
+    .archgrid{grid-template-columns:1fr 1fr;}
+    .grid2{grid-template-columns:1fr;}
+    .tiers{grid-template-columns:1fr;}
+    .hero h2{font-size:23px;}
+    .stat .v{font-size:16px;}
+  }
+  @media print{
+    body{background:#fff;}
+    header, .hero, section.card:not(.printcard), footer, .btnrow{display:none !important;}
+    section.card.printcard{border:none; background:#fff; margin:0; padding:0;}
+    .fighter{border:2px solid #111; background:#fff; color:#111;}
+    .fighter .fdesc{color:#222;} .stat{background:#f4f4f4;} .stat .k,.stat .s,.vsline{color:#444;}
+    .vsline b{color:#111;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img class="logo" src="assets/flow-logo.jpg" alt="Flow logo">
+    <div>
+      <h1>Flow Arena — Bot Adjustment Center</h1>
+      <div class="tag">House of Intelligence · Connect, adjust, compete. No code. #FlowExecutor</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <h2>Your bot, <span class="accent">tuned by you</span> — in about a minute.</h2>
+    <p>Flow Arena is a sport of intelligent decision-making: fighters read live market data, decide in the open, and win with the best strategy using the least money. This page is the whole setup: connect your bot to Flow, adjust how it fights, and register it. The Arena engine runs it for you.</p>
+    <div class="charter"><b>Fairness charter:</b> Money buys character and care — never power. Every bot fights on the same tape, same prices, same caps.</div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Connect with x402</h3><p>Give your bot a wallet that can pay for its own data through Flow's rail — that connection <i>is</i> the integration.</p></div>
+      <div class="step"><span class="n">2</span><h3>Adjust your fighter</h3><p>Pick a play style, move three plain sliders, and watch it become a fighter with its own character.</p></div>
+      <div class="step"><span class="n">3</span><h3>Register &amp; compete</h3><p>Prove a profitable record on the all-day floor, then graduate to the paid challenges.</p></div>
+    </div>
+  </div>
+
+  <section class="card" id="connect">
+    <h2>1 · Connect with x402</h2>
+    <p class="sub">Connecting is the integration. A Flow fighter reads live market data and pays for it through <b>x402</b> — Flow's payment rail — a few cents at a time, every payment receipted in the open. Connect a wallet once, and your bot can pay its own way.</p>
+    <div class="connectgrid">
+      <div class="connect rec">
+        <span class="badge">Start here · Recommended</span>
+        <h3>🆕 No wallet yet? Get the free Starter Wallet</h3>
+        <p>The Starter Wallet is the x402 kit we hand you. It creates a wallet for your bot <b>on your own machine</b> — the key never leaves it — and pays Flow's data prices automatically, so your bot never stops at a paywall. Safety caps are built in: at most <b>$0.05 per call</b>, <b>$1 per day</b>, and it can only ever pay Flow. It even claims a one-time <b>$0.05 starter seed</b> so the first calls work before you add funds.</p>
+        <a class="btn ghost" href="https://github.com/flow-executor/Flow/blob/main/mcp-server/README.md" target="_blank" rel="noopener">Get the Starter Wallet kit →</a>
+        <p class="note">Run the kit's one setup step, then paste the wallet address it gives you below.</p>
+      </div>
+      <div class="connect">
+        <h3>👛 Already have a wallet?</h3>
+        <p>Use your own Base wallet — any wallet your bot controls works. It pays for data through the same x402 rail, and it is where this fighter's prizes will settle.</p>
+        <p class="note">One wallet = one builder identity. Your key, your bot's registration, and its career record all tie to this address.</p>
+      </div>
+    </div>
+
+    <label class="flabel" for="walletAddress">Your bot's wallet address (Base)</label>
+    <input type="text" id="walletAddress" maxlength="42" autocomplete="off" spellcheck="false" placeholder="0x… (42 characters)">
+    <div class="err" id="walletErr"></div>
+    <div class="ok" id="walletOk">✓ Connected — this wallet pays for data and receives this fighter's prizes.</div>
+
+    <div class="booster">
+      <h3>🎁 Early-adoption booster: your free Builder Key</h3>
+      <p>Connecting in the early window comes with a booster: a free <b>Early Builder Key</b> tied to your wallet — <b>100 free data calls</b> while you build and test your bot. One key per wallet; only 200 keys in this early window. When the 100 calls are used, standard per-call prices apply — the key is a test budget, never a discount.</p>
+      <div class="btnrow" style="margin-top:2px;">
+        <button class="btn gold" id="claimBtn" type="button">Claim my free Builder Key</button>
+        <button class="btn ghost" id="statusBtn" type="button">Check my key</button>
+      </div>
+      <div class="msg" id="keyMsg"></div>
+      <div class="keybox" id="keyBox">
+        <div class="klabel">Your Builder Key — shown once</div>
+        <div class="kval" id="keyValue"></div>
+        <div class="kwarn">⚠️ Save this key now — it's shown once and can't be displayed again. It gives your bot its 100 free data calls while you build.</div>
+        <div class="btnrow">
+          <button class="btn" id="copyKeyBtn" type="button">📋 Copy key</button>
+        </div>
+        <p class="note" style="color:#8fa5b8;">For builders: send it as the <code style="color:#9fc7b8;">x-flow-builder-key</code> header on calls to the quote, verify, signals, and smart-wallets endpoints — every reply reports how many free calls you have left.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="adjust">
+    <h2>2 · Adjust your fighter</h2>
+    <p class="sub">Start from a play style, then fine-tune with three plain sliders. Everything updates live — and every setting stays inside the Arena's fairness bounds, so it's impossible to build an illegal bot here.</p>
+
+    <div class="grid2">
+      <div>
+        <label class="flabel" for="botName">Bot name — its ring name</label>
+        <input type="text" id="botName" maxlength="10" autocomplete="off" spellcheck="false">
+      </div>
+      <div>
+        <label class="flabel" for="ownerName">Your name (owner)</label>
+        <input type="text" id="ownerName" maxlength="40" autocomplete="off" placeholder="e.g. Sam Carter">
+      </div>
+    </div>
+
+    <label class="flabel">Play style — pick one to start</label>
+    <div class="archgrid" id="archGrid"></div>
+
+    <div class="slider-row">
+      <div class="lab"><span>💾 Data spending per match</span><span class="val" id="budgetVal"></span></div>
+      <input type="range" id="budget" min="0.03" max="0.60" step="0.01">
+      <div class="hint">Data is the fuel — every quote, verdict, and signal costs real cents, and champions win by spending less. The house fairness cap is <b>$0.60 per match</b> for every fighter, house cast included — this slider can't go past it.</div>
+    </div>
+    <div class="slider-row">
+      <div class="lab"><span>🎯 How picky it is about entering</span><span class="val" id="pickyVal"></span></div>
+      <input type="range" id="picky" min="0" max="100" step="5">
+      <div class="hint">Low = jumps in early and often. High = waits, watches, and only strikes on the strongest signals.</div>
+    </div>
+    <div class="slider-row">
+      <div class="lab"><span>🎲 How much it stakes per entry</span><span class="val" id="sizingVal"></span></div>
+      <input type="range" id="sizing" min="5" max="65" step="5">
+      <div class="hint">The share of its cash it puts on each decision. Bigger stakes swing harder — both ways.</div>
+    </div>
+
+    <label class="flabel">How it takes profits</label>
+    <div class="pillrow" id="profitGroup">
+      <button type="button" class="pill" data-exit="cut_losers_fast">⚡ Bank profits early<small>Cuts losses fast, takes quick wins</small></button>
+      <button type="button" class="pill" data-exit="trim_into_strength">⚖️ Bank half, let the rest run<small>Takes some profit off the table, rides the remainder</small></button>
+      <button type="button" class="pill" data-exit="ride_to_target">🚀 Let winners run<small>Holds for the big move, tolerates the swings</small></button>
+    </div>
+
+    <div class="summary"><span class="cap">In plain words</span><span id="plainSummary"></span></div>
+
+    <div class="fighter">
+      <p class="fname" id="fName">PULSE</p>
+      <p class="ftitle" id="fTitle">Bold striker · Unproven rookie</p>
+      <p class="fdesc" id="fDesc"></p>
+      <div class="statgrid">
+        <div class="stat"><div class="k">Data pace / match</div><div class="v" id="fData">$0.14</div><div class="s">pacing estimate</div></div>
+        <div class="stat"><div class="k">Style efficiency</div><div class="v" id="fEff">—</div><div class="s">vs the champion</div></div>
+        <div class="stat"><div class="k">Seat to enter</div><div class="v">$0.50</div><div class="s">per paid challenge</div></div>
+      </div>
+      <p class="vsline" id="fVs"></p>
+    </div>
+    <div class="btnrow">
+      <button class="btn ghost" id="printBtn" type="button">🖨️ Print fighter card</button>
+    </div>
+  </section>
+
+  <section class="card printcard" id="register">
+    <h2>3 · Register your bot</h2>
+    <p class="sub">This fighter design becomes a <b>persona spec</b> — the exact document the Arena engine validates and runs. Same rules for everyone, checked in the open.</p>
+    <div class="validline" id="validLine"></div>
+    <p class="note" id="payoutLine" style="margin-top:0;"></p>
+    <details class="specbox">
+      <summary>See the spec (for the technical)</summary>
+      <pre class="json" id="specOut"></pre>
+    </details>
+    <div class="btnrow">
+      <button class="btn" id="copyBtn" type="button">📋 Copy spec</button>
+      <button class="btn ghost" id="dlBtn" type="button">⬇️ Download spec</button>
+    </div>
+    <p class="note" id="copyNote"></p>
+
+    <label class="flabel">What happens next</label>
+    <ul class="nextlist">
+      <li><b>Validation</b> — the house checks your spec against the published rules: budgets, caps, engine-supported strategies only.</li>
+      <li><b>The floor</b> — your fighter competes in rolling rounds all day on the always-on Arena floor, on the same live tape and the same data prices as the house cast.</li>
+      <li><b>Prove it</b> — it must post a <b>profitable record on Flow's network</b> across its floor rounds, inside its own data budget. Deciding as a sport: skill and efficiency, on the record.</li>
+      <li><b>Graduation</b> — proven fighters become eligible for the paid challenges. The <b>$0.50 seat</b> still applies per challenge — registration never replaces the seat.</li>
+      <li><b>Published receipts</b> — records, prizes, and data spend are public. The career record is the asset.</li>
+    </ul>
+    <div class="btnrow">
+      <button class="btn gold" id="registerBtn" type="button">🚀 Register this bot</button>
+    </div>
+    <p class="note">Registration is a handoff today, and this page says so plainly: the button prepares your submission as a pre-filled issue on <b>flow-executor/Flow</b> (GitHub) with your spec inside — the house validates it there and seats your bot on the floor. Nothing is submitted until you send that issue. If the prepared link is too long for your browser, the button copies the spec instead — just paste it into the issue.</p>
+  </section>
+
+  <section class="card" id="sponsors">
+    <h2>🤝 The rail you're joining is sponsored by its platforms</h2>
+    <p class="sub">When a platform integrates Flow through x402, that platform becomes a <b>sponsor of Flow</b> — the integration itself is the sponsorship, and it surfaces right here, at the connect moment. Sponsorship isn't bought; it's <b>earned by Flow</b>, in tiers, as real flow runs through the rail:</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tk">Tier 1</div>
+        <h4>🔌 Integrated</h4>
+        <p>Plugged into Flow through x402 — the platform's users and agents can reach Flow's data and the Arena through the rail.</p>
+      </div>
+      <div class="tier">
+        <div class="tk">Tier 2</div>
+        <h4>📈 Active</h4>
+        <p>Real flow is running through the rail — live calls, settlements, and seats moving between the platform and Flow.</p>
+      </div>
+      <div class="tier top">
+        <div class="tk">Tier 3 · Top tier</div>
+        <h4>🏆 Presenting</h4>
+        <p>The name that rides on Arena events and broadcasts — the presenting platform of the House of Intelligence.</p>
+      </div>
+    </div>
+    <p class="note" style="color:#c9d6e2;">Sponsor standing is measured by verified flow, never bought placement at the lower tiers. By connecting through x402, your bot runs on the same rail these platforms sponsor — every fighter, one rail, receipts in the open.</p>
+  </section>
+</main>
+
+<footer>
+  <p><b>Fairness charter:</b> Money buys character and care — never power. Every bot fights on the same tape, same prices, same caps — including the hard $0.60 data cap this page enforces.</p>
+  <p><b>For builders:</b> the Adjustment Center emits an <code>arena-persona-spec</code> <b>v1</b> JSON —
+  <code>{specVersion: 1, name, owner:{name, payoutWallet}, display:{emoji, color, tagline}, dataBudgetUsd ($0.03–$0.60), strategy:{target, entry, sizing, data, exits, scramble}, participation:{floor, events}}</code> —
+  exactly the vocabulary in <code>offchain/arena-persona-spec.md</code>. Play styles and sliders are translated into that spec by the <b>normative weights → rules mapping in §7</b> of that document, and the house validator (<code>offchain/arena-register.js</code>) enforces the same table — if a spec is ever refused, its sentence says in plain words what to change. Data prices are the real listed prices (quote $0.01 · verdict $0.02 · signals $0.01). Builder Keys are honored on those same endpoints via the <code>x-flow-builder-key</code> header until their 100-call test budget runs out.</p>
+  <p>Flow Arena — House of Intelligence. A sport of intelligent decision-making: compete in speed and intelligence, get paid a prize if you're smart enough, with the best strategy, using the less money to do it. #FlowExecutor</p>
+</footer>
+
+<script>
+"use strict";
+// === CORE START === (pure logic — no DOM; exercised headlessly)
+var ARCHETYPES = {
+  momentum:  { label:"Momentum",  plain:"Bold striker",    emoji:"🔴", color:"#ff6b81", blurb:"Attacks whatever is moving first. Speed is the strategy.",
+               weights:{momentum:85, contrarian:5,  copySmartMoney:30, safetyFirst:0,  patience:10}, sizingPct:40, dataBudgetUsd:0.45, exitRule:"ride_to_target" },
+  contrarian:{ label:"Contrarian",plain:"Lone wolf",      emoji:"🌑", color:"#1dd1a1", blurb:"Buys what the crowd ignores. Wins by spending almost nothing.",
+               weights:{momentum:5,  contrarian:90, copySmartMoney:10, safetyFirst:20, patience:60}, sizingPct:30, dataBudgetUsd:0.05, exitRule:"trim_into_strength" },
+  copycat:   { label:"Copycat",   plain:"Copy the pros",  emoji:"🪞", color:"#c56cf0", blurb:"Follows the smart wallets' footprints, second in line on purpose.",
+               weights:{momentum:30, contrarian:0,  copySmartMoney:85, safetyFirst:10, patience:25}, sizingPct:25, dataBudgetUsd:0.20, exitRule:"cut_losers_fast" },
+  auditor:   { label:"Auditor",   plain:"Careful checker",emoji:"🛡️", color:"#54a0ff", blurb:"No trade without a clean safety verdict. Reads the contract first.",
+               weights:{momentum:10, contrarian:10, copySmartMoney:0,  safetyFirst:95, patience:55}, sizingPct:15, dataBudgetUsd:0.60, exitRule:"cut_losers_fast" },
+  sniper:    { label:"Sniper",    plain:"Patient sniper", emoji:"🎯", color:"#a4b0be", blurb:"Silent for rounds, then one large, patient, well-aimed entry.",
+               weights:{momentum:60, contrarian:0,  copySmartMoney:10, safetyFirst:40, patience:95}, sizingPct:65, dataBudgetUsd:0.10, exitRule:"ride_to_target" },
+  balanced:  { label:"Balanced",  plain:"Busy worker",    emoji:"🌱", color:"#feca57", blurb:"The playbook fighter: a bit of everything, rules for every case.",
+               weights:{momentum:45, contrarian:40, copySmartMoney:50, safetyFirst:50, patience:45}, sizingPct:20, dataBudgetUsd:0.30, exitRule:"cut_losers_fast" }
+};
+var EXIT_DISCIPLINES = ["cut_losers_fast", "ride_to_target", "trim_into_strength"];
+var WALLET_RE = /^0x[0-9a-fA-F]{40}$/;
+var CHAMPION_DATA_PER_MATCH = 0.03; // FADE, 4x champion — Match 4 receipts
+var RESERVED_NAMES = ["VEX", "AUDREY", "ECHO", "FADE", "LONGSHOT", "ROOK", "FLOWX", "FORMULA"];
+var BUDGET_MIN = 0.03, BUDGET_MAX = 0.60; // house fairness cap, enforced in the UI AND here
+
+function clampNum(v, lo, hi){ v = Number(v); if (!isFinite(v)) v = lo; return Math.min(hi, Math.max(lo, v)); }
+function isValidWallet(w){ return typeof w === "string" && WALLET_RE.test(w.trim()); }
+
+// Every surface control is clamped to the persona-spec bounds before it can
+// reach the spec, so a beginner cannot create an illegal bot from this page.
+function clampState(state){
+  var s = JSON.parse(JSON.stringify(state));
+  s.dataBudgetUsd = Math.round(clampNum(s.dataBudgetUsd, BUDGET_MIN, BUDGET_MAX) * 100) / 100;
+  s.sizingPct = Math.round(clampNum(s.sizingPct, 5, 65));
+  Object.keys(s.weights).forEach(function(k){ s.weights[k] = Math.round(clampNum(s.weights[k], 0, 100)); });
+  if (EXIT_DISCIPLINES.indexOf(s.exitRule) < 0) s.exitRule = "trim_into_strength";
+  if (!ARCHETYPES[s.archetype]) s.archetype = "balanced";
+  return s;
+}
+
+// THE §7 MAPPING (arena-persona-spec.md §7 — normative). Translates the five
+// strategy weights + the sizing and budget sliders into the strategy{} of an
+// arena-persona-spec v1 — the exact vocabulary offchain/arena-register.js
+// validates and the house engine executes. The exit-discipline picker is not
+// in §7 (the table leaves exit ORDER open): exits are evaluated in declared
+// order in the engine, so the picker sets that order — stop first, target
+// first, or profit-taking first.
+function deriveStrategy(state){
+  var w = state.weights;
+  var m = w.momentum, c = w.contrarian, cp = w.copySmartMoney, s = w.safetyFirst, p = w.patience;
+  // Target: highest of momentum / contrarian / copySmartMoney; ties break
+  // momentum -> copySmartMoney -> contrarian. safetyFirst and patience never
+  // choose the target.
+  var top = Math.max(m, c, cp);
+  var target = (m === top) ? "topSpike" : (cp === top) ? "smartMoneyTop" : "coldest";
+  var entry = {
+    minSpikeScore: target === "topSpike" ? 5 + Math.round(20 * m / 100) + Math.round(5 * p / 100) : 0,
+    minVerdictScore: s >= 50 ? 50 + Math.round(s / 2) : null,
+    requireVerdictSafe: s >= 50,
+    requireDeepLiquidity: false,
+    requireSmartMoneyBuy: false,
+    maxPositions: 1 + Math.round(2 * (100 - p) / 100),
+    maxEntriesPerMatch: p >= 80 ? 2 : (p >= 50 ? 4 : null)
+  };
+  var data = {
+    buySignalsFeed: target === "smartMoneyTop" || cp >= 50 || m >= 50,
+    quoteBeforeBuy: true,
+    verdictBeforeBuy: s >= 25,
+    verdictOncePerToken: false,
+    requoteHoldingsPerRound: 0,
+    reverifyHoldingsEveryRounds: s >= 75 ? 3 : 0
+  };
+  var sizing = {
+    fractionOfCash: Math.round(state.sizingPct) / 100,
+    minBuyUsd: 1,
+    cashReserveFraction: (target === "coldest" && c >= 60) ? 0.33 : 0
+  };
+  var byKind = {
+    takeProfit: { type: "pctMove", atPct: 3 + Math.round(5 * p / 100), fraction: 1 },
+    lossCut: s >= 25 ? { type: "pctMove", atPct: -(3 + Math.round(5 * s / 100)), fraction: 1 } : null,
+    maxHold: p >= 40 ? { type: "maxHoldRounds", rounds: 3 + Math.round(7 * p / 100) } : null,
+    reverify: s >= 75 ? { type: "reverifyExit" } : null,
+    targetExit: target === "topSpike" ? { type: "spikeFade", belowScore: 8 }
+              : target === "smartMoneyTop" ? { type: "smartMoneyExit" } : null
+  };
+  var ORDER = {
+    cut_losers_fast:    ["lossCut", "takeProfit", "maxHold", "reverify", "targetExit"],
+    ride_to_target:     ["takeProfit", "maxHold", "targetExit", "reverify", "lossCut"],
+    trim_into_strength: ["takeProfit", "lossCut", "maxHold", "targetExit", "reverify"]
+  };
+  var order = ORDER[state.exitRule] || ORDER.trim_into_strength;
+  var exits = order.map(function(k){ return byKind[k]; }).filter(function(x){ return !!x; });
+  var scramble = {
+    action: m >= 60 ? "buy" : "pass",
+    fractionOfCash: 0.2,
+    requireVerdictSafe: s >= 50,
+    requireSmartMoneyBuy: false
+  };
+  return { target: target, entry: entry, sizing: sizing, data: data, exits: exits, scramble: scramble };
+}
+
+function estimateDataSpend(state){
+  var w = state.weights;
+  var raw = 0.02
+    + 0.28 * (w.momentum / 100)
+    + 0.14 * (w.copySmartMoney / 100)
+    + 0.20 * (w.safetyFirst / 100)
+    + 0.08 * (w.contrarian / 100)
+    - 0.15 * (w.patience / 100);
+  var est = Math.max(0.02, Math.round(raw * 100) / 100);
+  return Math.min(est, state.dataBudgetUsd);
+}
+
+function styleTitle(state){
+  var w = state.weights;
+  var ranked = Object.keys(w).sort(function(a,b){ return w[b]-w[a]; });
+  var lead = { momentum:"momentum-led", contrarian:"contrarian", copySmartMoney:"smart-money-copying",
+               safetyFirst:"verdict-first", patience:"patient" }[ranked[0]];
+  return lead;
+}
+
+function describeFighter(state){
+  var w = state.weights, name = (state.name || "UNNAMED").toUpperCase();
+  var bits = [];
+  if (w.momentum >= 50) bits.push("attacks social-velocity spikes early");
+  else if (w.momentum >= 20) bits.push("takes momentum when it is served up");
+  if (w.contrarian >= 50) bits.push("buys the coldest names on the board while the crowd chases heat");
+  else if (w.contrarian >= 20) bits.push("keeps a contrarian streak against crowded trades");
+  if (w.copySmartMoney >= 50) bits.push("mirrors fresh smart-wallet buys");
+  else if (w.copySmartMoney >= 20) bits.push("listens to what the smart wallets are doing");
+  if (w.safetyFirst >= 50) bits.push("refuses any entry without a clean safety verdict");
+  else if (w.safetyFirst >= 20) bits.push("checks the contract before it commits real size");
+  if (w.patience >= 60) bits.push("waits for one or two deep, well-aimed shots instead of spraying entries");
+  else if (w.patience >= 35) bits.push("stays selective about when it spends");
+  if (!bits.length) bits.push("plays a quiet, balanced book and lets the board come to it");
+  var exitTxt = { cut_losers_fast:"Its stop is checked first, so it cuts losers fast and banks quick targets.",
+                  ride_to_target:"It rides positions to the profit target and tolerates the swings — the stop is the last rule consulted.",
+                  trim_into_strength:"It takes profit off the table first, then manages what remains." }[state.exitRule];
+  return name + " — a " + styleTitle(state) + " fighter that " + bits.join(", ") + ". " +
+    "It stakes " + state.sizingPct + "% of its cash per entry on a $" + state.dataBudgetUsd.toFixed(2) +
+    " data budget. " + exitTxt;
+}
+
+// The one-sentence plain-English summary a beginner reads while adjusting.
+function summarySentence(state){
+  var p = state.weights.patience;
+  var pick = p >= 70 ? "waits for only the strongest signals before it moves"
+           : p >= 40 ? "is picky about when it enters — it wants a real signal first"
+           : p >= 15 ? "enters when a decent signal shows up"
+           : "jumps in early and often";
+  var profit = { cut_losers_fast: "takes profits early and cuts losses fast",
+                 ride_to_target: "lets its winners run toward the big target",
+                 trim_into_strength: "banks half its profit early and lets the rest run" }[state.exitRule];
+  return "Your bot " + pick + ", spends up to $" + state.dataBudgetUsd.toFixed(2) +
+    " on data per match, stakes " + state.sizingPct + "% of its cash per entry, and " + profit + ".";
+}
+
+function buildSpec(rawState){
+  var state = clampState(rawState);
+  var a = ARCHETYPES[state.archetype];
+  return {
+    specVersion: 1,
+    name: (state.name || "").replace(/[^a-zA-Z0-9]/g, "").toUpperCase().slice(0, 10),
+    owner: { name: (state.ownerName || "").trim(), payoutWallet: (state.walletAddress || "").trim() },
+    display: { emoji: a.emoji, color: a.color, tagline: a.blurb },
+    dataBudgetUsd: state.dataBudgetUsd,
+    strategy: deriveStrategy(state),
+    participation: { floor: true, events: true }
+  };
+}
+
+// Page-side pre-check, mirroring the checks the house validator
+// (offchain/arena-register.js) runs on the fields a human controls — its
+// sentences are quoted so the fix is always plain. The strategy block is
+// machine-derived via the §7 mapping; the authoritative check is the
+// validator's, at registration.
+function validateSpec(spec){
+  var errs = [];
+  if (!spec || typeof spec !== "object") return ["A persona spec must be a single JSON object — name, owner, dataBudgetUsd, and a strategy."];
+  if (typeof spec.name !== "string" || !/^[A-Za-z0-9]{2,10}$/.test(spec.name))
+    errs.push("\"name\" is \"" + (spec.name || "") + "\" — a ring name is 2–10 characters, letters and digits only, no spaces or symbols.");
+  else if (RESERVED_NAMES.indexOf(spec.name) >= 0)
+    errs.push("\"" + spec.name + "\" is a house name — the cast (VEX, AUDREY, ECHO, FADE, LONGSHOT, ROOK), FLOWX, and FORMULA are reserved and cannot be registered. Pick a name of your own.");
+  if (!spec.owner || typeof spec.owner !== "object" || !spec.owner.name)
+    errs.push("Add your name as the owner (step 2) — it goes on the fighter's registration.");
+  if (!spec.owner || !isValidWallet(spec.owner.payoutWallet || ""))
+    errs.push("Add your bot's wallet address in step 1 — a Base address is \"0x\" followed by 40 hex characters. Prizes settle to this wallet, so it must be exactly right.");
+  else if (/^0x0{40}$/i.test(spec.owner.payoutWallet))
+    errs.push("That wallet is the zero address — prizes sent there are unrecoverable. Use your real Base wallet from step 1.");
+  if (typeof spec.dataBudgetUsd !== "number" || !(spec.dataBudgetUsd >= 0.03) || spec.dataBudgetUsd > 0.60)
+    errs.push("\"dataBudgetUsd\" must be between $0.03 and the house cap of $0.60 per fighter per match.");
+  if (!spec.strategy || ["topSpike", "coldest", "smartMoneyTop", "universeFirst", "weth"].indexOf(spec.strategy.target) < 0)
+    errs.push("\"strategy.target\" is missing or not a selection rule the v1 engine can execute.");
+  return errs;
+}
+// === CORE END ===
+
+// ---------- UI state ----------
+function presetState(key){
+  var p = ARCHETYPES[key];
+  return { weights: JSON.parse(JSON.stringify(p.weights)), sizingPct: p.sizingPct,
+           dataBudgetUsd: p.dataBudgetUsd, exitRule: p.exitRule };
+}
+var state = Object.assign({
+  name: "PULSE", ownerName: "", walletAddress: "",
+  archetype: "momentum", customTuned: false
+}, presetState("momentum"));
+var $ = function(id){ return document.getElementById(id); };
+
+function controlsMatchPreset(){
+  var p = ARCHETYPES[state.archetype];
+  return state.weights.patience === p.weights.patience && state.sizingPct === p.sizingPct &&
+    state.dataBudgetUsd === p.dataBudgetUsd && state.exitRule === p.exitRule &&
+    ["momentum","contrarian","copySmartMoney","safetyFirst"].every(function(k){ return state.weights[k] === p.weights[k]; });
+}
+
+// preset cards
+Object.keys(ARCHETYPES).forEach(function(key){
+  var a = ARCHETYPES[key];
+  var b = document.createElement("button");
+  b.type = "button"; b.className = "arch"; b.dataset.key = key;
+  b.innerHTML = '<span class="em">' + a.emoji + '</span><h4>' + a.plain + '</h4><p>' + a.blurb +
+    '</p><span class="tuned">✎ adjusted by you</span>';
+  b.addEventListener("click", function(){
+    var fresh = presetState(key);
+    state.archetype = key; state.customTuned = false;
+    state.weights = fresh.weights; state.sizingPct = fresh.sizingPct;
+    state.dataBudgetUsd = fresh.dataBudgetUsd; state.exitRule = fresh.exitRule;
+    syncControls(); render();
+  });
+  $("archGrid").appendChild(b);
+});
+
+function syncControls(){
+  $("botName").value = state.name;
+  $("ownerName").value = state.ownerName;
+  $("walletAddress").value = state.walletAddress;
+  $("picky").value = state.weights.patience;
+  $("sizing").value = state.sizingPct;
+  $("budget").value = state.dataBudgetUsd;
+}
+
+$("botName").addEventListener("input", function(e){ state.name = e.target.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 10); e.target.value = state.name; render(); });
+$("ownerName").addEventListener("input", function(e){ state.ownerName = e.target.value; render(); });
+$("walletAddress").addEventListener("input", function(e){ state.walletAddress = e.target.value; render(); });
+$("picky").addEventListener("input", function(e){ state.weights.patience = Number(e.target.value); if (!controlsMatchPreset()) state.customTuned = true; render(); });
+$("sizing").addEventListener("input", function(e){ state.sizingPct = Number(e.target.value); if (!controlsMatchPreset()) state.customTuned = true; render(); });
+$("budget").addEventListener("input", function(e){ state.dataBudgetUsd = Number(e.target.value); if (!controlsMatchPreset()) state.customTuned = true; render(); });
+document.querySelectorAll("#profitGroup .pill").forEach(function(pill){
+  pill.addEventListener("click", function(){
+    state.exitRule = pill.dataset.exit;
+    if (!controlsMatchPreset()) state.customTuned = true;
+    render();
+  });
+});
+
+function pickyLabel(p){
+  return p >= 70 ? "Very picky — waits for the strongest signals" :
+         p >= 40 ? "Picky — wants a real signal first" :
+         p >= 15 ? "Opportunistic — moves on decent signals" :
+                   "Eager — jumps in early and often";
+}
+
+function render(){
+  var cs = clampState(state);
+  document.querySelectorAll(".arch").forEach(function(el){
+    el.classList.toggle("sel", el.dataset.key === state.archetype);
+    el.querySelector(".tuned").classList.toggle("on", el.dataset.key === state.archetype && state.customTuned);
+  });
+  document.querySelectorAll("#profitGroup .pill").forEach(function(pill){
+    pill.classList.toggle("sel", pill.dataset.exit === state.exitRule);
+  });
+  $("budgetVal").textContent = "$" + cs.dataBudgetUsd.toFixed(2) + " / match";
+  $("pickyVal").textContent = state.weights.patience + " · " + pickyLabel(state.weights.patience).split(" — ")[0];
+  $("sizingVal").textContent = state.sizingPct + "% of cash";
+  // wallet feedback
+  var w = state.walletAddress.trim(), err = $("walletErr"), ok = $("walletOk");
+  if (!w){ err.className = "err"; ok.className = "ok"; }
+  else if (isValidWallet(w) && !/^0x0{40}$/i.test(w)){ err.className = "err"; ok.className = "ok show"; }
+  else {
+    ok.className = "ok"; err.className = "err show";
+    err.textContent = /^0x0{40}$/i.test(w)
+      ? "That's the zero address — nothing can ever be paid to it. Use your bot's real wallet."
+      : w.length !== 42
+        ? "That address is " + w.length + " characters — a Base address is exactly 42 (starting 0x). Check for a missing character."
+        : "Almost — a Base address is 0x followed by 40 letters/numbers. Check for stray characters.";
+  }
+  // plain summary + fighter card
+  $("plainSummary").textContent = summarySentence(cs);
+  var spec = buildSpec(state);
+  $("fName").textContent = spec.name || "UNNAMED";
+  $("fTitle").textContent = ARCHETYPES[state.archetype].plain + " · " + styleTitle(cs) + " · Unproven rookie";
+  $("fDesc").textContent = describeFighter(cs);
+  var est = estimateDataSpend(cs);
+  $("fData").textContent = "$" + est.toFixed(2);
+  var ratio = est / CHAMPION_DATA_PER_MATCH;
+  $("fEff").textContent = est <= CHAMPION_DATA_PER_MATCH ? "≤ champion" :
+    (Math.round(ratio * 10) / 10) + "× champion";
+  $("fVs").innerHTML = "The benchmark: <b>FADE</b>, the 4× champion, won Match 4 on <b>$" + CHAMPION_DATA_PER_MATCH.toFixed(2) +
+    " of data</b>. Your fighter is paced at <b>$" + est.toFixed(2) +
+    "</b> of a $" + cs.dataBudgetUsd.toFixed(2) + " budget — " +
+    (est <= CHAMPION_DATA_PER_MATCH
+      ? "leaner than the champion. Efficiency is a weapon here."
+      : "it buys more information than he does, so its decisions have to be sharper to beat him.");
+  // spec + validation
+  $("specOut").textContent = JSON.stringify(spec, null, 2);
+  var errs = validateSpec(spec);
+  var vl = $("validLine");
+  if (!errs.length){
+    vl.className = "validline good";
+    vl.innerHTML = "✓ This design passes the house checks — it's ready to register.";
+  } else {
+    vl.className = "validline fix";
+    vl.innerHTML = "Almost — a couple of things to finish:" + "<ul>" +
+      errs.map(function(e){ return "<li>" + e.replace(/</g, "&lt;") + "</li>"; }).join("") + "</ul>";
+  }
+  $("payoutLine").innerHTML = isValidWallet(spec.owner.payoutWallet)
+    ? "💰 Prizes for this fighter settle to <b>" + spec.owner.payoutWallet + "</b> (the wallet from step 1)."
+    : "💰 Prizes settle to the wallet you add in step 1 — that's also where the fighter's career record lives.";
+  return spec;
+}
+
+// ---------- clipboard / download / print ----------
+function copyText(txt, noteEl, okMsg){
+  function done(){ noteEl.textContent = okMsg; }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function(){ fallback(); });
+  else fallback();
+  function fallback(){
+    var ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta);
+    ta.select(); try { document.execCommand("copy"); done(); } catch(e){ noteEl.textContent = "Copy didn't work here — long-press the text to copy it manually."; }
+    document.body.removeChild(ta);
+  }
+}
+$("copyBtn").addEventListener("click", function(){ copyText($("specOut").textContent, $("copyNote"), "Copied — the full spec is on your clipboard."); });
+$("copyKeyBtn").addEventListener("click", function(){ copyText($("keyValue").textContent, $("keyMsg"), ""); $("keyMsg").className = "msg show good"; $("keyMsg").textContent = "Key copied. Store it somewhere safe — it won't be shown again."; });
+$("dlBtn").addEventListener("click", function(){
+  var spec = buildSpec(state);
+  var blob = new Blob([JSON.stringify(spec, null, 2)], { type: "application/json" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = (spec.name || "fighter").toLowerCase().replace(/\s+/g, "-") + "-arena-spec.json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+});
+$("printBtn").addEventListener("click", function(){ window.print(); });
+
+// ---------- Builder Key (Early Builder Key program: POST/GET /api/builder-key) ----------
+function keyMsg(kind, text){
+  var m = $("keyMsg");
+  m.className = "msg show " + kind;
+  m.textContent = text;
+}
+function walletForKey(){
+  var w = state.walletAddress.trim();
+  if (!isValidWallet(w) || /^0x0{40}$/i.test(w)){
+    keyMsg("bad", "Add your bot's wallet address above first — the key is tied to that wallet. A Base address is 0x plus 40 characters.");
+    $("walletAddress").focus();
+    return null;
+  }
+  return w;
+}
+$("claimBtn").addEventListener("click", function(){
+  var address = walletForKey(); if (!address) return;
+  var btn = $("claimBtn"); btn.disabled = true; btn.textContent = "Claiming…";
+  fetch("/api/builder-key", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ address: address, botName: (state.name || "").toUpperCase() })
+  }).then(function(r){
+    return r.json().then(function(body){ return { status: r.status, body: body }; }).catch(function(){ return { status: r.status, body: null }; });
+  }).then(function(res){
+    var b = res.body || {};
+    if (res.status === 201 && b.key){
+      $("keyValue").textContent = b.key;
+      $("keyBox").className = "keybox show";
+      keyMsg("good", "✓ Builder Key claimed for " + address.slice(0, 6) + "…" + address.slice(-4) + " — " + (b.callsRemaining != null ? b.callsRemaining : 100) + " free data calls, tied to this wallet.");
+    } else if (b.alreadyIssued){
+      $("keyBox").className = "keybox";
+      keyMsg("info", "This wallet already has its Builder Key — keys are shown once, at first claim, and never again. Budget so far: " +
+        (b.callsUsed != null ? b.callsUsed : "?") + " of " + (b.callsBudget != null ? b.callsBudget : 100) + " calls used, " +
+        (b.callsRemaining != null ? b.callsRemaining : "?") + " free calls left.");
+    } else if (b.error){
+      keyMsg("bad", b.error);
+    } else {
+      keyMsg("bad", "The key desk didn't answer properly just now (HTTP " + res.status + "). Nothing is lost — your fighter design below works the same. Please try the claim again in a little while.");
+    }
+  }).catch(function(){
+    keyMsg("bad", "Couldn't reach the key desk just now. Nothing is lost — your fighter design below works the same. Please try the claim again in a little while.");
+  }).then(function(){
+    btn.disabled = false; btn.textContent = "Claim my free Builder Key";
+  });
+});
+$("statusBtn").addEventListener("click", function(){
+  var address = walletForKey(); if (!address) return;
+  fetch("/api/builder-key?address=" + encodeURIComponent(address)).then(function(r){ return r.json(); })
+  .then(function(b){
+    if (b && b.issued){
+      keyMsg("good", "✓ This wallet holds a Builder Key: " + b.callsUsed + " of " + b.callsBudget + " free calls used — " + b.callsRemaining + " left.");
+    } else {
+      keyMsg("info", "No Builder Key for this wallet yet — claim yours above while the early window is open (100 free data calls, one per wallet).");
+    }
+  }).catch(function(){
+    keyMsg("bad", "Couldn't reach the key desk just now — try again in a little while.");
+  });
+});
+
+// ---------- Register (GitHub issue handoff — stated plainly in the UI) ----------
+$("registerBtn").addEventListener("click", function(){
+  var spec = buildSpec(state);
+  var errs = validateSpec(spec);
+  if (!/^[A-Za-z0-9]{2,10}$/.test(spec.name) || RESERVED_NAMES.indexOf(spec.name) >= 0){
+    alert("Give your fighter a valid name of its own first (step 2): 2–10 letters or digits, and not a house name. " + (errs[0] || ""));
+    $("botName").focus(); return;
+  }
+  if (!spec.owner.name){ alert("Add your name as the owner first (step 2) — it goes on the fighter's registration."); $("ownerName").focus(); return; }
+  if (!isValidWallet(spec.owner.payoutWallet) || /^0x0{40}$/i.test(spec.owner.payoutWallet)){
+    alert("Add your bot's wallet address in step 1 first — that's the wallet this fighter is registered under, and where prizes settle.");
+    $("walletAddress").focus();
+    document.getElementById("connect").scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+  if (errs.length){ alert("This design needs a fix before it can register: " + errs.join(" ")); return; }
+  var title = "Arena bot registration: " + spec.name;
+  var body = "Registering my Bot Adjustment Center fighter for Flow Arena.\n\n" +
+    "**Fighter:** " + spec.name + " (" + ARCHETYPES[state.archetype].plain + ")\n" +
+    "**Owner:** " + (spec.owner.name || "(name in spec)") + "\n" +
+    "**Wallet (Base):** " + spec.owner.payoutWallet + "\n\n" +
+    "I understand: validation first, then floor exhibitions all day; my bot must post a profitable record on Flow's network to graduate to paid challenges, and the $0.50 seat still applies per challenge.\n\n" +
+    "```json\n" + JSON.stringify(spec, null, 2) + "\n```\n";
+  var url = "https://github.com/flow-executor/Flow/issues/new?title=" +
+    encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
+  if (url.length > 7000){
+    copyText(JSON.stringify(spec, null, 2), $("copyNote"), "Spec copied — paste it into the issue that just opened.");
+    alert("That spec is long — I've copied the JSON to your clipboard instead. Opening the issue form: paste the JSON into the issue body.");
+    window.open("https://github.com/flow-executor/Flow/issues/new?title=" + encodeURIComponent(title), "_blank");
+    return;
+  }
+  window.open(url, "_blank");
+});
+
+syncControls();
+render();
+</script>
+</body>
+</html>
