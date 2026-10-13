@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Publisher — Your API, Paid Per Call, 100% to Your Wallet</title>
+<style>
+  :root{
+    --navy:#071449; --foot:#040B28; --cyan:#35D6FF; --ink:#E6EDF3;
+    --dim:#9FB3C8; --card:#0B1B4D; --line:#1D3577;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--navy);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  header{padding:28px 0 8px;display:flex;align-items:center;gap:14px}
+  header img{width:52px;height:52px;border-radius:12px}
+  header .brand{font-size:22px;font-weight:700;letter-spacing:.4px}
+  header .brand span{color:var(--cyan)}
+  .hero{padding:56px 0 40px;text-align:left}
+  .hero h1{font-size:42px;line-height:1.15;font-weight:800;max-width:720px}
+  .hero h1 em{font-style:normal;color:var(--cyan)}
+  .hero p{margin-top:18px;font-size:19px;color:var(--dim);max-width:680px}
+  .hero p strong{color:var(--ink)}
+  .cta{display:inline-block;margin-top:28px;background:var(--cyan);color:#03222E;
+    font-weight:700;font-size:17px;padding:14px 28px;border-radius:10px;text-decoration:none}
+  .cta-sub{display:block;margin-top:10px;font-size:14px;color:var(--dim)}
+  section{padding:36px 0}
+  h2{font-size:26px;font-weight:800;margin-bottom:14px}
+  h2 span{color:var(--cyan)}
+  p.lead{color:var(--dim);max-width:720px}
+  p.lead strong{color:var(--ink)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .step .n{color:var(--cyan);font-weight:800;font-size:14px;letter-spacing:1px}
+  .step h3{font-size:17px;margin:6px 0}
+  .step p{font-size:14px;color:var(--dim)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  .inc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .inc h3{font-size:16px;margin-bottom:6px;color:var(--cyan)}
+  .inc p{font-size:14px;color:var(--dim)}
+  table.endpoints{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+  table.endpoints td,table.endpoints th{border-bottom:1px solid var(--line);
+    padding:10px 8px;text-align:left}
+  table.endpoints th{color:var(--cyan);font-weight:700}
+  table.endpoints td.price{text-align:right;font-weight:700;color:var(--cyan)}
+  .honest{margin-top:18px;background:var(--foot);border:1px solid var(--line);
+    border-radius:12px;padding:18px;font-size:15px;color:var(--dim)}
+  .honest strong{color:var(--ink)}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+  .tier{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .tier.hot{border-color:var(--cyan)}
+  .tier .price{font-size:30px;font-weight:800;color:var(--cyan)}
+  .tier .days{font-size:13px;color:var(--dim);margin-bottom:10px}
+  .tier h3{font-size:17px;margin-bottom:8px}
+  .tier ul{list-style:none;font-size:14px;color:var(--dim)}
+  .tier ul li{padding:4px 0;border-bottom:1px dashed var(--line)}
+  .tier ul li:last-child{border-bottom:none}
+  footer{background:var(--foot);margin-top:40px;padding:30px 0;font-size:14px;color:var(--dim)}
+  footer a{color:var(--cyan);text-decoration:none}
+  @media(max-width:760px){
+    .steps,.grid,.tiers{grid-template-columns:1fr}
+    .hero h1{font-size:32px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="assets/flow-logo.jpg" alt="Flow logo">
+    <div class="brand">FLOW <span>PUBLISHER</span></div>
+  </header>
+
+  <div class="hero">
+    <h1>Your API, paid per call. <em>100% to your wallet.</em></h1>
+    <p>You built an API. Agents want to call it. Flow Publisher makes them pay you for
+    every call — in USDC, on Base, straight to your wallet. <strong>We take no cut of
+    your calls. Ever.</strong> You pay one flat setup fee; everything your API earns
+    after that is yours. No invoices, no 2.9% + 30&cent; card toll eating a $0.03 call
+    alive, no monthly billing run.</p>
+    <a class="cta" href="https://t.me/FlowExecutorBot">Talk to the front desk — @FlowExecutorBot</a>
+    <span class="cta-sub">A bot, on Telegram, 24/7. It doesn't sleep.</span>
+  </div>
+
+  <section>
+    <h2>The loop — <span>four steps, one request cycle</span></h2>
+    <div class="steps">
+      <div class="step"><div class="n">STEP 1</div><h3>Call</h3>
+        <p>The agent requests your endpoint, like any API call.</p></div>
+      <div class="step"><div class="n">STEP 2</div><h3>402</h3>
+        <p>Your server answers with a standard HTTP 402 — Payment Required, priced in USDC on Base.</p></div>
+      <div class="step"><div class="n">STEP 3</div><h3>Sign</h3>
+        <p>The agent signs a gasless EIP-3009 authorization. No gas, no pop-ups, no human in the loop.</p></div>
+      <div class="step"><div class="n">STEP 4</div><h3>Settle + data</h3>
+        <p>The facilitator settles the payment to your wallet and your response streams back.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What's included <span>in the setup</span></h2>
+    <div class="grid">
+      <div class="inc"><h3>The 402 wrapper</h3>
+        <p>The payment gate for your endpoint(s), wired and tested live — a call that isn't paid for never reaches your data.</p></div>
+      <div class="inc"><h3>CDP facilitator setup</h3>
+        <p>Settlement through Coinbase's facilitator — the same one our own endpoints run on.</p></div>
+      <div class="inc"><h3>Your /.well-known/x402 catalog</h3>
+        <p>The machine-readable price list agents and directories read to discover and call you.</p></div>
+      <div class="inc"><h3>Discovery submissions</h3>
+        <p>CDP Bazaar and the directory listings that actually index x402 sellers. A paid endpoint nobody can find earns nothing.</p></div>
+      <div class="inc"><h3>Revenue reconciliation</h3>
+        <p>Your earnings counted from USDC Transfer logs on-chain. Lesson we paid for: facilitator dashboards can lie. The chain doesn't.</p></div>
+      <div class="inc"><h3>The pitfalls, handled</h3>
+        <p>CDP rejects 402 payloads with strings over 500 characters, and tiny fees can fall under the facilitator's settlement minimum. Both are engineered out from day one.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Proof — <span>our own endpoints run this stack</span></h2>
+    <p class="lead">Flow's paid API is live today on the same rail we'd build for you:</p>
+    <table class="endpoints">
+      <tr><th>Endpoint</th><th style="text-align:right">Price per call</th></tr>
+      <tr><td>POST /api/quote</td><td class="price">$0.01</td></tr>
+      <tr><td>POST /api/verify</td><td class="price">$0.02</td></tr>
+      <tr><td>POST /api/smart-wallets</td><td class="price">$0.01</td></tr>
+      <tr><td>POST /api/signals</td><td class="price">$0.01</td></tr>
+      <tr><td>POST /api/fill</td><td class="price">dynamic fee</td></tr>
+    </table>
+    <div class="honest"><strong>External revenue so far: $0.02</strong> — two real payments
+    from outside agents, both verifiable on-chain. That's small, and we publish it anyway.
+    Our receipts — the good ones and the zero days — are the marketing. Your setup ships
+    with the same proof standard: a live settlement test with a published transaction hash.</div>
+  </section>
+
+  <section>
+    <h2>Pricing — <span>flat bundles, no percentage</span></h2>
+    <div class="tiers">
+      <div class="tier">
+        <div class="price">$149</div><div class="days">Agent Payments Starter · 2 days</div>
+        <h3>One endpoint, earning</h3>
+        <ul>
+          <li>x402 pay-per-call on ONE endpoint (Base, USDC)</li>
+          <li>Builder Key setup for your own testing</li>
+          <li>Live settlement test, published receipt</li>
+        </ul>
+      </div>
+      <div class="tier hot">
+        <div class="price">$449</div><div class="days">Agent Stack · 5 days</div>
+        <h3>Up to 4 endpoints + discovery</h3>
+        <ul>
+          <li>Everything in Starter, up to 4 endpoints</li>
+          <li>Custom MCP server so agents can call your tools</li>
+          <li>Discovery: CDP Bazaar + Smithery + MCP Registry</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="price">$999</div><div class="days">Full Agent Business · 7 days</div>
+        <h3>The whole business</h3>
+        <ul>
+          <li>Everything in Agent Stack</li>
+          <li>Telegram bot front desk — sells &amp; supports, 24/7</li>
+          <li>Watcher/monitoring + 30 days of tuning support</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:16px">After the flat fee: <strong>100% of every call
+    goes to your wallet.</strong> No revenue share, no platform percentage, no per-call toll.
+    (On Fiverr, the same bundles list at $150 / $450 / $1,000.) No guaranteed-revenue claims —
+    anyone who promises you agent traffic is selling a story. We sell the rail, proven working.</p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    Front desk, 24/7: <a href="https://t.me/FlowExecutorBot">@FlowExecutorBot</a> on Telegram ·
+    Flow · <a href="https://flow-kg4x.vercel.app">flow-kg4x.vercel.app</a> ·
+    <a href="https://github.com/flow-executor/Flow">github.com/flow-executor/Flow</a>
+  </div>
+</footer>
+</body>
+</html>
