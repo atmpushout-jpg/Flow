@@ -9,6 +9,7 @@
 // specs/transports-v2/http.md, specs/extensions/bazaar.md)
 
 const crypto = require("crypto");
+const builderKey = require("./_builderkey");
 
 // ---------------------------------------------------------------------------
 // Config
@@ -190,6 +191,40 @@ function exposePaymentHeaders(res) {
       res.setHeader("Access-Control-Allow-Origin", "*");
     }
   } catch {}
+}
+
+// Early Builder Key responses carry the remaining test budget in a
+// header (the body field builderKey.callsRemaining mirrors it). The
+// header name joins the expose list with the same merge discipline
+// as exposePaymentHeaders so browser agents can read it cross-origin.
+function builderKeyHeaders(res, callsRemaining) {
+  res.setHeader("X-Flow-Builder-Key-Remaining", String(callsRemaining));
+  let existing = [];
+  try {
+    const cur = typeof res.getHeader === "function" ? res.getHeader("Access-Control-Expose-Headers") : null;
+    if (cur) existing = String(cur).split(",").map((s) => s.trim()).filter(Boolean);
+  } catch {}
+  if (!existing.some((e) => e.toLowerCase() === "x-flow-builder-key-remaining")) {
+    existing.push("X-Flow-Builder-Key-Remaining");
+  }
+  res.setHeader("Access-Control-Expose-Headers", existing.join(", "));
+  try {
+    if (typeof res.getHeader !== "function" || !res.getHeader("Access-Control-Allow-Origin")) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+  } catch {}
+}
+
+// Give a builder-key reservation back (no-op for plain payment gates).
+// Endpoints call this when a gated request is rejected for a malformed
+// body before the resource executes — a builder is only charged for
+// calls that actually run, mirroring x402 settling only after execution.
+async function releaseBuilderKey(gate) {
+  if (gate && gate.builderKey && gate.builderKey.keyHash) {
+    try {
+      await builderKey.releaseWithDefaultStore(gate.builderKey.keyHash);
+    } catch {}
+  }
 }
 
 function send402(res, req, errorDetail, resourceMeta) {
@@ -503,6 +538,33 @@ async function facilitatorCall(op, paymentPayload, paymentRequirements) {
 // ---------------------------------------------------------------------------
 
 async function requirePayment(req, res, resourceMeta) {
+  // Early Builder Key (see api/_builderkey.js): a valid key with test
+  // budget left reserves one call atomically and serves free. An
+  // invalid, exhausted, or unreachable-store key falls through to the
+  // normal paid flow below — the key can never become an error wall,
+  // and keyless traffic is completely untouched.
+  const bkRaw = req.headers["x-flow-builder-key"];
+  if (bkRaw) {
+    try {
+      const bk = await builderKey.reserveWithDefaultStore(String(bkRaw).trim());
+      if (bk.ok) {
+        builderKeyHeaders(res, bk.callsRemaining);
+        return {
+          payload: null,
+          requirements: null,
+          payer: bk.address,
+          builderKey: {
+            keyHash: bk.keyHash,
+            address: bk.address,
+            callsRemaining: bk.callsRemaining,
+          },
+        };
+      }
+    } catch {
+      // Builder-key store unavailable — normal paid flow.
+    }
+  }
+
   const bad = configError();
   if (bad) {
     res.status(500).json({ error: `x402 misconfigured: ${bad}` });
@@ -565,6 +627,8 @@ module.exports = {
   requirePayment,
   settlePayment,
   paymentResponseHeaders,
+  releaseBuilderKey,
+  builderKeyHeaders,
   USDC_BASE,
   cdpKeyStatus,
 };
