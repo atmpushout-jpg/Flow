@@ -638,8 +638,189 @@ function chokepointTests() {
   });
 }
 
+// ---------------------------------------------------------------------------
+// api/starter — claim-action bridge: ops-signed void / mark-paid, with the
+// on-chain transfer check mocked at the verifySeedTx seam (and the pure
+// receipt matcher tested directly). No network, no real keys: a throwaway
+// wallet stands in for the operational wallet via opts.opsAddress.
+// ---------------------------------------------------------------------------
+
+const {
+  handleListClaims,
+  handleClaimAction,
+  canonicalClaimActionMessage,
+  verifyOpsSignature,
+  matchSeedTransfer,
+  padTopicAddress,
+  USDC_BASE,
+} = starter._test;
+
+const OPS_TEST = ethers.Wallet.createRandom();
+const STRANGER = ethers.Wallet.createRandom();
+const TXH = "0x" + "ab".repeat(32);
+const signAction = (wallet, fields) => wallet.signMessage(canonicalClaimActionMessage(fields));
+
+test("claim-action canonical message: exact format, lowercased, empty txHash segment", () => {
+  assert.strictEqual(
+    canonicalClaimActionMessage({ action: "void", address: "0xABC0000000000000000000000000000000000001", timestamp: 123 }),
+    "flow-starter:void:0xabc0000000000000000000000000000000000001::123"
+  );
+  assert.strictEqual(
+    canonicalClaimActionMessage({ action: "mark-paid", address: addr(501), txHash: TXH.toUpperCase().replace("0X", "0x"), timestamp: 456 }),
+    `flow-starter:mark-paid:${addr(501)}:${TXH}:456`
+  );
+});
+
+test("verifyOpsSignature recovers the ops signer and rejects everyone else", async () => {
+  const msg = canonicalClaimActionMessage({ action: "void", address: addr(502), timestamp: 789 });
+  const sig = await OPS_TEST.signMessage(msg);
+  assert.strictEqual(verifyOpsSignature(msg, sig, OPS_TEST.address), true);
+  assert.strictEqual(verifyOpsSignature(msg, sig, STRANGER.address), false);
+  const strangerSig = await STRANGER.signMessage(msg);
+  assert.strictEqual(verifyOpsSignature(msg, strangerSig, OPS_TEST.address), false);
+  assert.strictEqual(verifyOpsSignature(msg, "0x1234", OPS_TEST.address), false);
+  assert.strictEqual(verifyOpsSignature(msg, undefined, OPS_TEST.address), false);
+});
+
+test("matchSeedTransfer: only an exact 0.05 ops->claimant USDC transfer in a successful tx counts", () => {
+  const receiptFor = (value, to = addr(503)) => ({
+    status: "0x1",
+    blockNumber: "0x100",
+    logs: [
+      {
+        address: USDC_BASE,
+        topics: [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          padTopicAddress(OPS_TEST.address),
+          padTopicAddress(to),
+        ],
+        data: "0x" + value.toString(16).padStart(64, "0"),
+      },
+    ],
+  });
+  assert.strictEqual(matchSeedTransfer(receiptFor(50000n), { from: OPS_TEST.address, to: addr(503) }), true);
+  assert.strictEqual(matchSeedTransfer(receiptFor(49999n), { from: OPS_TEST.address, to: addr(503) }), false); // underpaid
+  assert.strictEqual(matchSeedTransfer(receiptFor(50000n, addr(504)), { from: OPS_TEST.address, to: addr(503) }), false); // wrong recipient
+  assert.strictEqual(matchSeedTransfer(receiptFor(50000n), { from: STRANGER.address, to: addr(503) }), false); // wrong sender
+  assert.strictEqual(matchSeedTransfer({ ...receiptFor(50000n), status: "0x0" }, { from: OPS_TEST.address, to: addr(503) }), false); // reverted
+  assert.strictEqual(matchSeedTransfer(null, { from: OPS_TEST.address, to: addr(503) }), false);
+});
+
+async function claimActionTests() {
+  const NOW = Date.UTC(2026, 9, 13, 0, 30, 0); // fixed clock for the whole section
+  const baseOpts = { nowMs: NOW, opsAddress: OPS_TEST.address };
+
+  await testAsync("void: ops-signed action voids a pending claim; list + stats reflect it", async () => {
+    const store = createMemoryStore();
+    const target = addr(511);
+    await handleClaim(store, { address: target }, { nowMs: NOW });
+    const signature = await signAction(OPS_TEST, { action: "void", address: target, timestamp: NOW });
+    const r = await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature }, baseOpts);
+    assert.strictEqual(r.status, 200);
+    assert.strictEqual(r.body.status, "void");
+    const list = await handleListClaims(store);
+    assert.strictEqual(list.body.count, 1);
+    assert.strictEqual(list.body.claims[0].address, target);
+    assert.strictEqual(list.body.claims[0].status, "void");
+    assert.ok(list.body.claims[0].createdAt, "createdAt is listed");
+    const stats = await handleStats(store);
+    assert.strictEqual(stats.body.seedsPending, 0);
+    assert.strictEqual(stats.body.seedsClaimed, 0);
+    // Idempotent: voiding again is a 200, not an error.
+    const again = await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature }, baseOpts);
+    assert.strictEqual(again.status, 200);
+    assert.strictEqual(again.body.alreadyVoid, true);
+  });
+
+  await testAsync("bad signature is refused and the claim stays pending", async () => {
+    const store = createMemoryStore();
+    const target = addr(512);
+    await handleClaim(store, { address: target }, { nowMs: NOW });
+    const signature = await signAction(STRANGER, { action: "void", address: target, timestamp: NOW });
+    const r = await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature }, baseOpts);
+    assert.strictEqual(r.status, 403);
+    assert.strictEqual(r.body.code, "bad-signature");
+    const rec = await store.getClaim(target);
+    assert.strictEqual(rec.status, "pending");
+  });
+
+  await testAsync("stale timestamps are rejected even with a valid signature; a signature over another timestamp fails", async () => {
+    const store = createMemoryStore();
+    const target = addr(513);
+    await handleClaim(store, { address: target }, { nowMs: NOW });
+    const staleTs = NOW - 11 * 60 * 1000;
+    const staleSig = await signAction(OPS_TEST, { action: "void", address: target, timestamp: staleTs });
+    const stale = await handleClaimAction(store, { action: "void", address: target, timestamp: staleTs, signature: staleSig }, baseOpts);
+    assert.strictEqual(stale.status, 401);
+    assert.strictEqual(stale.body.code, "stale-timestamp");
+    // Signature is genuine but covers a different timestamp than the body claims.
+    const mismatched = await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature: staleSig }, baseOpts);
+    assert.strictEqual(mismatched.status, 403);
+    const rec = await store.getClaim(target);
+    assert.strictEqual(rec.status, "pending");
+  });
+
+  await testAsync("mark-paid: mocked on-chain proof marks the claim claimed with its tx hash", async () => {
+    const store = createMemoryStore();
+    const target = addr(514);
+    await handleClaim(store, { address: target }, { nowMs: NOW });
+    const signature = await signAction(OPS_TEST, { action: "mark-paid", address: target, txHash: TXH, timestamp: NOW });
+    const okOpts = { ...baseOpts, verifySeedTx: async () => ({ ok: true, blockNumber: 4242, confirmations: 3 }) };
+    const r = await handleClaimAction(store, { action: "mark-paid", address: target, txHash: TXH, timestamp: NOW, signature }, okOpts);
+    assert.strictEqual(r.status, 200);
+    assert.strictEqual(r.body.status, "claimed");
+    assert.strictEqual(r.body.txHash, TXH);
+    const list = await handleListClaims(store);
+    assert.strictEqual(list.body.claims[0].status, "claimed");
+    assert.strictEqual(list.body.claims[0].txHash, TXH);
+    const stats = await handleStats(store);
+    assert.strictEqual(stats.body.seedsClaimed, 1);
+    assert.strictEqual(stats.body.seedsPending, 0);
+    assert.strictEqual(stats.body.usdcSpent, 0.05);
+    // Paid claims cannot be voided after the fact.
+    const voidSig = await signAction(OPS_TEST, { action: "void", address: target, timestamp: NOW });
+    const v = await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature: voidSig }, baseOpts);
+    assert.strictEqual(v.status, 409);
+  });
+
+  await testAsync("mark-paid: failed on-chain proof changes nothing (claim stays pending)", async () => {
+    const store = createMemoryStore();
+    const target = addr(515);
+    await handleClaim(store, { address: target }, { nowMs: NOW });
+    const signature = await signAction(OPS_TEST, { action: "mark-paid", address: target, txHash: TXH, timestamp: NOW });
+    const failOpts = { ...baseOpts, verifySeedTx: async () => ({ ok: false, reason: "no matching transfer" }) };
+    const r = await handleClaimAction(store, { action: "mark-paid", address: target, txHash: TXH, timestamp: NOW, signature }, failOpts);
+    assert.strictEqual(r.status, 400);
+    assert.strictEqual(r.body.code, "tx-verify-failed");
+    const rec = await store.getClaim(target);
+    assert.strictEqual(rec.status, "pending");
+    assert.ok(!rec.txHash, "no tx hash may be recorded on a failed proof");
+    const stats = await handleStats(store);
+    assert.strictEqual(stats.body.seedsClaimed, 0);
+    assert.strictEqual(stats.body.seedsPending, 1);
+    // And a voided claim can never be marked paid afterwards.
+    const voidSig = await signAction(OPS_TEST, { action: "void", address: target, timestamp: NOW });
+    await handleClaimAction(store, { action: "void", address: target, timestamp: NOW, signature: voidSig }, baseOpts);
+    const okOpts = { ...baseOpts, verifySeedTx: async () => ({ ok: true, blockNumber: 1, confirmations: 9 }) };
+    const payAfterVoid = await handleClaimAction(store, { action: "mark-paid", address: target, txHash: TXH, timestamp: NOW, signature }, okOpts);
+    assert.strictEqual(payAfterVoid.status, 409);
+    assert.strictEqual(payAfterVoid.body.code, "already-void");
+  });
+
+  await testAsync("claim-action on an unknown address 404s; bad actions 400", async () => {
+    const store = createMemoryStore();
+    const signature = await signAction(OPS_TEST, { action: "void", address: addr(516), timestamp: NOW });
+    const r = await handleClaimAction(store, { action: "void", address: addr(516), timestamp: NOW, signature }, baseOpts);
+    assert.strictEqual(r.status, 404);
+    const bad = await handleClaimAction(store, { action: "refund", address: addr(516), timestamp: NOW, signature }, baseOpts);
+    assert.strictEqual(bad.status, 400);
+    assert.strictEqual(bad.body.code, "bad-action");
+  });
+}
+
 (async () => {
   await starterTests();
+  await claimActionTests();
   await walletTests();
   await capBypassTests();
   chokepointTests();
