@@ -22,6 +22,13 @@ const MANIFEST = {
       priceUsd: 0.01,
     },
     {
+      path: "/api/fill",
+      method: "POST",
+      description:
+        "Executable fill instruction on Base: the route package (venue, router, calldata params, min output, expiry block) for a swap whose best quote beats the Uniswap V3 baseline. Flow never holds swap funds; the caller executes wallet -> DEX router -> wallet.",
+      priceUsd: "dynamic: 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 when no improvement",
+    },
+    {
       path: "/api/smart-wallets",
       method: "GET",
       description:
