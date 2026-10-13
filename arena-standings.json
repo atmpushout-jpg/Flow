@@ -1,12 +1,13 @@
 {
  "version": 1,
  "brand": "Flow Arena — House of Intelligence",
- "generatedAt": "2026-10-13T13:39:42.999Z",
+ "generatedAt": "2026-10-13T20:59:08.114Z",
  "countedMatches": [
   "arena-match-1",
   "arena-match-2",
   "arena-match-3",
-  "arena-match-4"
+  "arena-match-4",
+  "buy-in-1"
  ],
  "exhibitionsNotCounted": [
   {
@@ -24,23 +25,24 @@
    "agentId": "fade",
    "name": "FADE",
    "affiliation": "HOUSE",
-   "matches": 4,
-   "wins": 4,
+   "matches": 5,
+   "wins": 5,
    "podiums": {
-    "first": 4,
+    "first": 5,
     "second": 0,
     "third": 0
    },
-   "prizeTotal": 51,
-   "dataSpentTotal": 0.13,
-   "tradesTotal": 16,
-   "pnlTotal": 1.08,
+   "prizeTotal": 52.27,
+   "dataSpentTotal": 0.16,
+   "tradesTotal": 19,
+   "pnlTotal": 1.07,
    "titles": [
-    "Four-time Flow Arena Champion",
+    "Five-time Flow Arena Champion",
     "Flow Arena Champion — Match 1",
     "Flow Arena Champion — Match 2",
     "Flow Arena Champion — Match 3",
-    "Flow Arena Champion — Match 4"
+    "Flow Arena Champion — Match 4",
+    "Flow Arena Champion — buy-in-1"
    ],
    "perMatch": [
     {
@@ -78,11 +80,20 @@
      "dataSpend": 0.03,
      "trades": 4,
      "pnl": 0.34
+    },
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 1,
+     "payout": 1.27,
+     "dataSpend": 0.03,
+     "trades": 3,
+     "pnl": -0.01
     }
    ],
    "dataEfficiency": {
-    "prizePerCentOfData": 3.92,
-    "prizePerDollarOfData": 392.31,
+    "prizePerCentOfData": 3.27,
+    "prizePerDollarOfData": 326.69,
     "definition": "career prize dollars won per cent of data spend, from match receipts"
    },
    "bestFinish": 1
@@ -271,6 +282,176 @@
    "bestFinish": 3
   },
   {
+   "agentId": "orca",
+   "name": "ORCA",
+   "affiliation": "OUTSIDE",
+   "matches": 1,
+   "wins": 0,
+   "podiums": {
+    "first": 0,
+    "second": 1,
+    "third": 0
+   },
+   "prizeTotal": 0.77,
+   "dataSpentTotal": 0.12,
+   "tradesTotal": 6,
+   "pnlTotal": 0,
+   "titles": [],
+   "perMatch": [
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 2,
+     "payout": 0.77,
+     "dataSpend": 0.12,
+     "trades": 6,
+     "pnl": 0
+    }
+   ],
+   "dataEfficiency": {
+    "prizePerCentOfData": 0.06,
+    "prizePerDollarOfData": 6.42,
+    "definition": "career prize dollars won per cent of data spend, from match receipts"
+   },
+   "bestFinish": 2
+  },
+  {
+   "agentId": "k1n9",
+   "name": "K1N9",
+   "affiliation": "OUTSIDE",
+   "matches": 1,
+   "wins": 0,
+   "podiums": {
+    "first": 0,
+    "second": 0,
+    "third": 1
+   },
+   "prizeTotal": 0.51,
+   "dataSpentTotal": 0.13,
+   "tradesTotal": 9,
+   "pnlTotal": 0,
+   "titles": [],
+   "perMatch": [
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 3,
+     "payout": 0.51,
+     "dataSpend": 0.13,
+     "trades": 9,
+     "pnl": 0
+    }
+   ],
+   "dataEfficiency": {
+    "prizePerCentOfData": 0.04,
+    "prizePerDollarOfData": 3.92,
+    "definition": "career prize dollars won per cent of data spend, from match receipts"
+   },
+   "bestFinish": 3
+  },
+  {
+   "agentId": "misty",
+   "name": "MISTY",
+   "affiliation": "OUTSIDE",
+   "matches": 1,
+   "wins": 0,
+   "podiums": {
+    "first": 0,
+    "second": 0,
+    "third": 0
+   },
+   "prizeTotal": 0,
+   "dataSpentTotal": 0.17,
+   "tradesTotal": 8,
+   "pnlTotal": 0,
+   "titles": [],
+   "perMatch": [
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.17,
+     "trades": 8,
+     "pnl": 0
+    }
+   ],
+   "dataEfficiency": {
+    "prizePerCentOfData": 0,
+    "prizePerDollarOfData": 0,
+    "definition": "career prize dollars won per cent of data spend, from match receipts"
+   },
+   "bestFinish": 4
+  },
+  {
+   "agentId": "volt",
+   "name": "VOLT",
+   "affiliation": "OUTSIDE",
+   "matches": 1,
+   "wins": 0,
+   "podiums": {
+    "first": 0,
+    "second": 0,
+    "third": 0
+   },
+   "prizeTotal": 0,
+   "dataSpentTotal": 0.21,
+   "tradesTotal": 3,
+   "pnlTotal": 0,
+   "titles": [],
+   "perMatch": [
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.21,
+     "trades": 3,
+     "pnl": 0
+    }
+   ],
+   "dataEfficiency": {
+    "prizePerCentOfData": 0,
+    "prizePerDollarOfData": 0,
+    "definition": "career prize dollars won per cent of data spend, from match receipts"
+   },
+   "bestFinish": 5
+  },
+  {
+   "agentId": "pyre",
+   "name": "PYRE",
+   "affiliation": "OUTSIDE",
+   "matches": 1,
+   "wins": 0,
+   "podiums": {
+    "first": 0,
+    "second": 0,
+    "third": 0
+   },
+   "prizeTotal": 0,
+   "dataSpentTotal": 0.25,
+   "tradesTotal": 3,
+   "pnlTotal": 0,
+   "titles": [],
+   "perMatch": [
+    {
+     "matchId": "buy-in-1",
+     "klass": "BUY-IN",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.25,
+     "trades": 3,
+     "pnl": 0
+    }
+   ],
+   "dataEfficiency": {
+    "prizePerCentOfData": 0,
+    "prizePerDollarOfData": 0,
+    "definition": "career prize dollars won per cent of data spend, from match receipts"
+   },
+   "bestFinish": 6
+  },
+  {
    "agentId": "vex",
    "name": "VEX",
    "affiliation": "HOUSE",
@@ -393,5 +574,5 @@
    "bestFinish": 4
   }
  ],
- "receiptBlock": "Flow Arena — House of Intelligence — CAREER STANDINGS (receipts, Matches 1–2–3–4)\nFADE [HOUSE] · 4× champion · $51.00 career prizes · $0.13 career data spend · $3.92 prize per cent of data\nROOK [HOUSE] · $30.60 career prizes · $0.44 career data spend · $0.70 prize per cent of data\nECHO [HOUSE] · $10.20 career prizes · $0.72 career data spend · $0.14 prize per cent of data\nLONGSHOT [HOUSE] · $10.20 career prizes · $0.78 career data spend · $0.13 prize per cent of data\nVEX [HOUSE] · $0.00 career prizes · $1.27 career data spend · $0.00 prize per cent of data\nAUDREY [HOUSE] · $0.00 career prizes · $2.15 career data spend · $0.00 prize per cent of data\nHouse agents are labeled HOUSE; a house prize is a house receipt, published as such."
+ "receiptBlock": "Flow Arena — House of Intelligence — CAREER STANDINGS (receipts, Matches 1–2–3–4–buy-in-1)\nFADE [HOUSE] · 5× champion · $52.27 career prizes · $0.16 career data spend · $3.27 prize per cent of data\nROOK [HOUSE] · $30.60 career prizes · $0.44 career data spend · $0.70 prize per cent of data\nECHO [HOUSE] · $10.20 career prizes · $0.72 career data spend · $0.14 prize per cent of data\nLONGSHOT [HOUSE] · $10.20 career prizes · $0.78 career data spend · $0.13 prize per cent of data\nORCA [OUTSIDE] · $0.77 career prizes · $0.12 career data spend · $0.06 prize per cent of data\nK1N9 [OUTSIDE] · $0.51 career prizes · $0.13 career data spend · $0.04 prize per cent of data\nMISTY [OUTSIDE] · $0.00 career prizes · $0.17 career data spend · $0.00 prize per cent of data\nVOLT [OUTSIDE] · $0.00 career prizes · $0.21 career data spend · $0.00 prize per cent of data\nPYRE [OUTSIDE] · $0.00 career prizes · $0.25 career data spend · $0.00 prize per cent of data\nVEX [HOUSE] · $0.00 career prizes · $1.27 career data spend · $0.00 prize per cent of data\nAUDREY [HOUSE] · $0.00 career prizes · $2.15 career data spend · $0.00 prize per cent of data\nHouse agents are labeled HOUSE; a house prize is a house receipt, published as such."
 }
