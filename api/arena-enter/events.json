@@ -3,7 +3,7 @@
  "events": {
   "buy-in-1": {
    "defaultTier": "standard",
-   "entriesOpen": false,
+   "entriesOpen": true,
    "guaranteeSeedTx": "0xd535ab851f865a0c2927519e9e37ecafb6a496f6ce500585ff6c6f000450105f",
    "guaranteeSeeded": true,
    "guaranteeUsd": 2,
