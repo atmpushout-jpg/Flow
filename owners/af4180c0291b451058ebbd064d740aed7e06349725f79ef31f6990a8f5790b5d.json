@@ -5,7 +5,7 @@
  },
  "fighters": [
   {
-   "name": "FLY",
+   "name": "K1",
    "style": "copycat",
    "stylePlain": "Copy the pros",
    "styleEmoji": "🪞",
@@ -32,15 +32,23 @@
    "at": "2026-10-13T15:58:57.000Z"
   },
   {
-   "amountUsd": -2.5,
-   "source": "5 seats - Buy-In #1 at $0.50",
+   "amountUsd": -2,
+   "source": "4 seats - Buy-In #1 (K1, VOLT, ORCA, PYRE) at $0.50",
    "at": "2026-10-13T16:12:00.000Z"
+  },
+  {
+   "amountUsd": -0.5,
+   "source": "MIGHTY seat transfer - Buy-In #1 seat for Misty (family stable, funded by K1N9)",
+   "at": "2026-10-13T16:30:25.113Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xbc28fff339Bbe53448fdEe4ef30C77E31b13893B",
  "requestsApplied": [
-  "65e19555-f6c1-4c9a-a540-2cfb39ae7f65"
+  "65e19555-f6c1-4c9a-a540-2cfb39ae7f65",
+  "14898793-ae68-487b-9c85-417ca1fec04f",
+  "024dbf06-d932-469c-a94e-07beee8b2be2",
+  "c7535c53-9336-49c6-8751-40a1005b5974"
  ],
- "updatedAt": "2026-10-13T16:28:30.773Z"
+ "updatedAt": "2026-10-13T16:30:37.407Z"
 }
