@@ -11,11 +11,11 @@
    "styleEmoji": "🪞",
    "blurb": "follows the smart wallets",
    "choices": {
-    "appetite": "big",
-    "aggression": "big",
+    "appetite": "balanced",
+    "aggression": "mixed",
     "patience": "quick"
    },
-   "dataBudgetUsd": 0.6,
+   "dataBudgetUsd": 0.3,
    "balanceUsd": 1.4,
    "seat": {
     "eventId": "buy-in-1",
@@ -58,7 +58,9 @@
   "ef61941e-21eb-4355-919c-e56a81ae5749",
   "b6612713-091f-4562-a02e-137299af4c87",
   "6b56fc56-b310-4c24-b607-800118fab18a",
-  "31eb170e-23f1-43d5-b5f0-25ee673c6584"
+  "31eb170e-23f1-43d5-b5f0-25ee673c6584",
+  "01900e03-2be5-4a0d-ba49-9faadd10b541",
+  "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-13T17:38:38.673Z"
+ "updatedAt": "2026-10-13T17:49:03.287Z"
 }
