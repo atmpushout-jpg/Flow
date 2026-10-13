@@ -1246,7 +1246,7 @@ async function actVex(agent, ctx) {
     const q = await payData(agent, "quote", top.token);
     const pc = await precheck(top.token);
     const usd = round2(agent.cash * (PARAMS.vex.entrySizePct / 100));
-    if (usd >= 1 && doBuy(agent, top, usd, { block: pc.block, venue: pc.venue, dataCharge: q.ok ? q.price : 0, line: pickLine("vex", "buySpike", { sym: top.symbol, score: top.score, usd, round: S.currentRound }) })) acted = true;
+    if (usd >= 1 && doBuy(agent, { address: top.token, symbol: top.symbol }, usd, { block: pc.block, venue: pc.venue, dataCharge: q.ok ? q.price : 0, line: pickLine("vex", "buySpike", { sym: top.symbol, score: top.score, usd, round: S.currentRound }) })) acted = true;
   }
   for (const pos of [...agent.positions]) {
     const sv = ctx.spikes.find((s) => s.token.toLowerCase() === pos.token.toLowerCase());
@@ -1369,7 +1369,7 @@ async function actLongshot(agent, ctx) {
         const pc = await precheck(top.token);
         if (pc.verdict === "safe") {
           const usd = round2(agent.cash * (PARAMS.longshot.entrySizePct / 100));
-          if (usd >= 1 && doBuy(agent, top, usd, { block: pc.block, venue: pc.venue, dataCharge: round2(q.price + v.price), line: pickLine("longshot", "buy", { sym: top.symbol, usd, round: S.currentRound }) })) {
+          if (usd >= 1 && doBuy(agent, { address: top.token, symbol: top.symbol }, usd, { block: pc.block, venue: pc.venue, dataCharge: round2(q.price + v.price), line: pickLine("longshot", "buy", { sym: top.symbol, usd, round: S.currentRound }) })) {
             agent.shotsFired++;
             return;
           }
