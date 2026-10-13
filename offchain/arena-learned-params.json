@@ -1,0 +1,43 @@
+{
+ "generatedAt": "2026-10-13T01:14:29.590Z",
+ "basis": "One training pass over the full recorded corpus (Matches 1-4 counted + floor exhibitions behavioral + corpus accuracy). Production defaults in offchain/arena-learning.md.",
+ "params": {
+  "vex": {
+   "requoteCount": 2,
+   "spikeEntryScore": 15,
+   "entrySizePct": 40,
+   "exitSpikeFloor": 7
+  },
+  "audrey": {
+   "candidatesScanned": 2,
+   "verdictScoreFloor": 75,
+   "entrySizePct": 15,
+   "reverifyEveryRounds": 4
+  },
+  "echo": {
+   "signalMaxAgeSec": 600,
+   "entrySizePct": 25,
+   "holdRounds": 3
+  },
+  "fade": {
+   "sellFullPct": 5.5,
+   "sellHalfPct": 3,
+   "entrySizePct": 35,
+   "maxPositions": 3
+  },
+  "longshot": {
+   "spikeEntryScore": 13,
+   "shotsPerMatch": 3,
+   "entrySizePct": 65,
+   "exitPct": 3,
+   "lateGateRounds": 4
+  },
+  "rook": {
+   "stopLossPct": 3,
+   "takeProfitPct": 4,
+   "entrySizePct": 22.5,
+   "signalsCheckEvery": 2,
+   "maxPositions": 3
+  }
+ }
+}
