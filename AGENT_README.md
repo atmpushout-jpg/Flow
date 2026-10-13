@@ -16,9 +16,9 @@ Flow sells four paid data products to agents — best-execution swap quotes, con
 | `/api/smart-wallets` | GET | $0.01 | **live** |
 | `/api/precheck` | POST | **free** | **live** |
 | `/api/health` | GET | free | **live** |
-| `/api/fill` | POST | — | **planned — not live** (see Status) |
+| `/api/fill` | POST | **dynamic** — 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 when no improvement | see the `/api/fill` section below |
 
-**Price-improvement fee (execution only, not an API charge).** Separately, Flow's swap-execution fee model is 0 bps base plus 25% of the price improvement over the Uniswap baseline, capped at 10 bps of output. That fee belongs to the execution path (`/api/fill`), which is **not live yet**, so it is not collected from anyone today. A paid `/api/quote` call costs exactly its $0.01 x402 charge — nothing more. (The quote response carries a `protocolFee` field describing this execution fee model so agents can price future fills.)
+**Price-improvement fee (the `/api/fill` charge).** Flow's fill fee model is 0 bps base plus 25% of the price improvement over the Uniswap baseline, capped at 10 bps of output. That fee *is* the `/api/fill` x402 charge — it is priced dynamically per request (see the `/api/fill` section below), and it is $0 — with no payment gate at all — when a quote shows no improvement. A paid `/api/quote` call still costs exactly its $0.01 x402 charge — nothing more. (The quote response carries a `protocolFee` field describing this fill fee model so agents can price future fills.)
 
 ## Quick start
 
@@ -76,6 +76,61 @@ curl -X POST https://flow-kg4x.vercel.app/api/quote \
 
 The quote compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and returns the best venue, expected output, edge vs the Uniswap baseline, a liquidity flag (`deep` / `watch` / `thin`), the exact block number, and an expiry window (`expiresAtBlock` / `validForBlocks` / `minOutput`) so you know how long the price holds. Edges vary by pair and size — the response always reports the real number, including 0.
 
+## `/api/fill` — buy the fill instruction, execute it yourself
+
+`/api/quote` tells you the best price. `/api/fill` sells you the *executable instruction* for that price: the exact route package, released only after the fill fee settles. You then execute the swap **from your own wallet, directly against the DEX router** — Flow never receives, holds, or forwards any swap funds, and runs no contract in the money path. The only money that moves to Flow is the fee, and it moves before the instruction exists.
+
+**The fee rule (exact).** Flow measures `improvement = bestOut − uniswapOut` at a pinned block, values it in input terms at the executed route's own rate (`improvement × amountIn / bestOut`), and charges **25% of that improvement, capped at 10 bps of output value**. There is no base fee: if the best route *is* the Uniswap baseline, the fee is exactly $0, no payment is requested, and the route package (the baseline route) is returned free with `charged: false`.
+
+**Request:**
+
+```bash
+curl -X POST https://flow-kg4x.vercel.app/api/fill \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "tokenOut": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+    "amountIn": "100000000",
+    "recipient": "0x1111111111111111111111111111111111111111"
+  }'
+```
+
+`tokenIn` / `tokenOut` / `amountIn` are required (amount in smallest units), mirroring `/api/quote`. Optional: `recipient` (when present, `exactInputSingle` calldata is included for Uniswap/Aerodrome routes), `slippageBps`, `validBlocks`, and `blockNumber` — pass the first response's `blockNumber` on the paid retry to pin the quote so the dynamic fee reproduces exactly. A pin older than `validBlocks` (default 10) is rejected with HTTP 409 and no charge; a future pin is a 400.
+
+**Unpaid (HTTP 402):** because the fee is dynamic, the first response is a standard x402 v2 challenge whose `accepts[0].amount` *is* the computed fill fee for this exact swap at this block — e.g. a $100 USDC → VIRTUAL quote that beats the baseline by ~37 bps carries a fee of about $0.09 (`amount: "91644"`-style atomic USDC; the prototype run recorded in the design doc measured $0.0917 from the untruncated live outputs). Sign and retry exactly as for `/api/quote`, with the same `blockNumber` in the body. Early Builder Keys do **not** cover `/api/fill` — a builder-key request gets its reservation released and a 402 for the dynamic fee.
+
+**Paid (HTTP 200) — the route package:**
+
+```json
+{
+  "venue": "aerodrome",
+  "venueKey": 100,
+  "routeType": "direct",
+  "router": "0xBE6D8f0d05cC4be24d5167a3eF062215bE6D18a5",
+  "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "tokenOut": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+  "amountIn": "100000000",
+  "expectedOut": "138852000000000000000",
+  "minOutput": "138157740000000000000",
+  "minOutputBps": 50,
+  "blockNumber": 52514820,
+  "expiresAtBlock": 52514830,
+  "validForBlocks": 10,
+  "fee": {
+    "improvementBps": 36,
+    "improvementValueUsd": 0.3666,
+    "feeUsd": 0.091644,
+    "capApplied": false,
+    "rule": "25% of price improvement over Uniswap baseline, capped at 10 bps of output"
+  },
+  "calldataParams": { "tokenIn": "…", "tokenOut": "…", "tickSpacing": 100, "recipient": "0x1111…1111", "amountIn": "100000000", "amountOutMinimum": "138157740000000000000", "sqrtPriceLimitX96": "0" },
+  "charged": true,
+  "payment": { "transaction": "0x…", "network": "eip155:8453", "payer": "0x…" }
+}
+```
+
+Before settling, Flow re-quotes pinned at the first quote's block and confirms the fee is unchanged and unexpired; if either check fails you get a 409 and **no payment is settled**. Quotes are valid for ~10 blocks (~20 s on Base) — execute promptly, enforce `minOutput` on-chain via the router, and re-request a fill if the window lapses.
+
 ## Paying with x402
 
 - **Protocol:** x402 v2, scheme `exact`, network `eip155:8453` (Base mainnet), asset USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`, payTo `0xcF8A8350cb42a6680005ca7FF9E485Bb55fa74FA`.
@@ -118,6 +173,7 @@ Tools: `flow_quote` (best-execution quote, auto-pays $0.01 via x402 from a local
 ## Endpoints in detail
 
 - `POST /api/quote` ($0.01, x402) — best-execution swap quote on Base; see Quick start.
+- `POST /api/fill` (**dynamic**, x402) — executable fill instruction (route package); 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output, $0 and ungated when there is no improvement; see the `/api/fill` section above.
 - `POST /api/verify` ($0.02, x402) — contract safety check: send `{address}` (a Base token/contract address); returns a verdict (`safe` | `caution` | `danger`), a 0–100 score, the red flags found, and plain-English advice (`APPROVE` / `REVIEW_MANUALLY` / `DO_NOT_APPROVE`).
 - `GET /api/signals` ($0.01, x402) — chronological smart-wallet buy signals + social-velocity spikes on Base, newest first. Supports `?since=` (unix seconds, ISO 8601, or Base block number) for incremental polling and `?limit=` (1–100, default 50). Every signal carries timestamp, block number, wallet, token, side, amountUsd, and a transparently derived signalScore (formula included in the response; descriptive, not a profit probability).
 - `GET /api/smart-wallets` ($0.01, x402) — ranked smart-wallet leaderboard by early buys on pumping tokens, a real-time buy-signal feed (stale flags past 10 min), and the tracker's public paper-trading record.
@@ -130,7 +186,7 @@ Machine-readable specs: OpenAPI at https://flow-kg4x.vercel.app/openapi.json · 
 
 - `/api/quote`, `/api/verify`, `/api/signals`, `/api/smart-wallets` — **live**, paid via x402, real Base mainnet data.
 - `/api/precheck`, `/api/health` — **live**, free.
-- `/api/fill` — **planned, not live.** Swap execution is not part of the verified API scope yet: the route exists only as a stub (it validates input and queues nothing executable). Do not integrate against it; this section will be updated with real integration documentation when execution deploys.
+- `/api/fill` — **built (Path C).** Sells the executable fill instruction for the dynamically priced fee above; Flow never touches swap funds — the caller executes wallet → DEX router → wallet. (This README section describes the endpoint as built; it goes live with its deploy.)
 
 ## Flow Arena (separate product, not part of the paid API)
 
