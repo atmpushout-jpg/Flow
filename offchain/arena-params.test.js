@@ -78,11 +78,12 @@ ok("production arena-learned-params.json loads the learned knobs", () => {
   assert.strictEqual(meta.source, "file");
   assert.deepStrictEqual(meta.rejected, []);
   const p = T.getParams();
-  assert.strictEqual(p.vex.requoteCount, 2);
-  assert.strictEqual(p.vex.exitSpikeFloor, 7);
-  assert.strictEqual(p.audrey.candidatesScanned, 2);
+  assert.strictEqual(p.vex.requoteCount, 1);
+  assert.strictEqual(p.vex.spikeEntryScore, 11);
+  assert.strictEqual(p.vex.exitSpikeFloor, 6);
+  assert.strictEqual(p.audrey.candidatesScanned, 1);
   assert.strictEqual(p.audrey.verdictScoreFloor, 75);
-  assert.strictEqual(p.audrey.reverifyEveryRounds, 4);
+  assert.strictEqual(p.audrey.reverifyEveryRounds, 5);
   assert.strictEqual(p.echo.signalMaxAgeSec, 600);
   assert.strictEqual(p.fade.sellFullPct, 5.5);
   assert.strictEqual(p.fade.sellHalfPct, 3);
@@ -92,7 +93,7 @@ ok("production arena-learned-params.json loads the learned knobs", () => {
   assert.strictEqual(p.longshot.lateGateRounds, 4);
   assert.strictEqual(p.rook.entrySizePct, 22.5);
   assert.strictEqual(p.rook.signalsCheckEvery, 2);
-  assert.strictEqual(meta.learnedKnobs, 14);
+  assert.strictEqual(meta.learnedKnobs, 15);
 });
 
 // 2b. Loaded params equal the verified proof artifact, knob for knob.
