@@ -173,10 +173,15 @@ async function ghPushContent(content, message, matchId, opts = {}) {
   // The compact signature only describes arena match state (agents /
   // leaderboard shaped). Other payloads (e.g. the Earn summary) verify by
   // exact raw comparison instead — a state-shaped signature computed over
-  // a foreign object could collide and false-verify a stale file.
+  // a foreign object could collide and false-verify a stale file. The
+  // shape guard matters: career standings ALSO carry an `agents` key
+  // (career rows — no cash, no status), and signatureOf() over them is
+  // near-constant, so it would false-verify any standings file. Require
+  // the match-state shape (a string `status`) before trusting the
+  // signature; everything else verifies by exact raw comparison.
   try {
     const parsed = JSON.parse(content);
-    if (parsed && (parsed.agents || parsed.leaderboard)) localSig = signatureOf(parsed);
+    if (parsed && typeof parsed.status === "string" && (parsed.agents || parsed.leaderboard)) localSig = signatureOf(parsed);
   } catch { /* raw compare fallback */ }
   const sigMatches = (back) => back && back.raw != null &&
     (localSig && back.parsed ? signatureOf(back.parsed) === localSig : back.raw === content);
