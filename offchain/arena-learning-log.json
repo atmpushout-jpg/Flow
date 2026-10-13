@@ -1,0 +1,176 @@
+[
+ {
+  "ts": "2026-10-13T01:14:29.592Z",
+  "matchId": "full-corpus-through-arena-match-4",
+  "passType": "full-corpus-single-pass",
+  "adjustments": [
+   {
+    "fighter": "fade",
+    "rule": "META-1 efficiency-press",
+    "knob": "entrySizePct",
+    "from": 30,
+    "to": 35,
+    "evidence": {
+     "countedMatches": 4,
+     "prizePerCent": 3.92,
+     "countedPrize": 51,
+     "countedSpend": 0.13
+    }
+   },
+   {
+    "fighter": "rook",
+    "rule": "META-1 efficiency-press",
+    "knob": "entrySizePct",
+    "from": 20,
+    "to": 22.5,
+    "evidence": {
+     "countedMatches": 4,
+     "prizePerCent": 0.7,
+     "countedPrize": 30.6,
+     "countedSpend": 0.44
+    }
+   },
+   {
+    "fighter": "vex",
+    "rule": "META-2 winless-burn",
+    "knob": "requoteCount",
+    "from": 3,
+    "to": 2,
+    "evidence": {
+     "countedPrize": 0,
+     "winlessSpendAllEvents": 1.66,
+     "spendAllEvents": 1.66
+    }
+   },
+   {
+    "fighter": "audrey",
+    "rule": "META-2 winless-burn",
+    "knob": "candidatesScanned",
+    "from": 3,
+    "to": 2,
+    "evidence": {
+     "countedPrize": 0,
+     "winlessSpendAllEvents": 3.26,
+     "spendAllEvents": 3.26
+    }
+   },
+   {
+    "fighter": "audrey",
+    "rule": "META-3 cap-pressure",
+    "knob": "reverifyEveryRounds",
+    "from": 3,
+    "to": 4,
+    "evidence": {
+     "capRefusalsAllEvents": 20
+    }
+   },
+   {
+    "fighter": "vex",
+    "rule": "V-ENTRY verified-but-winless",
+    "knob": "exitSpikeFloor",
+    "from": 8,
+    "to": 7,
+    "evidence": {
+     "calls": 9,
+     "accuracy": 0.8889,
+     "countedPrize": 0,
+     "countedTrades": 4
+    }
+   },
+   {
+    "fighter": "audrey",
+    "rule": "A-SCORE call-quality",
+    "knob": "verdictScoreFloor",
+    "from": 70,
+    "to": 75,
+    "evidence": {
+     "calls": 15,
+     "accuracy": 0.6667
+    }
+   },
+   {
+    "fighter": "echo",
+    "rule": "E-AGE stale-copy",
+    "knob": "signalMaxAgeSec",
+    "from": 900,
+    "to": 600,
+    "evidence": {
+     "countedMatches": 4,
+     "prizePerCent": 0.14,
+     "spendPerMatch": 0.18
+    }
+   },
+   {
+    "fighter": "fade",
+    "rule": "F-RUN let-it-run",
+    "knob": "sellFullPct",
+    "from": 5,
+    "to": 5.5,
+    "evidence": {
+     "prizePerCent": 3.92,
+     "fieldMaxPrizePerCent": 3.92,
+     "spendPerMatch": 0.03
+    }
+   },
+   {
+    "fighter": "fade",
+    "rule": "F-RUN let-it-run",
+    "knob": "sellHalfPct",
+    "from": 2.5,
+    "to": 3,
+    "evidence": {
+     "prizePerCent": 3.92,
+     "fieldMaxPrizePerCent": 3.92,
+     "spendPerMatch": 0.03
+    }
+   },
+   {
+    "fighter": "longshot",
+    "rule": "L-FIRE never-fired",
+    "knob": "spikeEntryScore",
+    "from": 15,
+    "to": 13,
+    "evidence": {
+     "zeroTradeEvents": 7,
+     "events": 7,
+     "careerTrades": 0
+    }
+   },
+   {
+    "fighter": "longshot",
+    "rule": "L-FIRE never-fired",
+    "knob": "lateGateRounds",
+    "from": 3,
+    "to": 4,
+    "evidence": {
+     "zeroTradeEvents": 7,
+     "events": 7,
+     "careerTrades": 0
+    }
+   },
+   {
+    "fighter": "longshot",
+    "rule": "L-SHOTS more-shots",
+    "knob": "shotsPerMatch",
+    "from": 2,
+    "to": 3,
+    "evidence": {
+     "zeroTradeEvents": 7,
+     "careerTrades": 0
+    }
+   },
+   {
+    "fighter": "rook",
+    "rule": "R-CHECK feed-the-playbook",
+    "knob": "signalsCheckEvery",
+    "from": 3,
+    "to": 2,
+    "evidence": {
+     "podiumRate": 1,
+     "spendPerMatch": 0.11,
+     "countedPrize": 30.6
+    }
+   }
+  ]
+ }
+]
