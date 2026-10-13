@@ -25,6 +25,23 @@
  *    the exhibition/floor training pool and is never seated in title
  *    matches, so it has no knobs here.
  *
+ * Balance rules v1.1 (Atm directive, 2026-10-13 — "fix it", after FADE
+ * won four straight counted matches and all four exhibitions in a night):
+ *  - CATCH-UP ASYMMETRY: a fighter with no counted prize learns at
+ *    DOUBLE step size (stepMult 2, computed in aggregate()); anyone with
+ *    a counted prize — the reigning winner included — stays at the
+ *    standard step, which is therefore the smallest step in the field.
+ *    Bounded by the same persona fences; the multiplier is recorded in
+ *    every adjustment's log entry.
+ *  - V-ACT verified-no-convert: accuracy without conversion is treated
+ *    as an acting problem, not a caution problem (VEX).
+ *  - META-4 burn-discipline: the field's worst winless burner gets
+ *    discipline at double step on its data-appetite knob (replacing
+ *    META-2 for that fighter) plus, for AUDREY, a verdict-floor step.
+ *  Nothing here touches entry prices, rake, payouts, data prices, the
+ *  tape, or any character — rotation pressure comes only from how fast
+ *  each fighter's own knobs learn, in the open, in the log.
+ *
  * Evidence sources (all read-only):
  *  - Counted matches 1-4: arena-match-report.json (M1),
  *    arena-live-evidence-arena-match-2.json (M2 state),
@@ -272,27 +289,45 @@ function aggregate(events, accuracy) {
   }
   // field context for relative rules
   const efficiencies = FIGHTERS.map((f) => ev[f].counted.prizePerCent);
-  for (const f of FIGHTERS) ev[f].field = { maxPrizePerCent: Math.max(...efficiencies) };
+  const winlessSpends = FIGHTERS.filter((f) => ev[f].counted.prize === 0).map((f) => ev[f].counted.spend);
+  const maxWinlessSpend = winlessSpends.length ? Math.max(...winlessSpends) : 0;
+  for (const f of FIGHTERS) {
+    const C = ev[f].counted;
+    ev[f].field = { maxPrizePerCent: Math.max(...efficiencies), maxWinlessSpend };
+    // CATCH-UP ASYMMETRY (balance rules v1.1): winless fighters learn at
+    // double step; prize-winners — the reigning winner included — stay
+    // at the standard step, the smallest in the field.
+    ev[f].stepMult = C.matches >= 2 && C.prize === 0 ? 2 : 1;
+    // BURN DISCIPLINE target: zero counted prizes on the field's highest
+    // counted data spend — the worst spend-per-prize record there is.
+    ev[f].worstBurner = C.matches >= 2 && C.prize === 0 && C.spend > 0 && C.spend >= maxWinlessSpend;
+  }
   return ev;
 }
 
 // ---------------------------------------------------------------------------
-// 3. RULES — named, deterministic, one bounded step per rule per pass.
+// 3. RULES — named, deterministic, one bounded step per rule per pass
+//    (a step may be multiplied by the fighter's catch-up stepMult — see
+//    aggregate() — but it is still ONE rule application, clamped at the
+//    same persona bounds, and the multiplier is logged with it).
 //    A rule reads ONLY the fighter's own recorded evidence. Directions are
 //    fixed per rule (a rule never reverses itself), so repeated passes
 //    converge at the persona bounds instead of oscillating.
-//    Every knob has exactly ONE rule that can move it, except the two
-//    meta-rules whose per-fighter knob mapping is disjoint by design.
+//    Every knob has exactly ONE rule that can move it, except the
+//    meta-rules whose per-fighter knob mapping is disjoint by design —
+//    META-4 shares META-2's appetite-knob map but their fire conditions
+//    are disjoint (META-2 skips the fighter META-4 handles), so no knob
+//    is ever stepped by two rules for the same fighter in one pass.
 // ---------------------------------------------------------------------------
-function step(fighter, params, log, rule, knob, dir, evidence) {
+function step(fighter, params, log, rule, knob, dir, evidence, mult = 1) {
   const spec = KNOBS[fighter].knobs[knob];
   const from = params[fighter][knob];
-  const to = clamp(round2(from + dir * spec.step), spec.min, spec.max);
+  const to = clamp(round2(from + dir * spec.step * mult), spec.min, spec.max);
   // FADE invariant: the half-exit must stay below the full exit.
   if (fighter === "fade" && knob === "sellHalfPct" && to >= params.fade.sellFullPct - 1) return;
   if (to === from) return; // already at the persona bound — converged, nothing to log
   params[fighter][knob] = to;
-  log.push({ fighter, rule, knob, from, to, evidence });
+  log.push({ fighter, rule, knob, from, to, evidence, stepMult: mult });
 }
 
 const RULES = [
@@ -301,16 +336,16 @@ const RULES = [
     plain: "Proven efficiency earns a slightly bigger size: prize per data cent >= $0.50 over >= 3 counted matches -> entry size +1 step.",
     fires: (f, e) => e.counted.matches >= 3 && e.counted.prizePerCent >= 0.5,
     evidence: (e) => ({ countedMatches: e.counted.matches, prizePerCent: e.counted.prizePerCent, countedPrize: e.counted.prize, countedSpend: e.counted.spend }),
-    apply: (f, e, p, log) => step(f, p, log, "META-1 efficiency-press", "entrySizePct", +1, RULES[0].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "META-1 efficiency-press", "entrySizePct", +1, RULES[0].evidence(e), e.stepMult || 1),
   },
   {
     id: "META-2 winless-burn",
-    plain: "Zero counted prizes while burning >= $0.75 of data across all events -> the fighter's data-discipline knob tightens 1 step (VEX re-quotes less, AUDREY scans fewer candidates, ECHO copies only fresher signals, ROOK sizes down). LONGSHOT and FADE are exempt: FADE never burns, LONGSHOT's problem is the opposite (see L-FIRE).",
-    fires: (f, e) => ["vex", "audrey", "echo", "rook"].includes(f) && e.counted.prize === 0 && e.all.winlessSpend >= 0.75,
+    plain: "Zero counted prizes while burning >= $0.75 of data across all events -> the fighter's data-discipline knob tightens 1 step (VEX re-quotes less, AUDREY scans fewer candidates, ECHO copies only fresher signals, ROOK sizes down). LONGSHOT and FADE are exempt: FADE never burns, LONGSHOT's problem is the opposite (see L-FIRE). The field's single worst winless burner is exempt here too — META-4 burn-discipline handles that fighter at double step instead.",
+    fires: (f, e) => ["vex", "audrey", "echo", "rook"].includes(f) && !e.worstBurner && e.counted.prize === 0 && e.all.winlessSpend >= 0.75,
     evidence: (e) => ({ countedPrize: e.counted.prize, winlessSpendAllEvents: e.all.winlessSpend, spendAllEvents: e.all.spend }),
     apply: (f, e, p, log) => {
       const knob = { vex: "requoteCount", audrey: "candidatesScanned", echo: "signalMaxAgeSec", rook: "entrySizePct" }[f];
-      step(f, p, log, "META-2 winless-burn", knob, -1, RULES[1].evidence(e));
+      step(f, p, log, "META-2 winless-burn", knob, -1, RULES[1].evidence(e), e.stepMult || 1);
     },
   },
   {
@@ -318,28 +353,28 @@ const RULES = [
     plain: ">= 5 career cap refusals -> stop paying to re-check so often: re-verification cadence +1 round (AUDREY is the only fighter with a re-verify knob — and the only one who has ever hit the cap).",
     fires: (f, e) => !!KNOBS[f].knobs.reverifyEveryRounds && e.all.refusals >= 5,
     evidence: (e) => ({ capRefusalsAllEvents: e.all.refusals }),
-    apply: (f, e, p, log) => step(f, p, log, "META-3 cap-pressure", "reverifyEveryRounds", +1, RULES[2].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "META-3 cap-pressure", "reverifyEveryRounds", +1, RULES[2].evidence(e), e.stepMult || 1),
   },
   {
     id: "V-ENTRY verified-but-winless",
     plain: "VEX only: his spike calls verify (accuracy >= 0.75 on >= 5 calls) yet he has no prize — the calls were real, the exits were worthless. Hold through shallow fades: exit spike floor -1 step.",
     fires: (f, e) => f === "vex" && e.accuracy.calls >= 5 && e.accuracy.accuracy != null && e.accuracy.accuracy >= 0.75 && e.counted.prize === 0 && e.counted.trades >= 3,
     evidence: (e) => ({ calls: e.accuracy.calls, accuracy: e.accuracy.accuracy, countedPrize: e.counted.prize, countedTrades: e.counted.trades }),
-    apply: (f, e, p, log) => step(f, p, log, "V-ENTRY verified-but-winless", "exitSpikeFloor", -1, RULES[3].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "V-ENTRY verified-but-winless", "exitSpikeFloor", -1, RULES[3].evidence(e), e.stepMult || 1),
   },
   {
     id: "A-SCORE call-quality",
     plain: "AUDREY only: worst call accuracy in the field (< 0.70 on >= 10 calls) -> demand cleaner verdicts before buying: verdict score floor +1 step. Costs no extra data.",
     fires: (f, e) => f === "audrey" && e.accuracy.calls >= 10 && e.accuracy.accuracy != null && e.accuracy.accuracy < 0.70,
     evidence: (e) => ({ calls: e.accuracy.calls, accuracy: e.accuracy.accuracy }),
-    apply: (f, e, p, log) => step(f, p, log, "A-SCORE call-quality", "verdictScoreFloor", +1, RULES[4].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "A-SCORE call-quality", "verdictScoreFloor", +1, RULES[4].evidence(e), e.stepMult || 1),
   },
   {
     id: "E-AGE stale-copy",
     plain: "ECHO only: podiumed but inefficient (prize per cent < $0.25, spend already lean) -> the copies are stale, not costly: only copy fresher money, signal max age -1 step.",
     fires: (f, e) => f === "echo" && e.counted.matches >= 3 && e.counted.prizePerCent < 0.25 && e.counted.spendPerMatch <= 0.20,
     evidence: (e) => ({ countedMatches: e.counted.matches, prizePerCent: e.counted.prizePerCent, spendPerMatch: e.counted.spendPerMatch }),
-    apply: (f, e, p, log) => step(f, p, log, "E-AGE stale-copy", "signalMaxAgeSec", -1, RULES[5].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "E-AGE stale-copy", "signalMaxAgeSec", -1, RULES[5].evidence(e), e.stepMult || 1),
   },
   {
     id: "F-RUN let-it-run",
@@ -347,8 +382,8 @@ const RULES = [
     fires: (f, e) => f === "fade" && e.counted.matches >= 2 && e.counted.prizePerCent >= e.field.maxPrizePerCent && e.counted.prizePerCent > 0 && e.counted.spendPerMatch <= 0.10,
     evidence: (e) => ({ prizePerCent: e.counted.prizePerCent, fieldMaxPrizePerCent: e.field.maxPrizePerCent, spendPerMatch: e.counted.spendPerMatch }),
     apply: (f, e, p, log) => {
-      step(f, p, log, "F-RUN let-it-run", "sellFullPct", +1, RULES[6].evidence(e));
-      step(f, p, log, "F-RUN let-it-run", "sellHalfPct", +1, RULES[6].evidence(e));
+      step(f, p, log, "F-RUN let-it-run", "sellFullPct", +1, RULES[6].evidence(e), e.stepMult || 1);
+      step(f, p, log, "F-RUN let-it-run", "sellHalfPct", +1, RULES[6].evidence(e), e.stepMult || 1);
     },
   },
   {
@@ -357,8 +392,8 @@ const RULES = [
     fires: (f, e) => f === "longshot" && e.all.zeroTradeEvents >= 2,
     evidence: (e) => ({ zeroTradeEvents: e.all.zeroTradeEvents, events: e.all.events, careerTrades: e.all.trades }),
     apply: (f, e, p, log) => {
-      step(f, p, log, "L-FIRE never-fired", "spikeEntryScore", -1, RULES[7].evidence(e));
-      step(f, p, log, "L-FIRE never-fired", "lateGateRounds", +1, RULES[7].evidence(e));
+      step(f, p, log, "L-FIRE never-fired", "spikeEntryScore", -1, RULES[7].evidence(e), e.stepMult || 1);
+      step(f, p, log, "L-FIRE never-fired", "lateGateRounds", +1, RULES[7].evidence(e), e.stepMult || 1);
     },
   },
   {
@@ -366,14 +401,38 @@ const RULES = [
     plain: "LONGSHOT only: >= 3 zero-trade events and zero career trades — one or two chances a match is not enough surface area for a sniper whose trigger loosened: shots per match +1 step.",
     fires: (f, e) => f === "longshot" && e.all.zeroTradeEvents >= 3 && e.all.trades === 0,
     evidence: (e) => ({ zeroTradeEvents: e.all.zeroTradeEvents, careerTrades: e.all.trades }),
-    apply: (f, e, p, log) => step(f, p, log, "L-SHOTS more-shots", "shotsPerMatch", +1, RULES[8].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "L-SHOTS more-shots", "shotsPerMatch", +1, RULES[8].evidence(e), e.stepMult || 1),
   },
   {
     id: "R-CHECK feed-the-playbook",
     plain: "ROOK only: podium rate >= 75% on a lean data bill (<= $0.12/match) -> the playbook works, feed it slightly more information: signals board-check every 2 rounds instead of 3.",
     fires: (f, e) => f === "rook" && e.counted.matches >= 3 && e.counted.podiumRate >= 0.75 && e.counted.spendPerMatch <= 0.12,
     evidence: (e) => ({ podiumRate: e.counted.podiumRate, spendPerMatch: e.counted.spendPerMatch, countedPrize: e.counted.prize }),
-    apply: (f, e, p, log) => step(f, p, log, "R-CHECK feed-the-playbook", "signalsCheckEvery", -1, RULES[9].evidence(e)),
+    apply: (f, e, p, log) => step(f, p, log, "R-CHECK feed-the-playbook", "signalsCheckEvery", -1, RULES[9].evidence(e), e.stepMult || 1),
+  },
+  {
+    id: "V-ACT verified-no-convert",
+    plain: "VEX only (balance rule v1.1, 2026-10-13): his spike calls verify (accuracy >= 0.75 on >= 5 calls) and he does trade, yet converts none of it into a counted prize — accuracy without conversion. The prescription is the opposite of caution: act on more of the calls he already gets right. Entry spike score -1 step (doubled by his catch-up multiplier while he stays winless).",
+    fires: (f, e) => f === "vex" && e.accuracy.calls >= 5 && e.accuracy.accuracy != null && e.accuracy.accuracy >= 0.75 && e.counted.prize === 0 && e.counted.trades >= 3,
+    evidence: (e) => ({ calls: e.accuracy.calls, accuracy: e.accuracy.accuracy, countedPrize: e.counted.prize, countedTrades: e.counted.trades }),
+    apply: (f, e, p, log) => step(f, p, log, "V-ACT verified-no-convert", "spikeEntryScore", -1, RULES[10].evidence(e), e.stepMult || 1),
+  },
+  {
+    id: "META-4 burn-discipline",
+    plain: "Balance rule v1.1 (2026-10-13): the field's worst winless burner — zero counted prizes on the highest counted data spend in the field — gets discipline HARDER than the standard step: its data-appetite knob tightens 2 steps in one pass (this rule replaces META-2 for that fighter — META-2's fire condition excludes whoever META-4 handles, so the knob still has exactly one mover per pass). For AUDREY the verdict score floor also steps up 1: burn the most, win nothing, and you buy less data while demanding cleaner verdicts with what you still buy. Fighters with no appetite knob in the map (FADE — never a burner; LONGSHOT — his pathology is the opposite) take no appetite step here.",
+    fires: (f, e) => !!e.worstBurner,
+    evidence: (e) => ({ countedPrize: e.counted.prize, countedSpend: e.counted.spend, fieldMaxWinlessSpend: e.field.maxWinlessSpend, countedMatches: e.counted.matches }),
+    apply: (f, e, p, log) => {
+      const knob = { vex: "requoteCount", audrey: "candidatesScanned", echo: "signalMaxAgeSec", rook: "entrySizePct" }[f];
+      if (knob) step(f, p, log, "META-4 burn-discipline", knob, -1, RULES[11].evidence(e), 2);
+      // AUDREY's verdict floor: stepped here only when A-SCORE (the
+      // floor's accuracy-pathology owner) is NOT firing this pass — the
+      // two conditions stay disjoint, one mover per knob per pass. When
+      // A-SCORE does fire for a winless AUDREY, its own step is already
+      // doubled by her catch-up multiplier.
+      const aScoreFiring = f === "audrey" && e.accuracy.calls >= 10 && e.accuracy.accuracy != null && e.accuracy.accuracy < 0.70;
+      if (f === "audrey" && !aScoreFiring) step(f, p, log, "META-4 burn-discipline", "verdictScoreFloor", +1, RULES[11].evidence(e), 1);
+    },
   },
 ];
 
@@ -390,7 +449,7 @@ function learnPass(evidence, baseParams) {
 }
 
 // Chronological trajectory: a pass after each recorded event, cumulative
-// evidence. Accuracy-based rules (V-ENTRY, A-SCORE) read the corpus-final
+// evidence. Accuracy-based rules (V-ENTRY, V-ACT, A-SCORE) read the corpus-final
 // accuracy file — per-event accuracy history was never persisted — so
 // they are evaluated only at the final step and say so in the log.
 function trajectory(events, accuracy) {
@@ -402,7 +461,7 @@ function trajectory(events, accuracy) {
     const before = cloneParams(params);
     const log = [];
     for (const rule of RULES) {
-      const accuracyRule = rule.id.startsWith("V-ENTRY") || rule.id.startsWith("A-SCORE");
+      const accuracyRule = rule.id.startsWith("V-ENTRY") || rule.id.startsWith("V-ACT") || rule.id.startsWith("A-SCORE");
       if (accuracyRule && !isLast) continue;
       for (const f of FIGHTERS) {
         if (rule.fires(f, cumulative[f])) rule.apply(f, cumulative[f], params, log);
