@@ -29,6 +29,14 @@
     {
       "source": "/openapi.json",
       "destination": "/api/openapi"
+    },
+    {
+      "source": "/api/starter/claims",
+      "destination": "/api/starter?route=claims"
+    },
+    {
+      "source": "/api/starter/claim-action",
+      "destination": "/api/starter?route=claim-action"
     }
   ],
   "ignoreCommand": "git diff HEAD^ HEAD --quiet -- . \":(exclude)stats/explanation.json\""
