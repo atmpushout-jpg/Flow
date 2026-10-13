@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-13T00:20:24.274Z",
  "endedAt": null,
- "currentRound": 11,
+ "currentRound": 12,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 71.02,
-   "dataSpend": 0.23,
+   "cash": 71,
+   "dataSpend": 0.25,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -1145,17 +1145,34 @@
    "type": "HOLD",
    "agentId": "rook",
    "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-13T00:28:32.447Z",
+   "round": 12,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "TEST",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-13T00:28:32.458Z",
+   "round": 12,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 95,
+   "treasury": 94.97,
    "cash": 32.57,
    "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -5,
+   "pnl": -5.03,
    "rank": 1
   },
   {
@@ -1181,11 +1198,11 @@
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.77,
-   "cash": 71.02,
-   "dataSpend": 0.23,
+   "treasury": 94.75,
+   "cash": 71,
+   "dataSpend": 0.25,
    "eliminated": false,
-   "pnl": -5.23,
+   "pnl": -5.25,
    "rank": 4
   },
   {
@@ -1201,11 +1218,11 @@
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.58,
+   "treasury": 94.59,
    "cash": 36.76,
    "dataSpend": 0.41,
    "eliminated": false,
-   "pnl": -5.42,
+   "pnl": -5.41,
    "rank": 6
   }
  ],
