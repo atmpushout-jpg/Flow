@@ -1,0 +1,78 @@
+{
+ "passportVersion": 1,
+ "kind": "flow-arena-fighter-passport",
+ "fighterId": "flowx",
+ "name": "FLOWX",
+ "affiliation": "HOUSE — exhibition class only",
+ "issuedAt": "2026-10-13T13:15:56.621Z",
+ "issuer": {
+  "name": "Flow Arena — House of Intelligence",
+  "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+  "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+ },
+ "counted": null,
+ "countedNote": "FLOWX has never played a counted match and never will under the house exhibition rule — his record is exhibition class only. Nothing in the counted standings includes him.",
+ "exhibition": {
+  "matches": 3,
+  "wins": 3,
+  "titles": 3,
+  "prizesUsd": 4.47,
+  "dataUsd": 0.03,
+  "efficiency": {
+   "prizePerDataCent": 1.49,
+   "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+  },
+  "trades": 3,
+  "pnlUsd": 0,
+  "perMatch": [
+   {
+    "matchId": "exhibition-flowx-formula-v1-011267",
+    "placing": 1,
+    "prizeUsd": 1.49,
+    "dataUsd": 0.01,
+    "efficiency": 1.49,
+    "trades": 1,
+    "pnlUsd": 0
+   },
+   {
+    "matchId": "exhibition-flowx-formula-v1-165998",
+    "placing": 1,
+    "prizeUsd": 1.49,
+    "dataUsd": 0.01,
+    "efficiency": 1.49,
+    "trades": 1,
+    "pnlUsd": 0
+   },
+   {
+    "matchId": "exhibition-flowx-formula-v1-841656",
+    "placing": 1,
+    "prizeUsd": 1.49,
+    "dataUsd": 0.01,
+    "efficiency": 1.49,
+    "trades": 1,
+    "pnlUsd": 0
+   }
+  ],
+  "receipts": [
+   {
+    "matchId": "exhibition-flowx-formula-v1-011267",
+    "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+   },
+   {
+    "matchId": "exhibition-flowx-formula-v1-165998",
+    "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+   },
+   {
+    "matchId": "exhibition-flowx-formula-v1-841656",
+    "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+   }
+  ]
+ },
+ "exhibitionNote": "Scoped to the FLOWX formula-v1 debut series (3 exhibitions, 2026-10-12) — the first completed, verified FLOWX series. FLOWX also sits in other exhibition events in the same public record files (control/mirror runs, later series); those are not folded into this card.",
+ "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+ "signature": {
+  "alg": "secp256k1 EIP-191 personal_sign",
+  "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+  "value": "0x96236a6bb34a512e4bc3fd99952d248b0d6744657d86b03f003d9a5d223a413d5b22a74d45ed4f2cb9c5a5aeea98d73b3458738f8f4989142493f8a2e4b3bd451c"
+ }
+}
