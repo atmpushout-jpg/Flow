@@ -1,0 +1,311 @@
+{
+ "version": 1,
+ "frozen": {
+  "arena-match-1": {
+   "matchId": "arena-match-1",
+   "klass": "OFFICIAL",
+   "source": "arena-state.match1.bak.json",
+   "results": [
+    {
+     "agentId": "fade",
+     "name": "FADE",
+     "rank": 1,
+     "payout": 12.75,
+     "dataSpend": 0.03,
+     "trades": 3,
+     "pnl": -0.04
+    },
+    {
+     "agentId": "rook",
+     "name": "ROOK",
+     "rank": 2,
+     "payout": 7.65,
+     "dataSpend": 0.11,
+     "trades": 2,
+     "pnl": 0.04
+    },
+    {
+     "agentId": "longshot",
+     "name": "LONGSHOT",
+     "rank": 3,
+     "payout": 5.1,
+     "dataSpend": 0.12,
+     "trades": 0,
+     "pnl": 0
+    },
+    {
+     "agentId": "echo",
+     "name": "ECHO",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.18,
+     "trades": 7,
+     "pnl": 0
+    },
+    {
+     "agentId": "vex",
+     "name": "VEX",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.29,
+     "trades": 1,
+     "pnl": 0.09
+    },
+    {
+     "agentId": "audrey",
+     "name": "AUDREY",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.6,
+     "trades": 2,
+     "pnl": 0.05
+    }
+   ]
+  },
+  "arena-match-2": {
+   "matchId": "arena-match-2",
+   "klass": "OFFICIAL",
+   "source": "arena-state.json",
+   "results": [
+    {
+     "agentId": "fade",
+     "name": "FADE",
+     "rank": 1,
+     "payout": 12.75,
+     "dataSpend": 0.04,
+     "trades": 6,
+     "pnl": 0.56
+    },
+    {
+     "agentId": "rook",
+     "name": "ROOK",
+     "rank": 2,
+     "payout": 7.65,
+     "dataSpend": 0.11,
+     "trades": 2,
+     "pnl": 0
+    },
+    {
+     "agentId": "longshot",
+     "name": "LONGSHOT",
+     "rank": 3,
+     "payout": 5.1,
+     "dataSpend": 0.12,
+     "trades": 0,
+     "pnl": 0
+    },
+    {
+     "agentId": "audrey",
+     "name": "AUDREY",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.43,
+     "trades": 8,
+     "pnl": 0.28
+    },
+    {
+     "agentId": "echo",
+     "name": "ECHO",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.18,
+     "trades": 7,
+     "pnl": 0
+    },
+    {
+     "agentId": "vex",
+     "name": "VEX",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.29,
+     "trades": 1,
+     "pnl": 0
+    }
+   ]
+  },
+  "arena-match-3": {
+   "matchId": "arena-match-3",
+   "klass": "OFFICIAL",
+   "source": "arena-live-report.json",
+   "results": [
+    {
+     "agentId": "fade",
+     "name": "FADE",
+     "rank": 1,
+     "payout": 12.75,
+     "dataSpend": 0.03,
+     "trades": 3,
+     "pnl": 0.22
+    },
+    {
+     "agentId": "rook",
+     "name": "ROOK",
+     "rank": 2,
+     "payout": 7.65,
+     "dataSpend": 0.11,
+     "trades": 2,
+     "pnl": 0.07
+    },
+    {
+     "agentId": "echo",
+     "name": "ECHO",
+     "rank": 3,
+     "payout": 5.1,
+     "dataSpend": 0.18,
+     "trades": 7,
+     "pnl": 0.12
+    },
+    {
+     "agentId": "longshot",
+     "name": "LONGSHOT",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.12,
+     "trades": 0,
+     "pnl": 0
+    },
+    {
+     "agentId": "vex",
+     "name": "VEX",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.4,
+     "trades": 1,
+     "pnl": -0.07
+    },
+    {
+     "agentId": "audrey",
+     "name": "AUDREY",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.6,
+     "trades": 2,
+     "pnl": 0.05
+    }
+   ]
+  },
+  "arena-test-1": {
+   "matchId": "arena-test-1",
+   "klass": "EXHIBITION",
+   "source": "arena-live-evidence-arena-test-1.json",
+   "results": [
+    {
+     "agentId": "fade",
+     "name": "FADE",
+     "rank": 1,
+     "payout": 12.75,
+     "dataSpend": 0.03,
+     "trades": 3,
+     "pnl": 0
+    },
+    {
+     "agentId": "rook",
+     "name": "ROOK",
+     "rank": 2,
+     "payout": 7.65,
+     "dataSpend": 0.1,
+     "trades": 1,
+     "pnl": 0
+    },
+    {
+     "agentId": "echo",
+     "name": "ECHO",
+     "rank": 3,
+     "payout": 5.1,
+     "dataSpend": 0.18,
+     "trades": 7,
+     "pnl": 0
+    },
+    {
+     "agentId": "vex",
+     "name": "VEX",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.29,
+     "trades": 1,
+     "pnl": -0.01
+    },
+    {
+     "agentId": "longshot",
+     "name": "LONGSHOT",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.42,
+     "trades": 0,
+     "pnl": 0
+    },
+    {
+     "agentId": "audrey",
+     "name": "AUDREY",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.6,
+     "trades": 4,
+     "pnl": 0
+    }
+   ]
+  },
+  "arena-match-4": {
+   "matchId": "arena-match-4",
+   "klass": "OFFICIAL",
+   "source": "arena-live-evidence-arena-match-4.json",
+   "results": [
+    {
+     "agentId": "fade",
+     "name": "FADE",
+     "rank": 1,
+     "payout": 12.75,
+     "dataSpend": 0.03,
+     "trades": 4,
+     "pnl": 0.34
+    },
+    {
+     "agentId": "rook",
+     "name": "ROOK",
+     "rank": 2,
+     "payout": 7.65,
+     "dataSpend": 0.11,
+     "trades": 2,
+     "pnl": 0
+    },
+    {
+     "agentId": "echo",
+     "name": "ECHO",
+     "rank": 3,
+     "payout": 5.1,
+     "dataSpend": 0.18,
+     "trades": 7,
+     "pnl": 0
+    },
+    {
+     "agentId": "vex",
+     "name": "VEX",
+     "rank": 4,
+     "payout": 0,
+     "dataSpend": 0.29,
+     "trades": 1,
+     "pnl": 0
+    },
+    {
+     "agentId": "longshot",
+     "name": "LONGSHOT",
+     "rank": 5,
+     "payout": 0,
+     "dataSpend": 0.42,
+     "trades": 0,
+     "pnl": 0
+    },
+    {
+     "agentId": "audrey",
+     "name": "AUDREY",
+     "rank": 6,
+     "payout": 0,
+     "dataSpend": 0.52,
+     "trades": 6,
+     "pnl": -0.04
+    }
+   ]
+  }
+ },
+ "frozenAt": "2026-10-13T13:39:42.993Z"
+}
