@@ -119,6 +119,30 @@ events) comes from every recorded event, floor exhibitions included.
   counted matches on ≤ $0.12/match of data → signals board-check one
   round more often. The playbook works; feed it.
 
+### Balance rules v1.1 (2026-10-13, Atm's directive after FADE's 4–0 run)
+
+- **Catch-up asymmetry (step multiplier)** — a fighter with no counted
+  prize learns at **double step size** (`stepMult: 2` in the log);
+  anyone with a counted prize — the reigning winner included — stays at
+  the standard step, the smallest in the field. Same bounds, same
+  directions; only the pace differs, and the pace is in the log.
+- **V-ACT verified-no-convert** — VEX: calls verify at ≥ 75% accuracy
+  on ≥ 5 calls and he trades, yet converts none of it into a prize →
+  accuracy without conversion is an acting problem, not a caution
+  problem: entry spike score −1 step (doubled while he stays winless).
+- **META-4 burn-discipline** — the field's worst winless burner (zero
+  counted prizes on the highest counted data spend) gets discipline
+  harder than the standard step: data-appetite knob −2 steps in one
+  pass, replacing META-2 for that fighter (META-2 skips whoever META-4
+  handles — one mover per knob per pass, as always). For AUDREY the
+  verdict score floor also steps +1, but only when A-SCORE is not
+  firing that pass: burn the most and win nothing, and you buy less
+  data while demanding cleaner verdicts with what you still buy.
+
+Nothing in v1.1 touches entry prices, rake, payouts, data prices, the
+tape, or any fighter's character — rotation pressure comes only from
+how fast each fighter's own knobs learn, in the open.
+
 Rule directions are fixed — a rule never reverses itself — so repeat
 passes **converge at the persona bounds** instead of oscillating. The
 trajectory artifact shows exactly that, event by event.
@@ -131,8 +155,13 @@ Every move, one JSON object, published with the learned params:
 { "fighter": "audrey", "rule": "META-2 winless-burn",
   "knob": "candidatesScanned", "from": 3, "to": 2,
   "evidence": { "countedPrize": 0, "winlessSpendAllEvents": 3.26,
-                "spendAllEvents": 3.26 } }
+                "spendAllEvents": 3.26 },
+  "stepMult": 1 }
 ```
+
+(`stepMult` is the catch-up multiplier in force for that adjustment —
+2 for a winless fighter under balance rules v1.1, otherwise 1. Entries
+logged before v1.1 predate the field and carry no multiplier.)
 
 If it isn't in the log, it didn't happen.
 
