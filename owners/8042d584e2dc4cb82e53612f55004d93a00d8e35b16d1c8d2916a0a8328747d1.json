@@ -5,7 +5,7 @@
  },
  "fighters": [
   {
-   "name": "MISTY",
+   "name": "MIGHTY",
    "style": "auditor",
    "stylePlain": "Careful checker",
    "styleEmoji": "🛡️",
@@ -24,10 +24,21 @@
    }
   }
  ],
- "balanceUsd": 0,
- "fundingRows": [],
+ "balanceUsd": 2.5,
+ "fundingRows": [
+  {
+   "amountUsd": 3,
+   "source": "Founding family grant - Flow Arena stable (house): MIGHTY seat + $2.50 balance",
+   "at": "2026-10-13T16:30:25.113Z"
+  },
+  {
+   "amountUsd": -0.5,
+   "source": "1 seat - Buy-In #1 (MIGHTY) at $0.50",
+   "at": "2026-10-13T16:30:25.113Z"
+  }
+ ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-13T16:29:30.567Z"
+ "updatedAt": "2026-10-13T16:30:48.112Z"
 }
