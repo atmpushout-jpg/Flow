@@ -1,0 +1,20 @@
+{
+  "name": "flow-verdict-registry-arc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flow Verdict Registry on Arc — on-chain anchor for Flow /api/verify contract-safety verdicts (Arc mainnet, chain 5042).",
+  "scripts": {
+    "compile": "node scripts/compile.js",
+    "test": "node test/registry.test.js",
+    "deploy": "node scripts/deploy.js",
+    "check": "node scripts/arc-feed.js check",
+    "record": "node scripts/arc-feed.js check --send"
+  },
+  "dependencies": {
+    "ethers": "^6.17.0"
+  },
+  "devDependencies": {
+    "ganache": "^7.9.2",
+    "solc": "^0.8.26"
+  }
+}
