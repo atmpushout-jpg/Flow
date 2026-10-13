@@ -33,12 +33,12 @@
   },
   {
    "amountUsd": -0.5,
-   "source": "1 seat - Buy-In #1 (MIGHTY) at $0.50",
+   "source": "1 seat - Buy-In #1 at $0.50",
    "at": "2026-10-13T16:30:25.113Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-13T16:30:48.112Z"
+ "updatedAt": "2026-10-13T16:31:53.253Z"
 }
