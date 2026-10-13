@@ -22,63 +22,6 @@
     "seatId": "seat-buy-in-1-002",
     "status": "SEATED"
    }
-  },
-  {
-   "name": "SABLE",
-   "style": "sniper",
-   "stylePlain": "Patient sniper",
-   "styleEmoji": "🎯",
-   "blurb": "waits, then one big shot",
-   "choices": {
-    "appetite": "careful",
-    "aggression": "big",
-    "patience": "ride"
-   },
-   "dataBudgetUsd": 0.1,
-   "seat": {
-    "eventId": "buy-in-1",
-    "eventName": "Buy-In #1",
-    "seatId": "seat-buy-in-1-003",
-    "status": "SEATED"
-   }
-  },
-  {
-   "name": "REBEL",
-   "style": "contrarian",
-   "stylePlain": "Lone wolf",
-   "styleEmoji": "🌑",
-   "blurb": "buys what the crowd ignores",
-   "choices": {
-    "appetite": "balanced",
-    "aggression": "mixed",
-    "patience": "standard"
-   },
-   "dataBudgetUsd": 0.3,
-   "seat": {
-    "eventId": "buy-in-1",
-    "eventName": "Buy-In #1",
-    "seatId": "seat-buy-in-1-004",
-    "status": "SEATED"
-   }
-  },
-  {
-   "name": "SURGE",
-   "style": "momentum",
-   "stylePlain": "Bold striker",
-   "styleEmoji": "🔴",
-   "blurb": "attacks what's moving",
-   "choices": {
-    "appetite": "big",
-    "aggression": "big",
-    "patience": "quick"
-   },
-   "dataBudgetUsd": 0.6,
-   "seat": {
-    "eventId": "buy-in-1",
-    "eventName": "Buy-In #1",
-    "seatId": "seat-buy-in-1-005",
-    "status": "SEATED"
-   }
   }
  ],
  "balanceUsd": 7,
@@ -90,7 +33,7 @@
   },
   {
    "amountUsd": -2.5,
-   "source": "5 seats - Buy-In #1 (FLY, SABLE, REBEL, SURGE, LEDGER) at $0.50",
+   "source": "5 seats - Buy-In #1 at $0.50",
    "at": "2026-10-13T16:12:00.000Z"
   }
  ],
@@ -99,5 +42,5 @@
  "requestsApplied": [
   "65e19555-f6c1-4c9a-a540-2cfb39ae7f65"
  ],
- "updatedAt": "2026-10-13T16:27:57.602Z"
+ "updatedAt": "2026-10-13T16:28:30.773Z"
 }
