@@ -132,6 +132,76 @@ const SPEC = {
     }
    }
   },
+  "/api/fill": {
+   "post": {
+    "description": "Executable fill instruction: returns the route package (venue, venueKey, router, calldata params, expected/min output, block number and expiry) for the best route. Priced dynamically at 25% of the measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 (and no payment gate) when there is no improvement. Pass blockNumber from a first response to pin the quote on the paid retry so the fee reproduces exactly. Flow never holds swap funds; the caller executes wallet -> DEX router -> wallet.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "properties": {
+         "amountIn": {
+          "description": "Input amount in smallest units",
+          "example": "100000000",
+          "type": "string"
+         },
+         "blockNumber": {
+          "description": "Optional: pin the quote to this block (from a first fill/quote response) so the dynamic fee reproduces exactly on the paid retry",
+          "type": "integer"
+         },
+         "recipient": {
+          "description": "Optional: swap recipient address; when present, exactInputSingle calldata is included for Uniswap/Aerodrome routes",
+          "example": "0x1111111111111111111111111111111111111111",
+          "type": "string"
+         },
+         "tokenIn": {
+          "description": "ERC-20 contract address of input token",
+          "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "type": "string"
+         },
+         "tokenOut": {
+          "description": "ERC-20 contract address of output token",
+          "example": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+          "type": "string"
+         }
+        },
+        "required": [
+         "tokenIn",
+         "tokenOut",
+         "amountIn"
+        ],
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Route package (charged:false with fee $0 when there is no improvement over the Uniswap baseline)"
+     },
+     "402": {
+      "description": "Payment required — x402 v2 exact on Base (eip155:8453); amount is dynamic: 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output."
+     },
+     "409": {
+      "description": "Pinned quote expired or the re-quoted fee changed; no payment was settled."
+     }
+    },
+    "summary": "Get executable fill instruction (dynamic price)",
+    "x-payment-info": {
+     "price": {
+      "mode": "dynamic",
+      "currency": "USD",
+      "amount": "25% of measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 when no improvement"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
+    }
+   }
+  },
   "/api/stats": {
    "get": {
     "description": "Approximate per-instance counters (reset on cold start).",
