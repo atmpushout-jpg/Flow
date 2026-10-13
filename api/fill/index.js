@@ -139,7 +139,9 @@ module.exports = async (req, res) => {
     return res.json({
       ...pkg,
       charged: false,
-      reason: "No improvement over the Uniswap baseline at this block, so the fill fee is $0 and no payment was required. The route package is the best (baseline) route.",
+      reason: fee.feeBelowFloor
+        ? "The measured improvement prices a fill fee below the $0.001 minimum the payment facilitator can settle, so no payment was required (charged: false) and the route package is served free. The route package is the best route."
+        : "No improvement over the Uniswap baseline at this block, so the fill fee is $0 and no payment was required. The route package is the best (baseline) route.",
     });
   }
 
