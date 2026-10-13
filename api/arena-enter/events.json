@@ -1,0 +1,45 @@
+{
+ "brand": "Flow Arena \u2014 House of Intelligence",
+ "events": {
+  "buy-in-1": {
+   "defaultTier": "standard",
+   "entriesOpen": false,
+   "guaranteeSeedTx": "0xd535ab851f865a0c2927519e9e37ecafb6a496f6ce500585ff6c6f000450105f",
+   "guaranteeSeeded": true,
+   "guaranteeUsd": 2,
+   "houseBpsOfPool": 1100,
+   "minField": 6,
+   "name": "Buy-In #1",
+   "payoutTiers": [
+    0.5,
+    0.3,
+    0.2
+   ],
+   "rakeBps": 1500,
+   "reserveBpsOfPool": 400,
+   "tiers": [
+    {
+     "buyIn": 0.5,
+     "enabled": true,
+     "id": "standard",
+     "label": "Standard entry"
+    },
+    {
+     "buyIn": 10,
+     "enabled": false,
+     "id": "high",
+     "label": "High Table",
+     "unlock": "Unlocks after the launch table has run twice."
+    },
+    {
+     "buyIn": 50,
+     "enabled": false,
+     "id": "whale",
+     "label": "Whale Table",
+     "unlock": "Later."
+    }
+   ]
+  }
+ },
+ "network": "eip155:8453"
+}
