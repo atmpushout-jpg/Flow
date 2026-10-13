@@ -610,10 +610,12 @@ async function handler(req, res) {
   const { address: rawAddress, token: rawToken, chain: rawChain } = req.body || {};
   const address = rawAddress || rawToken;
   if (!address || !/^0x[0-9a-fA-F]{40}$/.test(address)) {
+    await x402.releaseBuilderKey(gate); // malformed body — a builder-key call is not consumed
     return res.status(400).json({ error: "Provide a valid EVM 'address' (0x + 40 hex chars)" });
   }
   const chain = resolveChain(rawChain);
   if (!chain) {
+    await x402.releaseBuilderKey(gate); // malformed body — a builder-key call is not consumed
     return res.status(400).json({ error: `Unknown chain '${rawChain}'. Supported: ${Object.keys(CHAINS).join(", ")} (or chain id)` });
   }
 
@@ -621,7 +623,8 @@ async function handler(req, res) {
     const report = await analyze(address, chain);
 
     // Settle the authorized payment now that the resource has executed.
-    if (gate) {
+    // (Builder-key gates already reserved their test call — no settle.)
+    if (gate && !gate.builderKey) {
       let settled;
       try {
         settled = await x402.settlePayment(gate);
@@ -639,6 +642,10 @@ async function handler(req, res) {
         network: settled.response.network,
         payer: settled.response.payer,
       };
+    }
+
+    if (gate && gate.builderKey) {
+      report.builderKey = { callsRemaining: gate.builderKey.callsRemaining };
     }
 
     res.json(report);
