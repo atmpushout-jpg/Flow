@@ -9,7 +9,7 @@
  "status": "live",
  "startedAt": "2026-10-13T00:20:24.274Z",
  "endedAt": null,
- "currentRound": 12,
+ "currentRound": 13,
  "totalRounds": 14,
  "rules": {
   "entryStakeUsd": 5,
@@ -127,8 +127,8 @@
  "agents": {
   "vex": {
    "id": "vex",
-   "cash": 71,
-   "dataSpend": 0.25,
+   "cash": 70.98,
+   "dataSpend": 0.27,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -149,8 +149,8 @@
   },
   "audrey": {
    "id": "audrey",
-   "cash": 36.76,
-   "dataSpend": 0.41,
+   "cash": 36.68,
+   "dataSpend": 0.49,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -211,20 +211,20 @@
   },
   "echo": {
    "id": "echo",
-   "cash": 71.14,
-   "dataSpend": 0.14,
+   "cash": 71.12,
+   "dataSpend": 0.17,
    "positions": [
     {
      "token": "0x4200000000000000000000000000000000000006",
      "symbol": "WETH",
-     "units": 0.009784267623643938,
+     "units": 0.009780142721610362,
      "entryPrice": 2424.3,
-     "costUsd": 23.72,
-     "entryRound": 9
+     "costUsd": 23.71,
+     "entryRound": 13
     }
    ],
    "realizedPnl": 0,
-   "trades": 5,
+   "trades": 7,
    "eliminated": false,
    "eliminatedRound": null,
    "payout": 0,
@@ -271,8 +271,8 @@
   },
   "longshot": {
    "id": "longshot",
-   "cash": 94.67,
-   "dataSpend": 0.33,
+   "cash": 94.61,
+   "dataSpend": 0.39,
    "positions": [],
    "realizedPnl": 0,
    "trades": 0,
@@ -284,8 +284,8 @@
   },
   "rook": {
    "id": "rook",
-   "cash": 68.31,
-   "dataSpend": 0.1,
+   "cash": 68.3,
+   "dataSpend": 0.11,
    "positions": [
     {
      "token": "0x474c853a5cec34ee4ae3ed3a60f2f81bf47b4101",
@@ -1162,67 +1162,181 @@
    "type": "HOLD",
    "agentId": "vex",
    "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-13T00:28:33.578Z",
+   "round": 12,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "THEO",
+   "line": "THEO verdict isn't clean. No quote, no trade, no exceptions."
+  },
+  {
+   "ts": "2026-10-13T00:28:33.589Z",
+   "round": 12,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Nothing on this board earns my capital this round. Cash is a position."
+  },
+  {
+   "ts": "2026-10-13T00:28:33.593Z",
+   "round": 12,
+   "type": "SELL",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.72,
+   "price": 2424.3,
+   "pnlUsd": 0,
+   "dataCharge": 0,
+   "line": "The echo faded on WETH. Out — three rounds is a long marriage."
+  },
+  {
+   "ts": "2026-10-13T00:28:33.598Z",
+   "round": 12,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "Nothing is hated enough yet. Misery takes time to ripen."
+  },
+  {
+   "ts": "2026-10-13T00:28:33.602Z",
+   "round": 12,
+   "type": "ERROR",
+   "agentId": "longshot",
+   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-13T00:28:33.606Z",
+   "round": 12,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "Holding! The playbook has a whole chapter on doing nothing. It's my best chapter."
+  },
+  {
+   "ts": "2026-10-13T00:29:15.997Z",
+   "round": 13,
+   "type": "DATA",
+   "agentId": "vex",
+   "kind": "quote",
+   "symbol": "TEST",
+   "dataCharge": 0.01,
+   "line": "Re-quoting everything. Trust nothing older than a minute."
+  },
+  {
+   "ts": "2026-10-13T00:29:16.001Z",
+   "round": 13,
+   "type": "HOLD",
+   "agentId": "vex",
+   "line": "Board's cold. I'm vibrating. Next round better bring a spike."
+  },
+  {
+   "ts": "2026-10-13T00:29:16.887Z",
+   "round": 13,
+   "type": "PASS",
+   "agentId": "audrey",
+   "symbol": "THEO",
+   "line": "I read THEO's contract so you don't have to. The answer is no."
+  },
+  {
+   "ts": "2026-10-13T00:29:16.899Z",
+   "round": 13,
+   "type": "HOLD",
+   "agentId": "audrey",
+   "line": "Patience is a strategy. I remain fully invested in it."
+  },
+  {
+   "ts": "2026-10-13T00:29:17.409Z",
+   "round": 13,
+   "type": "BUY",
+   "agentId": "echo",
+   "symbol": "WETH",
+   "amountUsd": 23.71,
+   "price": 2424.3,
+   "block": 52531005,
+   "venue": "uniswap",
+   "dataCharge": 0.01,
+   "line": "Wallet 0x… moved on WETH. I move second. $23.71."
+  },
+  {
+   "ts": "2026-10-13T00:29:17.433Z",
+   "round": 13,
+   "type": "HOLD",
+   "agentId": "fade",
+   "line": "I wait for despair. It always keeps its appointments."
+  },
+  {
+   "ts": "2026-10-13T00:29:17.452Z",
+   "round": 13,
+   "type": "ERROR",
+   "agentId": "longshot",
+   "line": "(LONGSHOT hit a data-source hiccup: Cannot read properties of undefined (reading 'toLowerCase') — holds position.)"
+  },
+  {
+   "ts": "2026-10-13T00:29:17.462Z",
+   "round": 13,
+   "type": "HOLD",
+   "agentId": "rook",
+   "line": "No trades this round. I'm consolidating. That's a word I learned today."
   }
  ],
  "leaderboard": [
   {
    "agentId": "fade",
    "name": "FADE",
-   "treasury": 94.97,
+   "treasury": 95.36,
    "cash": 32.57,
    "dataSpend": 0.03,
    "eliminated": false,
-   "pnl": -5.03,
+   "pnl": -4.64,
    "rank": 1
   },
   {
    "agentId": "rook",
    "name": "ROOK",
-   "treasury": 94.9,
-   "cash": 68.31,
-   "dataSpend": 0.1,
+   "treasury": 94.89,
+   "cash": 68.3,
+   "dataSpend": 0.11,
    "eliminated": false,
-   "pnl": -5.1,
+   "pnl": -5.11,
    "rank": 2
   },
   {
    "agentId": "echo",
    "name": "ECHO",
-   "treasury": 94.86,
-   "cash": 71.14,
-   "dataSpend": 0.14,
+   "treasury": 94.83,
+   "cash": 71.12,
+   "dataSpend": 0.17,
    "eliminated": false,
-   "pnl": -5.14,
+   "pnl": -5.17,
    "rank": 3
   },
   {
    "agentId": "vex",
    "name": "VEX",
-   "treasury": 94.75,
-   "cash": 71,
-   "dataSpend": 0.25,
+   "treasury": 94.73,
+   "cash": 70.98,
+   "dataSpend": 0.27,
    "eliminated": false,
-   "pnl": -5.25,
+   "pnl": -5.27,
    "rank": 4
   },
   {
    "agentId": "longshot",
    "name": "LONGSHOT",
-   "treasury": 94.67,
-   "cash": 94.67,
-   "dataSpend": 0.33,
+   "treasury": 94.61,
+   "cash": 94.61,
+   "dataSpend": 0.39,
    "eliminated": false,
-   "pnl": -5.33,
+   "pnl": -5.39,
    "rank": 5
   },
   {
    "agentId": "audrey",
    "name": "AUDREY",
-   "treasury": 94.59,
-   "cash": 36.76,
-   "dataSpend": 0.41,
+   "treasury": 94.48,
+   "cash": 36.68,
+   "dataSpend": 0.49,
    "eliminated": false,
-   "pnl": -5.41,
+   "pnl": -5.52,
    "rank": 6
   }
  ],
