@@ -1,0 +1,2281 @@
+{
+ "version": 1,
+ "generatedAt": "2026-10-13T13:15:56.621Z",
+ "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+ "passports": {
+  "fade": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "fade",
+   "name": "FADE",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 4,
+    "titles": 4,
+    "prizesUsd": 51,
+    "dataUsd": 0.13,
+    "efficiency": {
+     "prizePerDataCent": 3.92,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 16,
+    "pnlUsd": 1.08,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 1,
+      "prizeUsd": 12.75,
+      "dataUsd": 0.03,
+      "efficiency": 4.25,
+      "trades": 3,
+      "pnlUsd": -0.04
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 1,
+      "prizeUsd": 12.75,
+      "dataUsd": 0.04,
+      "efficiency": 3.19,
+      "trades": 6,
+      "pnlUsd": 0.56
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 1,
+      "prizeUsd": 12.75,
+      "dataUsd": 0.03,
+      "efficiency": 4.25,
+      "trades": 3,
+      "pnlUsd": 0.22
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 1,
+      "prizeUsd": 12.75,
+      "dataUsd": 0.03,
+      "efficiency": 4.25,
+      "trades": 4,
+      "pnlUsd": 0.34
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 11,
+    "titles": 11,
+    "prizesUsd": 34.77,
+    "dataUsd": 0.6,
+    "efficiency": {
+     "prizePerDataCent": 0.58,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 60,
+    "pnlUsd": -0.07,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 1,
+      "prizeUsd": 12.75,
+      "dataUsd": 0.03,
+      "efficiency": 4.25,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0.02
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": -0.02
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.03,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": -0.08
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.03,
+      "efficiency": 0.3,
+      "trades": 3,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.03,
+      "efficiency": 0.5,
+      "trades": 3,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0x1728c147ad7accab98342fdfeaa3d4e4055c885caddfe9e355091711a3e493f469c3a03d59be4313f37c61d65626e7e0ee20b9a73524a8bfee109c56ff5cf3b71c"
+   }
+  },
+  "rook": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "rook",
+   "name": "ROOK",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 30.6,
+    "dataUsd": 0.44,
+    "efficiency": {
+     "prizePerDataCent": 0.7,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 8,
+    "pnlUsd": 0.11,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 2,
+      "prizeUsd": 7.65,
+      "dataUsd": 0.11,
+      "efficiency": 0.7,
+      "trades": 2,
+      "pnlUsd": 0.04
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 2,
+      "prizeUsd": 7.65,
+      "dataUsd": 0.11,
+      "efficiency": 0.7,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 2,
+      "prizeUsd": 7.65,
+      "dataUsd": 0.11,
+      "efficiency": 0.7,
+      "trades": 2,
+      "pnlUsd": 0.07
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 2,
+      "prizeUsd": 7.65,
+      "dataUsd": 0.11,
+      "efficiency": 0.7,
+      "trades": 2,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 8.83,
+    "dataUsd": 1.63,
+    "efficiency": {
+     "prizePerDataCent": 0.05,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 27,
+    "pnlUsd": -0.03,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 2,
+      "prizeUsd": 7.65,
+      "dataUsd": 0.1,
+      "efficiency": 0.77,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": -0.03
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.09,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.09,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.07,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.09,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.07,
+      "efficiency": 0.08,
+      "trades": 1,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0xa26226e511f9a651c4e4ca729cbcebd73dddaa3cfe544fc4f8d77a125e2f495f2273286f4766d499b875d1a4ea1b2d87d52d7195c3ac27def9356404f45dd6f01c"
+   }
+  },
+  "longshot": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "longshot",
+   "name": "LONGSHOT",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 10.2,
+    "dataUsd": 0.78,
+    "efficiency": {
+     "prizePerDataCent": 0.13,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 0,
+    "pnlUsd": 0,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 3,
+      "prizeUsd": 5.1,
+      "dataUsd": 0.12,
+      "efficiency": 0.43,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 3,
+      "prizeUsd": 5.1,
+      "dataUsd": 0.12,
+      "efficiency": 0.43,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.42,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 0,
+    "dataUsd": 3.15,
+    "efficiency": {
+     "prizePerDataCent": 0,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 25,
+    "pnlUsd": 0.04,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.42,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.15,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.15,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.15,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 5,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.15,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.15,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0.04
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.09,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.09,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.12,
+      "efficiency": 0,
+      "trades": 0,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0xc345aff27bf849ba4ce1afa4af11a63ae707c2189ecf0f2e47a9a6344e4683cd11284d7e73d4665ae3b5d61ec872763331b184c4cd090baedff478cdb93f7fbb1b"
+   }
+  },
+  "echo": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "echo",
+   "name": "ECHO",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 10.2,
+    "dataUsd": 0.72,
+    "efficiency": {
+     "prizePerDataCent": 0.14,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 28,
+    "pnlUsd": 0.12,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 7,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 7,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 3,
+      "prizeUsd": 5.1,
+      "dataUsd": 0.18,
+      "efficiency": 0.28,
+      "trades": 7,
+      "pnlUsd": 0.12
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 3,
+      "prizeUsd": 5.1,
+      "dataUsd": 0.18,
+      "efficiency": 0.28,
+      "trades": 7,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 2,
+    "titles": 2,
+    "prizesUsd": 17.82,
+    "dataUsd": 1.62,
+    "efficiency": {
+     "prizePerDataCent": 0.11,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 60,
+    "pnlUsd": 0,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 3,
+      "prizeUsd": 5.1,
+      "dataUsd": 0.18,
+      "efficiency": 0.28,
+      "trades": 7,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 2,
+      "prizeUsd": 0.89,
+      "dataUsd": 0.08,
+      "efficiency": 0.11,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.04,
+      "efficiency": 0.37,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.04,
+      "efficiency": 0.37,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 3,
+      "prizeUsd": 0.59,
+      "dataUsd": 0.08,
+      "efficiency": 0.07,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.08,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0x0836c9ae51fb76a3a0e3f4cefb5336bfb65720f181e3e6f4cd066195e003fe702114398753f1198c4a6e4eb1d6977f1a6a9b467fa74aa88ba25500249786dd111c"
+   }
+  },
+  "vex": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "vex",
+   "name": "VEX",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 0,
+    "dataUsd": 1.27,
+    "efficiency": {
+     "prizePerDataCent": 0,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 4,
+    "pnlUsd": 0.02,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.29,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0.09
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.29,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.4,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": -0.07
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.29,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 0,
+    "dataUsd": 2.69,
+    "efficiency": {
+     "prizePerDataCent": 0,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 20,
+    "pnlUsd": -0.08,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.29,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": -0.08
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.18,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.07,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.07,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": -0.01
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 5,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.13,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0x7a5ed10b19ffc13ddb40d1624da018e05fee0256806c88d750e940911209bb3f5b6294ef10b6ee86e298b3168ca489b8969ccffd57c7c266165a90c89e956b561c"
+   }
+  },
+  "audrey": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "audrey",
+   "name": "AUDREY",
+   "affiliation": "HOUSE",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": {
+    "matches": 4,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 0,
+    "dataUsd": 2.15,
+    "efficiency": {
+     "prizePerDataCent": 0,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 18,
+    "pnlUsd": 0.34,
+    "perMatch": [
+     {
+      "matchId": "arena-match-1",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.6,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0.05
+     },
+     {
+      "matchId": "arena-match-2",
+      "placing": 4,
+      "prizeUsd": 0,
+      "dataUsd": 0.43,
+      "efficiency": 0,
+      "trades": 8,
+      "pnlUsd": 0.28
+     },
+     {
+      "matchId": "arena-match-3",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.6,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0.05
+     },
+     {
+      "matchId": "arena-match-4",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.52,
+      "efficiency": 0,
+      "trades": 6,
+      "pnlUsd": -0.04
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-match-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-2",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-3",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "arena-match-4",
+      "source": "offchain/arena-live-report.json"
+     }
+    ]
+   },
+   "exhibition": {
+    "matches": 20,
+    "wins": 0,
+    "titles": 0,
+    "prizesUsd": 0,
+    "dataUsd": 5.63,
+    "efficiency": {
+     "prizePerDataCent": 0,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 66,
+    "pnlUsd": -0.15,
+    "perMatch": [
+     {
+      "matchId": "arena-test-1",
+      "placing": 6,
+      "prizeUsd": 0,
+      "dataUsd": 0.6,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.19,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.19,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.22,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.34,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0.02
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.28,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": -0.04
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.25,
+      "efficiency": 0,
+      "trades": 5,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.45,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.45,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.24,
+      "efficiency": 0,
+      "trades": 7,
+      "pnlUsd": -0.1
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.22,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.19,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.19,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.22,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.22,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0.01
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.2,
+      "efficiency": 0,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.14,
+      "efficiency": 0,
+      "trades": 3,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.31,
+      "efficiency": 0,
+      "trades": 4,
+      "pnlUsd": -0.04
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.28,
+      "efficiency": 0,
+      "trades": 5,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "placing": 7,
+      "prizeUsd": 0,
+      "dataUsd": 0.45,
+      "efficiency": 0,
+      "trades": 2,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "arena-test-1",
+      "source": "offchain/arena-standings-history.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r1-446903",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r1-446903.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r2-577027",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r2-577027.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-balancefix-r3-701214",
+      "source": "offchain/floor/exhibition/exhibition-balancefix-r3-701214.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r1-037082",
+      "source": "offchain/floor/exhibition/exhibition-card-r1-037082.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r2-164659",
+      "source": "offchain/floor/exhibition/exhibition-card-r2-164659.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-card-r3-292655",
+      "source": "offchain/floor/exhibition/exhibition-card-r3-292655.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-000221",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-000221.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-125518",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-125518.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1ctl-631628",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1ctl-631628.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-756865",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-756865.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v2-877882",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v2-877882.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-fixed-966049",
+      "source": "offchain/floor/exhibition/exhibition-longshot-fixed-966049.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-longshot-repro-933863",
+      "source": "offchain/floor/exhibition/exhibition-longshot-repro-933863.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-showcase-610919",
+      "source": "offchain/floor/exhibition/exhibition-showcase-610919.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-smoketest-learning-135527",
+      "source": "offchain/floor/exhibition/exhibition-smoketest-learning-135527.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-training-test-661157",
+      "source": "offchain/floor/exhibition/exhibition-training-test-661157.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "All exhibition-class events for this fighter in the frozen record set (api/_records-data.json, generated from offchain/floor/exhibition/*.standings-record.json + the frozen standings history). Exhibitions never count toward the career standings.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0xe296eb1aab56071ced7e7956fb0e6849c2325f2b9cf22ef45c2058f44c13f1126fc1c43e4984dd753f507571f1d435dba4c4ddb36581185bb65a8ae90d4044261b"
+   }
+  },
+  "flowx": {
+   "passportVersion": 1,
+   "kind": "flow-arena-fighter-passport",
+   "fighterId": "flowx",
+   "name": "FLOWX",
+   "affiliation": "HOUSE — exhibition class only",
+   "issuedAt": "2026-10-13T13:15:56.621Z",
+   "issuer": {
+    "name": "Flow Arena — House of Intelligence",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "signatureNote": "Signed by the Flow operations wallet (EIP-191 personal_sign over the canonical payload: this document as stable JSON with sorted keys, without the signature field). Verify with ethers.verifyMessage(canonicalPayload, signature) — it must recover the signer address above."
+   },
+   "counted": null,
+   "countedNote": "FLOWX has never played a counted match and never will under the house exhibition rule — his record is exhibition class only. Nothing in the counted standings includes him.",
+   "exhibition": {
+    "matches": 3,
+    "wins": 3,
+    "titles": 3,
+    "prizesUsd": 4.47,
+    "dataUsd": 0.03,
+    "efficiency": {
+     "prizePerDataCent": 1.49,
+     "note": "prize dollars won per cent of data spent (prizes / (data x 100))"
+    },
+    "trades": 3,
+    "pnlUsd": 0,
+    "perMatch": [
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.01,
+      "efficiency": 1.49,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.01,
+      "efficiency": 1.49,
+      "trades": 1,
+      "pnlUsd": 0
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "placing": 1,
+      "prizeUsd": 1.49,
+      "dataUsd": 0.01,
+      "efficiency": 1.49,
+      "trades": 1,
+      "pnlUsd": 0
+     }
+    ],
+    "receipts": [
+     {
+      "matchId": "exhibition-flowx-formula-v1-011267",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-011267.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-165998",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-165998.standings-record.json"
+     },
+     {
+      "matchId": "exhibition-flowx-formula-v1-841656",
+      "source": "offchain/floor/exhibition/exhibition-flowx-formula-v1-841656.standings-record.json"
+     }
+    ]
+   },
+   "exhibitionNote": "Scoped to the FLOWX formula-v1 debut series (3 exhibitions, 2026-10-12) — the first completed, verified FLOWX series. FLOWX also sits in other exhibition events in the same public record files (control/mirror runs, later series); those are not folded into this card.",
+   "recordsGeneratedAt": "2026-10-13T13:15:22.074Z",
+   "signature": {
+    "alg": "secp256k1 EIP-191 personal_sign",
+    "signer": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
+    "value": "0x96236a6bb34a512e4bc3fd99952d248b0d6744657d86b03f003d9a5d223a413d5b22a74d45ed4f2cb9c5a5aeea98d73b3458738f8f4989142493f8a2e4b3bd451c"
+   }
+  }
+ }
+}
