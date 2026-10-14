@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 4.26,
+ "balanceUsd": 0,
  "fundingRows": [
   {
    "amountUsd": 3,
@@ -81,10 +81,15 @@
    "amountUsd": 0.02,
    "source": "Survival Match 16 prize — MISTY finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.18) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10); MISTY dealt as a house-filled chair and was not debited. On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10, 11, 12, 13, 14 and 15 queue. No prize tx yet.",
    "at": "2026-10-14T08:54:53.581193Z"
+  },
+  {
+   "amountUsd": -4.26,
+   "source": "Converted to The Compound — this recorded survival prize balance ($4.26) was moved into the Compound starting banks on Atm's directive 2026-10-14: pooled with the reserve ($4.32) and the brother's recorded prizes ($4.32) for $12.90 total, split evenly — $2.58 starting bank to each of K1N9, MISTY, VOLT, ORCA, PYRE (see offchain/compound/state.json). No longer settlement-pending: the money now sits as those fighters' Compound banks. The prize history above stands as earned.",
+   "at": "2026-10-14T15:26:16.905Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T08:57:59.467Z"
+ "updatedAt": "2026-10-14T15:30:59.772Z"
 }
