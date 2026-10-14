@@ -3,9 +3,9 @@
 // Lists paid endpoints so x402scan and other crawlers can discover them.
 const MANIFEST = {
   x402Version: 2,
-  serviceName: "Flow — Order-Flow Intelligence on Base",
+  serviceName: "Flow",
   description:
-    "Flow is order-flow intelligence on Base: multi-venue swap quotes ($0.01/call), contract verification ($0.02), smart-wallet signals ($0.01), and a fill rail charging 25% of measured improvement (10 bps cap). x402-native (Base mainnet, USDC). Every number is published as a recomputable receipt.",
+    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, in ~91ms. Also: smart-wallet signals, contract safety checks, and an Aave liquidation forecaster board.",
   homepage: "https://flow-kg4x.vercel.app",
   builderCode: "bc_60rzkc5g",
   network: "eip155:8453",
@@ -20,13 +20,6 @@ const MANIFEST = {
       description:
         "Best-execution swap quote on Base. Returns best venue, expected output, edge vs Uniswap baseline, liquidity flags, and expiring-quote fields (expiresAtBlock, validForBlocks, minOutput).",
       priceUsd: 0.01,
-    },
-    {
-      path: "/api/fill",
-      method: "POST",
-      description:
-        "Executable fill instruction on Base: the route package (venue, router, calldata params, min output, expiry block) for a swap whose best quote beats the Uniswap V3 baseline. Flow never holds swap funds; the caller executes wallet -> DEX router -> wallet.",
-      priceUsd: "dynamic: 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 when no improvement",
     },
     {
       path: "/api/smart-wallets",
@@ -47,14 +40,21 @@ const MANIFEST = {
       method: "POST",
       description:
         "Contract safety check for AI agents: verdict, risk score, and plain-English report before approving a token.",
-      priceUsd: 0.02,
+      priceUsd: 0.01,
     },
     {
       path: "/api/precheck",
       method: "POST",
       description:
-        "Combined safety + price precheck in one call: runs verify and quote together. Free — not payment-gated.",
-      priceUsd: 0,
+        "Combined safety + price precheck in one call: runs verify and quote together.",
+      priceUsd: 0.01,
+    },
+    {
+      path: "/api/forecaster",
+      method: "GET",
+      description:
+        "Aave-on-Base liquidation forecaster board: the borrowers Flow's liquidation watcher currently projects to cross health factor 1.0 (or already below it), each with current HF, HF velocity, projected blocks to crossing, debt/collateral assets, cover size, and projected liquidation net. Snapshot every ~10 minutes; every response prints snapshot age and a stale flag past 15 minutes.",
+      priceUsd: 0.05,
     },
   ],
 };
