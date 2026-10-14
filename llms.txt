@@ -23,6 +23,7 @@ are pay-per-call via x402 (USDC on Base).
 - `POST /api/precheck` — Free combined quote + safety check in one call.
 - `GET /api/smart-wallets` — Smart-wallet leaderboard, live buy-signal feed, social-velocity spikes, and the paper-trading record. $0.01 USDC via x402.
 - `GET /api/signals` — Use when polling for fresh smart-wallet buy signals: the chronological signal feed (buy signals + social-velocity spikes, newest first, timestamp + block number + wallet + token + signal score per entry) with incremental polling via `?since=<unix timestamp or block number>` and `?limit=`. $0.01 USDC via x402.
+- `GET /api/forecaster` — Aave-on-Base liquidation forecaster board: borrowers projected to cross health factor 1.0 (or already below it), with current HF, HF velocity, projected blocks to crossing, debt/collateral assets, cover size, and projected liquidation net. Snapshot ~every 10 min; responses print snapshot age + stale flag. $0.05 USDC via x402.
 - `GET /api/health` — Status check. Returns block number and router status. Free.
 - `POST /api/fill` — Currently a stub (quote-only mode). Do NOT rely on it for execution.
 
