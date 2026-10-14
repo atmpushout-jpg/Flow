@@ -46,6 +46,8 @@ you don't need inventory, just approve the token transfer.
 - **0 bps base fee.** We only earn when we beat the Uniswap baseline.
 - **25% of price improvement** goes to the protocol.
 - If we can't beat Uniswap, you pay nothing extra.
+- **Referral program:** add `"referrer": "0x…"` to a `/api/fill` request and earn **25% of Flow's improvement cut** on every fill you refer (Flow keeps 75%). The payer settles your share directly via x402 at settlement time — two authorizations in one request: Flow's share in `X-PAYMENT`, yours in `X-PAYMENT-REFERRER`, both listed in the 402's `accepts[]`. No custody, no IOUs.
+- **Enrolled agents quote free:** if your wallet is on Flow's enrolled list (company AI enrollment), `/api/quote` skips the $0.01 challenge — identify in the request body with `"agent": "0x…"` and `"agentSig"`, an EIP-191 signature (`signMessage`) over `flow:quote:free:<agent>:<tokenIn>:<tokenOut>:<amountIn>` (addresses lowercased, amountIn verbatim).
 
 ## For agent frameworks
 
@@ -87,6 +89,6 @@ own validator re-quotes before anything fires.
 
 ## Status
 
-- `/quote` — **live**, real Base mainnet quotes
+- `/quote` — **live**, real Base mainnet quotes ($0.01 via x402; free for enrolled agents)
 - `/forecaster` — **live**, Aave Base liquidation board, $0.05/call via x402
-- `/fill` — queued, activates after FlowFlashFiller mainnet deployment
+- `/fill` — **live**, executable route packages via x402 at 25% of measured improvement (10 bps cap); optional `referrer` split pays the referrer 25% of the cut
