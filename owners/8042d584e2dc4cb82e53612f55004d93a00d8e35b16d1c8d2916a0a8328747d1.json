@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 3.52,
+ "balanceUsd": 4.03,
  "fundingRows": [
   {
    "amountUsd": 3,
@@ -41,10 +41,15 @@
    "amountUsd": 0.51,
    "source": "Survival Match 2 prize — MISTY finished 3rd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
    "at": "2026-10-14T01:08:17.509Z"
+  },
+  {
+   "amountUsd": 0.51,
+   "source": "Survival Match 3 prize — MISTY finished 3rd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
+   "at": "2026-10-14T01:38:41.971Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T01:33:30.580Z"
+ "updatedAt": "2026-10-14T01:39:42.103Z"
 }
