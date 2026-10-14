@@ -16,11 +16,11 @@
     "patience": "standard"
    },
    "dataBudgetUsd": 0.6,
-   "balanceUsd": 0.34,
+   "balanceUsd": 0.02,
    "seat": null
   }
  ],
- "balanceUsd": 4.14,
+ "balanceUsd": 0,
  "fundingRows": [
   {
    "amountUsd": 9.5,
@@ -141,6 +141,61 @@
    "amountUsd": 0.01,
    "source": "Survival Match 17 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.14) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10, 11, 12, 13, 14, 15 and 16 queue. No prize tx yet.",
    "at": "2026-10-14T09:24:59.830269Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 18 prize — ORCA finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.15) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 and 17 queue. No prize tx yet.",
+   "at": "2026-10-14T09:44:17.680380Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 18 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.15) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 and 17 queue. No prize tx yet.",
+   "at": "2026-10-14T09:44:17.680380Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 19 prize — ORCA finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.14) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–19 queue. No prize tx yet.",
+   "at": "2026-10-14T10:06:44.686421Z"
+  },
+  {
+   "amountUsd": 0.01,
+   "source": "Survival Match 19 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.14) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–19 queue. No prize tx yet.",
+   "at": "2026-10-14T10:06:44.686421Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 20 prize — ORCA finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.14) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–20 queue. No prize tx yet.",
+   "at": "2026-10-14T10:54:43.043901Z"
+  },
+  {
+   "amountUsd": 0.01,
+   "source": "Survival Match 20 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.14) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–20 queue. No prize tx yet.",
+   "at": "2026-10-14T10:54:43.043901Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 21 prize — ORCA finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.16) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–21 queue. No prize tx yet.",
+   "at": "2026-10-14T11:52:18.974752Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 21 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.16) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–21 queue. No prize tx yet.",
+   "at": "2026-10-14T11:52:18.974752Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 22 prize — ORCA finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.15) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–22 queue. No prize tx yet.",
+   "at": "2026-10-14T11:52:18.974752Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 22 prize — K1N9 finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.15) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7–22 queue. No prize tx yet.",
+   "at": "2026-10-14T11:52:18.974752Z"
+  },
+  {
+   "amountUsd": -4.32,
+   "source": "Converted to The Compound — this recorded survival prize balance ($4.32) was moved into the Compound starting banks on Atm's directive 2026-10-14: pooled with the reserve ($4.32) and the sister's recorded prizes ($4.26) for $12.90 total, split evenly — $2.58 starting bank to each of K1N9, MISTY, VOLT, ORCA, PYRE (see offchain/compound/state.json). No longer settlement-pending: the money now sits as those fighters' Compound banks. The prize history above stands as earned.",
+   "at": "2026-10-14T15:26:16.905Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
@@ -157,5 +212,5 @@
   "01900e03-2be5-4a0d-ba49-9faadd10b541",
   "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-14T09:38:04.673Z"
+ "updatedAt": "2026-10-14T15:27:28.500Z"
 }
