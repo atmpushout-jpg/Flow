@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 3.59,
+ "balanceUsd": 3.68,
  "fundingRows": [
   {
    "amountUsd": 9.5,
@@ -66,6 +66,11 @@
    "amountUsd": 0.51,
    "source": "Survival Match 4 prize — ORCA finished 3rd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
    "at": "2026-10-14T02:10:02.189Z"
+  },
+  {
+   "amountUsd": 0.09,
+   "source": "Survival Match 7 prize — K1N9 finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.58) went back to the podium, split 50/30/20. On-chain settlement pending — settles in order from real revenue, behind the Matches 2–4 queue. No tx yet.",
+   "at": "2026-10-14T03:40:39.549Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
@@ -82,5 +87,5 @@
   "01900e03-2be5-4a0d-ba49-9faadd10b541",
   "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-14T03:36:47.132Z"
+ "updatedAt": "2026-10-14T03:40:51.338Z"
 }
