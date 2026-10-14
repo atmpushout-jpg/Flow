@@ -1,19 +1,19 @@
 {
-  "explanation": "Headline edge: WETH \u2192 cbBTC is pricing 8 basis points better via pancakeswap right now \u2014 on a $1,000 swap, that's roughly $0.80 saved. Liquidity on that pair is DEEP \u2014 this edge is real and executable at size. Separate probe: our standing $100 USDC \u2192 WETH check is pricing flat \u2014 both venues identical (uniswap marginally ahead); no edge on that pair, but the quote is real and executable; the quote generated in 179ms \u2014 fast enough for real-time pre-swap checks.",
-  "bottomLine": "BOTTOM LINE: Strong signal. The WETH \u2192 cbBTC edge is real, deep, and executable \u2014 agents should route that pair through us.",
+  "explanation": "Headline edge: USDC \u2192 VIRTUAL is pricing 42 basis points better via uniswap right now \u2014 on a $1,000 swap, that's roughly $4.20 saved. Liquidity on that pair is DEEP \u2014 this edge is real and executable at size. Separate probe: our standing $100 USDC \u2192 WETH check is pricing flat \u2014 both venues identical (pancakeswap marginally ahead); no edge on that pair, but the quote is real and executable; the quote generated in 176ms \u2014 fast enough for real-time pre-swap checks.",
+  "bottomLine": "BOTTOM LINE: Strong signal. The USDC \u2192 VIRTUAL edge is real, deep, and executable \u2014 agents should route that pair through us.",
   "indicators": {
-    "venue": "uniswap",
+    "venue": "pancakeswap",
     "edgeBps": 0,
     "liquidity": "deep",
-    "latencyMs": 179,
-    "blockNumber": 52603356,
+    "latencyMs": 176,
+    "blockNumber": 52605164,
     "spreadBps": 0,
     "pair": "USDC->WETH",
     "amountInUsd": 100,
-    "headlinePair": "WETH \u2192 cbBTC",
-    "headlineEdgeBps": 8,
-    "headlineVenue": "pancakeswap",
+    "headlinePair": "USDC \u2192 VIRTUAL",
+    "headlineEdgeBps": 42,
+    "headlineVenue": "uniswap",
     "headlineLiquidity": "deep"
   },
-  "generatedAt": "2026-10-14T16:41:02.052721+00:00"
+  "generatedAt": "2026-10-14T17:41:18.062142+00:00"
 }
