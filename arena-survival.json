@@ -1,0 +1,101 @@
+{
+ "game": "Flow Arena — House of Intelligence",
+ "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
+ "season": "survival-1",
+ "status": "ACTIVE",
+ "updatedAt": "2026-10-14T00:31:13.663Z",
+ "matchCount": 1,
+ "activeCount": 5,
+ "fighters": {
+  "K1N9": {
+   "balanceUsd": 1.7,
+   "status": "ACTIVE",
+   "matchesPlayed": 1,
+   "totalSpentUsd": 0.08,
+   "avgSpendPerMatchUsd": 0.08,
+   "bestRank": 2,
+   "lastRank": 2
+  },
+  "VOLT": {
+   "balanceUsd": 1.03,
+   "status": "ACTIVE",
+   "matchesPlayed": 1,
+   "totalSpentUsd": 0.16,
+   "avgSpendPerMatchUsd": 0.16,
+   "bestRank": 5,
+   "lastRank": 5
+  },
+  "ORCA": {
+   "balanceUsd": 1.95,
+   "status": "ACTIVE",
+   "matchesPlayed": 1,
+   "totalSpentUsd": 0.1,
+   "avgSpendPerMatchUsd": 0.1,
+   "bestRank": 4,
+   "lastRank": 4
+  },
+  "PYRE": {
+   "balanceUsd": 0.99,
+   "status": "ACTIVE",
+   "matchesPlayed": 1,
+   "totalSpentUsd": 0.16,
+   "avgSpendPerMatchUsd": 0.16,
+   "bestRank": 6,
+   "lastRank": 6
+  },
+  "MISTY": {
+   "balanceUsd": 1.15,
+   "status": "ACTIVE",
+   "matchesPlayed": 1,
+   "totalSpentUsd": 0.08,
+   "avgSpendPerMatchUsd": 0.08,
+   "bestRank": 3,
+   "lastRank": 3
+  }
+ },
+ "lastMatch": {
+  "matchNumber": 1,
+  "matchId": "buy-in-1-exhibition-survival-1-744795",
+  "at": "2026-10-14T00:31:13.654Z",
+  "ranks": [
+   {
+    "rank": 1,
+    "name": "FADE",
+    "dataSpend": 0.03
+   },
+   {
+    "rank": 2,
+    "name": "K1N9",
+    "dataSpend": 0.08
+   },
+   {
+    "rank": 3,
+    "name": "MISTY",
+    "dataSpend": 0.08
+   },
+   {
+    "rank": 4,
+    "name": "ORCA",
+    "dataSpend": 0.1
+   },
+   {
+    "rank": 5,
+    "name": "VOLT",
+    "dataSpend": 0.16
+   },
+   {
+    "rank": 6,
+    "name": "PYRE",
+    "dataSpend": 0.16
+   }
+  ],
+  "debits": {
+   "K1N9": 0.08,
+   "MISTY": 0.08,
+   "ORCA": 0.1,
+   "VOLT": 0.16,
+   "PYRE": 0.16
+  },
+  "eliminated": []
+ }
+}
