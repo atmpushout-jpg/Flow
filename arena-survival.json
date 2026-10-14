@@ -3,15 +3,15 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T04:30:54.769Z",
- "matchCount": 9,
+ "updatedAt": "2026-10-14T05:31:12.977Z",
+ "matchCount": 10,
  "activeCount": 3,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.06,
+   "balanceUsd": 0.98,
    "status": "ACTIVE",
-   "matchesPlayed": 9,
-   "totalSpentUsd": 0.72,
+   "matchesPlayed": 10,
+   "totalSpentUsd": 0.8,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 1,
    "lastRank": 2
@@ -26,13 +26,13 @@
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.19,
+   "balanceUsd": 1.11,
    "status": "ACTIVE",
-   "matchesPlayed": 9,
-   "totalSpentUsd": 0.86,
-   "avgSpendPerMatchUsd": 0.1,
+   "matchesPlayed": 10,
+   "totalSpentUsd": 0.94,
+   "avgSpendPerMatchUsd": 0.09,
    "bestRank": 3,
-   "lastRank": 4
+   "lastRank": 3
   },
   "PYRE": {
    "balanceUsd": 0.04,
@@ -44,19 +44,19 @@
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.49,
+   "balanceUsd": 0.39,
    "status": "ACTIVE",
-   "matchesPlayed": 9,
-   "totalSpentUsd": 0.74,
+   "matchesPlayed": 10,
+   "totalSpentUsd": 0.84,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
-   "lastRank": 3
+   "lastRank": 5
   }
  },
  "lastMatch": {
-  "matchNumber": 9,
-  "matchId": "buy-in-1-exhibition-survival-9-136188",
-  "at": "2026-10-14T04:30:54.760Z",
+  "matchNumber": 10,
+  "matchId": "buy-in-1-exhibition-survival-10-744897",
+  "at": "2026-10-14T05:31:12.961Z",
   "ranks": [
    {
     "rank": 1,
@@ -70,18 +70,18 @@
    },
    {
     "rank": 3,
-    "name": "MISTY",
+    "name": "ORCA",
     "dataSpend": 0.08
    },
    {
     "rank": 4,
-    "name": "ORCA",
+    "name": "VOLT",
     "dataSpend": 0.09
    },
    {
     "rank": 5,
-    "name": "VOLT",
-    "dataSpend": 0.16
+    "name": "MISTY",
+    "dataSpend": 0.1
    },
    {
     "rank": 6,
@@ -91,8 +91,8 @@
   ],
   "debits": {
    "K1N9": 0.08,
-   "MISTY": 0.08,
-   "ORCA": 0.09
+   "ORCA": 0.08,
+   "MISTY": 0.1
   },
   "eliminated": []
  }
