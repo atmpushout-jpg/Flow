@@ -15,6 +15,9 @@
     "api/signals/index.js": {
       "maxDuration": 10
     },
+    "api/forecaster/index.js": {
+      "maxDuration": 10
+    },
     "api/build/index.js": {
       "maxDuration": 10
     },
