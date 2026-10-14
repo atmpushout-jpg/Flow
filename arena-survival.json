@@ -3,33 +3,33 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T03:31:05.302Z",
- "matchCount": 7,
- "activeCount": 4,
+ "updatedAt": "2026-10-14T04:00:59.193Z",
+ "matchCount": 8,
+ "activeCount": 3,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.22,
+   "balanceUsd": 1.14,
    "status": "ACTIVE",
-   "matchesPlayed": 7,
-   "totalSpentUsd": 0.56,
+   "matchesPlayed": 8,
+   "totalSpentUsd": 0.64,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 1,
    "lastRank": 2
   },
   "VOLT": {
-   "balanceUsd": 0.14,
-   "status": "ACTIVE",
-   "matchesPlayed": 7,
-   "totalSpentUsd": 1.05,
+   "balanceUsd": -0.02,
+   "status": "ELIMINATED",
+   "matchesPlayed": 8,
+   "totalSpentUsd": 1.21,
    "avgSpendPerMatchUsd": 0.15,
    "bestRank": 3,
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.38,
+   "balanceUsd": 1.28,
    "status": "ACTIVE",
-   "matchesPlayed": 7,
-   "totalSpentUsd": 0.67,
+   "matchesPlayed": 8,
+   "totalSpentUsd": 0.77,
    "avgSpendPerMatchUsd": 0.1,
    "bestRank": 3,
    "lastRank": 4
@@ -44,19 +44,19 @@
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.65,
+   "balanceUsd": 0.57,
    "status": "ACTIVE",
-   "matchesPlayed": 7,
-   "totalSpentUsd": 0.58,
+   "matchesPlayed": 8,
+   "totalSpentUsd": 0.66,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
    "lastRank": 3
   }
  },
  "lastMatch": {
-  "matchNumber": 7,
-  "matchId": "buy-in-1-exhibition-survival-7-540268",
-  "at": "2026-10-14T03:31:05.287Z",
+  "matchNumber": 8,
+  "matchId": "buy-in-1-exhibition-survival-8-334436",
+  "at": "2026-10-14T04:00:59.183Z",
   "ranks": [
    {
     "rank": 1,
@@ -93,11 +93,10 @@
    "K1N9": 0.08,
    "MISTY": 0.08,
    "ORCA": 0.1,
-   "VOLT": 0.16,
-   "PYRE": 0.16
+   "VOLT": 0.16
   },
   "eliminated": [
-   "PYRE"
+   "VOLT"
   ]
  }
 }
