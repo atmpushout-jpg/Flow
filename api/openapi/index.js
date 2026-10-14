@@ -4,8 +4,8 @@ const SPEC = {
  "info": {
   "title": "Flow API",
   "version": "0.3.0",
-  "description": "Best-execution swap quotes, contract safety verification, and smart-wallet signals for AI agents on Base. The quote engine compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and answers in ~100ms. Pay-per-call via x402 on Base (quotes $0.01, safety verdicts $0.02) \u2014 no API key, no account.",
-  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping ($0.02/call). POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. GET /api/signals is the polling feed behind it: chronological buy signals + social-velocity spikes, newest first, each with timestamp + block number + wallet + token + signal score, with incremental polling via ?since=<unix timestamp or block number> ($0.01/call). Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
+  "description": "Best-execution swap quotes, contract safety verification, smart-wallet signals, and an Aave liquidation forecaster board for AI agents on Base. The quote engine compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and answers in ~100ms. Pay-per-call via x402 on Base (quotes $0.01, safety verdicts $0.02, forecaster board $0.05) \u2014 no API key, no account.",
+  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping ($0.02/call). POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. GET /api/signals is the polling feed behind it: chronological buy signals + social-velocity spikes, newest first, each with timestamp + block number + wallet + token + signal score, with incremental polling via ?since=<unix timestamp or block number> ($0.01/call). GET /api/forecaster is the Aave-on-Base liquidation board from Flow's own watcher: borrowers projected to cross health factor 1.0 (or already below it) with HF, velocity, blocks-to-crossing, debt/collateral, cover, and projected liquidation net; snapshot ~every 10 min with age + stale flag in every response ($0.05/call). Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
   "contact": {
    "email": "Flowexecutor@yahoo.com"
   }
@@ -123,76 +123,6 @@ const SPEC = {
       "mode": "fixed",
       "currency": "USD",
       "amount": "0.010000"
-     },
-     "protocols": [
-      {
-       "x402": {}
-      }
-     ]
-    }
-   }
-  },
-  "/api/fill": {
-   "post": {
-    "description": "Executable fill instruction: returns the route package (venue, venueKey, router, calldata params, expected/min output, block number and expiry) for the best route. Priced dynamically at 25% of the measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 (and no payment gate) when there is no improvement. Pass blockNumber from a first response to pin the quote on the paid retry so the fee reproduces exactly. Flow never holds swap funds; the caller executes wallet -> DEX router -> wallet.",
-    "requestBody": {
-     "content": {
-      "application/json": {
-       "schema": {
-        "properties": {
-         "amountIn": {
-          "description": "Input amount in smallest units",
-          "example": "100000000",
-          "type": "string"
-         },
-         "blockNumber": {
-          "description": "Optional: pin the quote to this block (from a first fill/quote response) so the dynamic fee reproduces exactly on the paid retry",
-          "type": "integer"
-         },
-         "recipient": {
-          "description": "Optional: swap recipient address; when present, exactInputSingle calldata is included for Uniswap/Aerodrome routes",
-          "example": "0x1111111111111111111111111111111111111111",
-          "type": "string"
-         },
-         "tokenIn": {
-          "description": "ERC-20 contract address of input token",
-          "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-          "type": "string"
-         },
-         "tokenOut": {
-          "description": "ERC-20 contract address of output token",
-          "example": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
-          "type": "string"
-         }
-        },
-        "required": [
-         "tokenIn",
-         "tokenOut",
-         "amountIn"
-        ],
-        "type": "object"
-       }
-      }
-     },
-     "required": true
-    },
-    "responses": {
-     "200": {
-      "description": "Route package (charged:false with fee $0 when there is no improvement over the Uniswap baseline)"
-     },
-     "402": {
-      "description": "Payment required — x402 v2 exact on Base (eip155:8453); amount is dynamic: 25% of measured improvement over the Uniswap baseline, capped at 10 bps of output."
-     },
-     "409": {
-      "description": "Pinned quote expired or the re-quoted fee changed; no payment was settled."
-     }
-    },
-    "summary": "Get executable fill instruction (dynamic price)",
-    "x-payment-info": {
-     "price": {
-      "mode": "dynamic",
-      "currency": "USD",
-      "amount": "25% of measured improvement over the Uniswap baseline, capped at 10 bps of output; $0 when no improvement"
      },
      "protocols": [
       {
@@ -425,6 +355,41 @@ const SPEC = {
       "mode": "fixed",
       "currency": "USD",
       "amount": "0.010000"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
+    }
+   }
+  },
+  "/api/forecaster": {
+   "get": {
+    "description": "Use when an agent runs liquidations, keeps Aave positions, or watches liquidation risk on Base and needs to know which borrowers are about to tip. Flow forecaster board: the Aave Base borrowers our liquidation watcher currently projects to cross health factor 1.0 (or that are already below it), most urgent first, each with current health factor, HF velocity per block, projected blocks to crossing (plus estimated seconds at ~2s Base blocks), debt and collateral assets, cover size in USD, and projected liquidation net from the watcher's pre-stage economics. Snapshotted every ~10 minutes; every response prints generatedAt, snapshotAgeSeconds, and stale (true once the snapshot is older than 15 minutes). x402 pay-per-call: $0.05 USDC on Base.",
+    "responses": {
+     "200": {
+      "description": "generatedAt, snapshotAgeSeconds, stale, source, count, positions[] (borrower, status, hf, hfVelocityPerBlock, blocksToCross, estSecondsToCross, blocksToProfitable, preArmed, projectedNetUsd, debtAsset, collateralAsset, coverUsd, latestNetUsd, forecastAt, forecastBlock), boardRule, ledgerTip, note.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        }
+       }
+      }
+     },
+     "402": {
+      "description": "Payment required \u2014 x402 v2 exact, $0.05 USDC on Base (eip155:8453)."
+     },
+     "503": {
+      "description": "Forecaster board not available yet \u2014 returned WITHOUT settling, so the payer is not charged."
+     }
+    },
+    "x-payment-info": {
+     "price": {
+      "mode": "fixed",
+      "currency": "USD",
+      "amount": "0.050000"
      },
      "protocols": [
       {
