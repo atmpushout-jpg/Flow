@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 4.19,
+ "balanceUsd": 4.22,
  "fundingRows": [
   {
    "amountUsd": 3,
@@ -66,10 +66,15 @@
    "amountUsd": 0.03,
    "source": "Survival Match 12 prize — MISTY finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.26) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10 and 11 queue. No prize tx yet.",
    "at": "2026-10-14T07:25:22.544374Z"
+  },
+  {
+   "amountUsd": 0.03,
+   "source": "Survival Match 14 prize — MISTY finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.26) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9, 10, 11, 12 and 13 queue. No prize tx yet.",
+   "at": "2026-10-14T07:34:20.034825Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T07:33:17.657Z"
+ "updatedAt": "2026-10-14T07:35:01.179Z"
 }
