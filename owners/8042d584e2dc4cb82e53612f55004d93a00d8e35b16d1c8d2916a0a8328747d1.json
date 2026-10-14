@@ -34,7 +34,7 @@
   },
   {
    "amountUsd": 0.51,
-   "source": "Survival Match 1 prize — MISTY finished 3rd. OFFICIAL prize owed by the house, recorded at the owner direction (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
+   "source": "Settled on-chain from the ops wallet at the owner direction (2026-10-13): Match 1 prizes paid in BSDETH at the send-time spot rate. (Settled tx: 0xf62c953abe2cf6e3a05cba2e56f0e3ba327f2724a619cb611c92c9bd1b549d3e.)",
    "at": "2026-10-14T00:52:57.355Z"
   },
   {
@@ -51,5 +51,5 @@
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T02:47:06.579Z"
+ "updatedAt": "2026-10-14T02:49:53.377Z"
 }
