@@ -73,6 +73,24 @@ function paymentRequirements(req, meta) {
   };
 }
 
+// One payment requirement for an explicit (amount, payTo) pair — used by
+// endpoints whose charge splits across recipients (e.g. /api/fill's
+// referral share, where the payer settles Flow's share and the referrer's
+// share as two separate x402 authorizations). Mirrors paymentRequirements
+// in every other field.
+function paymentRequirementFor(meta, amountAtomic, payTo) {
+  const c = getConfig(meta);
+  return {
+    scheme: "exact",
+    network: c.network,
+    amount: String(amountAtomic),
+    asset: USDC_BASE,
+    payTo,
+    maxTimeoutSeconds: 300,
+    extra: { name: "USD Coin", version: "2" }, // USDC EIP-712 domain on Base
+  };
+}
+
 // Bazaar discovery extension (top-level `extensions`, NOT inside accepts[]).
 // Facilitator catalogs (PayAI/CDP Bazaar) and Agentic.Market index this
 // declaration from settled payment payloads. Per-endpoint accuracy
@@ -152,7 +170,13 @@ function paymentRequiredBody(req, resourceMeta) {
       serviceName: "Flow",
       tags: ["trading", "defi", "base", "dex", "quotes"],
     },
-    accepts: [paymentRequirements(req, meta)],
+    // A handler may pass meta.accepts (array of requirement objects) to
+    // override the single default requirement — the split-payment gate
+    // uses this to carry BOTH recipients in one challenge.
+    accepts:
+      Array.isArray(meta.accepts) && meta.accepts.length
+        ? meta.accepts
+        : [paymentRequirements(req, meta)],
     extensions: { bazaar: bazaarExtension(meta) },
   };
   // Base Builder Code (ERC-8021): onchain attribution for x402 settlements.
@@ -240,8 +264,7 @@ function send402(res, req, errorDetail, resourceMeta) {
 // Incoming payment parsing
 // ---------------------------------------------------------------------------
 
-function decodePaymentHeader(req) {
-  const raw = req.headers["x-payment"] || req.headers["payment-signature"];
+function decodePaymentValue(raw) {
   if (!raw) return { ok: false, reason: "missing" };
   let payload;
   try {
@@ -255,18 +278,28 @@ function decodePaymentHeader(req) {
   return { ok: true, payload };
 }
 
-// Local sanity checks before spending facilitator quota.
-function localChecks(payload, meta) {
-  const c = getConfig(meta);
+function decodePaymentHeader(req) {
+  const raw = req.headers["x-payment"] || req.headers["payment-signature"];
+  if (!raw) return { ok: false, reason: "missing" };
+  return decodePaymentValue(raw);
+}
+
+// Local sanity checks before spending facilitator quota, against one
+// explicit payment requirement (recipient + exact amount).
+function localChecksFor(payload, requirement) {
   const network = payload.network || payload.accepted?.network;
-  if (network !== c.network) return `Wrong network (expected ${c.network})`;
+  if (network !== requirement.network) return `Wrong network (expected ${requirement.network})`;
   const auth = payload.payload?.authorization;
   if (!auth) return "Missing EIP-3009 authorization in payment payload";
-  if (String(auth.to).toLowerCase() !== c.payTo.toLowerCase()) return "Payment recipient does not match payTo";
-  if (String(auth.value) !== c.amount) return `Payment amount must be exactly ${c.amount} atomic USDC`;
+  if (String(auth.to).toLowerCase() !== String(requirement.payTo).toLowerCase()) return "Payment recipient does not match payTo";
+  if (String(auth.value) !== String(requirement.amount)) return `Payment amount must be exactly ${requirement.amount} atomic USDC`;
   const sig = payload.payload?.signature;
   if (!sig || !/^0x[0-9a-fA-F]+$/.test(sig)) return "Missing or malformed authorization signature";
   return null;
+}
+
+function localChecks(payload, meta) {
+  return localChecksFor(payload, paymentRequirements(null, meta));
 }
 
 // ---------------------------------------------------------------------------
@@ -609,6 +642,114 @@ async function settlePayment(gate) {
   return { success: settled.success === true, response: settled };
 }
 
+// ---------------------------------------------------------------------------
+// Split-payment gate: a charge split across TWO recipients (e.g. /api/fill
+// with a referrer: 75% to the payee, 25% to the referrer). The payer signs
+// TWO x402 "exact" authorizations in one request — the primary (payee
+// share) in X-PAYMENT and the second (referrer share) in
+// X-PAYMENT-REFERRER — and the 402 challenge carries BOTH requirements in
+// accepts[] (handlers pass them via resourceMeta.accepts; primary first).
+// Both shares are official facilitator settlements from the payer: the
+// second recipient is never paid out of the payee wallet and never as an
+// IOU. ALL parts are verified before anything can settle, and the
+// secondary recipient must not be the payer (nobody earns a share of a
+// fee they paid themselves).
+// ---------------------------------------------------------------------------
+
+async function requireSplitPayment(req, res, resourceMeta, requirements) {
+  const bad = configError();
+  if (bad) {
+    res.status(500).json({ error: `x402 misconfigured: ${bad}` });
+    return null;
+  }
+  if (!Array.isArray(requirements) || requirements.length !== 2) {
+    res.status(500).json({ error: "x402 split gate requires exactly two payment requirements" });
+    return null;
+  }
+  const [primaryReq, secondaryReq] = requirements;
+  if (String(primaryReq.payTo).toLowerCase() === String(secondaryReq.payTo).toLowerCase()) {
+    res.status(500).json({ error: "x402 split gate requires two distinct recipients" });
+    return null;
+  }
+
+  const raws = [
+    req.headers["x-payment"] || req.headers["payment-signature"],
+    req.headers["x-payment-referrer"],
+  ];
+  const parts = [];
+  for (let i = 0; i < 2; i++) {
+    if (!raws[i]) {
+      send402(
+        res, req,
+        "Payment required: this charge is split across two recipients — sign BOTH x402 exact payments listed in accepts[] and retry with the first in the X-PAYMENT header and the second in the X-PAYMENT-REFERRER header.",
+        resourceMeta
+      );
+      return null;
+    }
+    const decoded = decodePaymentValue(raws[i]);
+    if (!decoded.ok) {
+      res.status(400).json({ error: `Invalid payment: ${decoded.reason}` });
+      return null;
+    }
+    const localErr = localChecksFor(decoded.payload, requirements[i]);
+    if (localErr) {
+      send402(res, req, `Invalid payment: ${localErr}. See accepts[] for exact requirements.`, resourceMeta);
+      return null;
+    }
+    parts.push({ payload: decoded.payload, requirements: requirements[i] });
+  }
+
+  const payerFrom = parts[0].payload.payload?.authorization?.from;
+  if (payerFrom && String(payerFrom).toLowerCase() === String(secondaryReq.payTo).toLowerCase()) {
+    send402(res, req, "Invalid payment: the split recipient cannot be the payer.", resourceMeta);
+    return null;
+  }
+
+  let payer = null;
+  for (const part of parts) {
+    let verify;
+    try {
+      verify = await facilitatorCall("verify", part.payload, part.requirements);
+    } catch (e) {
+      res.status(502).json({ error: `Payment verification unavailable: ${e.message.slice(0, 150)}` });
+      return null;
+    }
+    if (!verify.isValid) {
+      send402(res, req, `Payment invalid: ${verify.invalidReason || "verification failed"}.`, resourceMeta);
+      return null;
+    }
+    if (!payer) payer = verify.payer;
+  }
+  return { parts, payer, split: true };
+}
+
+// Settle a split gate's parts, smallest share first (so a mid-flow
+// failure strands the least money), stopping at the first failure.
+// Returns one result per attempted part: { requirements, success,
+// response|error }. Callers must treat the split as complete ONLY when
+// every part succeeded, and must name any settled shares if they refuse
+// the resource on a partial split.
+async function settleSplitPayment(gate) {
+  const ordered = [...gate.parts].sort((a, b) => {
+    const x = BigInt(a.requirements.amount);
+    const y = BigInt(b.requirements.amount);
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
+  const results = [];
+  for (const part of ordered) {
+    let settled;
+    try {
+      settled = await facilitatorCall("settle", part.payload, part.requirements);
+    } catch (e) {
+      results.push({ requirements: part.requirements, success: false, error: e.message.slice(0, 150) });
+      break;
+    }
+    results.push({ requirements: part.requirements, success: settled.success === true, response: settled });
+    if (settled.success !== true) break;
+  }
+  return results;
+}
+
 function paymentResponseHeaders(res, settleResponse) {
   const b64 = Buffer.from(JSON.stringify(settleResponse)).toString("base64");
   res.setHeader("PAYMENT-RESPONSE", b64); // v2 canonical
@@ -621,11 +762,16 @@ module.exports = {
   getConfig,
   configError,
   paymentRequiredBody,
+  paymentRequirementFor,
   send402,
   decodePaymentHeader,
+  decodePaymentValue,
   localChecks,
+  localChecksFor,
   requirePayment,
+  requireSplitPayment,
   settlePayment,
+  settleSplitPayment,
   paymentResponseHeaders,
   releaseBuilderKey,
   builderKeyHeaders,
