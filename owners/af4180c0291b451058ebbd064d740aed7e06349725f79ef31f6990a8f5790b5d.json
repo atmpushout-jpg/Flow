@@ -16,11 +16,11 @@
     "patience": "standard"
    },
    "dataBudgetUsd": 0.6,
-   "balanceUsd": 0.98,
+   "balanceUsd": 0.9,
    "seat": null
   }
  ],
- "balanceUsd": 3.85,
+ "balanceUsd": 3.91,
  "fundingRows": [
   {
    "amountUsd": 9.5,
@@ -91,6 +91,16 @@
    "amountUsd": 0.03,
    "source": "Survival Match 10 prize — ORCA finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.26) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8 and 9 queue. No prize tx yet.",
    "at": "2026-10-14T05:38:22.960Z"
+  },
+  {
+   "amountUsd": 0.04,
+   "source": "Survival Match 11 prize — K1N9 finished 2nd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.24) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9 and 10 queue. No prize tx yet.",
+   "at": "2026-10-14T06:10:29.416143Z"
+  },
+  {
+   "amountUsd": 0.02,
+   "source": "Survival Match 11 prize — ORCA finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.24) went back to the podium, split 50/30/20. This match's data fees settled on-chain (settle-before-debit live from Match 10). On-chain settlement of the prize itself pending — settles in order from real revenue, behind the Matches 2–4, 7, 8, 9 and 10 queue. No prize tx yet.",
+   "at": "2026-10-14T06:10:29.416143Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
@@ -107,5 +117,5 @@
   "01900e03-2be5-4a0d-ba49-9faadd10b541",
   "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-14T05:38:40.168Z"
+ "updatedAt": "2026-10-14T06:10:33.391Z"
 }
