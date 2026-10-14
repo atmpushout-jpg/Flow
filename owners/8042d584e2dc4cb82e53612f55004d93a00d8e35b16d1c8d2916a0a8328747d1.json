@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 4.03,
+ "balanceUsd": 4.09,
  "fundingRows": [
   {
    "amountUsd": 3,
@@ -46,10 +46,15 @@
    "amountUsd": 0.51,
    "source": "Survival Match 3 prize — MISTY finished 3rd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
    "at": "2026-10-14T01:38:41.971Z"
+  },
+  {
+   "amountUsd": 0.06,
+   "source": "Survival Match 7 prize — MISTY finished 3rd. OFFICIAL prize under the prize-share rule (owner directive 2026-10-13): half of the match's collected data fees ($0.58) went back to the podium, split 50/30/20. On-chain settlement pending — settles in order from real revenue, behind the Matches 2–4 queue. No tx yet.",
+   "at": "2026-10-14T03:40:39.549Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T03:36:57.736Z"
+ "updatedAt": "2026-10-14T03:56:49.996Z"
 }
