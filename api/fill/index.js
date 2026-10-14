@@ -8,6 +8,13 @@
 // swap funds and runs no contract in the money path. Zero improvement =>
 // fee $0, no payment gate, the (baseline) route package is served free.
 //
+// Referral split: a request may carry `referrer` (an EVM address). When
+// it is valid, is not the payee, and its 25% share of the cut clears the
+// facilitator's settle floor, the payer settles BOTH shares as two x402
+// authorizations at settlement time (75% payee / 25% referrer — see
+// _x402.requireSplitPayment). The referrer is paid by an official
+// settlement from the payer, never out of the payee wallet, never an IOU.
+//
 // NOTE on stats: api/_stats.js exposes only quote/error counters, neither
 // of which describes a fill, so this handler deliberately does not bump
 // them rather than mislabel fills as quotes.
@@ -95,6 +102,16 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "amountIn must be an integer amount in smallest units" });
   }
 
+  // Optional referral attribution (see header note). Format-checked here
+  // so a malformed address fails before any quote or facilitator work.
+  let referrer = null;
+  if (body.referrer != null) {
+    if (typeof body.referrer !== "string" || !/^0x[0-9a-fA-F]{40}$/.test(body.referrer.trim())) {
+      return res.status(400).json({ error: "referrer must be a valid EVM address" });
+    }
+    referrer = body.referrer.trim();
+  }
+
   const validBlocks = body.validBlocks != null ? Number(body.validBlocks) : 10;
   if (!Number.isInteger(validBlocks) || validBlocks <= 0) {
     return res.status(400).json({ error: "validBlocks must be a positive integer" });
@@ -139,6 +156,9 @@ module.exports = async (req, res) => {
     return res.json({
       ...pkg,
       charged: false,
+      ...(referrer
+        ? { referral: { referrer, applied: false, reason: "No fill fee was charged on this fill, so there is no cut to split." } }
+        : {}),
       reason: fee.feeBelowFloor
         ? "The measured improvement prices a fill fee below the $0.001 minimum the payment facilitator can settle, so no payment was required (charged: false) and the route package is served free. The route package is the best route."
         : "No improvement over the Uniswap baseline at this block, so the fill fee is $0 and no payment was required. The route package is the best (baseline) route.",
@@ -146,22 +166,65 @@ module.exports = async (req, res) => {
   }
 
   const feeUsd = fee.feeUsd;
+
+  // --- Referral split of the cut ---------------------------------------
+  // 25% of the charged cut to the referrer, 75% to the payee; both shares
+  // settled by the payer via x402 (see the header note). The split needs
+  // the referrer share itself to clear the facilitator's $0.001 settle
+  // floor — below that, the whole cut settles to the payee and the
+  // response's referral note says so. A referrer equal to the payee is a
+  // no-op (the payee cannot refer itself).
+  const cfg = x402.getConfig({ priceUsd: feeUsd });
+  let split = null;
+  let referralNote = null;
+  if (referrer) {
+    if (cfg.payTo && referrer.toLowerCase() === cfg.payTo.toLowerCase()) {
+      referralNote = "referrer is the payee; the full cut settles to the payee as usual.";
+    } else {
+      const referrerAtomic = fee.feeUsdAtomic / 4n; // floor(25%)
+      if (referrerAtomic >= fill.MIN_SETTLEABLE_FEE_ATOMIC) {
+        split = {
+          referrer,
+          grossAtomic: fee.feeUsdAtomic,
+          referrerAtomic,
+          payeeAtomic: fee.feeUsdAtomic - referrerAtomic,
+        };
+      } else {
+        referralNote =
+          "The referrer share of this cut would fall below the $0.001 minimum the payment facilitator can settle, so the full cut settles to the payee.";
+      }
+    }
+  }
+
   const meta = resourceMeta(feeUsd, body);
+  let splitRequirements = null;
+  if (split) {
+    splitRequirements = [
+      x402.paymentRequirementFor(meta, split.payeeAtomic, cfg.payTo),
+      x402.paymentRequirementFor(meta, split.referrerAtomic, split.referrer),
+    ];
+    meta.accepts = splitRequirements; // the 402 challenge carries both shares
+  }
 
   // --- x402 gate at the DYNAMIC fee (skipped unless X402_ENABLED=true) --
   let gate = null;
   if (x402.isEnabled()) {
-    gate = await x402.requirePayment(req, res, meta);
-    if (!gate) return; // 402 / 400 / 500 / 502 already sent
+    if (split) {
+      gate = await x402.requireSplitPayment(req, res, meta, splitRequirements);
+      if (!gate) return; // 402 / 400 / 500 / 502 already sent
+    } else {
+      gate = await x402.requirePayment(req, res, meta);
+      if (!gate) return; // 402 / 400 / 500 / 502 already sent
 
-    if (gate.builderKey) {
-      // Early Builder Keys cover only the four data endpoints, not fill.
-      await x402.releaseBuilderKey(gate);
-      return x402.send402(
-        res, req,
-        "Flow fill is a priced product (25% of measured improvement, capped at 10 bps) and is not covered by Early Builder Keys.",
-        meta
-      );
+      if (gate.builderKey) {
+        // Early Builder Keys cover only the four data endpoints, not fill.
+        await x402.releaseBuilderKey(gate);
+        return x402.send402(
+          res, req,
+          "Flow fill is a priced product (25% of measured improvement, capped at 10 bps) and is not covered by Early Builder Keys.",
+          meta
+        );
+      }
     }
   }
 
@@ -192,9 +255,63 @@ module.exports = async (req, res) => {
   }
 
   const out = { ...pkg, charged: !!gate };
+  if (referrer && !split) {
+    out.referral = { referrer, applied: false, reason: referralNote };
+  }
+  if (split && !gate) {
+    out.referral = {
+      referrer,
+      applied: false,
+      reason: "The x402 gate is disabled on this deployment, so no fee was charged and no split settled.",
+    };
+  }
 
-  // Settle the authorized payment now that the package is built.
-  if (gate) {
+  // Settle the authorized payment(s) now that the package is built.
+  if (gate && gate.split) {
+    let results;
+    try {
+      results = await x402.settleSplitPayment(gate);
+    } catch (e) {
+      return res.status(502).json({ error: `Payment settlement unavailable: ${e.message.slice(0, 150)}` });
+    }
+    const byPayTo = {};
+    for (const r of results) byPayTo[String(r.requirements.payTo).toLowerCase()] = r;
+    const payeeResult = byPayTo[String(cfg.payTo).toLowerCase()];
+    const refResult = byPayTo[split.referrer.toLowerCase()];
+    if (!payeeResult || !payeeResult.success || !refResult || !refResult.success) {
+      // Do not hand over the route package on a partial split. Any share
+      // that DID settle is named here so the payer holds its receipt.
+      return res.status(402).json({
+        error: "Referral-split settlement did not complete; the route package was not released.",
+        settledShares: results
+          .filter((r) => r.success)
+          .map((r) => ({
+            payTo: r.requirements.payTo,
+            amountAtomic: String(r.requirements.amount),
+            transaction: r.response.transaction,
+          })),
+      });
+    }
+    x402.paymentResponseHeaders(res, payeeResult.response);
+    out.payment = {
+      transaction: payeeResult.response.transaction,
+      network: payeeResult.response.network,
+      payer: payeeResult.response.payer,
+    };
+    out.referral = {
+      referrer: split.referrer,
+      applied: true,
+      rule: "25% of Flow's improvement cut to the referrer, 75% to Flow; both shares settled by the payer via x402 at settlement time.",
+      grossCutAtomic: split.grossAtomic.toString(),
+      grossCutUsd: Number(split.grossAtomic) / 1e6,
+      referrerShareAtomic: split.referrerAtomic.toString(),
+      referrerShareUsd: Number(split.referrerAtomic) / 1e6,
+      referrerTransaction: refResult.response.transaction,
+      payeeShareAtomic: split.payeeAtomic.toString(),
+      payeeShareUsd: Number(split.payeeAtomic) / 1e6,
+      payeeTransaction: payeeResult.response.transaction,
+    };
+  } else if (gate) {
     let settled;
     try {
       settled = await x402.settlePayment(gate);
