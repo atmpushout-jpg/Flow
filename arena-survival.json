@@ -3,60 +3,60 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T00:31:13.663Z",
- "matchCount": 1,
+ "updatedAt": "2026-10-14T01:31:19.666Z",
+ "matchCount": 3,
  "activeCount": 5,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.7,
+   "balanceUsd": 1.54,
    "status": "ACTIVE",
-   "matchesPlayed": 1,
-   "totalSpentUsd": 0.08,
+   "matchesPlayed": 3,
+   "totalSpentUsd": 0.24,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
    "lastRank": 2
   },
   "VOLT": {
-   "balanceUsd": 1.03,
+   "balanceUsd": 0.71,
    "status": "ACTIVE",
-   "matchesPlayed": 1,
-   "totalSpentUsd": 0.16,
+   "matchesPlayed": 3,
+   "totalSpentUsd": 0.48,
    "avgSpendPerMatchUsd": 0.16,
    "bestRank": 5,
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.95,
+   "balanceUsd": 1.75,
    "status": "ACTIVE",
-   "matchesPlayed": 1,
-   "totalSpentUsd": 0.1,
+   "matchesPlayed": 3,
+   "totalSpentUsd": 0.3,
    "avgSpendPerMatchUsd": 0.1,
    "bestRank": 4,
    "lastRank": 4
   },
   "PYRE": {
-   "balanceUsd": 0.99,
+   "balanceUsd": 0.67,
    "status": "ACTIVE",
-   "matchesPlayed": 1,
-   "totalSpentUsd": 0.16,
+   "matchesPlayed": 3,
+   "totalSpentUsd": 0.48,
    "avgSpendPerMatchUsd": 0.16,
    "bestRank": 6,
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 1.15,
+   "balanceUsd": 0.99,
    "status": "ACTIVE",
-   "matchesPlayed": 1,
-   "totalSpentUsd": 0.08,
+   "matchesPlayed": 3,
+   "totalSpentUsd": 0.24,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 3,
    "lastRank": 3
   }
  },
  "lastMatch": {
-  "matchNumber": 1,
-  "matchId": "buy-in-1-exhibition-survival-1-744795",
-  "at": "2026-10-14T00:31:13.654Z",
+  "matchNumber": 3,
+  "matchId": "buy-in-1-exhibition-survival-3-347636",
+  "at": "2026-10-14T01:31:19.653Z",
   "ranks": [
    {
     "rank": 1,
