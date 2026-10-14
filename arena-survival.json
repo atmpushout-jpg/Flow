@@ -3,15 +3,15 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T05:31:12.977Z",
- "matchCount": 10,
+ "updatedAt": "2026-10-14T06:01:05.641Z",
+ "matchCount": 11,
  "activeCount": 3,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 0.98,
+   "balanceUsd": 0.9,
    "status": "ACTIVE",
-   "matchesPlayed": 10,
-   "totalSpentUsd": 0.8,
+   "matchesPlayed": 11,
+   "totalSpentUsd": 0.88,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 1,
    "lastRank": 2
@@ -26,10 +26,10 @@
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.11,
+   "balanceUsd": 1.03,
    "status": "ACTIVE",
-   "matchesPlayed": 10,
-   "totalSpentUsd": 0.94,
+   "matchesPlayed": 11,
+   "totalSpentUsd": 1.02,
    "avgSpendPerMatchUsd": 0.09,
    "bestRank": 3,
    "lastRank": 3
@@ -44,19 +44,19 @@
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.39,
+   "balanceUsd": 0.31,
    "status": "ACTIVE",
-   "matchesPlayed": 10,
-   "totalSpentUsd": 0.84,
+   "matchesPlayed": 11,
+   "totalSpentUsd": 0.92,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
-   "lastRank": 5
+   "lastRank": 4
   }
  },
  "lastMatch": {
-  "matchNumber": 10,
-  "matchId": "buy-in-1-exhibition-survival-10-744897",
-  "at": "2026-10-14T05:31:12.961Z",
+  "matchNumber": 11,
+  "matchId": "buy-in-1-exhibition-survival-11-537010",
+  "at": "2026-10-14T06:01:05.625Z",
   "ranks": [
    {
     "rank": 1,
@@ -75,13 +75,13 @@
    },
    {
     "rank": 4,
-    "name": "VOLT",
-    "dataSpend": 0.09
+    "name": "MISTY",
+    "dataSpend": 0.08
    },
    {
     "rank": 5,
-    "name": "MISTY",
-    "dataSpend": 0.1
+    "name": "VOLT",
+    "dataSpend": 0.16
    },
    {
     "rank": 6,
@@ -92,7 +92,7 @@
   "debits": {
    "K1N9": 0.08,
    "ORCA": 0.08,
-   "MISTY": 0.1
+   "MISTY": 0.08
   },
   "eliminated": []
  }
