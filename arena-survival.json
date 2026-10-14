@@ -3,60 +3,60 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T01:31:19.666Z",
- "matchCount": 3,
+ "updatedAt": "2026-10-14T02:01:06.122Z",
+ "matchCount": 4,
  "activeCount": 5,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.54,
+   "balanceUsd": 1.46,
    "status": "ACTIVE",
-   "matchesPlayed": 3,
-   "totalSpentUsd": 0.24,
+   "matchesPlayed": 4,
+   "totalSpentUsd": 0.32,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
    "lastRank": 2
   },
   "VOLT": {
-   "balanceUsd": 0.71,
+   "balanceUsd": 0.55,
    "status": "ACTIVE",
-   "matchesPlayed": 3,
-   "totalSpentUsd": 0.48,
+   "matchesPlayed": 4,
+   "totalSpentUsd": 0.64,
    "avgSpendPerMatchUsd": 0.16,
    "bestRank": 5,
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.75,
+   "balanceUsd": 1.67,
    "status": "ACTIVE",
-   "matchesPlayed": 3,
-   "totalSpentUsd": 0.3,
+   "matchesPlayed": 4,
+   "totalSpentUsd": 0.38,
    "avgSpendPerMatchUsd": 0.1,
-   "bestRank": 4,
-   "lastRank": 4
+   "bestRank": 3,
+   "lastRank": 3
   },
   "PYRE": {
-   "balanceUsd": 0.67,
+   "balanceUsd": 0.51,
    "status": "ACTIVE",
-   "matchesPlayed": 3,
-   "totalSpentUsd": 0.48,
+   "matchesPlayed": 4,
+   "totalSpentUsd": 0.64,
    "avgSpendPerMatchUsd": 0.16,
    "bestRank": 6,
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.99,
+   "balanceUsd": 0.91,
    "status": "ACTIVE",
-   "matchesPlayed": 3,
-   "totalSpentUsd": 0.24,
+   "matchesPlayed": 4,
+   "totalSpentUsd": 0.32,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 3,
-   "lastRank": 3
+   "lastRank": 4
   }
  },
  "lastMatch": {
-  "matchNumber": 3,
-  "matchId": "buy-in-1-exhibition-survival-3-347636",
-  "at": "2026-10-14T01:31:19.653Z",
+  "matchNumber": 4,
+  "matchId": "buy-in-1-exhibition-survival-4-139458",
+  "at": "2026-10-14T02:01:06.109Z",
   "ranks": [
    {
     "rank": 1,
@@ -70,13 +70,13 @@
    },
    {
     "rank": 3,
-    "name": "MISTY",
+    "name": "ORCA",
     "dataSpend": 0.08
    },
    {
     "rank": 4,
-    "name": "ORCA",
-    "dataSpend": 0.1
+    "name": "MISTY",
+    "dataSpend": 0.08
    },
    {
     "rank": 5,
@@ -91,8 +91,8 @@
   ],
   "debits": {
    "K1N9": 0.08,
+   "ORCA": 0.08,
    "MISTY": 0.08,
-   "ORCA": 0.1,
    "VOLT": 0.16,
    "PYRE": 0.16
   },
