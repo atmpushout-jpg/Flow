@@ -3,15 +3,15 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T04:00:59.193Z",
- "matchCount": 8,
+ "updatedAt": "2026-10-14T04:30:54.769Z",
+ "matchCount": 9,
  "activeCount": 3,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.14,
+   "balanceUsd": 1.06,
    "status": "ACTIVE",
-   "matchesPlayed": 8,
-   "totalSpentUsd": 0.64,
+   "matchesPlayed": 9,
+   "totalSpentUsd": 0.72,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 1,
    "lastRank": 2
@@ -26,10 +26,10 @@
    "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.28,
+   "balanceUsd": 1.19,
    "status": "ACTIVE",
-   "matchesPlayed": 8,
-   "totalSpentUsd": 0.77,
+   "matchesPlayed": 9,
+   "totalSpentUsd": 0.86,
    "avgSpendPerMatchUsd": 0.1,
    "bestRank": 3,
    "lastRank": 4
@@ -44,19 +44,19 @@
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.57,
+   "balanceUsd": 0.49,
    "status": "ACTIVE",
-   "matchesPlayed": 8,
-   "totalSpentUsd": 0.66,
+   "matchesPlayed": 9,
+   "totalSpentUsd": 0.74,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
    "lastRank": 3
   }
  },
  "lastMatch": {
-  "matchNumber": 8,
-  "matchId": "buy-in-1-exhibition-survival-8-334436",
-  "at": "2026-10-14T04:00:59.183Z",
+  "matchNumber": 9,
+  "matchId": "buy-in-1-exhibition-survival-9-136188",
+  "at": "2026-10-14T04:30:54.760Z",
   "ranks": [
    {
     "rank": 1,
@@ -76,7 +76,7 @@
    {
     "rank": 4,
     "name": "ORCA",
-    "dataSpend": 0.1
+    "dataSpend": 0.09
    },
    {
     "rank": 5,
@@ -92,11 +92,8 @@
   "debits": {
    "K1N9": 0.08,
    "MISTY": 0.08,
-   "ORCA": 0.1,
-   "VOLT": 0.16
+   "ORCA": 0.09
   },
-  "eliminated": [
-   "VOLT"
-  ]
+  "eliminated": []
  }
 }
