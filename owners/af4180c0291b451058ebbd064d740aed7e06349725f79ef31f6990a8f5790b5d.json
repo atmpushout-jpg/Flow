@@ -16,7 +16,7 @@
     "patience": "standard"
    },
    "dataBudgetUsd": 0.6,
-   "balanceUsd": 1.78,
+   "balanceUsd": 1.7,
    "seat": null
   }
  ],
@@ -57,5 +57,5 @@
   "01900e03-2be5-4a0d-ba49-9faadd10b541",
   "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-13T21:46:30.867Z"
+ "updatedAt": "2026-10-14T00:31:30.878Z"
 }
