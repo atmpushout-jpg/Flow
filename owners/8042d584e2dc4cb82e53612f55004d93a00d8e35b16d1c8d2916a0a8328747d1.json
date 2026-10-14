@@ -16,7 +16,7 @@
     "patience": "standard"
    },
    "dataBudgetUsd": 0.6,
-   "balanceUsd": 0.49,
+   "balanceUsd": 0.39,
    "seat": null
   }
  ],
@@ -66,5 +66,5 @@
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
  "payoutWallet": "0xc46bB3ea40E09423F32D3F76eD082E42CD00ea06",
  "requestsApplied": [],
- "updatedAt": "2026-10-14T04:50:26.087Z"
+ "updatedAt": "2026-10-14T05:34:38.156Z"
 }
