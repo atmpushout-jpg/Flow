@@ -26,8 +26,10 @@
 
 const fs = require("fs");
 const path = require("path");
+const { ethers } = require("ethers");
 const x402 = require("../_x402");
 const stats = require("../_stats");
+const enrolledMod = require("../_enrolled");
 
 const REDIS_KEY = "flow:smartwallets";
 const STORE_TIMEOUT_MS = 1200;
@@ -186,10 +188,47 @@ module.exports = async (req, res) => {
   if (!Number.isFinite(limit) || limit < 1) limit = DEFAULT_LIMIT;
   if (limit > MAX_LIMIT) limit = MAX_LIMIT;
 
+  // --- Enrolled-agent data price: $0.005 instead of $0.01 ------------
+  // Identity rides in query params (agent + agentSig + ts — see
+  // api/_enrolled.js for the canonical message): a listed agent that
+  // proves control of its address gets this endpoint's challenge at
+  // ENROLLED_DATA_PRICE_USD. The signature binds the exact view being
+  // bought (since/limit verbatim as sent) inside a ±300s window, so a
+  // captured signature replays only that one view, briefly. Invalid or
+  // absent identity falls through to the standard gate, unchanged.
+  let enrolledAgent = null;
+  {
+    const q = req.query || {};
+    const tsNum = Number(q.ts);
+    if (
+      q.agent &&
+      q.agentSig &&
+      Number.isFinite(tsNum) &&
+      Math.abs(Math.floor(Date.now() / 1000) - tsNum) <= enrolledMod.ENROLLED_DATA_MAX_SKEW_SEC &&
+      enrolledMod.isEnrolled(q.agent)
+    ) {
+      try {
+        const params = { ts: String(q.ts) };
+        if (q.since !== undefined) params.since = String(q.since);
+        if (q.limit !== undefined) params.limit = String(q.limit);
+        const msg = enrolledMod.enrolledDataMessage({ agent: q.agent, path: "/api/signals", params });
+        const recovered = ethers.verifyMessage(msg, String(q.agentSig));
+        if (recovered && recovered.toLowerCase() === String(q.agent).toLowerCase()) {
+          enrolledAgent = String(q.agent);
+        }
+      } catch {
+        // Unverifiable signature — fall through to the standard gate.
+      }
+    }
+  }
+  const gateMeta = enrolledAgent
+    ? { ...RESOURCE_META, priceUsd: enrolledMod.ENROLLED_DATA_PRICE_USD }
+    : RESOURCE_META;
+
   // --- x402 pay-per-call gate (skipped unless X402_ENABLED=true) ---
   let gate = null;
   if (x402.isEnabled()) {
-    gate = await x402.requirePayment(req, res, RESOURCE_META);
+    gate = await x402.requirePayment(req, res, gateMeta);
     if (!gate) return; // 402 / 400 / 500 / 502 already sent
   }
 
@@ -253,6 +292,10 @@ module.exports = async (req, res) => {
     scoreMethod: SCORE_METHOD,
     disclaimer: DISCLAIMER,
   };
+
+  if (enrolledAgent) {
+    body.enrolled = { agent: enrolledAgent, priceUsd: enrolledMod.ENROLLED_DATA_PRICE_USD };
+  }
 
   await stats.trackQuote();
 

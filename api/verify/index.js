@@ -1,7 +1,9 @@
 // POST /api/verify — contract safety check for AI agents (Agent-shield revival).
 //
-// Read-only. Never touches funds. Dependency-free: stdlib fetch + raw JSON-RPC
-// only (no ethers, no ../_lib), so it runs on any Vercel Node runtime as-is.
+// Read-only. Never touches funds. The CHECK itself is dependency-free:
+// stdlib fetch + raw JSON-RPC only (no ../_lib). The one exception is the
+// enrolled-agent identity check, which uses ethers.verifyMessage exactly
+// like /api/quote (see api/_enrolled.js).
 //
 // x402 pay-per-call gate: skipped unless X402_ENABLED=true (same as /api/quote).
 //
@@ -11,7 +13,9 @@
 // Response: verdict (safe|caution|danger), score 0-100, plain-English summary,
 // flags[], agentAdvice (APPROVE|REVIEW_MANUALLY|DO_NOT_APPROVE), and details.
 
+const { ethers } = require("ethers");
 const x402 = require("../_x402");
+const enrolledMod = require("../_enrolled");
 
 // ---------------------------------------------------------------------------
 // Chains
@@ -600,10 +604,41 @@ async function handler(req, res) {
     return res.status(405).json({ error: "POST only" });
   }
 
+  // --- Enrolled-agent data price: $0.005 instead of the standard $0.02 --
+  // Body identity, the same discipline as /api/quote's free tier: agent +
+  // agentSig (EIP-191 over the canonical message from api/_enrolled.js,
+  // binding the agent to the exact address/chain being checked). A
+  // listed agent that proves control of its address gets this
+  // endpoint's challenge at ENROLLED_DATA_PRICE_USD. Invalid or absent
+  // identity falls through to the standard gate below, unchanged.
+  let enrolledAgent = null;
+  {
+    const b = req.body || {};
+    const idAddress = b.address || b.token;
+    if (b.agent && b.agentSig && idAddress && enrolledMod.isEnrolled(b.agent)) {
+      try {
+        const msg = enrolledMod.enrolledVerifyMessage({
+          agent: b.agent,
+          address: idAddress,
+          chain: b.chain,
+        });
+        const recovered = ethers.verifyMessage(msg, String(b.agentSig));
+        if (recovered && recovered.toLowerCase() === String(b.agent).toLowerCase()) {
+          enrolledAgent = String(b.agent);
+        }
+      } catch {
+        // Unverifiable signature — fall through to the standard gate.
+      }
+    }
+  }
+  const gateMeta = enrolledAgent
+    ? { ...RESOURCE_META, priceUsd: enrolledMod.ENROLLED_DATA_PRICE_USD }
+    : RESOURCE_META;
+
   // --- x402 pay-per-call gate (skipped unless X402_ENABLED=true) ---
   let gate = null;
   if (x402.isEnabled()) {
-    gate = await x402.requirePayment(req, res, RESOURCE_META);
+    gate = await x402.requirePayment(req, res, gateMeta);
     if (!gate) return; // 402 / 400 / 500 / 502 already sent
   }
 
@@ -646,6 +681,10 @@ async function handler(req, res) {
 
     if (gate && gate.builderKey) {
       report.builderKey = { callsRemaining: gate.builderKey.callsRemaining };
+    }
+
+    if (enrolledAgent) {
+      report.enrolled = { agent: enrolledAgent, priceUsd: enrolledMod.ENROLLED_DATA_PRICE_USD };
     }
 
     res.json(report);
