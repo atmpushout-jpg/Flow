@@ -3,60 +3,60 @@
  "format": "SURVIVAL — the five outside fighters from Buy-In #1 keep playing every 30 minutes, paying real data costs from their own balance accounts. At or below $0.05 a fighter is eliminated. FADE fills the sixth chair as the labeled HOUSE exhibition and is never debited.",
  "season": "survival-1",
  "status": "ACTIVE",
- "updatedAt": "2026-10-14T03:01:03.649Z",
- "matchCount": 6,
- "activeCount": 5,
+ "updatedAt": "2026-10-14T03:31:05.302Z",
+ "matchCount": 7,
+ "activeCount": 4,
  "fighters": {
   "K1N9": {
-   "balanceUsd": 1.3,
+   "balanceUsd": 1.22,
    "status": "ACTIVE",
-   "matchesPlayed": 6,
-   "totalSpentUsd": 0.48,
+   "matchesPlayed": 7,
+   "totalSpentUsd": 0.56,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 1,
    "lastRank": 2
   },
   "VOLT": {
-   "balanceUsd": 0.3,
+   "balanceUsd": 0.14,
    "status": "ACTIVE",
-   "matchesPlayed": 6,
-   "totalSpentUsd": 0.89,
+   "matchesPlayed": 7,
+   "totalSpentUsd": 1.05,
    "avgSpendPerMatchUsd": 0.15,
    "bestRank": 3,
-   "lastRank": 3
+   "lastRank": 5
   },
   "ORCA": {
-   "balanceUsd": 1.48,
+   "balanceUsd": 1.38,
    "status": "ACTIVE",
-   "matchesPlayed": 6,
-   "totalSpentUsd": 0.57,
-   "avgSpendPerMatchUsd": 0.09,
+   "matchesPlayed": 7,
+   "totalSpentUsd": 0.67,
+   "avgSpendPerMatchUsd": 0.1,
    "bestRank": 3,
    "lastRank": 4
   },
   "PYRE": {
-   "balanceUsd": 0.2,
-   "status": "ACTIVE",
-   "matchesPlayed": 6,
-   "totalSpentUsd": 0.95,
+   "balanceUsd": 0.04,
+   "status": "ELIMINATED",
+   "matchesPlayed": 7,
+   "totalSpentUsd": 1.11,
    "avgSpendPerMatchUsd": 0.16,
    "bestRank": 5,
    "lastRank": 6
   },
   "MISTY": {
-   "balanceUsd": 0.73,
+   "balanceUsd": 0.65,
    "status": "ACTIVE",
-   "matchesPlayed": 6,
-   "totalSpentUsd": 0.5,
+   "matchesPlayed": 7,
+   "totalSpentUsd": 0.58,
    "avgSpendPerMatchUsd": 0.08,
    "bestRank": 2,
-   "lastRank": 5
+   "lastRank": 3
   }
  },
  "lastMatch": {
-  "matchNumber": 6,
-  "matchId": "buy-in-1-exhibition-survival-6-738274",
-  "at": "2026-10-14T03:01:03.625Z",
+  "matchNumber": 7,
+  "matchId": "buy-in-1-exhibition-survival-7-540268",
+  "at": "2026-10-14T03:31:05.287Z",
   "ranks": [
    {
     "rank": 1,
@@ -70,32 +70,34 @@
    },
    {
     "rank": 3,
-    "name": "VOLT",
-    "dataSpend": 0.09
+    "name": "MISTY",
+    "dataSpend": 0.08
    },
    {
     "rank": 4,
     "name": "ORCA",
-    "dataSpend": 0.09
+    "dataSpend": 0.1
    },
    {
     "rank": 5,
-    "name": "MISTY",
-    "dataSpend": 0.1
+    "name": "VOLT",
+    "dataSpend": 0.16
    },
    {
     "rank": 6,
     "name": "PYRE",
-    "dataSpend": 0.15
+    "dataSpend": 0.16
    }
   ],
   "debits": {
    "K1N9": 0.08,
-   "VOLT": 0.09,
-   "ORCA": 0.09,
-   "MISTY": 0.1,
-   "PYRE": 0.15
+   "MISTY": 0.08,
+   "ORCA": 0.1,
+   "VOLT": 0.16,
+   "PYRE": 0.16
   },
-  "eliminated": []
+  "eliminated": [
+   "PYRE"
+  ]
  }
 }
