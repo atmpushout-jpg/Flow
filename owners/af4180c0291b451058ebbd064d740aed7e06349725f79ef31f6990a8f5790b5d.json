@@ -20,7 +20,7 @@
    "seat": null
   }
  ],
- "balanceUsd": 1.54,
+ "balanceUsd": 2.31,
  "fundingRows": [
   {
    "amountUsd": 9.5,
@@ -51,6 +51,11 @@
    "amountUsd": 0.77,
    "source": "Survival Match 2 prize — K1N9 finished 2nd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
    "at": "2026-10-14T01:08:17.509Z"
+  },
+  {
+   "amountUsd": 0.77,
+   "source": "Survival Match 3 prize — K1N9 finished 2nd. OFFICIAL prize owed by the house, recorded under the standing owner policy (2026-10-13): sub-dollar prizes go in the registry like any other. On-chain settlement pending — settles from the next buy-in pool. No tx yet.",
+   "at": "2026-10-14T01:38:41.971Z"
   }
  ],
  "fundingAddress": "0x3D650013F46DD2d96B5afEFe4acAb7A7f2727561",
@@ -67,5 +72,5 @@
   "01900e03-2be5-4a0d-ba49-9faadd10b541",
   "c351e84f-7e40-424d-a0ce-6a161b9bc369"
  ],
- "updatedAt": "2026-10-14T01:33:20.895Z"
+ "updatedAt": "2026-10-14T01:38:45.131Z"
 }
