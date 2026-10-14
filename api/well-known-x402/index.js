@@ -22,6 +22,12 @@ const MANIFEST = {
       priceUsd: 0.01,
     },
     {
+      path: "/api/fill",
+      method: "POST",
+      description:
+        "Executable route package for a Base swap (venue, router, calldata params, min output, expiry block), priced dynamically at 25% of the measured improvement over the Uniswap V3 baseline, capped at 10 bps of output; $0 when there is no improvement. Referral program: pass a `referrer` address in the request and earn 25% of Flow's improvement cut on every fill you refer — the payer settles your share directly via x402 alongside Flow's 75%. Enrolled agents (company AI enrollment) quote free on /api/quote.",
+    },
+    {
       path: "/api/smart-wallets",
       method: "GET",
       description:
