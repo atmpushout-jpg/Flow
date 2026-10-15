@@ -234,6 +234,9 @@ module.exports = async (req, res) => {
 
   const { data, source } = await readStore();
   if (!data) {
+    // No data = no delivery: refuse WITHOUT settling, and give any
+    // builder-key reservation back (mirrors /api/forecaster).
+    await x402.releaseBuilderKey(gate);
     return res.status(503).json({
       error: "signal data not available yet — the tracker runs every few minutes; try again shortly",
     });
