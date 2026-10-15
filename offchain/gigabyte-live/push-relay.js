@@ -124,8 +124,22 @@ async function tick() {
 
   if (wm.session !== local.startedAt) {
     log(`new show session ${local.startedAt} (was ${wm.session}) — watermark reset`);
-    wm = { session: local.startedAt, lastPushedId: 0, skipped: [] };
+    wm = { session: local.startedAt, lastPushedId: 0, skipped: [], edgeInitialized: false };
     saveWatermark(wm);
+  }
+
+  // Start at the live edge, not the archive: the show keeps only the
+  // newest ~40 mp3s on disk, so backfilling from line 1 chases files
+  // that prune away mid-flight. Jump to a few lines behind the newest
+  // one and keep pace from there — the state push still carries the
+  // full recent transcript as text for the hosted page's history.
+  if (!wm.edgeInitialized) {
+    const all = local.transcript || [];
+    const newest = all.length ? all[all.length - 1].id : 0;
+    wm.lastPushedId = Math.max(0, newest - 6);
+    wm.edgeInitialized = true;
+    saveWatermark(wm);
+    log(`edge initialized at line ${wm.lastPushedId} (newest ${newest})`);
   }
 
   // New lines: in the transcript, ahead of the watermark, mp3 on disk.
@@ -136,17 +150,35 @@ async function tick() {
 
   const batch = [];
   let batchB64 = 0;
+  const newestId = fresh.length ? fresh[fresh.length - 1].id : 0;
+  let watermarkDirty = false;
   for (const line of fresh) {
     const file = path.join(AUDIO_DIR, path.basename(line.audioUrl || ''));
     if (!line.audioUrl || !fs.existsSync(file)) {
+      // The show prunes its audio dir (keeps the newest ~40 lines), so a
+      // missing mp3 for any line that is no longer near the head is gone
+      // for good: skip it permanently (the hosted page shows the line as
+      // text and moves on) instead of deadlocking the whole feed behind it.
+      const laterExists = (local.transcript || []).some(
+        (l) => l.id > line.id && l.audioUrl && fs.existsSync(path.join(AUDIO_DIR, path.basename(l.audioUrl)))
+      );
+      if (laterExists || line.id <= newestId - 2) {
+        wm.skipped.push(line.id);
+        wm.lastPushedId = line.id;
+        watermarkDirty = true;
+        log(`line ${line.id}: mp3 pruned locally — skipping permanently`);
+        continue;
+      }
       log(`line ${line.id}: no local mp3 yet (${line.audioUrl || 'no audioUrl'}) — will retry`);
-      break; // keep order: later lines wait for this one to land
+      break; // newest line may still be rendering: keep order, retry next tick
     }
     const b64 = fs.readFileSync(file).toString('base64');
+    if (batch.length >= 8) break; // endpoint accepts at most 10 lines per push
     if (batch.length && batchB64 + b64.length > MAX_BATCH_B64) break;
     batch.push({ id: line.id, member: line.member, mp3b64: b64 });
     batchB64 += b64.length;
   }
+  if (watermarkDirty) saveWatermark(wm);
 
   const state = relayState(local);
   const fingerprint = JSON.stringify([local.cycle, local.phase, local.speaker, local.currentLine && local.currentLine.id, state.transcript.length]);
