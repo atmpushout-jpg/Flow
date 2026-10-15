@@ -715,9 +715,32 @@ function buildCycleBeats(ctx) {
 async function prepareTurn(beat, ctx, seq) {
   const member = beat.member;
   const prompt = wrapPrompt(beat.brief, { ...ctx, member });
-  let r = await brainLine(member, prompt);
-  if (!r.text) {
-    r = await brainLine(member, prompt + '\n\n(Say it plainly, in your own words, right now.)');
+  let r = null;
+  // Host beats (bridge/tee/wrap) are framing, and the full wrapped
+  // prompt is where the brain empties out most — host tees were being
+  // skipped outright after three fallback attempts. The host goes
+  // LEAN FIRST: brief + desk + record + the previous line, no memory
+  // stack. A real lean answer ships; anything else escalates to the
+  // full prompt and the standard rescue chain below.
+  if (member === 'FLOWEXECUTOR') {
+    try {
+      const leanFirst = `[LIVE on the GIGABYTE show, cycle ${ctx.cycle}. It is now ${ctx.digest.eastern}.]\n\n${beat.brief}\n\n` +
+        (ctx.deskText ? ctx.deskText + '\n\n' : '') +
+        records.digestSummary(ctx.digest) +
+        (ctx.prev ? `\n\nTHE PREVIOUS SPEAKER${ctx.respondTo ? ` (${ctx.respondTo})` : ''} JUST SAID: "${ctx.prev}"` : '') +
+        '\n\nGrounding: every number from the record above only.';
+      const r0 = await brainLine(member, leanFirst);
+      if (r0.text && r0.guarded !== 'fallback-line') {
+        log(`turn ${seq} ${member}: host lean-first landed`);
+        r = r0;
+      }
+    } catch { /* escalate to the full prompt */ }
+  }
+  if (!r) {
+    r = await brainLine(member, prompt);
+    if (!r.text) {
+      r = await brainLine(member, prompt + '\n\n(Say it plainly, in your own words, right now.)');
+    }
   }
   if (!r.text) throw new Error(`brain returned empty text for ${member}`);
   // Lean retry: if the brain burned its budget on the full wrapped prompt
