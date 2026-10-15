@@ -1,20 +1,20 @@
 {
   "service": "Flow forecaster — Aave on Base liquidation board",
-  "generatedAt": "2026-10-15T01:03:35.252Z",
+  "generatedAt": "2026-10-15T01:10:45.285Z",
   "source": "Flow liquidation trigger (offchain/liquidation-trigger.js) forecast ledger: logs/liquidation-evaluations.jsonl, decision=\"forecast\" rows, enriched with each borrower's newest ledger evaluation carrying position economics.",
   "boardRule": "A borrower is on the board while its latest forecast row is younger than 10 minutes. The trigger logs a forecast row when a borrower is a pre-arm candidate or projected to cross health factor 1.0 within ~50 blocks, re-logging a still-valid projection roughly every 1-2 minutes — so 10 minutes of silence means the projection no longer holds and the borrower leaves the board.",
   "baseBlockTimeSecAssumption": 2,
   "ledgerTip": {
-    "lastForecastAt": "2026-10-15T01:03:32.185Z",
-    "lastEvaluationAt": "2026-10-15T01:03:32.185Z",
-    "lastForecastBlock": 52618433
+    "lastForecastAt": "2026-10-15T01:10:32.338Z",
+    "lastEvaluationAt": "2026-10-15T01:10:33.871Z",
+    "lastForecastBlock": 52618643
   },
   "count": 5,
   "positions": [
     {
       "borrower": "0x12314a83c193f7b5aeabdbd69da59d328329d111",
       "status": "crossed",
-      "hf": 0.905312,
+      "hf": 0.90327,
       "hfVelocityPerBlock": 0,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
@@ -26,14 +26,14 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T01:03:31.370Z",
-      "forecastAt": "2026-10-15T01:03:32.184Z",
-      "forecastBlock": 52618433
+      "lastEvaluatedAt": "2026-10-15T01:10:33.623Z",
+      "forecastAt": "2026-10-15T01:10:32.338Z",
+      "forecastBlock": 52618643
     },
     {
       "borrower": "0xcd4b51188ce68a37d0f9388abc1db96ab4c8b545",
       "status": "crossed",
-      "hf": 0.943182,
+      "hf": 0.940918,
       "hfVelocityPerBlock": 0,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
@@ -45,14 +45,14 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T01:03:31.266Z",
-      "forecastAt": "2026-10-15T01:03:32.185Z",
-      "forecastBlock": 52618433
+      "lastEvaluatedAt": "2026-10-15T01:10:33.646Z",
+      "forecastAt": "2026-10-15T01:10:32.338Z",
+      "forecastBlock": 52618643
     },
     {
       "borrower": "0xe3aac57d69dfd2cd5397e5a4b908006f80e8ac24",
       "status": "crossed",
-      "hf": 0.948123,
+      "hf": 0.945966,
       "hfVelocityPerBlock": 0,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
@@ -64,14 +64,14 @@
       "coverUsd": 0.01,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T01:03:31.470Z",
-      "forecastAt": "2026-10-15T01:03:32.185Z",
-      "forecastBlock": 52618433
+      "lastEvaluatedAt": "2026-10-15T01:10:33.709Z",
+      "forecastAt": "2026-10-15T01:10:32.338Z",
+      "forecastBlock": 52618643
     },
     {
       "borrower": "0xa0b37bbcf663520fa90b73b72c0e0e769923412d",
       "status": "crossed",
-      "hf": 0.948149,
+      "hf": 0.946,
       "hfVelocityPerBlock": 0,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
@@ -83,14 +83,14 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T01:03:31.420Z",
-      "forecastAt": "2026-10-15T01:03:32.185Z",
-      "forecastBlock": 52618433
+      "lastEvaluatedAt": "2026-10-15T01:10:33.755Z",
+      "forecastAt": "2026-10-15T01:10:32.338Z",
+      "forecastBlock": 52618643
     },
     {
       "borrower": "0x9451621d57d986d3d0ac55ec620fdbb067ab8bd4",
       "status": "crossed",
-      "hf": 0.951719,
+      "hf": 0.949557,
       "hfVelocityPerBlock": 0,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
@@ -99,12 +99,12 @@
       "projectedNetUsd": -0.01,
       "debtAsset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
       "collateralAsset": "0x4200000000000000000000000000000000000006",
-      "coverUsd": 0,
+      "coverUsd": 0.01,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T01:03:31.337Z",
-      "forecastAt": "2026-10-15T01:03:32.185Z",
-      "forecastBlock": 52618433
+      "lastEvaluatedAt": "2026-10-15T01:10:33.871Z",
+      "forecastAt": "2026-10-15T01:10:32.338Z",
+      "forecastBlock": 52618643
     }
   ]
 }
