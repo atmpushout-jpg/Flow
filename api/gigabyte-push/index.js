@@ -59,9 +59,42 @@ module.exports = async (req, res) => {
 
     // Session + monotonic line tracking. Line ids are scoped to a show
     // session (state.startedAt): a restarted show starts a fresh count.
-    const storedSession = await gb.store.get(gb.KEY_SESSION);
-    const sameSession = storedSession !== null && Number(storedSession) === state.startedAt;
-    let last = sameSession ? parseInt((await gb.store.get(gb.KEY_LASTLINE)) || "0", 10) || 0 : 0;
+    //
+    // The watermark is ONE composite value, "<session>:<lastId>", so a
+    // session flip and its watermark reset are a single write and can
+    // never desync. The previous two-key scheme deadlocked every show
+    // restart: the relay's state-only self-heal push flipped
+    // gigabyte:session to the new session while gigabyte:lastline still
+    // held the old session's high-water mark (123). From then on the
+    // session "matched", the watermark read the stale 123, and every
+    // line of the new session — ids restart at 1 — was rejected 409
+    // forever. A legacy bare-number watermark carries no session and
+    // cannot be trusted against any session, so it reads as no
+    // watermark at all (which is also what heals the stranded state:
+    // the first push after this fix rewrites it in composite form).
+    const rawLast = await gb.store.get(gb.KEY_LASTLINE);
+    let wmSession = null;
+    let wmLast = 0;
+    if (rawLast !== null) {
+      const m = /^(\d+):(\d+)$/.exec(String(rawLast));
+      if (m) {
+        wmSession = Number(m[1]);
+        wmLast = parseInt(m[2], 10) || 0;
+      }
+    }
+    const storedSessionRaw = await gb.store.get(gb.KEY_SESSION);
+    const knownSession = wmSession !== null
+      ? wmSession
+      : storedSessionRaw !== null
+        ? Number(storedSessionRaw)
+        : null;
+    if (knownSession !== null && state.startedAt < knownSession) {
+      return res
+        .status(409)
+        .json({ error: `stale session ${state.startedAt} (stored session is ${knownSession})` });
+    }
+    const sameSession = knownSession === state.startedAt;
+    let last = sameSession ? wmLast : 0;
     for (const l of lines) {
       if (l.id <= last) {
         return res
@@ -72,13 +105,15 @@ module.exports = async (req, res) => {
     }
 
     // Writes: audio first (so a state never points at a missing line),
-    // then the state overwrite, then the session watermark.
+    // then the state overwrite, then the session + watermark — always
+    // written together, in composite form, lines or no lines, so a
+    // state-only push can never flip the session ahead of its reset.
     for (const l of lines) {
       await gb.store.set(gb.audioKey(l.id), l.mp3b64, gb.AUDIO_TTL_SEC);
     }
     await gb.store.set(gb.KEY_STATE, JSON.stringify(state), gb.STATE_TTL_SEC);
-    if (!sameSession) await gb.store.set(gb.KEY_SESSION, String(state.startedAt));
-    if (lines.length) await gb.store.set(gb.KEY_LASTLINE, String(last));
+    await gb.store.set(gb.KEY_SESSION, String(state.startedAt));
+    await gb.store.set(gb.KEY_LASTLINE, `${state.startedAt}:${last}`);
 
     return res.status(200).json({
       ok: true,

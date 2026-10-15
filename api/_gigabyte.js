@@ -10,8 +10,10 @@
 //   gigabyte:state          JSON show state (full overwrite per push)
 //   gigabyte:audio:<id>     base64 MP3 for one transcript line (6h TTL)
 //   gigabyte:pushkeyhash    sha256 hex of the push key (hash only, ever)
-//   gigabyte:session        startedAt of the show session lastline tracks
-//   gigabyte:lastline       highest line id accepted for that session
+//   gigabyte:session        startedAt of the current show session
+//   gigabyte:lastline       composite "<session>:<lastId>" watermark —
+//                           the session flip and its reset are one
+//                           write, so the two can never desync
 //
 // AUTH: the push key itself lives ONLY in a 600-perm file on the VM
 // (~/.config/gigabyte_push_key). It was bootstrapped by hash: the first
