@@ -48,6 +48,14 @@ module.exports = async (req, res) => {
   }
   try {
     const quote = await getBestQuote(tokenIn, tokenOut, amountIn, { slippageBps, validBlocks });
+    if (!quote || !quote.venue || BigInt(quote.bestOut || "0") <= 0n) {
+      // Zero-quote guard (mirrors /api/fill's pre-gate refusal): a
+      // well-formed but unquotable pair must not be charged for an
+      // empty answer — refuse BEFORE settling, and give any
+      // builder-key reservation back (no delivery, no consumption).
+      await x402.releaseBuilderKey(gate);
+      return res.status(503).json({ error: "No route quoted for this pair and size" });
+    }
     await stats.trackQuote();
     const snap = await stats.snapshot();
     const body = {
@@ -89,6 +97,10 @@ module.exports = async (req, res) => {
 
     res.json(body);
   } catch (e) {
+    // Pre-delivery failure — a builder-key call is not consumed
+    // (release is a no-op for plain payment gates, which never settle
+    // on this path).
+    await x402.releaseBuilderKey(gate);
     stats.trackError();
     res.status(500).json({ error: (e.message || "quote failed").slice(0, 200) });
   }
