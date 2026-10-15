@@ -1,13 +1,13 @@
 {
   "service": "Flow forecaster — Aave on Base liquidation board",
-  "generatedAt": "2026-10-15T05:20:08.760Z",
+  "generatedAt": "2026-10-15T05:21:22.702Z",
   "source": "Flow liquidation trigger (offchain/liquidation-trigger.js) forecast ledger: logs/liquidation-evaluations.jsonl, decision=\"forecast\" rows, enriched with each borrower's newest ledger evaluation carrying position economics.",
   "boardRule": "A borrower is on the board while its latest forecast row is younger than 10 minutes. The trigger logs a forecast row when a borrower is a pre-arm candidate or projected to cross health factor 1.0 within ~50 blocks, re-logging a still-valid projection roughly every 1-2 minutes — so 10 minutes of silence means the projection no longer holds and the borrower leaves the board.",
   "baseBlockTimeSecAssumption": 2,
   "ledgerTip": {
-    "lastForecastAt": "2026-10-15T05:19:15.620Z",
-    "lastEvaluationAt": "2026-10-15T05:19:46.188Z",
-    "lastForecastBlock": 52626104
+    "lastForecastAt": "2026-10-15T05:21:14.413Z",
+    "lastEvaluationAt": "2026-10-15T05:21:14.931Z",
+    "lastForecastBlock": 52626164
   },
   "count": 7,
   "positions": [
@@ -26,9 +26,9 @@
       "coverUsd": 0.0047,
       "latestNetUsd": -0.009,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:44.303Z",
-      "forecastAt": "2026-10-15T05:19:15.618Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:13.023Z",
+      "forecastAt": "2026-10-15T05:21:14.408Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0xcd4b51188ce68a37d0f9388abc1db96ab4c8b545",
@@ -45,9 +45,9 @@
       "coverUsd": 0,
       "latestNetUsd": -0.0092,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:44.569Z",
-      "forecastAt": "2026-10-15T05:19:15.618Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:13.311Z",
+      "forecastAt": "2026-10-15T05:21:14.408Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0xa0b37bbcf663520fa90b73b72c0e0e769923412d",
@@ -64,9 +64,9 @@
       "coverUsd": 0.0049,
       "latestNetUsd": -0.009,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:44.886Z",
-      "forecastAt": "2026-10-15T05:19:15.618Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:13.668Z",
+      "forecastAt": "2026-10-15T05:21:14.408Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0xe3aac57d69dfd2cd5397e5a4b908006f80e8ac24",
@@ -83,9 +83,9 @@
       "coverUsd": 0.0089,
       "latestNetUsd": -0.0088,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:45.171Z",
-      "forecastAt": "2026-10-15T05:19:15.618Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:13.983Z",
+      "forecastAt": "2026-10-15T05:21:14.412Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0x9451621d57d986d3d0ac55ec620fdbb067ab8bd4",
@@ -102,9 +102,9 @@
       "coverUsd": 0.0073,
       "latestNetUsd": -0.0089,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:45.502Z",
-      "forecastAt": "2026-10-15T05:19:15.618Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:14.338Z",
+      "forecastAt": "2026-10-15T05:21:14.412Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0x1b7cb2edf5e84ff420f1cc6cead90c00672d35c3",
@@ -121,9 +121,9 @@
       "coverUsd": 0.0041,
       "latestNetUsd": -0.009,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:45.856Z",
-      "forecastAt": "2026-10-15T05:19:15.619Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:14.638Z",
+      "forecastAt": "2026-10-15T05:21:14.413Z",
+      "forecastBlock": 52626164
     },
     {
       "borrower": "0xea6eb1eefef034e62c17e20bf40da38cc1f00011",
@@ -140,9 +140,9 @@
       "coverUsd": 0.0053,
       "latestNetUsd": -0.009,
       "lastEvaluationDecision": "skipped-below-threshold",
-      "lastEvaluatedAt": "2026-10-15T05:19:46.188Z",
-      "forecastAt": "2026-10-15T05:19:15.620Z",
-      "forecastBlock": 52626104
+      "lastEvaluatedAt": "2026-10-15T05:21:14.931Z",
+      "forecastAt": "2026-10-15T05:21:14.413Z",
+      "forecastBlock": 52626164
     }
   ]
 }
