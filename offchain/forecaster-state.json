@@ -1,21 +1,21 @@
 {
   "service": "Flow forecaster — Aave on Base liquidation board",
-  "generatedAt": "2026-10-15T20:10:48.220Z",
+  "generatedAt": "2026-10-15T20:20:49.829Z",
   "source": "Flow liquidation trigger (offchain/liquidation-trigger.js) forecast ledger: logs/liquidation-evaluations.jsonl, decision=\"forecast\" rows, enriched with each borrower's newest ledger evaluation carrying position economics.",
   "boardRule": "A borrower is on the board while its latest forecast row is younger than 10 minutes. The trigger logs a forecast row when a borrower is a pre-arm candidate or projected to cross health factor 1.0 within ~50 blocks, re-logging a still-valid projection roughly every 1-2 minutes — so 10 minutes of silence means the projection no longer holds and the borrower leaves the board.",
   "baseBlockTimeSecAssumption": 2,
   "ledgerTip": {
-    "lastForecastAt": "2026-10-15T20:10:38.275Z",
-    "lastEvaluationAt": "2026-10-15T20:10:41.028Z",
-    "lastForecastBlock": 52652846
+    "lastForecastAt": "2026-10-15T20:20:38.322Z",
+    "lastEvaluationAt": "2026-10-15T20:20:47.859Z",
+    "lastForecastBlock": 52653146
   },
   "count": 5,
   "positions": [
     {
       "borrower": "0x12314a83c193f7b5aeabdbd69da59d328329d111",
       "status": "crossed",
-      "hf": 0.915916,
-      "hfVelocityPerBlock": 0,
+      "hf": 0.918985,
+      "hfVelocityPerBlock": 0.000073,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
       "blocksToProfitable": null,
@@ -26,15 +26,15 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T20:10:34.457Z",
-      "forecastAt": "2026-10-15T20:10:38.275Z",
-      "forecastBlock": 52652846
+      "lastEvaluatedAt": "2026-10-15T20:20:39.798Z",
+      "forecastAt": "2026-10-15T20:20:38.321Z",
+      "forecastBlock": 52653146
     },
     {
       "borrower": "0xcd4b51188ce68a37d0f9388abc1db96ab4c8b545",
       "status": "crossed",
-      "hf": 0.954123,
-      "hfVelocityPerBlock": 0,
+      "hf": 0.957141,
+      "hfVelocityPerBlock": 0.000066,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
       "blocksToProfitable": null,
@@ -45,15 +45,15 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T20:10:34.525Z",
-      "forecastAt": "2026-10-15T20:10:38.275Z",
-      "forecastBlock": 52652846
+      "lastEvaluatedAt": "2026-10-15T20:20:39.695Z",
+      "forecastAt": "2026-10-15T20:20:38.322Z",
+      "forecastBlock": 52653146
     },
     {
       "borrower": "0xe3aac57d69dfd2cd5397e5a4b908006f80e8ac24",
       "status": "crossed",
-      "hf": 0.955428,
-      "hfVelocityPerBlock": 0,
+      "hf": 0.959175,
+      "hfVelocityPerBlock": 0.000076,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
       "blocksToProfitable": null,
@@ -64,15 +64,15 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T20:10:40.981Z",
-      "forecastAt": "2026-10-15T20:10:38.275Z",
-      "forecastBlock": 52652846
+      "lastEvaluatedAt": "2026-10-15T20:20:47.859Z",
+      "forecastAt": "2026-10-15T20:20:38.322Z",
+      "forecastBlock": 52653146
     },
     {
       "borrower": "0xa0b37bbcf663520fa90b73b72c0e0e769923412d",
       "status": "crossed",
-      "hf": 0.956876,
-      "hfVelocityPerBlock": 0,
+      "hf": 0.960413,
+      "hfVelocityPerBlock": 0.000076,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
       "blocksToProfitable": null,
@@ -83,15 +83,15 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T20:10:41.016Z",
-      "forecastAt": "2026-10-15T20:10:38.275Z",
-      "forecastBlock": 52652846
+      "lastEvaluatedAt": "2026-10-15T20:20:47.369Z",
+      "forecastAt": "2026-10-15T20:20:38.322Z",
+      "forecastBlock": 52653146
     },
     {
       "borrower": "0x9451621d57d986d3d0ac55ec620fdbb067ab8bd4",
       "status": "crossed",
-      "hf": 0.959432,
-      "hfVelocityPerBlock": 0,
+      "hf": 0.963137,
+      "hfVelocityPerBlock": 0.000076,
       "blocksToCross": 0,
       "estSecondsToCross": 0,
       "blocksToProfitable": null,
@@ -102,9 +102,9 @@
       "coverUsd": 0,
       "latestNetUsd": -0.01,
       "lastEvaluationDecision": "validator-no-go",
-      "lastEvaluatedAt": "2026-10-15T20:10:41.028Z",
-      "forecastAt": "2026-10-15T20:10:38.275Z",
-      "forecastBlock": 52652846
+      "lastEvaluatedAt": "2026-10-15T20:20:47.686Z",
+      "forecastAt": "2026-10-15T20:20:38.322Z",
+      "forecastBlock": 52653146
     }
   ]
 }
