@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GIGABYTE — Flow Cast Live</title>
+<style>
+  :root{
+    --bg:#0a0a0c; --panel:#141417; --panel2:#1b1b1f; --line:#26262c;
+    --gold:#f2b33d; --gold2:#ffd97a; --ink:#f4f1ea; --dim:#9a958a; --red:#ff3b30;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 16px 10px;text-align:center;border-bottom:1px solid var(--line);
+    background:radial-gradient(120% 160% at 50% 0%, #1d1808 0%, var(--bg) 60%)}
+  h1{margin:0;font-size:34px;letter-spacing:.22em;color:var(--gold);font-weight:800}
+  .tagline{margin:6px auto 0;max-width:520px;color:var(--dim);font-size:13.5px;font-style:italic;line-height:1.45}
+  .statusbar{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .live{display:none;align-items:center;gap:7px;background:#2a0d0b;border:1px solid #5a1a14;color:#ff8a80;
+    padding:5px 12px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:.14em}
+  .live.on{display:inline-flex}
+  .live .dot{width:9px;height:9px;border-radius:50%;background:var(--red);animation:pulse 1.2s infinite}
+  @keyframes pulse{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
+  .clock,.phase{color:var(--dim);font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--panel)}
+  .clock b{color:var(--ink);font-variant-numeric:tabular-nums}
+  main{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+  /* lobby */
+  #lobby{text-align:center;padding:34px 10px}
+  #lobby p{color:var(--dim);max-width:460px;margin:0 auto 20px;line-height:1.55;font-size:15px}
+  #enterBtn{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#191204;border:none;
+    font-size:18px;font-weight:800;letter-spacing:.06em;padding:16px 34px;border-radius:14px;cursor:pointer;
+    box-shadow:0 6px 24px rgba(242,179,61,.25)}
+  #enterBtn:active{transform:scale(.98)}
+  /* stage */
+  #stage{display:none}
+  .seats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:640px){.seats{grid-template-columns:repeat(3,1fr)}}
+  .seat{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;
+    transition:border-color .25s, box-shadow .25s, background .25s}
+  .seat .avatar{width:52px;height:52px;margin:2px auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--panel2);border:2px solid var(--line);color:var(--gold);font-weight:800;font-size:15px;letter-spacing:.03em}
+  .seat .nm{font-weight:800;font-size:14.5px;letter-spacing:.08em}
+  .seat .rl{color:var(--dim);font-size:11.5px;margin-top:2px;line-height:1.35;min-height:28px}
+  .seat.speaking{border-color:var(--gold);background:#1d190d;box-shadow:0 0 0 1px var(--gold), 0 8px 28px rgba(242,179,61,.18)}
+  .seat.speaking .avatar{border-color:var(--gold)}
+  .seat.thinking{border-color:#5a4a1f}
+  .eq{display:none;justify-content:center;align-items:flex-end;gap:3px;height:18px;margin-top:7px}
+  .seat.speaking .eq{display:flex}
+  .eq i{width:4px;background:var(--gold);border-radius:2px;animation:eq 0.9s ease-in-out infinite}
+  .eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}
+  .eq i:nth-child(4){animation-delay:.45s}.eq i:nth-child(5){animation-delay:.6s}
+  @keyframes eq{0%,100%{height:5px}50%{height:17px}}
+  .meter{height:5px;background:#232329;border-radius:3px;margin-top:8px;overflow:hidden;display:none}
+  .seat.speaking .meter{display:block}
+  .meter i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .09s linear}
+  /* caption */
+  #caption{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);
+    border-radius:12px;padding:13px 15px;min-height:74px}
+  #caption .who{color:var(--gold);font-weight:800;font-size:12px;letter-spacing:.14em;margin-bottom:5px}
+  #caption .what{font-size:16.5px;line-height:1.5}
+  #caption .placeholder{color:var(--dim);font-size:14.5px}
+  /* transcript */
+  h2{font-size:13px;letter-spacing:.18em;color:var(--dim);margin:22px 0 10px;font-weight:700}
+  #feed{display:flex;flex-direction:column;gap:9px}
+  .line{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px}
+  .line .who{color:var(--gold);font-weight:800;font-size:11.5px;letter-spacing:.12em}
+  .line .what{margin-top:3px;font-size:14.5px;line-height:1.5}
+  .line .when{color:var(--dim);font-size:11px;margin-top:4px}
+  #soundPill{display:none;margin:12px auto 0;background:#2a0d0b;border:1px solid #5a1a14;color:#ff8a80;
+    padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer}
+  footer{color:#5d594f;text-align:center;font-size:11.5px;padding:0 16px 26px;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <h1>GIGABYTE</h1>
+  <p class="tagline">the Gigabyte is the only place that Flow stops besides at a block</p>
+  <div class="statusbar">
+    <span class="live" id="liveBadge"><span class="dot"></span>LIVE</span>
+    <span class="clock">ON AIR <b id="clock">00:00</b></span>
+    <span class="phase" id="phaseText">lobby</span>
+  </div>
+</header>
+
+<main>
+  <section id="lobby">
+    <p>The Flow Cast, live in your browser. Six seats, one desk, real records — the cast talks the tape while it happens. Tap in and listen.</p>
+    <button id="enterBtn">Enter live room</button>
+    <div><button id="soundPill">Sound is blocked — tap to enable</button></div>
+  </section>
+
+  <section id="stage">
+    <div class="seats" id="seats"></div>
+    <div id="caption">
+      <div class="who" id="capWho">NOW SPEAKING</div>
+      <div class="what placeholder" id="capWhat">The desk is warming up…</div>
+    </div>
+    <h2>LIVE TRANSCRIPT</h2>
+    <div id="feed"></div>
+  </section>
+</main>
+
+<footer>Flow Cast — GIGABYTE. Every number spoken in this room comes off the desk record.<br>Paper calls are graded in public, win or loss.</footer>
+
+<audio id="player" preload="auto" playsinline></audio>
+
+<script>
+(function(){
+  "use strict";
+  var CAST_ORDER = ["FLOWEXECUTOR","MISTY","FADE","K1N9","PYRE","PUSHOUT"];
+  var SHORT = {FLOWEXECUTOR:"FE", MISTY:"MI", FADE:"FA", K1N9:"K9", PYRE:"PY", PUSHOUT:"PO"};
+  var STATE_URL = '/api/gigabyte-state';
+  var POLL_MS = 4000, STALL_MS = 12000;
+  var player = document.getElementById('player');
+  var seatsEl = document.getElementById('seats');
+  var feedEl = document.getElementById('feed');
+  var capWho = document.getElementById('capWho'), capWhat = document.getElementById('capWhat');
+  var phaseText = document.getElementById('phaseText');
+  var liveBadge = document.getElementById('liveBadge');
+  var clockEl = document.getElementById('clock');
+  var soundPill = document.getElementById('soundPill');
+
+  var entered = false, startedAt = null, synced = false;
+  var queue = [], playing = null, attemptAt = 0;
+  var playedIds = {}, feedIds = {}, queuedIds = {};
+  var seatEls = {}, meterEls = {};
+
+  CAST_ORDER.forEach(function(id){
+    var d = document.createElement('div'); d.className = 'seat'; d.id = 'seat-' + id;
+    d.innerHTML = '<div class="avatar">' + SHORT[id] + '</div>' +
+      '<div class="nm">' + id + '</div><div class="rl"></div>' +
+      '<div class="eq"><i></i><i></i><i></i><i></i><i></i></div>' +
+      '<div class="meter"><i></i></div>';
+    seatsEl.appendChild(d); seatEls[id] = d; meterEls[id] = d.querySelector('.meter i');
+  });
+
+  /* ---- real level meter via WebAudio analyser (falls back to CSS eq) ---- */
+  var actx = null, analyser = null, freqData = null;
+  function initAnalyser(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC || actx) return;
+      actx = new AC();
+      var src = actx.createMediaElementSource(player);
+      analyser = actx.createAnalyser(); analyser.fftSize = 256;
+      freqData = new Uint8Array(analyser.frequencyBinCount);
+      src.connect(analyser); analyser.connect(actx.destination);
+      meterLoop();
+    }catch(e){ /* CSS equalizer still animates */ }
+  }
+  function meterLoop(){
+    requestAnimationFrame(meterLoop);
+    if(!analyser || !playing) return;
+    analyser.getByteFrequencyData(freqData);
+    var sum = 0; for(var i=0;i<freqData.length;i++) sum += freqData[i];
+    var lvl = Math.min(100, Math.round(sum / freqData.length * 1.6));
+    var m = meterEls[playing.member]; if(m) m.style.width = lvl + '%';
+  }
+
+  /* ---- playback queue: a line lands in the transcript when its audio
+         starts. If audio stalls, a watchdog shows the line anyway and
+         moves on — the feed never waits more than one line behind. ---- */
+  function enqueue(line){
+    if(!line || playedIds[line.id] || queuedIds[line.id]) return;
+    if(playing && playing.id === line.id) return;
+    queuedIds[line.id] = true;
+    queue.push(line); queue.sort(function(a,b){ return a.id - b.id; });
+    tryPlay();
+  }
+  function tryPlay(){
+    if(playing || !queue.length) return;
+    var line = queue.shift();
+    playing = line; attemptAt = Date.now();
+    player.src = line.audioUrl;
+    var p = player.play();
+    if(p && p.catch) p.catch(function(){ soundPill.style.display = 'inline-block'; });
+  }
+  function finishLine(line){
+    if(!line) return;
+    playedIds[line.id] = true; delete queuedIds[line.id];
+    if(playing && playing.id === line.id) playing = null;
+    clearSpeaking();
+  }
+  player.addEventListener('playing', function(){
+    if(!playing) return;
+    soundPill.style.display = 'none';
+    setSpeaking(playing.member);
+    capWho.textContent = 'NOW SPEAKING — ' + playing.member;
+    capWhat.textContent = playing.text; capWhat.classList.remove('placeholder');
+    addToFeed(playing);
+  });
+  player.addEventListener('ended', function(){ var l = playing; finishLine(l); tryPlay(); });
+  player.addEventListener('error', function(){
+    // A missing/failed mp3 must never stall the room: show it, move on.
+    if(playing){ addToFeed(playing); finishLine(playing); setTimeout(tryPlay, 250); }
+  });
+  setInterval(function(){
+    // Stall watchdog: the head line's audio never started — show it and skip.
+    if(playing && !feedIds[playing.id] && Date.now() - attemptAt > STALL_MS){
+      addToFeed(playing); finishLine(playing); tryPlay();
+    }
+  }, 1500);
+  function setSpeaking(member){
+    CAST_ORDER.forEach(function(id){
+      seatEls[id].classList.toggle('speaking', id === member);
+      if(id !== member) seatEls[id].classList.remove('thinking');
+    });
+  }
+  function clearSpeaking(){
+    CAST_ORDER.forEach(function(id){ seatEls[id].classList.remove('speaking'); });
+    CAST_ORDER.forEach(function(id){ if(meterEls[id]) meterEls[id].style.width = '0%'; });
+  }
+  function addToFeed(line){
+    if(feedIds[line.id]) return; feedIds[line.id] = true;
+    var d = document.createElement('div'); d.className = 'line';
+    var when = line.at ? new Date(line.at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}) : '';
+    d.innerHTML = '<div class="who"></div><div class="what"></div><div class="when"></div>';
+    d.querySelector('.who').textContent = line.member;
+    d.querySelector('.what').textContent = line.text;
+    d.querySelector('.when').textContent = when;
+    feedEl.appendChild(d);
+    while(feedEl.children.length > 60) feedEl.removeChild(feedEl.firstChild);
+    d.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+
+  /* ---- relayed state (polled; resync = rebuild from the record) ---- */
+  function applyState(s){
+    if(!s) return;
+    if(s.startedAt) startedAt = s.startedAt;
+    if(s.cast) s.cast.forEach(function(c){
+      var rl = seatEls[c.id] && seatEls[c.id].querySelector('.rl');
+      if(rl && c.role) rl.textContent = c.role;
+    });
+    liveBadge.classList.toggle('on', !!s.running);
+    var label = {idle:'in the lobby', generating:'the desk is thinking', speaking:'on air',
+      pause:'one beat', error:'the desk is regrouping'}[s.phase] || s.phase;
+    if(s.phase === 'generating' && s.generatingFor) label = s.generatingFor + ' is thinking';
+    phaseText.textContent = label;
+    CAST_ORDER.forEach(function(id){
+      if(!playing) seatEls[id].classList.toggle('thinking', s.phase === 'generating' && s.generatingFor === id);
+    });
+    if(!entered || !Array.isArray(s.transcript)) return;
+    var curId = s.currentLine ? s.currentLine.id : null;
+    if(!synced){
+      // Joining live: history goes straight to the feed; only the line on
+      // air right now is queued for audio. Everything after flows live.
+      synced = true;
+      s.transcript.forEach(function(l){
+        if(s.phase === 'speaking' && curId !== null && l.id === curId) enqueue(l);
+        else { playedIds[l.id] = true; addToFeed(l); }
+      });
+      if(s.phase === 'speaking' && s.currentLine && !queuedIds[s.currentLine.id] && !playedIds[s.currentLine.id]){
+        var found = false;
+        s.transcript.forEach(function(l){ if(l.id === s.currentLine.id) found = true; });
+        if(!found) enqueue(s.currentLine);
+      }
+      return;
+    }
+    // Live flow: queue every new line in order (audio starts → it shows).
+    s.transcript.forEach(function(l){ enqueue(l); });
+    if(s.phase === 'speaking' && s.currentLine) enqueue(s.currentLine);
+  }
+  var polling = false;
+  function fetchState(){
+    fetch(STATE_URL, {cache:'no-store'}).then(function(r){ return r.json(); }).then(applyState).catch(function(){});
+  }
+
+  /* ---- clock ---- */
+  setInterval(function(){
+    if(!startedAt){ clockEl.textContent = '00:00'; return; }
+    var s = Math.max(0, Math.floor((Date.now() - startedAt) / 1000));
+    var hh = Math.floor(s/3600), mm = Math.floor((s%3600)/60), ss = s%60;
+    clockEl.textContent = (hh ? hh + ':' : '') + String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+  }, 500);
+
+  /* ---- enter (mobile autoplay gate) ---- */
+  var SILENT = 'data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA' +
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+  document.getElementById('enterBtn').addEventListener('click', function(){
+    entered = true;
+    document.getElementById('lobby').style.display = 'none';
+    document.getElementById('stage').style.display = 'block';
+    initAnalyser();
+    if(actx && actx.state === 'suspended') actx.resume();
+    player.src = SILENT;
+    var p = player.play(); if(p && p.catch) p.catch(function(){});
+    setTimeout(function(){ if(!playing){ player.removeAttribute('src'); player.load(); } }, 600);
+    fetchState();
+    if(!polling){ polling = true; setInterval(fetchState, POLL_MS); }
+  });
+  soundPill.addEventListener('click', function(){
+    soundPill.style.display = 'none';
+    if(actx && actx.state === 'suspended') actx.resume();
+    if(playing){ player.play().catch(function(){}); }
+    else tryPlay();
+  });
+  // Pre-enter: keep the badge/clock honest even in the lobby.
+  fetchState(); setInterval(function(){ if(!entered) fetchState(); }, 15000);
+})();
+</script>
+</body>
+</html>

@@ -32,6 +32,15 @@
     },
     "api/passport/index.js": {
       "maxDuration": 10
+    },
+    "api/gigabyte-state/index.js": {
+      "maxDuration": 10
+    },
+    "api/gigabyte-audio/index.js": {
+      "maxDuration": 10
+    },
+    "api/gigabyte-push/index.js": {
+      "maxDuration": 30
     }
   },
   "version": 2,
