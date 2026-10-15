@@ -99,10 +99,28 @@ the operator's step; all URLs in the page are relative and HTTPS-friendly.
   (+8/+5/+3) and Wilder RSI(14) math on the same last-64 series; lane
   tallies/open positions come from `records.js` with units/entry joined
   from the runners' RECONCILE log lines. The panel shows per pair: last
-  price, 15m + 1h regime, RSI(14), alligator state, sparkline; per
-  lane: W-L, signed day PnL, open positions; and every live spike call
-  (EDEL included) as PENDING with its from-price and grade time, or its
+  price, 15m + 1h regime, RSI(14), alligator state, and — since Atm's
+  steer of 2026-10-15 ("go back to the OANDA trending chart — it looks
+  better with dashboard") — the forex desk's full v2 chart, not a
+  sparkline: `desk.js` pushes the last 64 closed 15m OHLC candles per
+  pair and `gigabyte.html` renders the tall multi-panel SVG ported
+  verbatim from `forex-desk.js` (candles + Alligator SMMA 13/8/5
+  shifted, Williams fractals, SMA 20, labeled price ticks + gridlines,
+  dashed last-price line + gold chip, shared time axis; RSI(14)
+  sub-panel with 30/50/70 guides, 50 = MISTY's exit line; AO(5,34)
+  histogram; legend with latest values; open-position entry markers
+  from the lane digest). The page computes the indicators in the
+  browser with the desk page's own code — verified bit-identical
+  (Δ 0.0) against `forex-desk.js` on the live tape. Per lane: W-L,
+  signed day PnL, open positions; and every live spike call (EDEL
+  included) as PENDING with its from-price and grade time, or its
   posted grade.
+- **Relay watermark resync.** If a push is rejected 409 "line N is not
+  ahead of the stored transcript (at M)" (the relay's local audio
+  watermark fell behind the server's — e.g. a restart mid-flight), the
+  relay jumps its watermark to M and continues: those lines' audio is
+  already mirrored server-side, so nothing is lost and the feed cannot
+  deadlock on a stale batch.
 - **Topics + attitudes, not scripts.** Cast members are never assigned
   a position or a line. Each has a persistent attitude card (in every
   prompt — how they talk, what they value, what irritates them), and the
