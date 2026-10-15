@@ -54,6 +54,34 @@
   .meter{height:5px;background:#232329;border-radius:3px;margin-top:8px;overflow:hidden;display:none}
   .seat.speaking .meter{display:block}
   .meter i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .09s linear}
+  /* desk panel — the live dashboard the cast is talking off */
+  #deskPanel{display:none;margin-bottom:16px}
+  #deskPanel h2{margin:0 0 10px}
+  .pairs{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:640px){.pairs{grid-template-columns:repeat(3,1fr)}}
+  .pair{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .pair .prow{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .pair .plabel{font-weight:800;font-size:13px;letter-spacing:.1em;color:var(--ink)}
+  .pair .plast{font-size:19px;font-weight:800;color:var(--gold2);font-variant-numeric:tabular-nums}
+  .pair .pmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+  .chip{font-size:11px;font-weight:700;letter-spacing:.05em;border:1px solid var(--line);border-radius:999px;
+    padding:3px 8px;color:var(--dim);background:var(--panel2);font-variant-numeric:tabular-nums}
+  .chip b{color:var(--ink)}
+  .chip.up{color:#7ee2a0}.chip.down{color:#ff8a80}.chip.range{color:var(--gold2)}
+  .spark{width:100%;height:34px;display:block;margin-top:8px}
+  .lanes{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .lrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px;flex-wrap:wrap}
+  .lrow:last-child{border-bottom:none}
+  .lrow .lm{font-weight:800;letter-spacing:.07em}
+  .lrow .lp{font-variant-numeric:tabular-nums;font-weight:700}
+  .lp.pos{color:#7ee2a0}.lp.neg{color:#ff8a80}.lp.flat{color:var(--dim)}
+  .lrow .lo{color:var(--dim);font-size:12.5px;width:100%}
+  .spikes{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .spike{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);
+    border-radius:12px;padding:9px 12px;font-size:13.5px;line-height:1.5}
+  .spike .sk{color:var(--gold);font-weight:800;font-size:11px;letter-spacing:.14em}
+  .spike .pend{color:var(--gold2);font-weight:700}
+  .spike .win{color:#7ee2a0;font-weight:800}.spike .loss{color:#ff8a80;font-weight:800}
   /* caption */
   #caption{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);
     border-radius:12px;padding:13px 15px;min-height:74px}
@@ -91,6 +119,12 @@
   </section>
 
   <section id="stage">
+    <section id="deskPanel">
+      <h2>THE DESK — WHAT THE CAST IS LOOKING AT</h2>
+      <div class="pairs" id="deskPairs"></div>
+      <div class="lanes" id="deskLanes"></div>
+      <div class="spikes" id="deskSpikes"></div>
+    </section>
     <div class="seats" id="seats"></div>
     <div id="caption">
       <div class="who" id="capWho">NOW SPEAKING</div>
@@ -224,6 +258,119 @@
     d.scrollIntoView({block:'nearest', behavior:'smooth'});
   }
 
+  /* ---- the live desk panel: the same dashboard the cast talks off ---- */
+  function el(tag, cls, text){
+    var d = document.createElement(tag);
+    if(cls) d.className = cls;
+    if(text != null) d.textContent = text;
+    return d;
+  }
+  function fmtMoney(v){
+    if(v == null || isNaN(v)) return '$0.0000';
+    return (v > 0 ? '+$' : v < 0 ? '-$' : '$') + Math.abs(v).toFixed(4);
+  }
+  function fmtTok(v){ return v == null ? '?' : (v >= 1 ? Number(v).toFixed(5) : Number(v).toFixed(6)); }
+  function regimeChip(label, val){
+    var cls = 'chip' + (val === 'UPTREND' ? ' up' : val === 'DOWNTREND' ? ' down' : val ? ' range' : '');
+    var c = el('span', cls);
+    c.appendChild(document.createTextNode(label + ' '));
+    var b = el('b', null, val || '—');
+    c.appendChild(b);
+    return c;
+  }
+  function sparkSvg(closes){
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 30');
+    svg.setAttribute('class', 'spark');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    if(!closes || closes.length < 2) return svg;
+    var lo = Math.min.apply(null, closes), hi = Math.max.apply(null, closes);
+    if(hi - lo < 1e-12) hi = lo + 1;
+    var pts = closes.map(function(c, i){
+      var x = (i / (closes.length - 1)) * 100;
+      var y = 28 - ((c - lo) / (hi - lo)) * 26;
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ');
+    var pl = document.createElementNS(NS, 'polyline');
+    pl.setAttribute('points', pts);
+    pl.setAttribute('fill', 'none');
+    pl.setAttribute('stroke', '#f2b33d');
+    pl.setAttribute('stroke-width', '1.4');
+    pl.setAttribute('vector-effect', 'non-scaling-stroke');
+    svg.appendChild(pl);
+    return svg;
+  }
+  function renderDesk(d){
+    if(!d || !Array.isArray(d.pairs) || !d.pairs.length) return;
+    var panel = document.getElementById('deskPanel');
+    panel.style.display = 'block';
+    var pw = document.getElementById('deskPairs');
+    pw.innerHTML = '';
+    d.pairs.forEach(function(p){
+      var card = el('div', 'pair');
+      var row = el('div', 'prow');
+      row.appendChild(el('span', 'plabel', p.label));
+      row.appendChild(el('span', 'plast', p.last == null ? '—' : Number(p.last).toFixed(p.dp || 5)));
+      card.appendChild(row);
+      var meta = el('div', 'pmeta');
+      meta.appendChild(regimeChip('15m', p.regime15));
+      meta.appendChild(regimeChip('1h', p.regime1h));
+      var rsi = el('span', 'chip');
+      rsi.appendChild(document.createTextNode('RSI '));
+      rsi.appendChild(el('b', null, p.rsi == null ? '—' : Number(p.rsi).toFixed(1)));
+      meta.appendChild(rsi);
+      var g = el('span', 'chip' + (p.gator === 'BULLISH' ? ' up' : p.gator === 'BEARISH' ? ' down' : ' range'));
+      g.appendChild(document.createTextNode('GATOR '));
+      g.appendChild(el('b', null, p.gator || '—'));
+      meta.appendChild(g);
+      card.appendChild(meta);
+      card.appendChild(sparkSvg(p.closes));
+      pw.appendChild(card);
+    });
+    var lw = document.getElementById('deskLanes');
+    lw.innerHTML = '';
+    (d.lanes || []).forEach(function(l){
+      var row = el('div', 'lrow');
+      row.appendChild(el('span', 'lm', l.member));
+      row.appendChild(el('span', null, l.wins + 'W-' + l.losses + 'L'));
+      var pc = el('span', 'lp ' + (l.pnl > 0 ? 'pos' : l.pnl < 0 ? 'neg' : 'flat'), fmtMoney(l.pnl));
+      row.appendChild(pc);
+      if(l.open && l.open.length){
+        row.appendChild(el('span', 'lo', l.open.map(function(o){
+          return 'open ' + o.pair + ' ' + o.dir +
+            (o.units != null ? ' ' + Math.abs(o.units) + 'u' : '') +
+            (o.entry != null ? ' @ ' + o.entry : '') + ' (#' + o.tradeId + ')';
+        }).join(' · ')));
+      } else {
+        row.appendChild(el('span', 'lo', 'flat'));
+      }
+      lw.appendChild(row);
+    });
+    var sw = document.getElementById('deskSpikes');
+    sw.innerHTML = '';
+    (d.spikes || []).forEach(function(s){
+      var box = el('div', 'spike');
+      box.appendChild(el('div', 'sk', 'SPIKE DESK — GRADED PAPER CALL'));
+      var txt = s.member + ' · ' + s.symbol + ' ' + s.direction + ' · from $' + fmtTok(s.priceAtCall) + ' · ';
+      var tail;
+      if(s.status === 'graded' && s.grade){
+        tail = el('span', s.grade.result === 'WIN' ? 'win' : 'loss',
+          'GRADED ' + s.grade.result + ' — moved ' + s.grade.movePct + '% to $' + fmtTok(s.grade.priceAtGrade));
+        box.appendChild(document.createTextNode(txt));
+        box.appendChild(tail);
+      } else if(s.status === 'due'){
+        box.appendChild(document.createTextNode(txt));
+        box.appendChild(el('span', 'pend', 'GRADE DUE — posting to the ledger'));
+      } else {
+        box.appendChild(document.createTextNode(txt + 'grades ' + (s.gradeAtET || '') + ' · '));
+        box.appendChild(el('span', 'pend', 'PENDING' + (s.minsToGrade != null ? ' (~' + s.minsToGrade + 'm)' : '')));
+      }
+      sw.appendChild(box);
+    });
+  }
+
   /* ---- relayed state (polled; resync = rebuild from the record) ---- */
   function applyState(s){
     if(!s) return;
@@ -240,6 +387,7 @@
     CAST_ORDER.forEach(function(id){
       if(!playing) seatEls[id].classList.toggle('thinking', s.phase === 'generating' && s.generatingFor === id);
     });
+    if(s.desk) renderDesk(s.desk);
     if(!entered || !Array.isArray(s.transcript)) return;
     var curId = s.currentLine ? s.currentLine.id : null;
     if(!synced){
