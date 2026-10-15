@@ -200,6 +200,7 @@ function readDeskDigest() {
     const candles = series[p.id] || [];
     const ind = candles.length ? pairIndicators(candles) : { jaw: null, teeth: null, lips: null, gator: 'TANGLED', rsi: null };
     const round = (v) => (v == null ? null : Math.round(v * 100000) / 100000);
+    const r6 = (v) => Math.round(v * 1e6) / 1e6;
     return {
       id: p.id, label: p.label, dp: p.dp,
       last: candles.length ? candles[candles.length - 1].c : null,
@@ -209,7 +210,11 @@ function readDeskDigest() {
       rsi: ind.rsi != null ? Math.round(ind.rsi * 10) / 10 : null,
       gator: ind.gator,
       gatorLines: { jaw: round(ind.jaw), teeth: round(ind.teeth), lips: round(ind.lips) },
-      closes: candles.map((c) => Math.round(c.c * Math.pow(10, p.dp)) / Math.pow(10, p.dp)),
+      // Full OHLC series ([t,o,h,l,c] per closed 15m bucket) — the page
+      // renders the forex desk's v2 multi-panel chart from these, computing
+      // the same indicators with the same code (Atm's steer 2026-10-15:
+      // the OANDA trending chart look, not sparklines).
+      candles: candles.map((c) => [c.t, r6(c.o), r6(c.h), r6(c.l), r6(c.c)]),
     };
   });
   const entries = {};

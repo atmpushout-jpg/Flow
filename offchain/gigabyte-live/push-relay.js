@@ -273,6 +273,20 @@ async function tick() {
 
   if (res.status !== 200) {
     log(`push rejected: ${res.status} ${res.text}`);
+    // Resync class: our audio watermark fell behind the stored one
+    // (e.g. a relay restart mid-flight — the server already holds those
+    // lines' audio, that is what "stored transcript at N" means).
+    // Jumping our watermark to the stored position loses nothing and
+    // un-deadlocks the feed; without this the batch retries forever.
+    const m = res.status === 409 && /stored transcript \(at (\d+)\)/.exec(res.text || '');
+    if (m) {
+      const stored = parseInt(m[1], 10);
+      if (stored > wm.lastPushedId) {
+        wm.lastPushedId = stored;
+        saveWatermark(wm);
+        log(`watermark resynced to stored line ${stored}`);
+      }
+    }
     return;
   }
   bootstrapped = true;
