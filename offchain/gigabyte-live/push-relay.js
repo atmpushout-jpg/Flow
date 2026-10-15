@@ -12,6 +12,15 @@
  * the state alone every ~30s as a self-heal (keeps the stored state
  * inside its TTL and carries phase changes between lines).
  *
+ * ALWAYS-ON: the relay is also the room's audience of record — it holds
+ * a persistent SSE connection to the show's /events (the show only runs
+ * turns while an audience is present) and presses /api/enter whenever
+ * it sees a show that has not started. No loose helper processes.
+ *
+ * DESK: every state push carries the live desk digest (desk.js — the
+ * forex desk's own tape/indicator path + the lanes' records), which the
+ * hosted page renders as the desk panel and the cast talks off.
+ *
  * AUTH: the push key is read from ~/.config/gigabyte_push_key (600).
  * It is sent only as the x-gigabyte-key header over HTTPS — never
  * logged, never in argv, never written anywhere else. The server
@@ -28,6 +37,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const crypto = require('crypto');
+const desk = require('./desk');
 
 const HOME = process.env.HOME || '/home/hatch';
 const LOCAL_STATE = 'http://localhost:7199/api/state';
@@ -104,7 +114,60 @@ function relayState(local) {
   // Trim to recent history and point every line at the hosted audio door.
   const t = Array.isArray(local.transcript) ? local.transcript.slice(-MAX_STATE_TRANSCRIPT) : [];
   const rewrite = (l) => (l ? { ...l, audioUrl: `/api/gigabyte-audio?id=${l.id}` } : l);
-  return { ...local, transcript: t.map(rewrite), currentLine: rewrite(local.currentLine) };
+  // The live desk rides along: the hosted page renders the same panel
+  // the cast is talking off (desk.js digest, tape cached ~90s inside).
+  let d = null;
+  try { d = desk.readDeskDigest(); } catch (e) { log(`desk digest failed: ${e.message}`); }
+  return { ...local, desk: d, transcript: t.map(rewrite), currentLine: rewrite(local.currentLine) };
+}
+
+/* ---------------- always-on: hold the door + auto-enter ----------------
+ * The show server only runs turns while an audience is present (an SSE
+ * listener on /events, or an /api/enter within the grace window). The
+ * relay IS the audience of record: it holds a persistent SSE connection
+ * to the local /events (reconnecting on any drop) so the show never
+ * idles while the relay lives, and it presses /api/enter whenever it
+ * observes a show that has not started (fresh boot, service restart) —
+ * no loose helper processes, no human tap. */
+const EVENTS_URL = 'http://localhost:7199/events';
+const ENTER_URL = 'http://localhost:7199/api/enter';
+let lastEnterAt = 0;
+
+function holdAudience() {
+  let settled = false;
+  const reconnect = () => {
+    if (settled) return;
+    settled = true;
+    setTimeout(holdAudience, 3000);
+  };
+  let req;
+  try {
+    req = http.get(EVENTS_URL, (res) => {
+      if (res.statusCode !== 200) { res.resume(); reconnect(); return; }
+      log('audience hold connected (/events) — the room stays on air');
+      res.on('data', () => {}); // drain: state broadcasts + 20s pings
+      res.on('end', reconnect);
+      res.on('error', reconnect);
+      res.on('close', reconnect);
+    });
+  } catch { reconnect(); return; }
+  req.on('error', reconnect);
+  // The server pings every 20s; 45s of silence means the stream is dead.
+  req.setTimeout(45000, () => { try { req.destroy(); } catch {} reconnect(); });
+}
+
+async function enterIfNeeded(local) {
+  if (!local) return;
+  if (local.startedAt && local.running !== false) return;
+  if (Date.now() - lastEnterAt < 10000) return;
+  lastEnterAt = Date.now();
+  try {
+    const r = await fetch(ENTER_URL, { method: 'POST' });
+    const j = await r.json().catch(() => null);
+    log(`auto-enter: show was not running — POST /api/enter -> ${r.status}${j && j.startedAt ? ` (session ${j.startedAt})` : ''}`);
+  } catch (e) {
+    log(`auto-enter failed: ${e.message}`);
+  }
 }
 
 let wm = loadWatermark();
@@ -120,7 +183,9 @@ async function tick() {
     log(`local state unavailable: ${e.message}`);
     return;
   }
-  if (!local || !local.startedAt) return;
+  if (!local) return;
+  await enterIfNeeded(local);
+  if (!local.startedAt) return; // just entered (or entering) — next tick picks it up
 
   if (wm.session !== local.startedAt) {
     log(`new show session ${local.startedAt} (was ${wm.session}) — watermark reset`);
@@ -181,7 +246,7 @@ async function tick() {
   if (watermarkDirty) saveWatermark(wm);
 
   const state = relayState(local);
-  const fingerprint = JSON.stringify([local.cycle, local.phase, local.speaker, local.currentLine && local.currentLine.id, state.transcript.length]);
+  const fingerprint = JSON.stringify([local.cycle, local.phase, local.speaker, local.currentLine && local.currentLine.id, state.transcript.length, state.desk && state.desk.atMs]);
   const healDue = Date.now() - lastHealAt >= SELF_HEAL_MS;
 
   if (!batch.length && !healDue && fingerprint === lastStateFingerprint) return;
@@ -221,6 +286,7 @@ async function tick() {
 }
 
 log(`gigabyte push relay starting — local ${LOCAL_STATE} -> ${PUSH_URL}`);
+holdAudience();
 (async () => {
   for (;;) {
     try { await tick(); } catch (e) { log(`tick error: ${e.message}`); }
