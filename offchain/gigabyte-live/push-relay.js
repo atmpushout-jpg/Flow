@@ -113,7 +113,16 @@ async function postPush(payload, useBootstrap) {
 function relayState(local) {
   // Trim to recent history and point every line at the hosted audio door.
   const t = Array.isArray(local.transcript) ? local.transcript.slice(-MAX_STATE_TRANSCRIPT) : [];
-  const rewrite = (l) => (l ? { ...l, audioUrl: `/api/gigabyte-audio?id=${l.id}` } : l);
+  // The push endpoint caps line text at 600 chars (api/_gigabyte.js
+  // MAX_TEXT_CHARS) and rejects the WHOLE push over one long line —
+  // a single 670-char line froze the public feed on 2026-10-15. The
+  // relay trims over-long text for the hosted transcript only; the
+  // local record and the line's audio stay complete.
+  const rewrite = (l) => (l ? {
+    ...l,
+    audioUrl: `/api/gigabyte-audio?id=${l.id}`,
+    text: typeof l.text === 'string' && l.text.length > 600 ? l.text.slice(0, 597) + '…' : l.text,
+  } : l);
   // The live desk rides along: the hosted page renders the same panel
   // the cast is talking off (desk.js digest, tape cached ~90s inside).
   let d = null;
