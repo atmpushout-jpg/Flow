@@ -433,17 +433,21 @@ function exchangeBeats(t) {
       `previous line. Answer WHAT THEY SAID, as yourself: if you agree, add a receipt of your own; ` +
       `if you disagree, say so plainly and politely and back it with your record or the data. Do ` +
       `not manufacture a disagreement you do not have, and do not rubber-stamp one you do not ` +
-      `believe. ${STYLE}` });
+      `believe. And do not concede the topic in your first breath: if your record is the worse one, ` +
+      `say what your way of playing buys that theirs does not — there is always a trade-off; name ` +
+      `yours like you mean it. ${STYLE}` });
     if (t.reply) {
       beats.push({ member: t.first, topic: `${t.tag}-reply`, brief:
-        `Answer ${t.challenger} by name — they just answered you on: ${t.title}. Defend your read, ` +
-        `concede a point if they earned it, or sharpen yours with a receipt. Honest, in character, ` +
-        `no new claims without a receipt behind them. ${STYLE}` });
+        `Answer ${t.challenger} by name — they just answered you on: ${t.title}. First, in a few ` +
+        `words, the exact point they made — then answer it: defend your read, concede the point if ` +
+        `they earned it, or sharpen yours with a receipt. Honest, in character, no new claims ` +
+        `without a receipt behind them. ${STYLE}` });
     }
   }
   beats.push({ member: 'FLOWEXECUTOR', topic: t.wrapTopic || `${t.tag}-wrap`, brief:
     `Wrap this topic: ${t.title}. Say what the room actually landed on, from what was just said — ` +
-    `if they disagreed, name the disagreement straight; do not fake agreement. ${t.wrapExtra || ''} ${STYLE}` });
+    `if they disagreed, name the disagreement straight; do not fake agreement. Address the room ` +
+    `and the listeners only — invent no names and no callers. ${t.wrapExtra || ''} ${STYLE}` });
   return beats;
 }
 
@@ -519,9 +523,11 @@ function profitTopic(ctx) {
         `Check it against the numbers on the table and say, in one sentence, whether the tape since has backed it.`
       : '',
     wrapTopic: 'money-call',
-    wrapExtra: `Land the room's RANKED CALL: rank the routes first, second, third for where the next ` +
-      `dollar of effort goes, each with the one receipt that puts it there. This call goes on the ` +
-      `record and this room checks it next round.`,
+    wrapExtra: `Land the room's RANKED CALL: rank THE ROUTES from the table — the live lanes, the ` +
+      `Compound, the spike desk, the fill rail, the EXECUTOR rematch — first, second, third, for ` +
+      `where the next dollar of effort goes, each with the one receipt that puts it there. Routes, ` +
+      `not patterns or pairs: a chart pattern is not a profit route. This call goes on the record ` +
+      `and this room checks it next round.`,
   }) };
 }
 
@@ -566,6 +572,8 @@ function receiptsTopic(ctx) {
   return { title: 'RECEIPTS CHECK — hype, questioned for receipts', beats: exchangeBeats({
     tag: 'receipts', title: `RECEIPTS CHECK — "${c.claim}"`,
     facts: c.facts(ctx.digest), first: c.subject, challenger, reply: true,
+    teeExtra: `State the claim itself out loud, word for word, before anything else: "${c.claim}" ` +
+      `The room checks claims, it does not soften them.`,
     wrapExtra: `Land the verdict in one plain word — CONFIRMED, BUSTED, or UNVERIFIED — then the ` +
       `receipts behind it, from what was said and the evidence on the table. If the records here ` +
       `cannot settle it, the verdict is UNVERIFIED and you say exactly which record would settle it.`,
