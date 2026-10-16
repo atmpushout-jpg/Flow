@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GIGABYTE STAGE — PREVIEW · VRM Cast Room</title>
+<style>
+  :root{
+    --bg:#07090f; --panel:#0c1019; --line:#1c2436;
+    --gold:#e8b84b; --cyan:#37e0d8; --ink:#e8ecf4; --dim:#8b96ad;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; overflow:hidden}
+  #app{display:flex; flex-direction:column; height:100dvh}
+
+  header{display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--panel); border-bottom:1px solid var(--line); z-index:5}
+  header .brand{font-weight:800; letter-spacing:.14em; font-size:13px}
+  header .brand b{color:var(--gold)}
+  header .sub{color:var(--dim); font-size:11px; letter-spacing:.08em}
+  .live{display:flex; align-items:center; gap:6px; margin-left:auto; font-size:11px; letter-spacing:.1em; color:var(--dim)}
+  .live .dot{width:8px; height:8px; border-radius:50%; background:#3a4358}
+  .live.on .dot{background:#ff4757; box-shadow:0 0 8px #ff4757}
+  .live.on{color:#ffb3ba}
+
+  #stageWrap{position:relative; flex:1; min-height:0; background:#05060a}
+  canvas#stage{position:absolute; inset:0; width:100%; height:100%; display:block}
+
+  #hud{position:absolute; top:8px; right:8px; background:rgba(7,9,15,.72); border:1px solid var(--line);
+       border-radius:8px; padding:6px 9px; font:11px/1.5 ui-monospace,Menlo,Consolas,monospace; color:var(--dim);
+       pointer-events:none; min-width:150px}
+  #hud b{color:var(--ink); font-weight:600}
+  #hud .ok{color:#57d977} #hud .warn{color:var(--gold)}
+
+  #caption{position:absolute; left:50%; transform:translateX(-50%); bottom:12px; width:min(860px,94%);
+           background:rgba(7,9,15,.82); border:1px solid var(--line); border-left:3px solid var(--gold);
+           border-radius:10px; padding:10px 14px; backdrop-filter:blur(6px)}
+  #caption .who{font-size:11px; font-weight:800; letter-spacing:.14em; color:var(--gold); margin-bottom:3px}
+  #caption .who.misty{color:var(--cyan)}
+  #caption .what{font-size:15px; line-height:1.45; max-height:4.3em; overflow:hidden}
+  #caption.idle .what{color:var(--dim); font-size:13px}
+
+  #soundGate{position:absolute; inset:0; display:none; align-items:center; justify-content:center; background:rgba(4,5,9,.55); z-index:6}
+  #soundGate.show{display:flex}
+  #soundGate button{background:var(--gold); color:#111; border:0; font-weight:800; letter-spacing:.06em;
+                    padding:14px 22px; border-radius:999px; font-size:15px; cursor:pointer; box-shadow:0 6px 30px rgba(232,184,75,.35)}
+  #soundGate p{position:absolute; margin-top:86px; color:var(--dim); font-size:12px; letter-spacing:.05em}
+
+  /* ---------- portrait fallback ---------- */
+  #fallback{position:absolute; inset:0; display:none; padding:18px; gap:14px; align-items:stretch; justify-content:center; background:
+      radial-gradient(120% 90% at 50% 0%, #10182b 0%, #07090f 60%)}
+  #fallback.show{display:flex}
+  .card{flex:1; max-width:340px; border:1px solid var(--line); border-radius:14px; background:var(--panel);
+        display:flex; flex-direction:column; align-items:center; padding:18px 12px; text-align:center}
+  .card .face{width:118px; height:118px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+        font-size:44px; font-weight:800; color:#0b0e14; margin:8px 0 12px}
+  .card.host .face{background:linear-gradient(135deg,var(--gold),#9a741f)}
+  .card.misty .face{background:linear-gradient(135deg,var(--cyan),#1d7f8c)}
+  .card h2{font-size:16px; letter-spacing:.1em}
+  .card p{color:var(--dim); font-size:12px; margin-top:4px; letter-spacing:.05em}
+  .card .speaking{margin-top:auto; font-size:11px; letter-spacing:.12em; color:var(--dim)}
+  .card.speaking{border-color:var(--gold)}
+  .card.speaking .speaking{color:var(--gold)}
+  #fallbackNote{position:absolute; bottom:10px; left:0; right:0; text-align:center; color:var(--dim); font-size:11px; letter-spacing:.06em}
+
+  footer{display:flex; gap:8px; align-items:center; padding:7px 12px; background:var(--panel); border-top:1px solid var(--line)}
+  footer button{background:#131a2a; color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:6px 10px; font-size:12px; cursor:pointer}
+  footer button[aria-pressed="true"]{border-color:var(--gold); color:var(--gold)}
+  footer .hint{color:var(--dim); font-size:11px; margin-left:auto}
+  @media (max-width:560px){ #caption .what{font-size:13.5px} #hud{display:none} }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="brand">GIGABYTE <b>STAGE</b></div>
+    <div class="sub">PREVIEW · VRM CAST ROOM · BIG-MODEL HOST</div>
+    <div class="live" id="liveBadge"><span class="dot"></span><span id="liveText">CONNECTING</span></div>
+  </header>
+
+  <div id="stageWrap">
+    <canvas id="stage"></canvas>
+
+    <div id="hud">
+      <div>FPS <b id="hudFps">—</b> · <span id="hudQuality">AUTO</span></div>
+      <div>TRIS <b id="hudTris">—</b> · CALLS <b id="hudCalls">—</b></div>
+      <div>LINE <b id="hudLine">—</b> · SYNC <b id="hudSync">—</b></div>
+      <div>FEED <b id="hudFeed">—</b></div>
+    </div>
+
+    <div id="caption" class="idle">
+      <div class="who" id="capWho">THE ROOM</div>
+      <div class="what" id="capWhat">Waiting for the show feed…</div>
+    </div>
+
+    <div id="soundGate">
+      <button id="soundBtn" type="button">TAP TO ENABLE SOUND</button>
+      <p>The cast is already talking — browsers just need one tap.</p>
+    </div>
+
+    <div id="fallback">
+      <div class="card host" id="cardFLOWEXECUTOR">
+        <div class="face">F</div><h2>FLOWEXECUTOR</h2><p>HOST — THE DESK</p>
+        <div class="speaking">● ON STAGE</div>
+      </div>
+      <div class="card misty" id="cardMISTY">
+        <div class="face">M</div><h2>MISTY</h2><p>THE CHAMPION</p>
+        <div class="speaking">● ON STAGE</div>
+      </div>
+      <div id="fallbackNote">PORTRAIT MODE — 3D unavailable on this device/browser. The conversation feed stays live below.</div>
+    </div>
+  </div>
+
+  <footer>
+    <button id="btnQuality" type="button" aria-pressed="false">QUALITY: AUTO</button>
+    <button id="btnFallback" type="button" aria-pressed="false">PORTRAIT MODE</button>
+    <span class="hint">Phase 1: Flowexecutor + MISTY on stage · rest of the cast joins in Phase 2</span>
+  </footer>
+</div>
+
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+    "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.5.5/lib/three-vrm.module.js"
+} }
+</script>
+<!-- PREVIEW NOTE: this preview copy loads the exact vendored library
+     versions (three 0.186.1, @pixiv/three-vrm 3.5.5 — see vendor/ in the
+     offchain module) from the jsDelivr CDN instead of local vendor files,
+     to keep the private preview deploy text-only. Production ships local. -->
+<script>
+  // Boot watchdog: if the module graph itself fails (bad vendor file,
+  // old browser without importmap support), still land on portraits
+  // instead of a dead page.
+  setTimeout(() => {
+    if (!window.__stage) {
+      document.getElementById('stage').style.display = 'none';
+      document.getElementById('hud').style.display = 'none';
+      document.getElementById('fallback').classList.add('show');
+      document.getElementById('fallbackNote').textContent =
+        'PORTRAIT MODE — the 3D stage could not start on this browser. Captions remain available on the main Gigabyte page.';
+      document.getElementById('capWhat').textContent = 'Portrait mode — open the main Gigabyte page for the live conversation.';
+    }
+  }, 20000);
+</script>
+<script type="module" src="./js/feed.js"></script>
+</body>
+</html>
