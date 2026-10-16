@@ -1,6 +1,6 @@
 {
- "updatedAt": "2026-10-16T01:42:22.457Z",
- "leaderboardUpdatedAt": "2026-10-16T01:35:39.091Z",
+ "updatedAt": "2026-10-16T01:55:29.734Z",
+ "leaderboardUpdatedAt": "2026-10-16T01:55:29.734Z",
  "signalsUpdatedAt": "2026-10-16T01:42:22.457Z",
  "wallets": {},
  "leaderboard": [],
@@ -16,77 +16,77 @@
    "poolAddress": "0xb2cc224c1c9feE385f8ad6a55b4d94E92359DC59",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2434.67,
+   "priceUsd": 2432.2,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2432.82,
+   "priceUsd": 2432.26,
    "dex": "pancakeswap"
   },
   {
    "poolAddress": "0x3FE04A59Ebd38cF06080a6F60a98D124eb59392A",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2433.89,
+   "priceUsd": 2431.86,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2433.84,
+   "priceUsd": 2431.79,
    "dex": "uniswap"
   },
   {
    "poolAddress": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2434.67,
+   "priceUsd": 2432.17,
    "dex": "uniswap"
   },
   {
    "poolAddress": "0xB775272E537cc670C65DC852908aD47015244EaF",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2433.17,
+   "priceUsd": 2432.15,
    "dex": "pancakeswap"
   },
   {
    "poolAddress": "0x4e392fBfE4D0557C82D2F97F02ec39daA31516dd",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2434.71,
+   "priceUsd": 2432.35,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0xcDAC0d6c6C59727a65F871236188350531885C43",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2436.49,
+   "priceUsd": 2437.026,
    "dex": "aerodrome"
   },
   {
    "poolAddress": "0x331C12605938d2a9aB893c495CfD5f4e875E3313",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2434.52,
+   "priceUsd": 2431.81,
    "dex": "alien-base"
   },
   {
    "poolAddress": "0x57713F7716e0b0F65ec116912F834E49805480d2",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2433.72,
+   "priceUsd": 2432.27,
    "dex": "sushiswap"
   },
   {
    "poolAddress": "0xdbc6998296caA1652A810dc8D3BaF4A8294330f1",
    "tokenAddress": "0x4200000000000000000000000000000000000006",
    "symbol": "WETH",
-   "priceUsd": 2434.14,
+   "priceUsd": 2432.26,
    "dex": "aerodrome"
   }
  ],
