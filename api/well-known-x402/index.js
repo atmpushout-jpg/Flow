@@ -60,6 +60,13 @@ const MANIFEST = {
       priceUsd: 0.005,
     },
     {
+      path: "/api/space/ticket",
+      method: "POST",
+      description:
+        "Gigabyte Space ask-the-cast ticket: pay $0.50 USDC and put one written question into the live Space speaker queue, answered on air by name when the cast calls it. Body: { handle, name, question (max 500 chars) }. Listening is free; the ticket buys the question. The public queue is free at /api/space/queue. House rules: never product, always results.",
+      priceUsd: 0.5,
+    },
+    {
       path: "/api/precheck",
       method: "POST",
       description:

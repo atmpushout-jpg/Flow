@@ -71,6 +71,15 @@
     },
     "api/exchange/submit/index.js": {
       "maxDuration": 10
+    },
+    "api/space/ticket/index.js": {
+      "maxDuration": 30
+    },
+    "api/space/queue/index.js": {
+      "maxDuration": 10
+    },
+    "api/space/opkey/index.js": {
+      "maxDuration": 10
     }
   },
   "version": 2,

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gigabyte Space — Ask the Cast · Flow</title>
+<meta name="description" content="Buy a question in the Gigabyte Space speaker queue: $0.50 USDC via x402. Your question, in writing, answered on air by name. Never product, always results.">
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#0b0f14; color:#dbe7ee; font:15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width:1060px; margin:0 auto; padding:28px 18px 60px; }
+  h1 { font-size:30px; margin:0 0 4px; letter-spacing:.2px; }
+  h1 .px { color:#5eead4; }
+  .tag { color:#9fb3c8; margin:0 0 18px; }
+  .panel { background:#12181f; border:1px solid #1e2a36; border-radius:12px; padding:14px 16px; margin:14px 0; }
+  .panel h2 { font-size:16px; margin:0 0 8px; color:#e8f4f9; }
+  .policy { display:flex; flex-wrap:wrap; gap:8px 22px; font-size:13.5px; color:#b9cbd9; }
+  .policy b { color:#5eead4; font-weight:600; }
+  .amt { font-size:20px; font-weight:700; color:#e8f4f9; }
+  .amt small { font-size:12px; color:#9fb3c8; font-weight:400; }
+  .chip { font-size:11px; font-weight:700; letter-spacing:.4px; padding:2px 8px; border-radius:999px; background:#1c2836; color:#9fd8ff; }
+  .chip.open { background:#0f2e28; color:#5eead4; }
+  .chip.watch { background:#3a2f10; color:#facc15; }
+  .chip.done { background:#22304a; color:#a5b4fc; }
+  .q { background:#12181f; border:1px solid #1e2a36; border-radius:12px; padding:12px 16px; margin:10px 0; }
+  .q .meta { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .q .who { color:#e8f4f9; font-weight:600; }
+  .q .handle { color:#9fb3c8; font-size:13px; }
+  .q .question { color:#c7d8e4; margin:6px 0 0; }
+  .foot { font-size:12.5px; color:#7d93a8; margin-top:10px; }
+  a { color:#5eead4; }
+  pre { background:#0d1319; border:1px solid #1e2a36; border-radius:8px; padding:10px; overflow:auto; font-size:12px; color:#b9cbd9; }
+  .err { color:#fda4af; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Gigabyte <span class="px">Space</span> — Ask the Cast</h1>
+  <p class="tag">The room teaches what numbers mean. Listening is free. A ticket puts your question on the floor.</p>
+
+  <div class="panel">
+    <h2>What the $0.50 buys</h2>
+    <div class="amt">$0.50 <small>USDC on Base · one ticket = one question</small></div>
+    <p>Your question, <b>in writing</b>, enters the live speaker queue. When the cast calls your
+    ticket, you come up as a speaker and your question is answered <b>on air, by name</b> — the
+    substance answered even if the mic connection is rough, because the question is already on
+    record. The ticket buys the question. It does not buy a verdict, an endorsement, or airtime
+    for a pitch.</p>
+    <p>The only gate is the one the house set: <b>a verified user who has paid the fee</b>. The
+    payment is the credential — this queue is public, so anyone can confirm your ticket exists
+    before it is called.</p>
+  </div>
+
+  <div class="panel">
+    <h2>House rules</h2>
+    <div class="policy">
+      <span><b>Never product, always results.</b></span>
+      <span><b>No shilling without a graded record.</b> If you can't show a result, you don't get to pitch.</span>
+      <span><b>Claims carry numbers</b> — or the Mod strikes them.</span>
+      <span><b>One ticket, one question.</b> No link-dropping, no farming the room for DMs.</span>
+      <span><b>Safety first:</b> anything pitched gets verdict-checked before it gets amplified.</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>How to pay</h2>
+    <p>Tickets settle over <b>x402</b> — the open payment standard for the agent economy. The
+    payment goes straight from your wallet to the house payee wallet on Base; Flow never holds
+    your funds, and there is no account to create.</p>
+    <p><b>If you're an agent (or run one):</b> POST your question to the ticket endpoint. The
+    first answer is a 402 with the exact payment requirements; sign the USDC authorization,
+    retry with the payment header, and your ticket lands in the queue with its position.</p>
+    <pre>POST https://flow-kg4x.vercel.app/api/space/ticket
+{ "handle": "yourhandle", "name": "Your Name", "question": "What does a verdict score actually measure?" }
+
+→ 402 Payment Required (x402 v2, $0.50 USDC on Base)
+→ retry with X-PAYMENT header
+→ 201 { ticket: { id: "SP-0001", state: "queued", position: 1 } }</pre>
+    <p><b>If you're a human:</b> any x402-capable wallet or agent client can pay the same way.
+    During a live show, the pinned post in the Space links back to this page — buy the ticket
+    here, then raise your hand in the Space when your ticket is called.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The queue, live</h2>
+    <div id="queue"><p class="tag">Loading the queue…</p></div>
+  </div>
+
+  <p class="foot">Gigabyte Space ticket rail · price $0.50 — final · reads: <a href="/api/space/queue">/api/space/queue</a> · door: <a href="/api/space/ticket">/api/space/ticket</a> · payments settle payer→payee on Base via x402 — every ticket carries its settlement tx.</p>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function stateChip(t) {
+  if (t.state === "queued") return '<span class="chip open">QUEUED #' + esc(t.position) + "</span>";
+  if (t.state === "called") return '<span class="chip watch">ON AIR</span>';
+  return '<span class="chip done">DONE</span>';
+}
+
+function row(t) {
+  const test = t.test ? ' <span class="chip watch">TEST</span>' : "";
+  return '<div class="q"><div class="meta"><span class="chip">' + esc(t.id) + "</span>" + stateChip(t) + test +
+    '</div><p class="question">' + esc(t.question) + '</p>' +
+    '<div class="foot"><span class="who">' + esc(t.name) + '</span> <span class="handle">@' + esc(t.handle) + "</span></div></div>";
+}
+
+fetch("/api/space/queue").then((r) => r.json()).then((d) => {
+  const live = (d.queue || []).filter((t) => t.state !== "done");
+  const done = (d.queue || []).filter((t) => t.state === "done");
+  let html = "";
+  if (!live.length && !done.length) {
+    html = '<p class="tag">The queue is empty. The first ticket called in the first show takes position #1.</p>';
+  } else {
+    if (live.length) html += live.map(row).join("");
+    else html += '<p class="tag">Nobody waiting — the next ticket takes position #1.</p>';
+    if (done.length) html += '<p class="foot">Already answered:</p>' + done.map(row).join("");
+  }
+  $("#queue").innerHTML = html;
+}).catch((e) => {
+  $("#queue").innerHTML = '<p class="err">Queue unavailable: ' + esc(e.message) + "</p>";
+});
+</script>
+</body>
+</html>
