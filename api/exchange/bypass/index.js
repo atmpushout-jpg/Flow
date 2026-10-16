@@ -32,8 +32,8 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: "bypass_offer.price_usd is not set on this listing" });
     }
     const paid = await requirePayment(req, res, {
-      amountUsd: price,
-      resourcePath: "/api/exchange/bypass",
+      priceUsd: price,
+      path: "/api/exchange/bypass",
       description: `Problem Exchange BYPASS payload for ${id}: ${listing.bypass_offer.summary || listing.problem.title}`,
     });
     if (!paid) return; // 402 (or 400) already sent by the gate
