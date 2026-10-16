@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem Exchange — Flow</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#0b0f14; color:#dbe7ee; font:15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width:1060px; margin:0 auto; padding:28px 18px 60px; }
+  h1 { font-size:30px; margin:0 0 4px; letter-spacing:.2px; }
+  h1 .px { color:#5eead4; }
+  .tag { color:#9fb3c8; margin:0 0 18px; }
+  .panel { background:#12181f; border:1px solid #1e2a36; border-radius:12px; padding:14px 16px; margin:14px 0; }
+  .panel h2 { font-size:16px; margin:0 0 8px; color:#e8f4f9; }
+  .policy { display:flex; flex-wrap:wrap; gap:8px 22px; font-size:13.5px; color:#b9cbd9; }
+  .policy b { color:#5eead4; font-weight:600; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px; margin-top:14px; }
+  .card { background:#12181f; border:1px solid #1e2a36; border-radius:12px; padding:14px 16px; }
+  .card h3 { font-size:15.5px; margin:6px 0 6px; line-height:1.35; }
+  .meta { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .chip { font-size:11px; font-weight:700; letter-spacing:.4px; padding:2px 8px; border-radius:999px; background:#1c2836; color:#9fd8ff; }
+  .chip.open { background:#0f2e28; color:#5eead4; }
+  .chip.watch { background:#3a2f10; color:#facc15; }
+  .chip.fiat { background:#33231f; color:#fda4af; }
+  .chip.done { background:#22304a; color:#a5b4fc; }
+  .chip.bad { background:#3a1f24; color:#fda4af; }
+  .amt { font-size:20px; font-weight:700; color:#e8f4f9; }
+  .amt small { font-size:12px; color:#9fb3c8; font-weight:400; }
+  .stmt { color:#a9bfd0; font-size:13.5px; margin:8px 0; }
+  .reasons { font-size:12px; color:#facc15; }
+  .foot { font-size:12.5px; color:#7d93a8; margin-top:10px; }
+  a { color:#5eead4; }
+  button { background:#0f2e28; color:#5eead4; border:1px solid #1f4d43; border-radius:8px; padding:8px 14px; font-size:14px; cursor:pointer; }
+  button:hover { background:#143a32; }
+  pre { background:#0d1319; border:1px solid #1e2a36; border-radius:8px; padding:10px; overflow:auto; font-size:12px; color:#b9cbd9; }
+  .ev { font-size:13px; color:#9fb3c8; padding:3px 0; border-bottom:1px dashed #1e2a36; }
+  .ev b { color:#dbe7ee; }
+  .err { color:#fda4af; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Problem <span class="px">Exchange</span></h1>
+  <p class="tag">Name the problem. Flow routes it, bypasses it, or gets it done — and grades the proof before anyone gets paid.</p>
+
+  <div class="panel">
+    <div class="policy">
+      <span><b>Listing fee</b> $0.005 — v1 intake is house + imported only; the fee applies when public intake opens.</span>
+      <span><b>DONE toll</b> the $0.02 verify fee only — the payer pays the solver directly via x402. Flow takes no cut of the solve price.</span>
+      <span><b>No custody.</b> Flow never holds anyone's funds.</span>
+      <span><b>WATCH</b> = budget shown, funding not yet confirmed. A WATCH listing is a demand signal, not a promise.</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>ROUTE — the cheapest path first</h2>
+    <p class="tag" style="margin-bottom:10px">Most swap problems are routing problems. The ROUTE door prices the fix live through Flow's quote engine: 25% of the improvement, capped at 10 bps — you keep 75% of the gain.</p>
+    <button id="quoteBtn">Price a live quote (USDC → WETH, $100)</button>
+    <pre id="quoteOut" style="display:none"></pre>
+  </div>
+
+  <div id="board"><p class="tag">Loading the board…</p></div>
+
+  <div class="panel">
+    <h2>Board activity</h2>
+    <div id="events"><span class="tag">—</span></div>
+  </div>
+
+  <p class="foot">Problem Exchange v1 · schema <code>problem-listing/0.1</code> · reads: <a href="/api/exchange/listings">/api/exchange/listings</a> · <a href="/api/exchange/solver">/api/exchange/solver</a> · SETTLED is claimed only with an on-chain settlement tx ref — no exceptions, including for us.</p>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function statusChip(st) {
+  if (st === "OPEN") return '<span class="chip open">OPEN</span>';
+  if (st === "WATCH") return '<span class="chip watch">WATCH</span>';
+  if (st === "GRADED_PASS" || st === "SETTLED") return '<span class="chip done">' + esc(st) + "</span>";
+  if (st === "GRADED_FAIL") return '<span class="chip bad">GRADED_FAIL</span>';
+  return '<span class="chip">' + esc(st) + "</span>";
+}
+
+function amountLine(l) {
+  const b = l.budget || {};
+  if (typeof b.amount_usd === "number") return '<div class="amt">$' + b.amount_usd + ' <small>' + esc(b.asset || "USD") + " · " + esc(b.funding_state) + "</small></div>";
+  if (Array.isArray(l.sub_items) && l.sub_items.length) return '<div class="amt">' + l.sub_items.length + ' items <small>amounts per item · ' + esc(b.funding_state) + "</small></div>";
+  if (b.funding_state === "HOUSE") return '<div class="amt">House <small>our own problem, our own fix</small></div>';
+  return '<div class="amt">Amount not posted <small>' + esc(b.funding_state) + "</small></div>";
+}
+
+function card(l) {
+  const reasons = (l.reasons || []).map((r) => esc(r.code)).join(" · ");
+  const fiat = (l.reasons || []).some((r) => r.code === "FIAT_RAILS_ONLY") ? '<span class="chip fiat">FIAT RAILS ONLY</span>' : "";
+  const doors = (l.doors || []).map((d) => '<span class="chip">' + esc(d) + "</span>").join(" ");
+  const bids = (l.bids || []).length;
+  let extra = "";
+  if (l.bypass_offer) {
+    extra += '<div class="foot"><b style="color:#5eead4">BYPASS available</b> — ' + esc(l.bypass_offer.summary || "") +
+      ' <a href="/api/exchange/bypass?id=' + esc(l.id) + '">Get it ($' + esc(l.bypass_offer.price_usd) + " via x402)</a></div>";
+  }
+  if (l.verdict) {
+    extra += '<div class="foot">Verdict: <b>' + esc(l.verdict.verdict) + "</b> · checked " + esc(l.verdict.checked_at) + "</div>";
+  }
+  if (l.solution) {
+    extra += '<div class="foot">Proof submitted by ' + esc(l.solution.solver && l.solution.solver.id) + " · " + (l.solution.proof || []).length + " evidence refs</div>";
+  }
+  const subs = Array.isArray(l.sub_items) ? '<div class="foot">' + l.sub_items.map((s) => "• $" + s.amount_usd + " — " + esc(s.title)).join("<br>") + "</div>" : "";
+  return '<div class="card"><div class="meta"><span class="chip">' + esc(l.id) + "</span>" + statusChip(l.status) + fiat + doors + "</div>" +
+    "<h3>" + esc(l.problem.title) + "</h3>" + amountLine(l) +
+    '<p class="stmt">' + esc(l.problem.statement) + "</p>" + subs +
+    (reasons ? '<div class="reasons">' + reasons + "</div>" : "") +
+    '<div class="foot">Lister: ' + esc(l.subject.lister.id) + " · bids: " + bids + ' · <a href="' + esc(l.subject.source.ref) + '">source</a> · <a href="/api/exchange/listing?id=' + esc(l.id) + '">record</a></div>' + extra + "</div>";
+}
+
+fetch("/api/exchange/listings").then((r) => r.json()).then((d) => {
+  const open = d.listings.filter((l) => l.status !== "WATCH");
+  const watch = d.listings.filter((l) => l.status === "WATCH");
+  let html = "";
+  if (open.length) html += '<div class="grid">' + open.map(card).join("") + "</div>";
+  if (watch.length) html += '<h2 style="margin:22px 0 0;font-size:17px">Watch board — budgets shown, funding unconfirmed</h2><div class="grid">' + watch.map(card).join("") + "</div>";
+  $("#board").innerHTML = html || '<p class="tag">The board is empty.</p>';
+  const evs = (d.events || []).slice(-12).reverse();
+  $("#events").innerHTML = evs.length ? evs.map((e) => '<div class="ev"><b>' + esc(e.type) + "</b> · " + esc(e.listing) + " · " + esc(e.at) + "</div>").join("") : '<span class="tag">No activity yet.</span>';
+}).catch((e) => { $("#board").innerHTML = '<p class="err">Board failed to load: ' + esc(e.message) + "</p>"; });
+
+$("#quoteBtn").addEventListener("click", async () => {
+  const out = $("#quoteOut");
+  out.style.display = "block";
+  out.textContent = "Pricing…";
+  try {
+    const r = await fetch("/api/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        tokenOut: "0x4200000000000000000000000000000000000006",
+        amountIn: "100",
+      }),
+    });
+    const body = await r.json().catch(() => ({}));
+    if (r.status === 402) {
+      out.textContent = "The quote door answered with its x402 payment challenge — the ROUTE door is live. Agents pay $0.01 per quote programmatically (humans: the fee buys the full route package via /api/fill). Challenge: " + JSON.stringify(body).slice(0, 400);
+    } else {
+      out.textContent = JSON.stringify(body, null, 2).slice(0, 1200);
+    }
+  } catch (e) {
+    out.textContent = "Quote probe failed: " + e.message;
+  }
+});
+</script>
+</body>
+</html>

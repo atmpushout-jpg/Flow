@@ -1,0 +1,867 @@
+{
+  "schema": "problem-exchange-state/0.1",
+  "name": "Problem Exchange",
+  "listing_fee_usd": 0.005,
+  "listing_fee_note": "Locked price (decision #2). V1 collects no listing fee: intake is house + imported, curated (decision #3). The fee applies when public intake opens.",
+  "done_toll": {
+    "kind": "verify-fee-only",
+    "verify_price_usd": 0.02,
+    "note": "Decision #5: on a graded DONE solve the payer pays the solver directly via x402; Flow's only take is the existing $0.02 /api/verify fee. No cut of the solve price, no custody."
+  },
+  "updated_at": "2026-10-16T11:00:00Z",
+  "listings": [
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0001",
+      "subject": {
+        "lister": {
+          "id": "flowexecutor",
+          "kind": "house",
+          "passport": "https://flow-kg4x.vercel.app/api/passport?id=flowexecutor",
+          "payTo": "0xcF8A8350cb42a6680005ca7FF9E485Bb55fa74FA"
+        },
+        "source": {
+          "kind": "internal",
+          "ref": "https://flow-kg4x.vercel.app/api/quote",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Explainer agent's paid /api/quote call rejected: HTTP 402 Payment invalid: invalid_payload",
+        "statement": "Flow's own explainer agent pays our own /api/quote (x402 v2, $0.01 USDC to the payee wallet) and every call is rejected with HTTP 402 'Payment invalid: invalid_payload'; no explanation.json is written and the dashboard explanation goes stale. Cause undiagnosed at listing time: facilitator payload drift vs agent payment construction vs payer state. Stated in full at listing time — the diagnosis lands on this listing as its solution record.",
+        "category": "payments",
+        "acceptance": "Root cause identified with facilitator/on-chain evidence, the explainer completes its quote call again (paid or enrolled tier) and writes a fresh explanation.json, and the fix is recorded on this listing."
+      },
+      "budget": {
+        "asset": "USDC",
+        "funding_state": "HOUSE",
+        "funding_evidence": []
+      },
+      "doors": [
+        "BYPASS",
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "NO_SETTLED_HISTORY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://flow-kg4x.vercel.app/api/quote"
+          }
+        }
+      ],
+      "history_root": "sha256:72d546c0bf30b5881ac909fe5142b86bb4831e07b5df572032f7da6b1f95072d",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0002",
+      "subject": {
+        "lister": {
+          "id": "quantacms/quanta",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/quantacms/quanta/issues/148",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "PHPCS via Composer + ruleset + pre-push hook",
+        "statement": "As stated at source (linked): add PHPCS via Composer with a project ruleset and a pre-push hook to quantacms/quanta. Imported from the jobs-engine pipeline; the statement is not rewritten into a promise.",
+        "category": "dev-tooling",
+        "acceptance": "A merged PR (or maintainer-accepted equivalent) delivering Composer-managed PHPCS, the ruleset, and the pre-push hook, per the source issue."
+      },
+      "budget": {
+        "amount_usd": 100,
+        "asset": "USD",
+        "funding_state": "CLAIMED",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/quantacms/quanta/issues/148"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "AWAITING_MAINTAINER_CONFIRMATION",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [
+        {
+          "bidder": {
+            "id": "flowexecutor",
+            "passport": "https://flow-kg4x.vercel.app/api/passport?id=flowexecutor"
+          },
+          "amount_usd": 80,
+          "at": "2026-10-11T19:37:58Z",
+          "ref": "https://github.com/quantacms/quanta/issues/148#issuecomment-6112922692"
+        }
+      ],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/quantacms/quanta/issues/148"
+          }
+        }
+      ],
+      "history_root": "sha256:82e85005179a36b5ed95f5c57872d5ff8ddce37e342b0363d8149821c86992a1",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0003",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/61",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Add OpenTelemetry (OTLP) spans to the worker / workflow execution path",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #61. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 600,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/61"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/61"
+          }
+        }
+      ],
+      "history_root": "sha256:07708d136fb3bc52ba2ebc91f7ac33b1463e90d386510009c582ab08dc8e7193",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0004",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/62",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "WebGL renderer for a 50k-node graph",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #62. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 750,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/62"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/62"
+          }
+        }
+      ],
+      "history_root": "sha256:6dc4d165357e1dfbb7be7250e60637cb25a770464618ad204014dffef10bea6a",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0005",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/63",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Rootless Podman support for the dev environment",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #63. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 600,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/63"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/63"
+          }
+        }
+      ],
+      "history_root": "sha256:a0bab42597011e55b4ac17a6de107cb810035c0e12ab81bfce0f6177988328d6",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0006",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/64",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Per-service container images",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #64. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 400,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/64"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/64"
+          }
+        }
+      ],
+      "history_root": "sha256:8368e515a584f0c837cc61fc2724deb932e63176177ae8da151053a363790f6a",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0007",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/65",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "One-command dev stack",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #65. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 450,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/65"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/65"
+          }
+        }
+      ],
+      "history_root": "sha256:98bde133f1b38963017cd378dc95f6aec491fcb67af4bef9ec22ee5e27ee15e2",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0008",
+      "subject": {
+        "lister": {
+          "id": "oll4com/spaceapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/oll4com/spaceapp/issues/60",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Temporal time-skipping tests",
+        "statement": "As stated at source (linked): oll4com/spaceapp issue #60. Every issue in this cluster states in writing that the bounty is paid by the SpaceApp maintainers within 7 days of merge, the amount is never lowered once posted, and the first merged PR wins. Payout rails are PayPal / Wise / bank transfer (fiat), NOT x402 — this listing is imported demand; a DONE settle over Flow's rail applies only where the payer agrees to it.",
+        "category": "dev-tooling",
+        "acceptance": "First merged PR wins, per the source issue's own terms."
+      },
+      "budget": {
+        "amount_usd": 400,
+        "asset": "USD",
+        "funding_state": "CONFIRMED_IN_WRITING",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/oll4com/spaceapp/issues/60"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "OPEN",
+      "reasons": [
+        {
+          "code": "FIAT_RAILS_ONLY",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/oll4com/spaceapp/issues/60"
+          }
+        }
+      ],
+      "history_root": "sha256:53e0f074843458a455e46fcb57d0e2261c7d9adfddeca3959e3c686b8e652823",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0009",
+      "subject": {
+        "lister": {
+          "id": "BasedHardware/omi",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/BasedHardware/omi/issues/21189",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "omi bounty proposals cluster (6 items, $40–$100 proposed each)",
+        "statement": "Six bounty proposals on BasedHardware/omi, all amounts PROPOSED by non-maintainer authors (author_association NONE); no maintainer funding or confirmation on any checked item. The repo is real and very active (13.6k stars). Listed for the demand signal only — WATCH listings are not biddable through the exchange until funding confirms.",
+        "category": "dev-tooling",
+        "acceptance": "Per-item, as stated at each source issue — gradable only once a maintainer funds/confirms the item."
+      },
+      "budget": {
+        "asset": "USD",
+        "funding_state": "FUNDING_UNVERIFIED",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/BasedHardware/omi/issues/21189"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "WATCH",
+      "reasons": [
+        {
+          "code": "FUNDING_UNVERIFIED",
+          "severity": "medium"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/BasedHardware/omi/issues/21189"
+          }
+        }
+      ],
+      "history_root": "sha256:a2db01080444686f7d81fbc8afa6c60a4e8107a1f333f2b8e881d0895192a3ef",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1",
+      "sub_items": [
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21205",
+          "title": "SRT-cue parser fix",
+          "amount_usd": 40
+        },
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21223",
+          "title": "CLI login fix",
+          "amount_usd": 75
+        },
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21189",
+          "title": "Exception sanitization",
+          "amount_usd": 87.5,
+          "note": "$75–100 proposed range"
+        },
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21203",
+          "title": "Bounty proposal #21203",
+          "amount_usd": 50
+        },
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21199",
+          "title": "Bounty proposal #21199",
+          "amount_usd": 50
+        },
+        {
+          "ref": "https://github.com/BasedHardware/omi/issues/21220",
+          "title": "Bounty proposal #21220",
+          "amount_usd": 50
+        }
+      ]
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0010",
+      "subject": {
+        "lister": {
+          "id": "Element-Ventures-Canada-Ltd/openchokepoint",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/Element-Ventures-Canada-Ltd/openchokepoint/issues/3",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "Digital-thread / critical-items register schema for rocket turbopump supply chains",
+        "statement": "As stated at source (linked): a data schema / register design for critical items in rocket turbopump supply chains. The issue states the bounty amount is 'to be posted before assignment' — no amount posted yet (13 comments at import). An invented number is worse than a stated absence, so this listing carries no budget figure.",
+        "category": "data",
+        "acceptance": "As stated at source once the amount and assignment terms are posted."
+      },
+      "budget": {
+        "asset": "USD",
+        "funding_state": "AMOUNT_TBD",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/Element-Ventures-Canada-Ltd/openchokepoint/issues/3"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "WATCH",
+      "reasons": [
+        {
+          "code": "AMOUNT_TBD",
+          "severity": "info"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/Element-Ventures-Canada-Ltd/openchokepoint/issues/3"
+          }
+        }
+      ],
+      "history_root": "sha256:3aec3c4c5168cf243394c45f34ec60fb585d84e976b21e8b33e0ccfac1cfae3a",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    },
+    {
+      "schema": "problem-listing/0.1",
+      "id": "PX-0011",
+      "subject": {
+        "lister": {
+          "id": "nick-transition/fitapp",
+          "kind": "imported"
+        },
+        "source": {
+          "kind": "github-issue",
+          "ref": "https://github.com/nick-transition/fitapp/issues/97",
+          "imported_at": "2026-10-16T11:00:00Z"
+        }
+      },
+      "problem": {
+        "title": "ROADMAP.md status sync",
+        "statement": "As stated at source (linked): sync ROADMAP.md status in nick-transition/fitapp. The $100 is the issue author's price PROPOSAL, not a funded bounty; the repo has been dormant since 2026-07-09. Revive only if funded.",
+        "category": "dev-tooling",
+        "acceptance": "As stated at source, once funding is confirmed."
+      },
+      "budget": {
+        "amount_usd": 100,
+        "asset": "USD",
+        "funding_state": "FUNDING_UNVERIFIED",
+        "funding_evidence": [
+          {
+            "kind": "page",
+            "ref": "https://github.com/nick-transition/fitapp/issues/97"
+          }
+        ]
+      },
+      "doors": [
+        "DONE"
+      ],
+      "status": "WATCH",
+      "reasons": [
+        {
+          "code": "FUNDING_UNVERIFIED",
+          "severity": "medium"
+        }
+      ],
+      "route_answer": null,
+      "bypass_offer": null,
+      "bids": [],
+      "solution": null,
+      "verdict": null,
+      "history": [
+        {
+          "type": "LISTING_CREATED",
+          "at": "2026-10-16T11:00:00Z",
+          "detail": {
+            "via": "v1-seed",
+            "source_ref": "https://github.com/nick-transition/fitapp/issues/97"
+          }
+        }
+      ],
+      "history_root": "sha256:de1bfbcd5fdc448ac0330d5737334e11ff0f71a2261d3d9e6805459b2030ecfa",
+      "created_at": "2026-10-16T11:00:00Z",
+      "updated_at": "2026-10-16T11:00:00Z",
+      "checked_at": "2026-10-16T11:00:00Z",
+      "rules_version": "problem-listing/1"
+    }
+  ],
+  "solvers": {
+    "flowexecutor": {
+      "id": "flowexecutor",
+      "kind": "house",
+      "solved": 0,
+      "failed": 0,
+      "graded": 0,
+      "events": []
+    }
+  },
+  "events": [
+    {
+      "id": "EV-PX-0001-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0001",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "HOUSE"
+      }
+    },
+    {
+      "id": "EV-PX-0002-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0002",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CLAIMED"
+      }
+    },
+    {
+      "id": "EV-PX-0003-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0003",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0004-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0004",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0005-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0005",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0006-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0006",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0007-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0007",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0008-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0008",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "OPEN",
+        "funding_state": "CONFIRMED_IN_WRITING"
+      }
+    },
+    {
+      "id": "EV-PX-0009-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0009",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "WATCH",
+        "funding_state": "FUNDING_UNVERIFIED"
+      }
+    },
+    {
+      "id": "EV-PX-0010-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0010",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "WATCH",
+        "funding_state": "AMOUNT_TBD"
+      }
+    },
+    {
+      "id": "EV-PX-0011-created",
+      "type": "LISTING_CREATED",
+      "listing": "PX-0011",
+      "at": "2026-10-16T11:00:00Z",
+      "detail": {
+        "via": "v1-seed",
+        "status": "WATCH",
+        "funding_state": "FUNDING_UNVERIFIED"
+      }
+    }
+  ]
+}

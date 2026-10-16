@@ -41,6 +41,36 @@
     },
     "api/gigabyte-push/index.js": {
       "maxDuration": 30
+    },
+    "api/exchange/assign/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/bid/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/bypass/index.js": {
+      "maxDuration": 30
+    },
+    "api/exchange/grade/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/listing/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/listings/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/push/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/settle/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/solver/index.js": {
+      "maxDuration": 10
+    },
+    "api/exchange/submit/index.js": {
+      "maxDuration": 10
     }
   },
   "version": 2,
