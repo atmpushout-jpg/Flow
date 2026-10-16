@@ -1,8 +1,9 @@
 // GET /api/exchange/solver?id=<solver> — the solver's Problem Exchange
-// passport record: graded DONE outcomes folded from the listings
-// themselves (solved / failed / graded counts + the event trail).
-// A solver with no graded outcome has no record: 404, never a
-// fabricated card — the same rule as /api/passport.
+// passport record. A record is created at a solver's first assignment
+// (a state fact, all counts zero); solved / failed / graded counts
+// move ONLY on real verdict-engine grades — an assignment alone earns
+// nothing, and a solver with no assignment has no record at all: 404,
+// never a fabricated card — the same spirit as /api/passport.
 const px = require("../../_exchange");
 
 module.exports = async (req, res) => {
