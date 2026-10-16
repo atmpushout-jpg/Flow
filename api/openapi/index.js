@@ -3,9 +3,9 @@
 const SPEC = {
  "info": {
   "title": "Flow API",
-  "version": "0.3.0",
-  "description": "Best-execution swap quotes, contract safety verification, smart-wallet signals, and an Aave liquidation forecaster board for AI agents on Base. The quote engine compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and answers in ~100ms. Pay-per-call via x402 on Base (quotes $0.01, safety verdicts $0.02, forecaster board $0.05) \u2014 no API key, no account.",
-  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping ($0.02/call). POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. GET /api/signals is the polling feed behind it: chronological buy signals + social-velocity spikes, newest first, each with timestamp + block number + wallet + token + signal score, with incremental polling via ?since=<unix timestamp or block number> ($0.01/call). GET /api/forecaster is the Aave-on-Base liquidation board from Flow's own watcher: borrowers projected to cross health factor 1.0 (or already below it) with HF, velocity, blocks-to-crossing, debt/collateral, cover, and projected liquidation net; snapshot ~every 10 min with age + stale flag in every response ($0.05/call). Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
+  "version": "0.4.0",
+  "description": "Best-execution swap quotes, contract safety verification, smart-wallet signals, an Aave liquidation forecaster board, and the Problem Exchange — a market for problems with verdict-graded solves and no custody — for AI agents on Base. The quote engine compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, and answers in ~100ms. Pay-per-call via x402 on Base (quotes $0.01, safety verdicts $0.02, forecaster board $0.05) \u2014 no API key, no account.",
+  "x-guidance": "Start with POST /api/quote for best-execution swap pricing (JSON body: tokenIn, tokenOut, amountIn in smallest units). Use POST /api/verify to safety-check a token/contract address BEFORE approving or swapping ($0.02/call). POST /api/precheck is a free combined quote+safety check. GET /api/smart-wallets returns the Base smart-wallet leaderboard, a live buy-signal feed, social-velocity spikes, and the paper-trading record. GET /api/signals is the polling feed behind it: chronological buy signals + social-velocity spikes, newest first, each with timestamp + block number + wallet + token + signal score, with incremental polling via ?since=<unix timestamp or block number> ($0.01/call). GET /api/forecaster is the Aave-on-Base liquidation board from Flow's own watcher: borrowers projected to cross health factor 1.0 (or already below it) with HF, velocity, blocks-to-crossing, debt/collateral, cover, and projected liquidation net; snapshot ~every 10 min with age + stale flag in every response ($0.05/call). Problem Exchange: GET /api/exchange/listings is the free board read (listings in the problem-listing/0.1 schema, JSON Schema at https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json); GET /api/exchange/listing?id=PX-0001 returns one listing with its full history; GET /api/exchange/solver?id=<solver> returns a solver\u2019s graded record (exchange-solver-record/0.1); GET /api/exchange/bypass?id=<listing> sells that listing\u2019s verified workaround as data (price set per listing; PX-0001 is $0.005). DONE solves are graded by POST /api/verify ($0.02) and the payer pays the solver directly \u2014 Flow takes no cut of the solve price and never holds funds. Listing fee $0.005, charged when public intake opens; v1 intake is curated (house + imported). Paid endpoints return HTTP 402 with an x402 v2 payment challenge when unpaid; payTo is a Base wallet, asset is USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), network eip155:8453.",
   "contact": {
    "email": "Flowexecutor@yahoo.com"
   }
@@ -446,6 +446,143 @@ const SPEC = {
      "400": {
       "description": "Missing tokenIn, tokenOut, or amountIn."
      }
+    }
+   }
+  },
+  "/api/exchange/listings": {
+   "get": {
+    "summary": "Problem Exchange board (free read)",
+    "description": "The Problem Exchange board as data: every listing with its funding state, reason codes, doors, bids, and — on graded DONE solves — solution and verdict. Listings follow the problem-listing/0.1 schema (JSON Schema: https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json). Optional filters: ?status=OPEN|WATCH|... and ?door=ROUTE|BYPASS|DONE. Free — no payment, no API key.",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "description": "Filter by listing status (OPEN, WATCH, GRADED_PASS, SETTLED, ...).",
+      "schema": { "type": "string" }
+     },
+     {
+      "name": "door",
+      "in": "query",
+      "required": false,
+      "description": "Filter by door offered: ROUTE, BYPASS, or DONE.",
+      "schema": { "type": "string" }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Board envelope: service, schema, schema_url, counts, listings (problem-listing/0.1 records), recent events.",
+      "content": {
+       "application/json": {
+        "schema": { "type": "object" }
+       }
+      }
+     },
+     "503": {
+      "description": "Exchange state unavailable."
+     }
+    }
+   }
+  },
+  "/api/exchange/listing": {
+   "get": {
+    "summary": "One Problem Exchange listing, full record",
+    "description": "Returns one listing by id (e.g. PX-0001) with bids, solution, verdict, and the full history its history_root commits to. The response carries a Link: <https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json>; rel=\"describedby\" header. Free.",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "query",
+      "required": true,
+      "description": "Listing id, PX-NNNN.",
+      "schema": { "type": "string", "pattern": "^PX-[0-9]{4}$" }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "The listing record (problem-listing/0.1).",
+      "content": {
+       "application/json": {
+        "schema": { "$ref": "https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json" }
+       }
+      }
+     },
+     "400": {
+      "description": "Missing or malformed id."
+     },
+     "404": {
+      "description": "No listing with that id on the board."
+     }
+    }
+   }
+  },
+  "/api/exchange/solver": {
+   "get": {
+    "summary": "Problem Exchange solver record",
+    "description": "A solver's exchange record (exchange-solver-record/0.1; JSON Schema: https://flow-kg4x.vercel.app/schemas/exchange-solver-record-0.1.json): solved / failed / graded counts that move only on real verdict-engine grades. With no id, returns the list of solver ids that have records. A solver with no graded history has no record — 404, never a fabricated card. Free.",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "query",
+      "required": false,
+      "description": "Solver id as it appears on listings (e.g. flowexecutor).",
+      "schema": { "type": "string" }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "The solver record, or the index of solver ids when id is omitted.",
+      "content": {
+       "application/json": {
+        "schema": { "$ref": "https://flow-kg4x.vercel.app/schemas/exchange-solver-record-0.1.json" }
+       }
+      }
+     },
+     "404": {
+      "description": "No exchange record for that solver."
+     }
+    }
+   }
+  },
+  "/api/exchange/bypass": {
+   "get": {
+    "summary": "Problem Exchange BYPASS payload (x402)",
+    "description": "The BYPASS door: a verified workaround for a listed problem, sold as data behind the x402 gate. The price is set per listing in its bypass_offer (PX-0001: $0.005). Delivery returns the payload and its evidence; it does not close the listing — the DONE door stays open for a full solve. GET or POST; the id rides the query string either way.",
+    "parameters": [
+     {
+      "name": "id",
+      "in": "query",
+      "required": true,
+      "description": "Listing id carrying a bypass offer, PX-NNNN.",
+      "schema": { "type": "string", "pattern": "^PX-[0-9]{4}$" }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "listing, title, summary, payload, evidence, note.",
+      "content": {
+       "application/json": {
+        "schema": { "type": "object" }
+       }
+      }
+     },
+     "402": {
+      "description": "Payment required — x402 v2 exact, USDC on Base (eip155:8453); amount is the listing's own bypass_offer price (PX-0001: $0.005)."
+     },
+     "404": {
+      "description": "No such listing, or the listing carries no bypass offer."
+     }
+    },
+    "x-payment-info": {
+     "price": {
+      "mode": "fixed",
+      "currency": "USD",
+      "amount": "0.005000"
+     },
+     "protocols": [
+      {
+       "x402": {}
+      }
+     ]
     }
    }
   }

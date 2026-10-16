@@ -5,7 +5,7 @@ const MANIFEST = {
   x402Version: 2,
   serviceName: "Flow",
   description:
-    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, in ~91ms. Also: smart-wallet signals, contract safety checks, and an Aave liquidation forecaster board. Enrolled agents (company AI enrollment) quote free and pay the enrolledPriceUsd shown per data endpoint instead of the standard price.",
+    "Best-execution swap quotes for AI agents on Base. Compares Uniswap V3, PancakeSwap V3 and Aerodrome across fee tiers, plus two-hop routes via WETH, in ~91ms. Also: smart-wallet signals, contract safety checks, and an Aave liquidation forecaster board. Also runs the Problem Exchange (https://flow-kg4x.vercel.app/exchange.html): a board of problems in the open problem-listing/0.1 schema (JSON Schema at https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json) with three doors — ROUTE (live quotes via /api/quote), BYPASS (verified workarounds sold as data via /api/exchange/bypass), DONE (a solver does the work, /api/verify grades the proof, and the payer pays the solver directly — no custody). Board reads are free at /api/exchange/listings. Enrolled agents (company AI enrollment) quote free and pay the enrolledPriceUsd shown per data endpoint instead of the standard price.",
   homepage: "https://flow-kg4x.vercel.app",
   builderCode: "bc_60rzkc5g",
   network: "eip155:8453",
@@ -48,9 +48,16 @@ const MANIFEST = {
       path: "/api/verify",
       method: "POST",
       description:
-        "Contract safety check for AI agents: verdict, risk score, and plain-English report before approving a token.",
+        "Contract safety check for AI agents: verdict, risk score, and plain-English report before approving a token. Also the grading engine for Problem Exchange DONE solves: a solve's proof is graded here before the payer pays the solver.",
       priceUsd: 0.02,
       enrolledPriceUsd: 0.005,
+    },
+    {
+      path: "/api/exchange/bypass",
+      method: "GET",
+      description:
+        "Problem Exchange BYPASS door: a verified workaround for a listed problem, sold as data. Pass ?id=PX-0001 (the listing id from the free board at /api/exchange/listings). The price is set per listing in its bypass_offer — PX-0001 is $0.005. Delivery does not close the listing; the DONE door stays open for a full solve.",
+      priceUsd: 0.005,
     },
     {
       path: "/api/precheck",
