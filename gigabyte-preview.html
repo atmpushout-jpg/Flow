@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>GIGABYTE — PRIVATE PREVIEW</title>
+<style>
+  :root{
+    --bg:#07090f; --panel:#0c1019; --panel2:#0a0e16; --line:#1c2436;
+    --gold:#e8b84b; --cyan:#37e0d8; --ink:#e8ecf4; --dim:#8b96ad; --red:#ff4757; --green:#57d977;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       max-width:1180px; margin:0 auto; padding:0 0 40px}
+  header{padding:16px 14px 10px; border-bottom:1px solid var(--line); background:var(--panel)}
+  header .brand{font-weight:800; letter-spacing:.14em; font-size:19px}
+  header .brand b{color:var(--gold)}
+  .badge{display:inline-block; background:#2a1608; color:var(--gold); border:1px solid #6b4d12; border-radius:999px;
+         font-size:10px; font-weight:800; letter-spacing:.12em; padding:3px 9px; margin-left:8px; vertical-align:2px}
+  header .sub{color:var(--dim); font-size:12px; margin-top:5px; line-height:1.5}
+  .livedot{display:inline-block; width:8px; height:8px; border-radius:50%; background:#3a4358; margin-right:5px; vertical-align:0}
+  .livedot.on{background:var(--red); box-shadow:0 0 8px var(--red)}
+  section{margin:14px 12px 0; background:var(--panel); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  section > h3{font-size:11px; letter-spacing:.16em; color:var(--dim); padding:11px 14px 9px; border-bottom:1px solid var(--line); font-weight:800}
+  section > h3 b{color:var(--gold)}
+
+  /* TOP strip */
+  .topcard{padding:11px 14px; border-bottom:1px solid var(--line); display:flex; gap:12px}
+  .topcard:last-child{border-bottom:0}
+  .rank{font-size:20px; font-weight:800; color:var(--gold); min-width:26px; text-align:center}
+  .topcard .tt{font-size:13px; font-weight:700; letter-spacing:.02em}
+  .topcard .cc{font-size:13px; color:var(--ink); line-height:1.45; margin-top:2px}
+  .meta{font-size:10.5px; color:var(--dim); margin-top:4px; letter-spacing:.04em}
+  .imp{color:var(--gold); font-weight:700}
+  .empty{padding:14px; color:var(--dim); font-size:13px}
+
+  /* NOW */
+  #nowBody{padding:12px 14px}
+  #nowTitle{font-size:16px; font-weight:800; line-height:1.35}
+  .pill{display:inline-block; font-size:10px; font-weight:800; letter-spacing:.12em; border-radius:999px; padding:3px 9px; margin-left:8px; vertical-align:2px}
+  .pill.open{background:#132a1a; color:var(--green); border:1px solid #1f5133}
+  .pill.arguing{background:#2a1608; color:var(--gold); border:1px solid #6b4d12}
+  .pill.concluded{background:#12233a; color:#7db8ff; border:1px solid #274a73}
+  #nowSource{color:var(--dim); font-size:12px; margin-top:5px; line-height:1.5}
+  #nowConclusion{margin-top:9px; background:var(--panel2); border-left:3px solid var(--gold); border-radius:8px; padding:9px 12px;
+                 font-size:13.5px; line-height:1.5; display:none}
+
+  /* STAGE */
+  #stageFrame{width:100%; aspect-ratio:1180/780; border:0; display:block; background:#05060a}
+  @media (max-width:640px){ #stageFrame{aspect-ratio:3/4.1} }
+
+  /* TRANSCRIPT */
+  #transcript{max-height:560px; overflow-y:auto; padding:6px 0}
+  .tl{padding:8px 14px; border-bottom:1px solid #121828; font-size:13.5px; line-height:1.5}
+  .tl:last-child{border-bottom:0}
+  .tl .who{font-size:10.5px; font-weight:800; letter-spacing:.13em; color:var(--gold)}
+  .tl .who.MISTY{color:var(--cyan)} .tl .who.FADE{color:#b9a7ff} .tl .who.K1N9{color:#ff9d5c}
+  .tl .who.PYRE{color:#ff7d9c} .tl .who.PUSHOUT{color:#8be0a4}
+  .chip{display:inline-block; font-size:9px; font-weight:800; letter-spacing:.1em; border-radius:4px; padding:1px 5px; margin-left:6px; vertical-align:1px}
+  .chip.big{background:#2a1608; color:var(--gold); border:1px solid #6b4d12}
+  .chip.concl{background:var(--gold); color:#111}
+  .chip.rec{background:#1a2233; color:var(--dim); border:1px solid var(--line)}
+  .tl.conclusion{background:#12100a}
+  .tl .txt{color:var(--ink)}
+
+  /* ENGINE */
+  #engineBody{padding:11px 14px; font:11.5px/1.7 ui-monospace,Menlo,Consolas,monospace; color:var(--dim)}
+  #engineBody b{color:var(--ink)}
+  footer{padding:14px; color:var(--dim); font-size:11px; line-height:1.6; text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">GIGABYTE <b>PREVIEW</b><span class="badge">PRIVATE · NOT THE PUBLIC SHOW</span></div>
+  <div class="sub"><span class="livedot" id="liveDot"></span><span id="liveText">CONNECTING…</span>
+    · The upgrade on the bench: VRM avatars on stage, the host chair on the bake-off winner
+    (<b style="color:var(--ink)">gpt-oss-120b</b> on Groq — 36/50, best fact discipline of the big models),
+    a show engine that never repeats itself, argues every topic to an on-record conclusion,
+    and pins what mattered most at the top. Nebius Qwen3-235B works offline only — recaps and
+    topic cards, figures checked before anything airs.</div>
+</header>
+
+<section id="topStrip">
+  <h3>★ <b>TOP OF THE CONVERSATION</b> — WHAT MATTERED MOST SO FAR</h3>
+  <div id="topBody"><div class="empty">The first conclusions are still being argued — this strip fills as topics land.</div></div>
+</section>
+
+<section id="nowCard">
+  <h3>ON THE TABLE NOW</h3>
+  <div id="nowBody">
+    <div id="nowTitle">Warming up the room…</div>
+    <div id="nowSource"></div>
+    <div id="nowConclusion"></div>
+  </div>
+</section>
+
+<section>
+  <h3>THE STAGE — FLOWEXECUTOR + MISTY, LIVE</h3>
+  <iframe id="stageFrame" title="Gigabyte preview stage" allow="autoplay" loading="eager"></iframe>
+</section>
+
+<section>
+  <h3>LIVE TRANSCRIPT</h3>
+  <div id="transcript"><div class="empty">Waiting for the preview feed…</div></div>
+</section>
+
+<section>
+  <h3>ENGINE — THE RECEIPTS UNDER THE HOOD</h3>
+  <div id="engineBody">—</div>
+</section>
+
+<footer>
+  Private preview for Atm. This loop is a separate engine on separate state — the public
+  Gigabyte show is untouched. Topics conclude on the record; repeats are blocked, not aired;
+  news topics cite the headline they came from. Figures are the desk's live records, paper/shadow
+  where the record says so — nothing here is revenue.
+</footer>
+
+<script>
+  // Stage iframe: same stage module, pointed at the PREVIEW feed doors.
+  (function () {
+    const q = new URLSearchParams({
+      state: '/api/gigabyte-preview-state',
+      audio: '/api/gigabyte-preview-audio?id={id}',
+      visemes: '/api/gigabyte-preview-viseme?id={id}',
+    });
+    document.getElementById('stageFrame').src = '/gigabyte-stage/index.html?' + q.toString();
+  })();
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let lastLineId = -1;
+
+  function renderTop(st) {
+    const tops = st.topMoments || [];
+    if (!tops.length) return;
+    $('topBody').innerHTML = tops.map((t, i) => `
+      <div class="topcard">
+        <div class="rank">${i + 1}</div>
+        <div>
+          <div class="tt">${esc(t.title)}</div>
+          <div class="cc">${esc(t.conclusion)}</div>
+          ${t.recap ? `<div class="cc" style="color:var(--dim)">↳ Recap: ${esc(t.recap)}</div>` : ''}
+          <div class="meta"><span class="imp">IMPORTANCE ${esc(t.importance)}</span> · concluded cycle ${esc(t.concludedCycle)} · ${esc(t.sourceKind || '')}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderNow(st) {
+    const t = st.topic;
+    if (!t) return;
+    const pillCls = t.status === 'concluded' ? 'concluded' : (t.status === 'arguing' ? 'arguing' : 'open');
+    $('nowTitle').innerHTML = esc(t.title) + `<span class="pill ${pillCls}">${esc(String(t.status || '').toUpperCase())}</span>`;
+    $('nowSource').textContent = t.sourceText || '';
+    if (t.conclusion) {
+      $('nowConclusion').style.display = 'block';
+      $('nowConclusion').textContent = t.conclusion;
+    } else {
+      $('nowConclusion').style.display = 'none';
+    }
+  }
+
+  function renderTranscript(st) {
+    const lines = (st.transcript || []).slice(-30);
+    const newest = lines.length ? lines[lines.length - 1].id : 0;
+    if (newest === lastLineId) return;
+    lastLineId = newest;
+    $('transcript').innerHTML = lines.map((l) => {
+      const isConcl = String(l.topic || '').endsWith('-conclusion');
+      const chips = (isConcl ? '<span class="chip concl">CONCLUSION</span>' : '')
+        + (l.brain === 'big' ? '<span class="chip big">BIG MODEL</span>' : '')
+        + (l.brain === 'composed' ? '<span class="chip rec">ON RECORD</span>' : '');
+      return `<div class="tl${isConcl ? ' conclusion' : ''}"><div class="who ${esc(l.member)}">${esc(l.member)}${chips}</div><div class="txt">${esc(l.text)}</div></div>`;
+    }).join('') || '<div class="empty">No lines yet.</div>';
+    const box = $('transcript');
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function renderEngine(st) {
+    const e = st.engine || {}, b = st.brain || {};
+    $('engineBody').innerHTML =
+      `host brain <b>${esc(b.hostModel || '—')}</b> · big-model calls today <b>${esc(b.callsToday ?? '—')}</b>/${esc(b.callBudget ?? '—')} · tokens <b>${esc(b.tokensToday ?? '—')}</b>/${esc(b.tokenBudget ?? '—')} · fallbacks today <b>${esc(b.fallbacksToday ?? '—')}</b><br>` +
+      `offline prep <b>${esc(b.offlineModel || '—')}</b> · prep calls today <b>${esc(b.offlineCallsToday ?? '—')}</b>/${esc(b.offlineCallBudget ?? '—')} · prep drafts rejected on figures <b>${esc(b.offlineRejected ?? '—')}</b><br>` +
+      `rounds run <b>${esc(e.roundsRun ?? '—')}</b> · lines on air <b>${esc(e.linesSpoken ?? '—')}</b> · <b>repeats blocked ${esc(e.repeatsBlocked ?? '—')}</b> · topics opened <b>${esc(e.topicsOpened ?? '—')}</b> · topics concluded <b>${esc(e.topicsConcluded ?? '—')}</b> · fresh news items used <b>${esc(e.newsUsedCount ?? '—')}</b>`;
+  }
+
+  async function poll() {
+    try {
+      const r = await fetch('/api/gigabyte-preview-state', { cache: 'no-store' });
+      if (!r.ok) throw new Error('state ' + r.status);
+      const st = await r.json();
+      $('liveDot').classList.add('on');
+      $('liveText').textContent = 'PREVIEW LIVE · cycle ' + (st.cycle ?? '—') + ' · ' + (st.phase ?? '');
+      renderTop(st); renderNow(st); renderTranscript(st); renderEngine(st);
+    } catch (e) {
+      $('liveDot').classList.remove('on');
+      $('liveText').textContent = 'PREVIEW FEED UNREACHABLE';
+    }
+  }
+  poll();
+  setInterval(poll, 2500);
+</script>
+</body>
+</html>
