@@ -29,16 +29,19 @@ export const CONFIG = {
   models: {
     // NOTE: until the bespoke MPFB/VRoid cast models land, both slots load
     // licensed sample VRMs (see assets/models/PROVENANCE.md). The host slot
-    // gets a runtime material tint + slight scale so the two read as
-    // distinct silhouettes on stage; tint is skipped for custom models
-    // (set tint:null when swapping in the real cast files).
+    // is LIL GIG: since only one sample model exists, he is differentiated
+    // by a TARGETED runtime tint (tintByType — glTF material-name suffixes:
+    // _CLOTH -> Flow circuit blue, _HAIR -> show gold; _SKIN/_FACE/_EYE
+    // stay true) + slight scale, so the two anchors never read as the
+    // same person twice. Tinting is skipped for custom models (drop
+    // tintByType/tint when swapping in the real cast files).
     // PREVIEW TWEAK (preview copy only): the two local model files are
     // byte-identical copies of pixiv's official VRM 1.0 sample (md5
     // b36a6fbb65316d5684de896dedee4f26 — see assets/models/PROVENANCE.md),
     // so the preview loads that exact file from its canonical public URL
     // (served with Access-Control-Allow-Origin: *) instead of shipping
     // 21MB of binaries for a private preview. Production ships local files.
-    FLOWEXECUTOR: { url: 'https://raw.githubusercontent.com/pixiv/three-vrm/dev/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm', accent: 0xe8b84b, plate: 'FLOWEXECUTOR · HOST', tint: new THREE.Color(0.72, 0.66, 0.85), scale: 1.035 },
+    FLOWEXECUTOR: { url: 'https://raw.githubusercontent.com/pixiv/three-vrm/dev/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm', accent: 0xe8b84b, plate: 'LIL GIG · HOST', tintByType: { CLOTH: new THREE.Color(0.30, 0.52, 1.30), HAIR: new THREE.Color(1.18, 0.95, 0.42) }, scale: 1.035 },
     MISTY:        { url: 'https://raw.githubusercontent.com/pixiv/three-vrm/dev/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm', accent: 0x37e0d8, plate: 'MISTY · THE CHAMPION', tint: null, scale: 1.0 },
   },
 };
@@ -235,13 +238,39 @@ export class Stage {
       if (!vrm) throw new Error(`${id}: not a VRM file`);
       VRMUtils.removeUnnecessaryVertices(gltf.scene);
       VRMUtils.combineSkeletons(gltf.scene);
-      if (cfg.tint) {
+      if (cfg.tint || cfg.tintByType) {
+        let typedMatched = false;
         vrm.scene.traverse((o) => {
           if (o.isMesh) {
             const mats = Array.isArray(o.material) ? o.material : [o.material];
-            for (const m of mats) { if (m && m.color) m.color.multiply(cfg.tint); }
+            for (const m of mats) {
+              if (!m || !m.color) continue;
+              let t = cfg.tint || null;
+              if (cfg.tintByType) {
+                // targeted tint: only materials whose glTF name ends with a
+                // typed suffix (_CLOTH, _HAIR, ...) are tinted; the rest
+                // (skin / face / eyes) keep their true colors
+                t = null;
+                const nm = String(m.name || '').toUpperCase();
+                for (const [suffix, col] of Object.entries(cfg.tintByType)) {
+                  if (nm.endsWith('_' + suffix)) { t = col; typedMatched = true; break; }
+                }
+              }
+              if (t) m.color.multiply(t);
+            }
           }
         });
+        if (cfg.tintByType && !typedMatched) {
+          // safety net: if a future model ships unnamed materials, fall
+          // back to a whole-model tint rather than an identical twin
+          const wash = new THREE.Color(0.72, 0.66, 0.85);
+          vrm.scene.traverse((o) => {
+            if (o.isMesh) {
+              const mats = Array.isArray(o.material) ? o.material : [o.material];
+              for (const m of mats) { if (m && m.color) m.color.multiply(wash); }
+            }
+          });
+        }
       }
       if (cfg.scale && cfg.scale !== 1) vrm.scene.scale.setScalar(cfg.scale);
       vrm.scene.position.set(id === 'FLOWEXECUTOR' ? -0.92 : 0.92, 0, -0.15);

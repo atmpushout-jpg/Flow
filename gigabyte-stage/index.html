@@ -34,7 +34,12 @@
 
   #caption{position:absolute; left:50%; transform:translateX(-50%); bottom:12px; width:min(860px,94%);
            background:rgba(7,9,15,.82); border:1px solid var(--line); border-left:3px solid var(--gold);
-           border-radius:10px; padding:10px 14px; backdrop-filter:blur(6px)}
+           border-radius:10px; padding:10px 14px; backdrop-filter:blur(6px);
+           transition:left .5s ease, right .5s ease, transform .5s ease}
+  /* speech panel tied to the speaking anchor: host (Lil Gig) left, MISTY right */
+  #caption.cap-host{left:3%; transform:none}
+  #caption.cap-misty{left:auto; right:3%; transform:none; border-left-color:var(--cyan)}
+  #caption.cap-center{left:50%; right:auto; transform:translateX(-50%)}
   #caption .who{font-size:11px; font-weight:800; letter-spacing:.14em; color:var(--gold); margin-bottom:3px}
   #caption .who.misty{color:var(--cyan)}
   #caption .what{font-size:15px; line-height:1.45; max-height:4.3em; overflow:hidden}
@@ -100,7 +105,7 @@
 
     <div id="fallback">
       <div class="card host" id="cardFLOWEXECUTOR">
-        <div class="face">F</div><h2>FLOWEXECUTOR</h2><p>HOST — THE DESK</p>
+        <div class="face">G</div><h2>LIL GIG</h2><p>HOST — HALF FLOW, HALF GIGABYTE</p>
         <div class="speaking">● ON STAGE</div>
       </div>
       <div class="card misty" id="cardMISTY">
@@ -114,7 +119,7 @@
   <footer>
     <button id="btnQuality" type="button" aria-pressed="false">QUALITY: AUTO</button>
     <button id="btnFallback" type="button" aria-pressed="false">PORTRAIT MODE</button>
-    <span class="hint">Phase 1: Flowexecutor + MISTY on stage · rest of the cast joins in Phase 2</span>
+    <span class="hint">Phase 1: Lil Gig + MISTY on stage · rest of the cast joins in Phase 2</span>
   </footer>
 </div>
 

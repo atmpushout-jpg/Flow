@@ -50,6 +50,16 @@
   #stageFrame{width:100%; aspect-ratio:1180/780; border:0; display:block; background:#05060a}
   @media (max-width:640px){ #stageFrame{aspect-ratio:3/4.1} }
 
+  /* DIALOGUE — the anchors' back-and-forth, pinned at the stage */
+  #dialogue{padding:10px 12px; display:flex; flex-direction:column; gap:8px}
+  .dlg{display:flex; max-width:94%}
+  .dlg .bub{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:7px 11px; font-size:13.5px; line-height:1.45}
+  .dlg .who{font-size:10px; font-weight:800; letter-spacing:.13em; margin-bottom:2px}
+  .dlg.host{align-self:flex-start} .dlg.host .bub{border-left:3px solid var(--gold)} .dlg.host .who{color:var(--gold)}
+  .dlg.misty{align-self:flex-end} .dlg.misty .bub{border-right:3px solid var(--cyan)} .dlg.misty .who{color:var(--cyan); text-align:right}
+  .dlg.other{align-self:flex-start} .dlg.other .bub{border-left:3px solid var(--line)} .dlg.other .who{color:var(--dim)}
+  .dlg.now .bub{background:#131b2e; border-color:#2c3a58}
+
   /* TRANSCRIPT */
   #transcript{max-height:560px; overflow-y:auto; padding:6px 0}
   .tl{padding:8px 14px; border-bottom:1px solid #121828; font-size:13.5px; line-height:1.5}
@@ -96,8 +106,13 @@
 </section>
 
 <section>
-  <h3>THE STAGE — FLOWEXECUTOR + MISTY, LIVE</h3>
+  <h3>THE STAGE — LIL GIG + MISTY, LIVE</h3>
   <iframe id="stageFrame" title="Gigabyte preview stage" allow="autoplay" loading="eager"></iframe>
+</section>
+
+<section id="dialogueCard">
+  <h3>THE BACK-AND-FORTH — LIVE AT THE STAGE</h3>
+  <div id="dialogue"><div class="empty">The anchors' exchanges land here the moment they speak.</div></div>
 </section>
 
 <section>
@@ -131,6 +146,11 @@
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   let lastLineId = -1;
+  let lastDlgId = -1;
+  // audience-visible names come from the engine's cast table (id -> name),
+  // so the host reads LIL GIG everywhere on this page, never his engine id
+  let nameMap = {};
+  function nameOf(member) { return nameMap[member] || member; }
 
   function renderTop(st) {
     const tops = st.topMoments || [];
@@ -171,10 +191,23 @@
       const chips = (isConcl ? '<span class="chip concl">CONCLUSION</span>' : '')
         + (l.brain === 'big' ? '<span class="chip big">BIG MODEL</span>' : '')
         + (l.brain === 'composed' ? '<span class="chip rec">ON RECORD</span>' : '');
-      return `<div class="tl${isConcl ? ' conclusion' : ''}"><div class="who ${esc(l.member)}">${esc(l.member)}${chips}</div><div class="txt">${esc(l.text)}</div></div>`;
+      return `<div class="tl${isConcl ? ' conclusion' : ''}"><div class="who ${esc(l.member)}">${esc(nameOf(l.member))}${chips}</div><div class="txt">${esc(l.text)}</div></div>`;
     }).join('') || '<div class="empty">No lines yet.</div>';
     const box = $('transcript');
     box.scrollTop = box.scrollHeight;
+  }
+
+  function renderDialogue(st) {
+    const lines = (st.transcript || []).slice(-6);
+    if (!lines.length) return;
+    const newest = lines[lines.length - 1].id;
+    if (newest === lastDlgId) return;
+    lastDlgId = newest;
+    const curId = st.currentLine ? st.currentLine.id : -1;
+    $('dialogue').innerHTML = lines.map((l) => {
+      const side = l.member === 'FLOWEXECUTOR' ? 'host' : (l.member === 'MISTY' ? 'misty' : 'other');
+      return `<div class="dlg ${side}${l.id === curId ? ' now' : ''}"><div class="bub"><div class="who">${esc(nameOf(l.member))}</div><div>${esc(l.text)}</div></div></div>`;
+    }).join('');
   }
 
   function renderEngine(st) {
@@ -192,7 +225,8 @@
       const st = await r.json();
       $('liveDot').classList.add('on');
       $('liveText').textContent = 'PREVIEW LIVE · cycle ' + (st.cycle ?? '—') + ' · ' + (st.phase ?? '');
-      renderTop(st); renderNow(st); renderTranscript(st); renderEngine(st);
+      if (Array.isArray(st.cast)) { nameMap = {}; for (const c of st.cast) nameMap[c.id] = c.name; }
+      renderTop(st); renderNow(st); renderDialogue(st); renderTranscript(st); renderEngine(st);
     } catch (e) {
       $('liveDot').classList.remove('on');
       $('liveText').textContent = 'PREVIEW FEED UNREACHABLE';

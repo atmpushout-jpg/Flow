@@ -9,7 +9,7 @@
 import { CONFIG, Stage, showFallback, fallbackSetSpeaker } from './stage.js';
 
 const $ = (id) => document.getElementById(id);
-const CAST_NAMES = { FLOWEXECUTOR: 'FLOWEXECUTOR', MISTY: 'MISTY', FADE: 'FADE', K1N9: 'K1N9', PYRE: 'PYRE', PUSHOUT: 'PUSHOUT' };
+const CAST_NAMES = { FLOWEXECUTOR: 'LIL GIG', MISTY: 'MISTY', FADE: 'FADE', K1N9: 'K1N9', PYRE: 'PYRE', PUSHOUT: 'PUSHOUT' };
 // Rhubarb mouth shapes -> VRM viseme weights (five-shape approximation)
 const RHUBARB_MAP = {
   A: { aa: 0.00, ih: 0.00, ou: 0.00, ee: 0.00, oh: 0.00 },  // closed (M/B/P, silence-ish)
@@ -28,6 +28,7 @@ export class Feed {
   constructor(stage) {
     this.stage = stage;                 // may be null in fallback mode
     this.lastLineId = 0;
+    this.lastSpoken = null;             // last line that aired (caption holds it between lines)
     this.queue = [];
     this.playing = null;                // { line, audio, src, visemes, mode, startedAt }
     this.audioCtx = null;
@@ -236,8 +237,17 @@ export class Feed {
     else fallbackSetSpeaker(null);
     $('hudSync').textContent = '—';
     if (!this.queue.length) {
-      $('capWho').textContent = 'THE ROOM';
-      $('capWhat').textContent = 'Listening for the next line…';
+      // between lines the room panel HOLDS the last line spoken (with its
+      // speaker) instead of dropping to a bare "Listening…" void
+      const last = this.lastSpoken;
+      if (last) {
+        $('capWho').textContent = CAST_NAMES[last.member] || last.member;
+        $('capWho').classList.toggle('misty', last.member === 'MISTY');
+        $('capWhat').textContent = last.text || '';
+      } else {
+        $('capWho').textContent = 'THE ROOM';
+        $('capWhat').textContent = 'Listening for the next line…';
+      }
       $('caption').classList.add('idle');
     }
     this._pump();
@@ -245,10 +255,17 @@ export class Feed {
 
   _caption(line) {
     $('caption').classList.remove('idle');
+    this.lastSpoken = line;
     const who = $('capWho');
     who.textContent = CAST_NAMES[line.member] || line.member;
     who.classList.toggle('misty', line.member === 'MISTY');
     $('capWhat').textContent = line.text || '';
+    // the speech panel rides to the speaking anchor's side of the stage:
+    // host (Lil Gig) holds the left, MISTY the right, offstage voices center
+    const cap = $('caption');
+    cap.classList.toggle('cap-host', line.member === 'FLOWEXECUTOR');
+    cap.classList.toggle('cap-misty', line.member === 'MISTY');
+    cap.classList.toggle('cap-center', line.member !== 'FLOWEXECUTOR' && line.member !== 'MISTY');
   }
 
   _addresseeOf(line) {
@@ -257,7 +274,7 @@ export class Feed {
     if (!m) return 'CAMERA';
     const name = m[1].toUpperCase();
     if (name === line.member) return 'CAMERA';
-    if (name === 'FLOWEXECUTOR' || name === 'MISTY') return 'PARTNER';
+    if (name === 'FLOWEXECUTOR' || name === 'MISTY' || name === 'LIL' || name === 'GIG') return 'PARTNER';
     return 'CAMERA';
   }
 }
