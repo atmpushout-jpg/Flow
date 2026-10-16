@@ -23,6 +23,8 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       service: "flow-problem-exchange",
       schema: "problem-listing/0.1",
+      schema_url: "https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json",
+      solver_schema_url: "https://flow-kg4x.vercel.app/schemas/exchange-solver-record-0.1.json",
       name: state.name || "Problem Exchange",
       state_source: source,
       updated_at: state.updated_at,

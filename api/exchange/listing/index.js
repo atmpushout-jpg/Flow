@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
     const { state } = await px.loadState();
     const listing = px.findListing(state, id);
     if (!listing) return res.status(404).json({ error: `No listing ${id} on the board`, code: "NO_LISTING" });
+    res.setHeader("Link", '<https://flow-kg4x.vercel.app/schemas/problem-listing-0.1.json>; rel="describedby"; type="application/schema+json"');
     return res.status(200).json(listing);
   } catch (e) {
     return res.status(503).json({ error: `exchange state unavailable: ${e.message}` });

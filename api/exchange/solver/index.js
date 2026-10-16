@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
         code: "NO_SOLVER_RECORD",
       });
     }
+    res.setHeader("Link", '<https://flow-kg4x.vercel.app/schemas/exchange-solver-record-0.1.json>; rel="describedby"; type="application/schema+json"');
     return res.status(200).json({ schema: "exchange-solver-record/0.1", ...rec });
   } catch (e) {
     return res.status(503).json({ error: `exchange state unavailable: ${e.message}` });

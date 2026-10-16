@@ -19,7 +19,7 @@
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free during beta" },
   "author": { "@type": "Organization", "name": "FlowExecutor", "url": "https://x.com/FlowExecutor" },
   "softwareVersion": "0.2.0",
-  "featureList": "DEX price quotes, multi-venue comparison, slippage estimation, x402 micropayments"
+  "featureList": "DEX price quotes, multi-venue comparison, slippage estimation, x402 micropayments, Problem Exchange: a market for problems (Route / Bypass / Done), verdict-graded proof, no custody"
 }
 </script>
 <style>
@@ -59,7 +59,13 @@
       <div class="ep"><span class="method">POST</span><code>/api/quote</code><span style="color:#8b93a7">— {tokenIn, tokenOut, amountIn} → best quote</span></div>
       <div class="ep"><span class="method">POST</span><code>/api/fill</code><span style="color:#8b93a7">— execute a quoted swap</span></div>
       <div class="ep"><span class="method get">GET</span><code>/api/health</code><span style="color:#8b93a7">— chain status</span></div>
+      <div class="ep"><span class="method get">GET</span><code>/api/exchange/listings</code><span style="color:#8b93a7">— Problem Exchange board (free read)</span></div>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>Problem Exchange — a market for problems</h2>
+    <p>Name the problem. Flow routes it, bypasses it, or gets it done — and grades the proof before anyone gets paid. Three doors: <b>ROUTE</b> — the cheapest DIY path, priced live: 25% of the improvement, capped at 10 bps — you keep 75% of the gain. <b>BYPASS</b> — a verified workaround, sold as data over x402. <b>DONE</b> — a solver does the work; Flow's verdict engine grades the proof, and the payer pays the solver directly via x402 (Flow's only take is the $0.02 verify fee — no cut of the solve price). <b>No custody</b> — Flow never holds anyone's funds. Listing fee $0.005; v1 intake is curated (house + imported). Board: <a href="/exchange.html">/exchange.html</a> · machine reads: <a href="/api/exchange/listings">/api/exchange/listings</a> · schema: <a href="/schemas/problem-listing-0.1.json">problem-listing/0.1</a>.</p>
   </div>
 
   <div class="card">
