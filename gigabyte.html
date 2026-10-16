@@ -10,8 +10,14 @@
     --gold:#f2b33d; --gold2:#ffd97a; --ink:#f4f1ea; --dim:#9a958a; --red:#ff3b30;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html{height:100%}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  /* Fixed app shell: the window itself NEVER scrolls. The desk zone and the
+     transcript each scroll inside their own box, so a new spoken line can
+     never drag the page away from the charts at the top. */
+  body{height:100%;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+  header{flex:none}
   header{padding:18px 16px 10px;text-align:center;border-bottom:1px solid var(--line);
     background:radial-gradient(120% 160% at 50% 0%, #1d1808 0%, var(--bg) 60%)}
   h1{margin:0;font-size:34px;letter-spacing:.22em;color:var(--gold);font-weight:800}
@@ -24,7 +30,7 @@
   @keyframes pulse{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
   .clock,.phase{color:var(--dim);font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--panel)}
   .clock b{color:var(--ink);font-variant-numeric:tabular-nums}
-  main{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+  main{max-width:860px;width:100%;margin:0 auto;padding:14px 14px 10px;flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
   /* lobby */
   #lobby{text-align:center;padding:34px 10px}
   #lobby p{color:var(--dim);max-width:460px;margin:0 auto 20px;line-height:1.55;font-size:15px}
@@ -33,7 +39,12 @@
     box-shadow:0 6px 24px rgba(242,179,61,.25)}
   #enterBtn:active{transform:scale(.98)}
   /* stage */
-  #stage{display:none}
+  #stage{display:none;flex:1 1 auto;min-height:0;flex-direction:column}
+  /* upper zone: desk + seats + caption — scrolls inside its own box only */
+  #stageScroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  /* transcript zone: fixed height, lines scroll inside this box only */
+  #transcriptBox{flex:none}
+  #transcriptBox h2{margin:12px 0 8px}
   .seats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
   @media(min-width:640px){.seats{grid-template-columns:repeat(3,1fr)}}
   .seat{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;
@@ -104,14 +115,17 @@
   #caption .placeholder{color:var(--dim);font-size:14.5px}
   /* transcript */
   h2{font-size:13px;letter-spacing:.18em;color:var(--dim);margin:22px 0 10px;font-weight:700}
-  #feed{display:flex;flex-direction:column;gap:9px}
+  #feed{display:flex;flex-direction:column;gap:9px;height:30vh;height:30dvh;min-height:170px;max-height:440px;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px}
   .line{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px}
   .line .who{color:var(--gold);font-weight:800;font-size:11.5px;letter-spacing:.12em}
   .line .what{margin-top:3px;font-size:14.5px;line-height:1.5}
   .line .when{color:var(--dim);font-size:11px;margin-top:4px}
   #soundPill{display:none;margin:12px auto 0;background:#2a0d0b;border:1px solid #5a1a14;color:#ff8a80;
     padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer}
-  footer{color:#5d594f;text-align:center;font-size:11.5px;padding:0 16px 26px;line-height:1.6}
+  footer{flex:none;color:#5d594f;text-align:center;font-size:11.5px;padding:0 16px 14px;line-height:1.6}
+  @media(max-height:700px){footer{display:none}}
+  @media(max-height:820px){.seat .rl{display:none}.seat{padding:9px 8px}.seat .avatar{width:42px;height:42px;margin-bottom:5px}}
 </style>
 </head>
 <body>
@@ -133,19 +147,23 @@
   </section>
 
   <section id="stage">
-    <section id="deskPanel">
-      <h2>THE DESK — WHAT THE CAST IS LOOKING AT</h2>
-      <div class="pairs" id="deskPairs"></div>
-      <div class="lanes" id="deskLanes"></div>
-      <div class="spikes" id="deskSpikes"></div>
-    </section>
-    <div class="seats" id="seats"></div>
-    <div id="caption">
-      <div class="who" id="capWho">NOW SPEAKING</div>
-      <div class="what placeholder" id="capWhat">The desk is warming up…</div>
+    <div id="stageScroll">
+      <section id="deskPanel">
+        <h2>THE DESK — WHAT THE CAST IS LOOKING AT</h2>
+        <div class="pairs" id="deskPairs"></div>
+        <div class="lanes" id="deskLanes"></div>
+        <div class="spikes" id="deskSpikes"></div>
+      </section>
+      <div class="seats" id="seats"></div>
+      <div id="caption">
+        <div class="who" id="capWho">NOW SPEAKING</div>
+        <div class="what placeholder" id="capWhat">The desk is warming up…</div>
+      </div>
     </div>
-    <h2>LIVE TRANSCRIPT</h2>
-    <div id="feed"></div>
+    <div id="transcriptBox">
+      <h2>LIVE TRANSCRIPT</h2>
+      <div id="feed"></div>
+    </div>
   </section>
 </main>
 
@@ -267,9 +285,13 @@
     d.querySelector('.who').textContent = line.member;
     d.querySelector('.what').textContent = line.text;
     d.querySelector('.when').textContent = when;
+    // Pin-to-latest INSIDE the transcript box only, and only when the reader
+    // is already at the latest line. The window is never scrolled — the old
+    // scrollIntoView here dragged the whole page to the bottom on every line.
+    var pinLatest = feedEl.scrollHeight - feedEl.scrollTop - feedEl.clientHeight < 90;
     feedEl.appendChild(d);
     while(feedEl.children.length > 60) feedEl.removeChild(feedEl.firstChild);
-    d.scrollIntoView({block:'nearest', behavior:'smooth'});
+    if(pinLatest) feedEl.scrollTop = feedEl.scrollHeight;
   }
 
   /* ---- the live desk panel: the same dashboard the cast talks off ---- */
@@ -488,8 +510,26 @@
       sw('#37d67a', 'AO(5,34) ' + (L.ao != null ? fmtAo(p, L.ao) : '—')) +
       '<span><span style="color:#ff7eb6">▼</span> <span style="color:#26c6da">▲</span> Fractals (5-bar)</span>';
   }
+  var lastDeskSig = '';
+  function deskSig(d){
+    try{
+      return JSON.stringify([
+        d.pairs.map(function(p){ var c = p.candles || []; var last = c.length ? c[c.length - 1] : [];
+          return [p.label, p.last, c.length, last[0], last[4], p.regime15, p.regime1h, p.gator]; }),
+        (d.lanes || []).map(function(l){ return [l.member, l.wins, l.losses, l.pnl,
+          (l.open || []).map(function(o){ return o.tradeId; }).join(',')]; }),
+        (d.spikes || []).map(function(s){ return [s.symbol, s.status, s.grade ? s.grade.result : '']; })
+      ]);
+    }catch(e){ return ''; }
+  }
   function renderDesk(d){
     if(!d || !Array.isArray(d.pairs) || !d.pairs.length) return;
+    // Rebuilding three SVG charts on every 4s poll thrashes a phone CPU and
+    // makes the desk flicker/reset while being read — re-render only when
+    // the desk data actually changed.
+    var sig = deskSig(d);
+    if(sig && sig === lastDeskSig) return;
+    lastDeskSig = sig;
     var panel = document.getElementById('deskPanel');
     panel.style.display = 'block';
     var pw = document.getElementById('deskPairs');
@@ -623,7 +663,7 @@
   document.getElementById('enterBtn').addEventListener('click', function(){
     entered = true;
     document.getElementById('lobby').style.display = 'none';
-    document.getElementById('stage').style.display = 'block';
+    document.getElementById('stage').style.display = 'flex';
     initAnalyser();
     if(actx && actx.state === 'suspended') actx.resume();
     player.src = SILENT;
